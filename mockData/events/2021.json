@@ -1,0 +1,258 @@
+{
+  "events": {
+    "total": 3,
+    "items": [
+      {
+        "sys": {
+          "id": "event-baba-marta-2021",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Баба Марта 2021"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-cultural-festivals"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2021-03-07T11:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2021-03-07T10:30:00"
+          },
+          "venue": {
+            "en-CA": "Online / Virtual Event",
+            "bg-BG": "Онлайн / Виртуално събитие"
+          },
+          "excerpt": {
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Virtual celebration of the Bulgarian spring tradition and Martenitsa workshop.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Виртуално честване на българската пролетна традиция и работилница за мартеници.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "content": {
+            "en-CA": { "nodeType": "document", "data": {}, "content": [] },
+            "bg-BG": { "nodeType": "document", "data": {}, "content": [] }
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "event-bulgarian-festival-2021",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Български Фестивал Отава 2021"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-cultural-festivals"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2021-06-12T12:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2021-06-12T11:30:00"
+          },
+          "venue": {
+            "en-CA": "Mooney's Bay Park (Socially Distanced), Ottawa",
+            "bg-BG": "Mooney's Bay Park (със социална дистанция), Отава"
+          },
+          "excerpt": {
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Outdoor gathering with limited capacity to celebrate Bulgarian culture and dance.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Среща на открито с ограничен капацитет за празнуване на българската култура и танци.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "content": {
+            "en-CA": { "nodeType": "document", "data": {}, "content": [] },
+            "bg-BG": { "nodeType": "document", "data": {}, "content": [] }
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "event-christmas-party-2021",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Коледно Тържество 2021"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-community-gatherings"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2021-12-19T15:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2021-12-19T14:30:00"
+          },
+          "venue": {
+            "en-CA": "Ron Kolbus Lakeside Centre, Ottawa",
+            "bg-BG": "Ron Kolbus Lakeside Centre, Отава"
+          },
+          "excerpt": {
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "A safe community gathering for Christmas with holiday cheer and music.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Безопасно общностно събиране за Коледа с празнично настроение и музика.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "content": {
+            "en-CA": { "nodeType": "document", "data": {}, "content": [] },
+            "bg-BG": { "nodeType": "document", "data": {}, "content": [] }
+          }
+        }
+      }
+    ]
+  },
+  "headings": {
+    "total": 2,
+    "items": [
+      {
+        "sys": {
+          "id": "heading-cultural-festivals",
+          "contentType": "heading"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Културни Фестивали"
+          },
+          "heading": {
+            "en-CA": "Cultural Festivals",
+            "bg-BG": "Културни Фестивали"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "heading-community-gatherings",
+          "contentType": "heading"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Общностни Срещи"
+          },
+          "heading": {
+            "en-CA": "Community Gatherings",
+            "bg-BG": "Общностни Срещи"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      }
+    ]
+  }
+}

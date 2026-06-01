@@ -1,0 +1,23 @@
+@use "styles/typo-mixins" as typo;
+
+.tag {
+  @include typo.ui-caption;
+  border-radius: var(--_tag-border-radius, var(--spacing-1));
+  padding: var(--_tag-padding, 0 var(--spacing-2));
+  color: var(--color-primary-dark);
+  background-color: var(--color-green);
+  padding: var(--spacing-2);
+  &:has(span) {
+    align-items: center;
+    display: inline-flex;
+    gap: var(--_tag-gap, var(--spacing-2));
+  }
+  span {
+    display: inherit;
+  }
+
+  &Icon {
+    display: inline-flex;
+    font-size: var(--font-size-macro);
+  }
+}

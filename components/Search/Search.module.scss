@@ -1,0 +1,108 @@
+.search {
+  display: flex;
+  align-items: center;
+  margin-inline: auto;
+  max-width: 50%;
+  padding: 0.5rem;
+  background: #fff;
+  border-radius: 9999px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  margin-top: var(--spacing-12);
+  position: relative;
+}
+
+.icon {
+  margin-left: 1rem;
+  color: #8a8a8a;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 1rem;
+  color: #333;
+  font-size: 1.25em;
+
+  &::placeholder {
+    color: #9aa0a6;
+  }
+}
+
+.button {
+  background: #0b57d0;
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-right: 0.25rem;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #0842a0;
+  }
+}
+
+.autocompleteWrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.locationButton {
+  --_accent-color: #0b57d0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+  &:has(.active) {
+    background: oklch(from var(--_accent-color) l c h / 0.2);
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.locationIcon {
+  color: #5f6368;
+  transition: color 0.2s ease;
+
+  &.active {
+    color: #0b57d0;
+  }
+
+  &.spinning {
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pac-container {
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  font-family: inherit;
+}

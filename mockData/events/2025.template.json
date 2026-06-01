@@ -1,0 +1,87 @@
+{
+  "events": {
+    "total": 1,
+    "items": [
+      {
+        "sys": {
+          "id": "event-your-event-id",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Event: Your Event Title"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-your-heading-id"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2025-01-01T18:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2025-01-01T18:00:00"
+          },
+          "venue": {
+            "en-CA": "Venue name",
+            "bg-BG": "Venue name"
+          },
+          "excerpt": {
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": []
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": []
+            }
+          },
+          "content": {
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": []
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": []
+            }
+          }
+        }
+      }
+    ]
+  },
+  "headings": {
+    "total": 1,
+    "items": [
+      {
+        "sys": {
+          "id": "heading-your-heading-id",
+          "contentType": "heading"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Heading Title"
+          },
+          "heading": {
+            "en-CA": "Heading Text",
+            "bg-BG": "Heading Text"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      }
+    ]
+  }
+}

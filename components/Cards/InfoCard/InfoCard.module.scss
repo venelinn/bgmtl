@@ -1,0 +1,179 @@
+@use "styles/base-variables" as base;
+@use "styles/typo-mixins" as typo;
+@use "styles/mixins.scss" as mx;
+
+.info {
+  --_info-gap: 1rem;
+  --_card-padding: var(--spacing-6) var(--spacing-6) var(--spacing-8) var(--spacing-6);
+  --_icon-size: 2.5rem;
+  padding: var(--_card-padding);
+  border-radius: var(--_card-border-radius, var(--spacing-3));
+  background-color: var(--_info-card-bgr, var(--color-grey-light));
+  height: var(--_card-height, auto);
+  display: var(--_info-card-display, grid);
+  grid-template-rows: var(--_info-card-template-rows, 1fr auto);
+  p {
+    margin: 0;
+  }
+
+  &:has(.cardLink) {
+    @include mx.border-shadow(true);
+    @include mx.card-clickable;
+  }
+
+  &CardLink {
+    @include mx.card-link(0);
+  }
+  .linkSrOnly span {
+    @include mx.sr-only;
+  }
+
+  &Content {
+    @include typo.ui-caption;
+    align-self: var(--_info-card-content-align, start);
+    display: grid;
+    gap: var(--_info-gap, var(--spacing-4));
+  }
+
+  &Heading {
+    margin: 0;
+    --heading-color: var(--color-teal-200);
+  }
+
+  &.defaultHeaderSize.horizontal &Heading,
+  &.defaultHeaderSize.default &Heading {
+    @include typo.h4;
+  }
+
+  &Icon {
+    font-size: var(--_icon-size);
+    width: fit-content;
+    // padding: var(--spacing-4);
+
+    display: inline-grid;
+    aspect-ratio: 1;
+  }
+
+  &Desc {
+    @include typo.ui-caption;
+    margin-top: var(--_info-desc-margin, calc(-1 * var(--spacing-2)));
+    ul {
+      margin: 0;
+      padding: var(--spacing-2) 0 0 var(--spacing-4);
+    }
+  }
+
+  &Footer {
+    margin-top: var(--spacing-6);
+    &:has(.linkSrOnly) {
+      height: 0;
+      overflow: hidden;
+      margin: 0;
+    }
+  }
+
+  &Link {
+    position: relative;
+    z-index: 1;
+  }
+
+  &.horizontal {
+    --_card-padding: var(--spacing-6) var(--spacing-4) var(--spacing-8) var(--spacing-4);
+    &:has(.infoIcon, .infoImage) {
+      position: relative;
+      padding-left: var(--padding-left-horizontal, calc(var(--_icon-size) + var(--spacing-8)));
+    }
+
+    .infoIcon,
+    .infoImage {
+      position: absolute;
+      left: var(--icon-left-offset, var(--spacing-4));
+      top: var(--icon-top-offset, var(--spacing-5));
+    }
+
+    .infoContent {
+      &:not(:has(.infoDesc, .infoPrice)) {
+        align-items: center;
+      }
+    }
+    @container (max-width: 350px) {
+      --card-padding: var(--spacing-4);
+      --padding-left-horizontal: calc(var(--icon-size) + var(--spacing-4) + var(--spacing-4));
+      --icon-left-offset: var(--spacing-4);
+    }
+  }
+
+  &.horizontalNoIcon {
+    --_info-gap: var(--spacing-1);
+    --_card-padding: var(--spacing-4);
+    --_info-desc-margin: auto;
+    --_info-card-content-align: center;
+    &:has(.cardLink) {
+      // @include icons.wvi-icon(chevron-right, true, after);
+      .infoContent {
+        padding-right: var(--spacing-6);
+      }
+
+      &::after {
+        position: absolute;
+        top: 50%;
+        right: var(--spacing-2);
+        font-size: 1.5rem;
+        transform: translateY(-50%);
+        color: var(--color-teal-400);
+      }
+    }
+
+    .infoHeading {
+      @include typo.ui-caption;
+    }
+
+    .infoContent {
+      @include typo.ui-caption;
+    }
+
+    .infoFooter {
+      height: 0;
+      overflow: hidden;
+      margin: 0;
+    }
+  }
+}
+.infoPrice {
+  display: flex;
+  flex-direction: column;
+
+  .from,
+  .to {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .connector {
+    display: flex;
+    align-self: flex-end;
+    margin: 0 var(--spacing-2) 0.2rem;
+    @include typo.ui-small;
+  }
+
+  .label {
+    @include typo.ui-small;
+    font-weight: var(--font-weight-normal);
+    color: var(--_info-price-label-color, var(--color-gray-dark));
+  }
+
+  .price {
+    @include typo.h4;
+    sup {
+      @include typo.ui-caption;
+    }
+  }
+
+  .message {
+    @include typo.ui-small;
+  }
+
+  .pricing {
+    display: flex;
+  }
+}

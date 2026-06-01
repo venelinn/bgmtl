@@ -1,0 +1,250 @@
+{
+  "events": {
+    "total": 6,
+    "items": [
+      {
+        "sys": {
+          "id": "event-baba-marta-2024",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Баба Марта 2024"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-cultural-festivals"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2024-03-03T11:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2024-03-03T10:30:00"
+          },
+          "venue": {
+            "en-CA": "Ukrainian Orthodox Hall, Ottawa",
+            "bg-BG": "Украинска православна зала, Отава"
+          },
+          "excerpt": {
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Celebrating the arrival of spring and Bulgarian traditions.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Празнуване на идването на пролетта и българските традиции.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "content": {
+            "en-CA": { "nodeType": "document", "data": {}, "content": [] },
+            "bg-BG": { "nodeType": "document", "data": {}, "content": [] }
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "event-bulgarian-festival-2024",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Български Фестивал Отава 2024"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-cultural-festivals"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2024-06-01T12:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2024-06-01T11:00:00"
+          },
+          "venue": {
+            "en-CA": "Vincent Massey Park, Ottawa",
+            "bg-BG": "Парк Винсент Маси, Отава"
+          },
+          "excerpt": {
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Annual outdoor festival with music, dance, and food.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Ежегоден фестивал на открито с музика, танци и храна.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "content": {
+            "en-CA": { "nodeType": "document", "data": {}, "content": [] },
+            "bg-BG": { "nodeType": "document", "data": {}, "content": [] }
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "event-christmas-party-2024",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Коледно Тържество 2024"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-community-gatherings"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2024-12-15T16:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2024-12-15T15:30:00"
+          },
+          "venue": {
+            "en-CA": "Ron Kolbus Lakeside Centre",
+            "bg-BG": "Ron Kolbus Lakeside Centre"
+          },
+          "excerpt": {
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    { "nodeType": "text", "value": "Community Christmas celebration for all ages.", "marks": [] }
+                  ]
+                }
+              ]
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    { "nodeType": "text", "value": "Общностно коледно тържество за всички възрасти.", "marks": [] }
+                  ]
+                }
+              ]
+            }
+          },
+          "content": {
+            "en-CA": { "nodeType": "document", "data": {}, "content": [] },
+            "bg-BG": { "nodeType": "document", "data": {}, "content": [] }
+          }
+        }
+      }
+    ]
+  },
+  "headings": {
+    "total": 2,
+    "items": [
+      {
+        "sys": {
+          "id": "heading-cultural-festivals",
+          "contentType": "heading"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Културни Фестивали"
+          },
+          "heading": {
+            "en-CA": "Cultural Festivals",
+            "bg-BG": "Културни Фестивали"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "heading-community-gatherings",
+          "contentType": "heading"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Общностни Срещи"
+          },
+          "heading": {
+            "en-CA": "Community Gatherings",
+            "bg-BG": "Общностни Срещи"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,82 @@
+@use 'styles/mixins' as mx;
+
+.donate-widget {
+  // Darker shade of the widget tone (blue) for the heading's left border.
+  --_heading-highlight-color: color-mix(
+    in srgb,
+    var(--color-blue),
+    var(--color-black) 10%
+  );
+
+  @include mx.asBox;
+
+  &__media {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+  }
+
+  &__accent {
+    width: var(--spacing-1); // 4px
+    height: 1.5rem; // 24px
+    background: var(--color-highlight);
+    border-radius: var(--spacing-0-5); // 2px
+  }
+
+  &__header h3 {
+    font-size: var(--ui-caption-font-size);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--color-main);
+    margin: 0;
+  }
+
+  &__icon {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--color-blue) 14%, var(--color-white)),
+      var(--color-white)
+    );
+    color: var(--color-main);
+
+    svg {
+      width: 70%;
+      height: 70%;
+    }
+  }
+
+  &__text {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--ui-caption-font-size);
+    line-height: 1.5;
+    color: var(--color-main);
+    text-align: left;
+  }
+
+  &__button {
+    width: 100%;
+  }
+
+  &__trust {
+    display: block;
+    margin-top: var(--spacing-3);
+    font-size: var(--ui-small-font-size);
+    color: var(--color-grey);
+  }
+}

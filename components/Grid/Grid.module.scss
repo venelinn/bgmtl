@@ -1,0 +1,44 @@
+@use 'styles/base-variables' as base;
+
+.grid {
+  --_grid-gap: 24px;
+  --_grid-container-type: inline-size;
+  --_min-column-width: 300px;
+
+  display: grid;
+
+  grid-template-columns: var(
+    --_grid-template-columns,
+    repeat(
+      auto-fill,
+      minmax(
+        max(
+          var(--_min-column-width),
+          calc(
+            (100% - (var(--_grid-cols) - 1) * var(--_grid-gap)) /
+              var(--_grid-cols)
+          )
+        ),
+        1fr
+      )
+    )
+  );
+  gap: var(--_grid-gap);
+
+  &__item {
+    max-width: 100%;
+    container-type: var(--_grid-container-type);
+    container-name: grid-item;
+    @media (width > base.$breakpoint-sm) {
+      grid-column: span var(--_span, 1);
+    }
+
+    &.normal {
+      --_grid-container-type: normal;
+    }
+  }
+
+  &__no-gap {
+    --_grid-gap: 0px;
+  }
+}

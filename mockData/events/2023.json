@@ -1,0 +1,258 @@
+{
+  "events": {
+    "total": 3,
+    "items": [
+      {
+        "sys": {
+          "id": "event-baba-marta-2023",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Баба Марта 2023"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-cultural-festivals"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2023-03-05T11:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2023-03-05T10:30:00"
+          },
+          "venue": {
+            "en-CA": "Ukrainian Orthodox Hall, Ottawa",
+            "bg-BG": "Украинска православна зала, Отава"
+          },
+          "excerpt": {
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Traditional celebration of Martenitsa and the Bulgarian National Day.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Традиционно честване на Баба Марта и Националния празник на България.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "content": {
+            "en-CA": { "nodeType": "document", "data": {}, "content": [] },
+            "bg-BG": { "nodeType": "document", "data": {}, "content": [] }
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "event-bulgarian-festival-2023",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Български Фестивал Отава 2023"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-cultural-festivals"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2023-06-03T12:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2023-06-03T11:00:00"
+          },
+          "venue": {
+            "en-CA": "Vincent Massey Park, Ottawa",
+            "bg-BG": "Парк Винсент Маси, Отава"
+          },
+          "excerpt": {
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "A day of Bulgarian folklore, community dance, and traditional cuisine.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Ден на българския фолклор, народни танци и традиционна кухня.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "content": {
+            "en-CA": { "nodeType": "document", "data": {}, "content": [] },
+            "bg-BG": { "nodeType": "document", "data": {}, "content": [] }
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "event-christmas-party-2023",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Коледно Тържество 2023"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-community-gatherings"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2023-12-17T15:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2023-12-17T14:30:00"
+          },
+          "venue": {
+            "en-CA": "Ron Kolbus Lakeside Centre, Ottawa",
+            "bg-BG": "Ron Kolbus Lakeside Centre, Отава"
+          },
+          "excerpt": {
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Warm holiday gathering featuring a visit from Santa and children's performances.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Топла празнична среща с посещение от Дядо Коледа и детски представления.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "content": {
+            "en-CA": { "nodeType": "document", "data": {}, "content": [] },
+            "bg-BG": { "nodeType": "document", "data": {}, "content": [] }
+          }
+        }
+      }
+    ]
+  },
+  "headings": {
+    "total": 2,
+    "items": [
+      {
+        "sys": {
+          "id": "heading-cultural-festivals",
+          "contentType": "heading"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Културни Фестивали"
+          },
+          "heading": {
+            "en-CA": "Cultural Festivals",
+            "bg-BG": "Културни Фестивали"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "heading-community-gatherings",
+          "contentType": "heading"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Общностни Срещи"
+          },
+          "heading": {
+            "en-CA": "Community Gatherings",
+            "bg-BG": "Общностни Срещи"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      }
+    ]
+  }
+}

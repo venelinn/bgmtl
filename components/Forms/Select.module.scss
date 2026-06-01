@@ -1,0 +1,103 @@
+@use "styles/typo-mixins" as typo;
+
+.select {
+  // Size vars (inherited by control)
+  --_select-padding-tb: 0.6rem;
+  --_select-padding-lr: 0.75rem;
+  --_select-font-size: var(--ui-caption-font-size);
+  --_select-min-height: 2.5rem;
+  --_select-bg-size: 1.25rem;
+  --_select-bg-position: right 0.5rem center;
+  --_select-padding-right: 2rem;
+  // Theme vars (inherited by control)
+  --_select-bgr: var(--color-white);
+  --_select-border: var(--color-grey-border);
+  --_select-color: inherit;
+
+  display: inline-grid;
+  gap: 0.2rem;
+  min-width: 6rem;
+
+  &.full {
+    width: 100%;
+  }
+
+  &.dark {
+    --_select-bgr: var(--color-grey-dark);
+    --_select-border: var(--color-grey);
+    --_select-color: var(--color-white);
+  }
+
+  &__icon {
+    position: absolute;
+    left: var(--spacing-2);
+    top: var(--_icon-top, 50%);
+    transform: translateY(-50%);
+  }
+
+  &:has(&__icon) {
+    position: relative;
+
+    .select__control {
+      padding-left: 2rem;
+    }
+  }
+
+  &:has(&__label) {
+    --_icon-top: 65%;
+  }
+
+  &__label {
+    @include typo.ui-small;
+  }
+
+  &__control {
+    appearance: none;
+    cursor: pointer;
+    border: 1px solid var(--_select-border);
+    border-radius: calc(var(--border-radius) / 2);
+    padding: var(--_select-padding-tb) var(--_select-padding-lr);
+    padding-right: var(--_select-padding-right);
+    min-height: var(--_select-min-height);
+    font-size: var(--_select-font-size);
+    font-family: inherit;
+    background-color: var(--_select-bgr);
+    color: var(--_select-color);
+    width: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: var(--_select-bg-position);
+    background-size: var(--_select-bg-size);
+
+    &:focus {
+      outline: 1px solid var(--color-blue);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+  }
+
+  &__error {
+    @include typo.ui-small;
+    color: var(--system-error);
+  }
+
+  &.error &__control {
+    border-color: var(--system-error);
+  }
+
+  // Size variants (base = md)
+  &.sm {
+    --_select-padding-tb: 0.35rem;
+    --_select-padding-lr: 0.5rem;
+    --_select-min-height: 1.75rem;
+    --_select-font-size: 0.8125rem;
+    --_select-padding-right: 1.5rem;
+    --_select-bg-size: 1rem;
+    --_select-bg-position: right 0.35rem center;
+    min-width: 5rem;
+  }
+}

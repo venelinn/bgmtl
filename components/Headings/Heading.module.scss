@@ -1,0 +1,101 @@
+@use 'styles/typo-mixins' as typo;
+@use 'styles/base-variables' as base;
+
+.heading {
+  text-wrap: balance;
+  &:has(svg) {
+    display: flex;
+    align-items: center;
+    gap: var(--_heading-icon-gap, var(--spacing-3));
+    svg {
+      aspect-ratio: 1;
+      font-size: var(--_svg-size, 1.4em);
+    }
+  }
+  &--normal {
+    --heading-weight: var(--font-regular);
+  }
+  &--bold {
+    --heading-weight: var(--font-bold);
+  }
+  &--uppercase {
+    --heading-case: uppercase;
+  }
+}
+
+.heading--hero {
+  @include typo.hero;
+}
+
+.heading--h1 {
+  @include typo.h1;
+}
+
+.heading--h2 {
+  @include typo.h2;
+}
+
+.heading--h3 {
+  @include typo.h3;
+}
+
+.heading--h4 {
+  @include typo.h4;
+  --heading-weight: var(--font-medium);
+}
+.heading--sb {
+  font-size: var(--spacing-4);
+  color: var(--color-grey);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.5;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-1);
+
+  &:before {
+    content: '[';
+    margin-right: var(--spacing-2);
+  }
+  &:after {
+    content: ']';
+    margin-left: var(--spacing-2);
+  }
+}
+
+.heading--hero {
+  //  --heading-size: calc(16px + 9vw);
+}
+
+.heading--base {
+  @include typo.ui-body;
+  --ui-body-weight: var(--font-weight-medium);
+}
+.heading--caption {
+  @include typo.ui-caption;
+  --ui-caption-weight: var(--font-weight-medium);
+}
+
+.heading--center {
+  --heading-justify-self: center;
+}
+
+.heading--highlight {
+  border-left: 0.15em solid var(--_heading-highlight-color, var(--color-highlight));
+  padding-left: var(--spacing-3);
+}
+
+.heading__icon {
+  display: flex;
+  gap: var(--spacing-4);
+  padding-top: 0;
+  color: var(--_heading-icon-color);
+  &--circle {
+    background-color: var(--color-highlight);
+    border-radius: 50%;
+    color: var(--color-white);
+    padding: 0.35rem;
+  }
+  &--scale {
+    color: var(--color-highlight);
+    scale: 1.2;
+  }
+}

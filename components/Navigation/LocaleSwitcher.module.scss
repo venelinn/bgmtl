@@ -1,0 +1,139 @@
+@use "styles/base-variables" as base;
+
+// Language switcher: a trigger (globe + current code + chevron) that opens a
+// rounded popover listing every language. The menu uses the native Popover
+// API (`popover="auto"` — click-outside + Esc for free) and CSS Anchor
+// Positioning, mirroring the header nav dropdown pattern.
+.languages {
+  position: relative;
+  display: inline-flex;
+  // Anchor the top-layer popover to this wrapper. A single switcher renders
+  // per page, so a static anchor name is safe (no per-instance uniqueness).
+  anchor-name: --locale-switcher;
+}
+
+// Flatten the shared Button into a compact text trigger. We only swap scoped
+// `--_` vars the Button reads — never re-declare properties — per the styling
+// rules.
+.languages__trigger {
+  text-transform: uppercase;
+
+  // Override the Button `link` variant deterministically. The trigger always
+  // renders as `<button type="button">`, so the attribute selector lifts these
+  // to specificity (0,2,0) and they win over `.btn--link` regardless of CSS
+  // bundle order. Without this the variant's `--_btn-hover-bg-color: transparent`
+  // (plus its undefined `--color-shade-*` border, which falls back to a dark
+  // `currentColor` ring) flips the pill on hover — the visible "jump". We only
+  // swap scoped `--_` vars here, never re-declare properties.
+  &[type="button"] {
+    --_btn-color: inherit;
+    --_btn-hover-color: inherit;
+    --_btn-hover-border-color: transparent;
+    --_btn-hover-bg-color: color-mix(in srgb, var(--color-grey) 25%, transparent);
+    --_btn-font-weight: var(--font-weight-bold);
+    --_btn-font-size: var(--ui-caption-font-size);
+    --_btn-padding-block: var(--spacing-1-5);
+    --_btn-padding-inline: var(--spacing-3);
+
+    @media (width > base.$breakpoint-md) {
+      // --_btn-bg-color: var(--color-grey-light);
+      --_btn-border-radius: 999px;
+    }
+  }
+
+  // The Button renders the globe first and the chevron (iconAfter) last, so the
+  // trailing SVG is the chevron — rotate it when the menu is open.
+  svg:last-of-type {
+    transition: transform 0.3s ease;
+  }
+
+  &--open svg:last-of-type {
+    transform: rotate(180deg);
+  }
+}
+
+// Retry above the trigger when the default placement (below) would overflow
+// the viewport — mirrors the base anchor rules across the block axis.
+@position-try --locale-menu-flip-top {
+  top: auto;
+  bottom: calc(anchor(top) + var(--spacing-1));
+  right: anchor(right);
+}
+
+.languages__menu {
+  // Reset native popover centering (`inset: 0; margin: auto`) so the anchor
+  // rules win, then pin the menu under the trigger's right edge.
+  inset: auto;
+  top: calc(anchor(bottom) + var(--spacing-1));
+  right: anchor(right);
+  position-anchor: --locale-switcher;
+  position-try-fallbacks: flip-block, --locale-menu-flip-top;
+  margin: 0;
+  min-width: 11rem;
+  padding: var(--spacing-1-5);
+  background: var(--color-white);
+  border: 1px solid var(--color-grey-border);
+  border-radius: var(--spacing-3);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--color-black) 12%, transparent);
+
+  // Native popovers are `display: none` when closed; only apply layout when
+  // open so we don't clobber that.
+  &:popover-open {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-0-5);
+  }
+}
+
+.languages__item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--spacing-2);
+  color: var(--color-main);
+  font-size: var(--ui-small-font-size);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-grey-light);
+    outline: none;
+  }
+
+  &--active {
+    font-weight: var(--font-weight-bold);
+  }
+}
+
+// Shared sizing for the leading row glyph (flag or globe). flag-icons `.fi`
+// and the Lucide <Icon> both size from font-size (flag width = 1.333em,
+// height = 1em; globe is square 1em).
+.languages__lead {
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  color: var(--color-grey-dark);
+}
+
+// Flag-only decoration: rounded corners + a hairline so light flag edges stay
+// visible against the white menu.
+.languages__flag {
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-black) 8%, transparent);
+}
+
+.languages__name {
+  line-height: 1.1;
+}
+
+.languages__code {
+  // Push the code to the trailing edge while flag + name stay grouped left.
+  margin-left: auto;
+  font-size: var(--ui-caption-font-size);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-grey);
+}

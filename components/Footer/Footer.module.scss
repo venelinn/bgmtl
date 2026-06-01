@@ -1,0 +1,79 @@
+@use 'styles/base-variables' as base;
+@use 'styles/typo-mixins' as typo;
+@use 'styles/mixins' as shared;
+
+// <Section> classes
+.main {
+  --_section-bgr: var(--color-main);
+  --_section-padding-bottom: var(--spacing-4);
+  color: var(--color-white);
+}
+
+.footer {
+  display: grid;
+  gap: var(--spacing-4);
+  [data-social] {
+    color: inherit;
+  }
+  svg {
+    color: inherit;
+  }
+  &__columns {
+    display: grid;
+    grid-template-columns: subgrid;
+    gap: var(--spacing-4);
+    @media (min-width: base.$breakpoint-md) {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    a {
+      color: inherit;
+    }
+  }
+  &__column {
+    display: grid;
+    gap: var(--spacing-3);
+    align-content: start;
+    a {
+      text-decoration: none;
+    }
+    &__title {
+      @include typo.ui-caption;
+      margin: 0;
+      padding: 0;
+      text-transform: uppercase;
+      --ui-caption-weight: var(--font-weight-bold);
+    }
+    ul {
+      @include shared.resetList();
+      @include typo.ui-caption;
+      display: grid;
+      gap: var(--spacing-2);
+    }
+  }
+  &__bottom {
+    @include typo.ui-small;
+    margin-top: var(--spacing-4);
+    padding-top: var(--spacing-4);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: var(--_footer-justify, center);
+    &:has(.footer__nav) {
+      --_footer-justify: space-between;
+    }
+  }
+  &__fineprint {
+    a {
+      color: inherit;
+    }
+  }
+  &__nav {
+    display: flex;
+    gap: var(--spacing-3);
+  }
+}
+
+.link {
+  &__active {
+    font-weight: var(--font-weight-bold);
+  }
+}

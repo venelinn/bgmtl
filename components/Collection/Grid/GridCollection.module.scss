@@ -1,0 +1,5 @@
+.wrapper {
+	--_gap: var(--spacing-4);
+	--_card-height: 100%;
+	background-color: var(--_grid-collection-bgr, transparent);
+}

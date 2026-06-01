@@ -1,0 +1,77 @@
+@use "styles/base-variables" as base;
+
+.main {
+  --section-max-width: 100%;
+  isolation: isolate;
+  overflow: hidden;
+  &:has(.hero__background) {
+    position: relative;
+  }
+  &[data-size="fixed"] {
+    margin-top: var(--spacing-6);
+    border-radius: var(--spacing-4);
+  }
+  .inner {
+    --section-inner-min-height: 100%;
+    --_section-text-align: center;
+    display: grid;
+    gap: 1rem;
+    align-content: center;
+    color: var(--color-white);
+    height: 100%;
+  }
+}
+
+.hero__container {
+  width: 100%;
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  p {
+    @media (min-width: base.$breakpoint-md) {
+      // max-width: 60%;
+      // margin: auto;
+    }
+    text-wrap: balance;
+  }
+}
+
+.hero__content {
+  p {
+    @media (min-width: base.$breakpoint-md) {
+      max-width: 75%;
+      text-wrap: balance;
+    }
+  }
+}
+
+.hero__title {
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  @container (max-width: 650px) {
+    // font-size: clamp(1.5rem, 2vw, 2rem);
+  }
+}
+
+.hero__background {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.hero__image {
+  position: absolute;
+  inset: 0;
+  img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+  &:before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+}
