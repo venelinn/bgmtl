@@ -1,5 +1,5 @@
 import { format } from "date-fns"
-import { bg, enCA } from "date-fns/locale"
+import { bg, enCA, frCA } from "date-fns/locale"
 import { toZonedTime } from "date-fns-tz"
 
 // Shared locale configuration
@@ -8,6 +8,8 @@ const locales = {
 	"en-CA": enCA,
 	bg: bg,
 	"bg-BG": bg,
+	fr: frCA,
+	"fr-CA": frCA,
 }
 
 /**

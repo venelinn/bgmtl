@@ -1,7 +1,7 @@
 "use client"
 
 import { format, type Locale } from "date-fns"
-import { bg, enCA } from "date-fns/locale"
+import { bg, enCA, frCA } from "date-fns/locale"
 import Link from "next/link"
 import { useTranslations } from "next-intl"
 import { useMemo, useState } from "react"
@@ -41,6 +41,8 @@ const locales: Record<string, Locale> = {
 	"en-CA": enCA,
 	bg: bg,
 	"bg-BG": bg,
+	fr: frCA,
+	"fr-CA": frCA,
 }
 
 function formatDateKey(date: Date): string {

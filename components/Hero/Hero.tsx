@@ -20,6 +20,8 @@ export interface HeroProps {
   /** Enable/disable image animations (Ken Burns / slide). Default: true */
   imageAnimate?: boolean;
   size?: SectionProps["size"];
+  /** Where the title/description block sits within the hero. Default: "center" */
+  titlePosition?: "center" | "bottom-left" | "bottom-center";
   /**
    * view-transition-name for the first hero image. Set this to the same name a
    * source element used (e.g. an event card cover) to morph it into the hero
@@ -38,6 +40,7 @@ export const Hero = ({
   imageAlignment,
   animateContent = false,
   imageAnimate = true,
+  titlePosition = "center",
   viewTransitionName,
 }: HeroProps) => {
   const reduceMotion = useReduceMotion();
@@ -184,6 +187,7 @@ export const Hero = ({
       imageAlignment={imageAlignment}
       height={height ? (height as SectionProps["height"]) : undefined}
       ref={heroRef}
+      data-title-position={titlePosition}
       classNames={{
         main: styles.main,
         inner: styles.inner,
@@ -235,7 +239,13 @@ export const Hero = ({
       {/* CONTENT */}
       <div className={styles.hero__content} data-anim="hero-content">
         {heading && (
-          <Heading as={heading.as} size={heading.size} center className={styles.hero__title} data-hero-title>
+          <Heading
+            as={heading.as}
+            size={heading.size}
+            center={titlePosition !== "bottom-left"}
+            className={styles.hero__title}
+            data-hero-title
+          >
             {heading.heading}
           </Heading>
         )}

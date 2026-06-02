@@ -29,6 +29,10 @@ yarn-error.log*
 .env*.local
 .env
 
+# facebook events scraper (session cookies + raw scrape output)
+.fb-session.json
+mockData/events/_scraped/
+
 # vercel
 .vercel
 

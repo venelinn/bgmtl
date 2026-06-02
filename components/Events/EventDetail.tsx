@@ -76,6 +76,13 @@ export const EventDetail = ({
 				viewTransitionName={heroTransitionName}
 				imageAlignment="top"
 				height={(event.heroHeight as "full" | "half" | "quarter") || "quarter"}
+				titlePosition={
+					event.heroContentPosition as
+						| "center"
+						| "bottom-left"
+						| "bottom-center"
+						| undefined
+				}
 				heading={
 					typeof event.heading === "string"
 						? {

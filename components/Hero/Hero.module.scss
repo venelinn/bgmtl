@@ -12,13 +12,27 @@
     border-radius: var(--spacing-4);
   }
   .inner {
+    --_content-align: center;
+    --_content-justify: center;
+    --_content-text-align: center;
     --section-inner-min-height: 100%;
-    --_section-text-align: center;
+    --_section-text-align: var(--_content-text-align);
     display: grid;
     gap: 1rem;
-    align-content: center;
+    align-content: var(--_content-align);
+    justify-items: var(--_content-justify);
     color: var(--color-white);
     height: 100%;
+  }
+
+  &[data-title-position="bottom-center"] .inner {
+    --_content-align: end;
+  }
+
+  &[data-title-position="bottom-left"] .inner {
+    --_content-align: end;
+    --_content-justify: start;
+    --_content-text-align: left;
   }
 }
 
@@ -28,7 +42,7 @@
   gap: 1rem;
   margin-bottom: 1rem;
   p {
-    @media (min-width: base.$breakpoint-md) {
+		@media (min-width: base.$breakpoint-md) {
       // max-width: 60%;
       // margin: auto;
     }
@@ -37,8 +51,9 @@
 }
 
 .hero__content {
-	text-align: center;
+	text-align: var(--_content-text-align, center);
   p {
+		margin: 0;
     @media (min-width: base.$breakpoint-md) {
       // max-width: 75%;
       text-wrap: balance;

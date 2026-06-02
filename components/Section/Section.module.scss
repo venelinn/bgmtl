@@ -58,6 +58,9 @@
   &--quarter-height {
     --_section-min-height: 25dvh;
   }
+	&--two-thirds-height {
+    --_section-min-height: 66.666dvh;
+  }
   &--half-height {
     @media (min-width: base.$breakpoint-md) {
       --_section-min-height: 60dvh;

@@ -7,7 +7,8 @@
   padding-top: var(--spacing-8);
   border-top: 1px solid var(--color-grey-border, #e5e5e5);
   grid-template-columns: var(--_event-grid-columns);
-  @media (width > base.$breakpoint-md) {
+	margin-bottom: var(--spacing-4);
+	@media (width > base.$breakpoint-md) {
     --_event-grid-columns: 1fr minmax(200px, 280px);
   }
   @container (max-width: 650px) {

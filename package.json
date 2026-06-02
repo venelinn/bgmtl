@@ -15,7 +15,13 @@
     "build-dictionary": "style-dictionary build -c ./tokens/config.js",
     "lint-format": "biome check --write",
     "contentful:migrate": "contentful space migration",
-    "contentful:import-bg-community": "node scripts/import-bg-community.js"
+    "contentful:import-bg-community": "node scripts/import-bg-community.js",
+    "events:login": "node scripts/scrape-fb-events.js --login",
+    "events:scrape": "node scripts/scrape-fb-events.js",
+    "events:scrape-one": "node scripts/scrape-fb-event.js",
+    "events:build": "node scripts/build-events-json.js",
+    "events:import": "node scripts/import-events.js",
+    "events:covers": "node scripts/attach-event-covers.js"
   },
   "dependencies": {
     "@contentful/rich-text-types": "^17.2.7",

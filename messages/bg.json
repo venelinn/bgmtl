@@ -1,69 +1,69 @@
 {
-  "greeting": "Привет",
-  "Gallery": {
-    "openModalLabel": "Отворете галерията",
-    "closeModal": "Затворете",
-    "viewAll": "Вижте всички"
-  },
-  "Events": {
-    "event": "Събитие",
-    "sectionTitle": "Събития",
-    "upcomingEvents": "Предстоящи събития",
-    "viewAll": "Вижте всички",
-    "pastEvents": "Отминали събития",
-    "backToEvents": "Назад към събитията",
-    "doorsOpenAt": "Врати отворени в",
-    "viewOnMap": "Вижте на карта",
-    "viewGallery": "Вижте галерията",
-    "noEventsAvailable": "Няма налични години",
-    "readMore": "прочети още",
-    "more": "още",
-    "eventsCalendar": "Календар на събитията",
-    "buyTicket": "Купи билет",
-    "filterByYear": "Филтрирай по година",
-    "allYears": "Всички години",
-    "location": "Местоположение"
-  },
-  "Donate": {
-    "title": "Подкрепете нашата кауза",
-    "description": "Вашето дарение подкрепя българската общност в Отава.",
-    "button": "Дарете сега",
-    "trust": "Даренията се обработват сигурно чрез PayPal"
-  },
-  "Contact": {
-    "name": "Име",
-    "email": "Имейл",
-    "message": "Съобщение",
-    "submit": "Изпрати"
-  },
-  "Subscribe": {
-    "title": "Абонирайте се за нашия бюлетин",
-    "description": "Бъдете в течение с най-новите новини и събития от нашата общност.",
-    "emailPlaceholder": "Въведете вашия имейл",
-    "firstNamePlaceholder": "Име",
-    "lastNamePlaceholder": "Фамилия",
-    "button": "Абонирайте се",
-    "subscribing": "Абониране…",
-    "successMessage": "Благодарим ви за абонамента",
-    "errorMessage": "Възникна грешка при абонирането. Моля, опитайте отново."
-  },
-  "Pagination": {
-    "first": "Първа",
-    "last": "Последна",
-    "back": "Предишна",
-    "next": "Следваща",
-    "of": "от"
-  },
-  "News": {
-    "backToNews": "Назад към новините",
-    "sectionTitle": "Новини",
-    "latestNews": "Последни новини",
-    "viewAll": "Вижте всички",
-    "readMore": "Прочети още"
-  },
-  "NotFound": {
-    "title": "Страницата не е намерена",
-    "description": "Страницата, която търсите, не съществува или е била преместена.",
-    "goHome": "Към началната страница"
-  }
+	"greeting": "Привет",
+	"Gallery": {
+		"openModalLabel": "Отворете галерията",
+		"closeModal": "Затворете",
+		"viewAll": "Вижте всички"
+	},
+	"Events": {
+		"event": "Събитие",
+		"sectionTitle": "Събития",
+		"upcomingEvents": "Предстоящи събития",
+		"viewAll": "Вижте всички",
+		"pastEvents": "Отминали събития",
+		"backToEvents": "Назад към събитията",
+		"doorsOpenAt": "Врати отворени в",
+		"viewOnMap": "Вижте на карта",
+		"viewGallery": "Вижте галерията",
+		"noEventsAvailable": "Няма налични години",
+		"readMore": "прочети още",
+		"more": "още",
+		"eventsCalendar": "Календар на събитията",
+		"buyTicket": "Купи билет",
+		"filterByYear": "Филтрирай по година",
+		"allYears": "Всички години",
+		"location": "Местоположение"
+	},
+	"Donate": {
+		"title": "Подкрепете ни!",
+		"description": "Харесва ли ви това, което правим? Вашата подкрепа ни помага да поддържаме тази платформа.",
+		"button": "Купете ни кафе",
+		"trust": "Даренията се обработват сигурно чрез PayPal"
+	},
+	"Contact": {
+		"name": "Име",
+		"email": "Имейл",
+		"message": "Съобщение",
+		"submit": "Изпрати"
+	},
+	"Subscribe": {
+		"title": "Абонирайте се за нашия бюлетин",
+		"description": "Бъдете в течение с най-новите новини и събития от нашата общност.",
+		"emailPlaceholder": "Въведете вашия имейл",
+		"firstNamePlaceholder": "Име",
+		"lastNamePlaceholder": "Фамилия",
+		"button": "Абонирайте се",
+		"subscribing": "Абониране…",
+		"successMessage": "Благодарим ви за абонамента",
+		"errorMessage": "Възникна грешка при абонирането. Моля, опитайте отново."
+	},
+	"Pagination": {
+		"first": "Първа",
+		"last": "Последна",
+		"back": "Предишна",
+		"next": "Следваща",
+		"of": "от"
+	},
+	"News": {
+		"backToNews": "Назад към новините",
+		"sectionTitle": "Новини",
+		"latestNews": "Последни новини",
+		"viewAll": "Вижте всички",
+		"readMore": "Прочети още"
+	},
+	"NotFound": {
+		"title": "Страницата не е намерена",
+		"description": "Страницата, която търсите, не съществува или е била преместена.",
+		"goHome": "Към началната страница"
+	}
 }
