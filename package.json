@@ -21,7 +21,8 @@
     "events:scrape-one": "node scripts/scrape-fb-event.js",
     "events:build": "node scripts/build-events-json.js",
     "events:import": "node scripts/import-events.js",
-    "events:covers": "node scripts/attach-event-covers.js"
+    "events:covers": "node scripts/attach-event-covers.js",
+    "events:add": "node scripts/add-fb-event.js"
   },
   "dependencies": {
     "@contentful/rich-text-types": "^17.2.7",

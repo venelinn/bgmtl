@@ -1,5 +1,6 @@
 import cx from "clsx"
 import Image from "next/image"
+import { forwardRef } from "react"
 import type React from "react"
 import { renderRichTextContent } from "@/utils/RichText"
 import { Heading, type HeadingProps } from "../Headings"
@@ -55,10 +56,12 @@ export type SectionProps = {
 	as?: (typeof SectionAsElement)[keyof typeof SectionAsElement]
 	padding?: (typeof SectionPadding)[keyof typeof SectionPadding]
 	paddingControl?: keyof typeof SectionPaddingControl | null
-	[key: string]: unknown
+	"data-title-position"?: string
+	"data-js"?: string
+	"data-slider"?: string
 }
 
-export const Section = ({
+export const Section = forwardRef<HTMLElement, SectionProps>(function Section({
 	id = "",
 	children = null,
 	className = "",
@@ -73,9 +76,12 @@ export const Section = ({
 	imageAlignment = undefined,
 	padding = "medium",
 	paddingControl,
+	theme,
+	"data-title-position": dataTitlePosition,
+	"data-js": dataJs,
+	"data-slider": dataSlider,
 	as = "section",
-	...props
-}: SectionProps) => {
+}, ref) {
 	const Tag: React.ElementType = as || "section"
 	const classes = cx(
 		styles.section,
@@ -96,14 +102,17 @@ export const Section = ({
 
 	return (
 		<Tag
+			ref={ref}
 			id={id}
 			className={classes}
 			data-anim={animationID || undefined}
 			data-full={height}
-			data-theme={props.theme}
+			data-theme={theme}
 			data-size={size}
-			data-padding={props.padding}
-			{...props}
+			data-padding={padding}
+			data-title-position={dataTitlePosition}
+			data-js={dataJs}
+			data-slider={dataSlider}
 		>
 			{image && (
 				<div
@@ -157,4 +166,4 @@ export const Section = ({
 			</div>
 		</Tag>
 	)
-}
+})

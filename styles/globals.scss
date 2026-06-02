@@ -204,6 +204,14 @@ body {
   &:has(.page .content-grid > .full-max) {
     --_nav-mb: 0;
   }
+	 &:has([data-modal][open]) {
+    overflow: hidden;
+  }
+  &:has([data-hero]) {
+    --_navigation-bgr: linear-gradient(rgba(0, 0, 0, .9), transparent);
+		--_navigation-position: fixed;
+		--_header-bgr: transparent;
+  }
 }
 /* ==========================================================================
     Global

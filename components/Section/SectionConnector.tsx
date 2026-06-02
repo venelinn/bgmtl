@@ -19,6 +19,10 @@ export type SectionConnectorProps = Omit<SectionProps, "image" | "description"> 
   content?: MappedChild[];
   useWrapper?: boolean;
   heading?: SectionProps["heading"];
+  type?: string;
+  locale?: string;
+  _updatedAt?: string;
+  _rawHeading?: unknown;
   // Optional nested object for Section-specific styling props
   sectionProps?: Partial<SectionProps>;
 };
@@ -55,6 +59,11 @@ export const SectionConnector = ({
   heading,
   useWrapper = true,
   sectionProps = {},
+  // CMS entry metadata — not valid DOM/Section props
+  type: _type,
+  locale: _locale,
+  _updatedAt: _updatedAt,
+  _rawHeading: _rawHeading,
   ...rest
 }: SectionConnectorProps) => {
   const normalizedImage = normalizeImage(image);

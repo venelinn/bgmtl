@@ -5,7 +5,7 @@
 .navigation {
   // --navigation-color: var(--color-white);
   color: var(--navigation-color, var(--color-white));
-  position: var(--_navigation-position, fixed);
+  position: var(--_navigation-position, sticky);
   top: 0;
   left: 0;
   width: 100%;
@@ -16,10 +16,10 @@
   min-height: var(--section-min-height);
 	container-type: scroll-state;
   container-name: header;
-  // background-color: var(--_header-bgr, var(--color-main));
+  background-color: var(--_header-bgr, var(--color-main));
   //box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   letter-spacing: 0;
-	background-image: linear-gradient(rgba(0, 0, 0, .9), transparent);
+	background-image: var(--_navigation-bgr, none);
   &.is-open {
     --_display-menu-nav: flex;
     --_navigation-position: fixed;
@@ -61,20 +61,6 @@
       --_logo-opacity: 1;
     }
   }
-  .link {
-    color: inherit;
-    opacity: var(--nav-link-opacity, 0.7);
-    text-decoration: none;
-    transition: opacity 0.3s var(--ease-in);
-    font-weight: var(--font-weight-normal);
-    &:hover {
-      --nav-link-opacity: 1;
-    }
-    &__active {
-      --nav-link-opacity: 1;
-    }
-  }
-
   &__menu {
     display: var(--_display-menu-nav, grid);
     @media (max-width: base.$breakpoint-lg) {
@@ -141,8 +127,18 @@
   }
   &__anchor {
     position: relative;
-    &:hover {
-      .nav__sublist {
+
+    // Touch / coarse pointer: open only via button (`--open` from JS)
+    &--open .nav__sublist {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    // Fine pointer + real hover: flyout on hover or keyboard focus (desktop only)
+    @media (hover: hover) and (pointer: fine) and (min-width: base.$breakpoint-lg) {
+      &:hover .nav__sublist,
+      &:focus-within .nav__sublist {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
@@ -150,28 +146,106 @@
     }
   }
 
+  &__link {
+    color: inherit;
+    opacity: var(--nav-link-opacity, 0.7);
+    text-decoration: none;
+    transition: opacity 0.3s var(--ease-in);
+    font-weight: var(--font-weight-normal);
+
+    &:hover {
+      --nav-link-opacity: 1;
+    }
+
+    &--active {
+      --nav-link-opacity: 1;
+      font-weight: var(--font-weight-bold);
+    }
+
+    &--main {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
   &__title {
     display: flex;
     gap: var(--spacing-2);
     align-items: center;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+
+    // Button trigger on desktop flyout; default cursor on hover-capable viewports
+    cursor: pointer;
+    @media (hover: hover) and (pointer: fine) {
+      cursor: default;
+    }
 
     &__chevron {
       @include shared.chevron(sm);
       position: relative;
-      transition: all 0.35s;
+      transition: transform 0.35s;
     }
   }
+
+  &__anchor--open .nav__title__chevron {
+    transform: rotate(180deg);
+  }
+
+  @media (hover: hover) and (pointer: fine) and (min-width: base.$breakpoint-lg) {
+    .nav__anchor:hover .nav__title__chevron {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__sublink {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    line-height: 1.1;
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: var(--spacing-2);
+    width: 100%;
+    color: var(--color-main);
+    font-size: var(--ui-small-font-size);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+
+    &:focus-visible {
+      background-color: var(--color-grey-light);
+      outline: none;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--color-grey-light);
+      }
+    }
+
+    &--active {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
   &__sublist {
     position: absolute;
     top: anchor(end);
     left: anchor(start);
     background: var(--color-white);
     border-radius: var(--spacing-3);
-    padding: var(--spacing-2);
+    padding: var(--spacing-1-5);
     font-weight: var(--font-weight-normal);
     text-transform: none;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--color-black) 12%, transparent);
+    border: 1px solid var(--color-grey-border);
     list-style: none;
     min-width: 220px;
     opacity: 0;
@@ -180,20 +254,7 @@
     transition: var(--transition);
     z-index: 20;
     display: grid;
-    .link {
-      line-height: 1.1;
-      padding: var(--spacing-2);
-      border-radius: var(--spacing-2);
-      width: 100%;
-      align-items: start;
-      &:hover {
-        background-color: var(--color-grey-light);
-      }
-    }
-  }
-  .link__active,
-  .link__main {
-    font-weight: var(--font-weight-bold);
+    gap: var(--spacing-0-5);
   }
 
   /* Mobile: stack vertically, submenu inline */
@@ -203,13 +264,6 @@
       align-items: stretch;
       gap: var(--spacing-2);
       justify-content: flex-start;
-    }
-    .is-open & .nav__anchor {
-      &:hover .nav__sublist {
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-      }
     }
     .is-open & .nav__sublist {
       position: static;

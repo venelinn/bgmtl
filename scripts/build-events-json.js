@@ -20,6 +20,7 @@ require("dotenv").config()
 const fs = require("fs")
 const path = require("path")
 const { localize, hasKey } = require("./lib/deepl")
+const { slugify, makeEventAndHeading } = require("./lib/events-format")
 
 const LOCALES = ["bg-BG", "en-CA", "fr-CA"]
 
@@ -37,73 +38,6 @@ if (!fs.existsSync(RAW_PATH)) {
 		`❌ No scraped data at mockData/events/_scraped/${year}.raw.json\n   Run: node scripts/scrape-fb-events.js --year ${year}`,
 	)
 	process.exit(1)
-}
-
-// ---- slug + transliteration ----------------------------------------------
-
-const CYRILLIC_MAP = {
-	а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ж: "zh", з: "z", и: "i",
-	й: "y", к: "k", л: "l", м: "m", н: "n", о: "o", п: "p", р: "r", с: "s",
-	т: "t", у: "u", ф: "f", х: "h", ц: "ts", ч: "ch", ш: "sh", щ: "sht",
-	ъ: "a", ь: "y", ю: "yu", я: "ya",
-}
-
-const transliterate = (text) =>
-	String(text)
-		.toLowerCase()
-		.split("")
-		.map((ch) => CYRILLIC_MAP[ch] ?? ch)
-		.join("")
-
-// Contentful caps entry ids at 64 chars. Ids are `heading-<slug>-<year>`
-// (prefix 8 + "-2026" 5 + a possible "-N" dedupe suffix), so keep the slug
-// short enough that the longest id still fits.
-const SLUG_MAX = 45
-
-const slugify = (text) =>
-	transliterate(text)
-		.normalize("NFKD")
-		.replace(/[̀-ͯ]/g, "")
-		.replace(/[^a-z0-9]+/g, "-")
-		.replace(/^-+|-+$/g, "")
-		.slice(0, SLUG_MAX)
-		.replace(/-+$/g, "") || "event"
-
-// ---- rich text helpers ----------------------------------------------------
-
-const richTextDoc = (text) => {
-	const paragraphs = String(text || "")
-		.split(/\n+/)
-		.map((p) => p.trim())
-		.filter(Boolean)
-
-	return {
-		nodeType: "document",
-		data: {},
-		content: paragraphs.map((p) => ({
-			nodeType: "paragraph",
-			data: {},
-			content: [{ nodeType: "text", value: p, marks: [], data: {} }],
-		})),
-	}
-}
-
-const localizedRichText = (byLocale) => {
-	const out = {}
-	for (const locale of LOCALES) {
-		out[locale] = richTextDoc(byLocale[locale])
-	}
-	return out
-}
-
-const firstSentence = (text) => {
-	const clean = String(text || "").replace(/\s+/g, " ").trim()
-	if (clean.length <= 180) {
-		return clean
-	}
-	const cut = clean.slice(0, 180)
-	const lastStop = Math.max(cut.lastIndexOf(". "), cut.lastIndexOf("! "))
-	return `${(lastStop > 60 ? cut.slice(0, lastStop + 1) : cut).trim()}…`
 }
 
 // ---- build ----------------------------------------------------------------
@@ -133,61 +67,30 @@ async function build() {
 			? await localize(ev.location, LOCALES)
 			: null
 		const descByLocale = await localize(ev.description || "", LOCALES)
-		const excerptByLocale = {}
-		for (const locale of LOCALES) {
-			excerptByLocale[locale] = firstSentence(descByLocale[locale])
-		}
 
 		// Unique slug from the English title.
-		let slug = slugify(nameByLocale["en-CA"] || ev.name)
+		const base = slugify(nameByLocale["en-CA"] || ev.name)
+		let slug = base
 		let suffix = 2
 		while (usedSlugs.has(slug)) {
-			slug = `${slugify(nameByLocale["en-CA"] || ev.name)}-${suffix++}`
+			slug = `${base}-${suffix++}`
 		}
 		usedSlugs.add(slug)
 
-		const headingId = `heading-${slug}-${year}`
-		const eventId = `event-${slug}-${year}`
-		const startISO = ev.startISO || `${year}-01-01T19:00:00`
-
-		// Title field is an admin label, same value across locales.
-		const adminTitle = {}
-		for (const locale of LOCALES) {
-			adminTitle[locale] = `Event: ${nameByLocale["en-CA"] || ev.name} ${year}`
-		}
-
-		const eventFields = {
-			title: adminTitle,
-			heading: {
-				"bg-BG": {
-					sys: { type: "Link", linkType: "Entry", id: headingId },
-				},
-			},
-			date: { "bg-BG": startISO },
-			doorsOpen: { "bg-BG": startISO },
-			content: localizedRichText(descByLocale),
-			excerpt: localizedRichText(excerptByLocale),
-		}
-		if (venueByLocale) {
-			eventFields.venue = venueByLocale
-		}
-
-		events.push({
-			sys: { id: eventId, contentType: "event" },
-			fields: eventFields,
-			// non-imported breadcrumb back to the source post
-			_source: { fbEventId: ev.fbEventId, url: ev.url, needsReview: ev.needsReview },
+		const { event, heading } = makeEventAndHeading({
+			nameByLocale,
+			venueByLocale,
+			descByLocale,
+			eventId: `event-${slug}-${year}`,
+			headingId: `heading-${slug}-${year}`,
+			startISO: ev.startISO || `${year}-01-01T19:00:00`,
+			titleSuffix: year,
+			locales: LOCALES,
+			source: { fbEventId: ev.fbEventId, url: ev.url, needsReview: ev.needsReview },
 		})
 
-		headings.push({
-			sys: { id: headingId, contentType: "heading" },
-			fields: {
-				title: nameByLocale,
-				heading: nameByLocale,
-				as: { "bg-BG": "h2" },
-				size: { "bg-BG": "h2" },
-			},
-		})
+		events.push(event)
+		headings.push(heading)
 	}
 
 	const output = {

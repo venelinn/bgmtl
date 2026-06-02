@@ -102,6 +102,25 @@ It prints the record and saves `_scraped/event-<id>.raw.json` (same envelope as
 the year files, so it can be merged into one and fed to `events:build`). Both
 scrapers share the extraction logic in `scripts/lib/fb-extract.js`.
 
+### Add a single event straight to Contentful
+
+`events:add` does the whole pipeline for one URL — scrape → translate → create
+event + heading → upload + attach cover → publish — in a single command:
+
+```bash
+pnpm events:add -- https://www.facebook.com/events/1605426171589137/
+pnpm events:add -- <url> --dry        # scrape + translate + preview, no writes
+pnpm events:add -- <url> --no-cover   # skip the cover upload
+```
+
+IDs are **date-stamped** (`event-<slug>-<YYYY-MM-DD>`) so recurring events that
+share a title (e.g. a monthly bazaar) don't collide; it refuses to overwrite an
+event id that already exists. Needs `CONTENTFUL_MANAGEMENT_TOKEN`, `DEEPL_API_KEY`,
+and the Cloudinary creds (unless `--no-cover`).
+
+> Shared logic lives in `scripts/lib/`: `fb-extract` (scraping), `deepl`
+> (translation), `events-format` (entry shaping), `cloudinary` (cover upload).
+
 ## How it maps to Contentful
 
 Each scraped event produces:

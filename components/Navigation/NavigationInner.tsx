@@ -9,8 +9,10 @@ import useNavigationContext from "@/context/navigationContext";
 import useElementSize from "@/hooks/useElementSize";
 import { getCloudinaryAsSvg } from "@/utils/common";
 import { extractMenuColumns } from "@/utils/menuHelpers";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Hamburger } from "./Hamburger";
 import { LocaleSwitcher } from "./LocaleSwitcher";
+import { NavMenuGroup } from "./NavMenuGroup";
 import styles from "./Navigation.module.scss";
 
 type NavigationInnerProps = {
@@ -25,6 +27,7 @@ export function NavigationInner({ pageLocale, data }: NavigationInnerProps) {
   const pathname = usePathname();
 
   const menuColumns = extractMenuColumns(menuLinks ?? [], pageLocale, "header");
+  const isDesktopNav = useMediaQuery("(min-width: 62rem)");
 
   useEffect(() => {
     document.body.classList.toggle(styles.fixedNav, fixed);
@@ -74,38 +77,24 @@ export function NavigationInner({ pageLocale, data }: NavigationInnerProps) {
                         <Link
                           href={link.url}
                           target={link.target}
-                          data-text={link.title}
-                          className={cx(styles.link, styles.link__main, "link", isActive && styles.link__active)}
+                          className={cx(
+                            styles.nav__link,
+                            styles["nav__link--main"],
+                            isActive && styles["nav__link--active"],
+                          )}
                         >
                           {link.title} {link.icon && link.icon}
                         </Link>
                       </li>
                     );
                   }
-                  // Multi-link column: render with title
                   return (
-                    <li key={column.id} className={styles.nav__anchor} anchor-name="--about-anchor">
-                      <span className={styles.nav__title}>
-                        {column.title} <span className={styles.nav__title__chevron} />
-                      </span>
-                      <ul className={styles.nav__sublist}>
-                        {column.links.map((link) => {
-                          const isActive = link.url === "/" ? pathname === "/" : pathname?.startsWith(link.url);
-                          return (
-                            <li key={link.id}>
-                              <Link
-                                href={link.url}
-                                target={link.target}
-                                data-text={link.title}
-                                className={cx(styles.link, "link", isActive && styles.link__active)}
-                              >
-                                {link.title} {link.icon && link.icon}
-                              </Link>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </li>
+                    <NavMenuGroup
+                      key={column.id}
+                      column={column}
+                      pathname={pathname}
+                      inline={!isDesktopNav}
+                    />
                   );
                 })}
             </ul>
