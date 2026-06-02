@@ -38,9 +38,9 @@ export function inferIconFromUrl(url: string): string | null {
   return null;
 }
 
-/** Normalize Contentful highlight field (supports "highlight" or "highlights", and localized objects) */
+/** Normalize Contentful highlight field (supports "highlightInMenu", "highlight" or "highlights", and localized objects) */
 function normalizeHighlight(item: Record<string, unknown>): boolean {
-  const h = item?.highlight ?? item?.highlights;
+  const h = item?.highlightInMenu ?? item?.highlight ?? item?.highlights;
   if (h === true) return true;
   if (typeof h === "object" && h !== null) return Object.values(h).some(Boolean);
   return false;

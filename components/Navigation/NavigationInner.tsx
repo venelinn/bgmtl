@@ -77,6 +77,7 @@ export function NavigationInner({ pageLocale, data }: NavigationInnerProps) {
                         <Link
                           href={link.url}
                           target={link.target}
+                          data-highlight={link.highlight ? "true" : undefined}
                           className={cx(
                             styles.nav__link,
                             styles["nav__link--main"],

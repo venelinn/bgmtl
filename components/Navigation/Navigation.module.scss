@@ -115,7 +115,7 @@
   --heading-case: uppercase;
   @include typo.ui-caption;
   display: var(--_display-nav, flex);
-  grid-gap: var(--spacing-5);
+  gap: var(--spacing-2);
   justify-content: space-between;
   list-style: none;
   padding: 0;
@@ -147,14 +147,22 @@
   }
 
   &__link {
-    color: inherit;
+    color: var(--_nav-pill-color, inherit);
     opacity: var(--nav-link-opacity, 0.7);
     text-decoration: none;
-    transition: opacity 0.3s var(--ease-in);
+    // Match the language toggle: pill with rounded corners + translucent grey
+    // hover fill. Base bg is a scoped var so hover/highlight only swap the var.
+    padding: var(--spacing-1-5) var(--spacing-3);
+    border-radius: 999px;
+    background-color: var(--_nav-pill-bg, transparent);
+    transition:
+      opacity 0.3s var(--ease-in),
+      background-color 0.2s ease;
     font-weight: var(--font-weight-normal);
 
     &:hover {
       --nav-link-opacity: 1;
+      --_nav-pill-bg: color-mix(in srgb, var(--color-grey) 25%, transparent);
     }
 
     &--active {
@@ -165,6 +173,18 @@
     &--main {
       font-weight: var(--font-weight-bold);
     }
+
+    // Highlighted page (Page model `highlightInMenu`): solid accent fill,
+    // full opacity, hover keeps the solid color.
+    &[data-highlight="true"] {
+      --nav-link-opacity: 1;
+      --_nav-pill-bg: var(--color-highlight);
+      --_nav-pill-color: var(--color-white);
+
+      &:hover {
+        --_nav-pill-bg: color-mix(in srgb, var(--color-highlight) 85%, var(--color-black));
+      }
+    }
   }
 
   &__title {
@@ -173,8 +193,11 @@
     align-items: center;
     border: 0;
     margin: 0;
-    padding: 0;
-    background: transparent;
+    // Match the language toggle / plain links: pill with rounded corners.
+    padding: var(--spacing-1-5) var(--spacing-3);
+    border-radius: 999px;
+    background-color: var(--_nav-pill-bg, transparent);
+    transition: background-color 0.2s ease;
     font: inherit;
     color: inherit;
     letter-spacing: inherit;
@@ -184,6 +207,12 @@
     cursor: pointer;
     @media (hover: hover) and (pointer: fine) {
       cursor: default;
+    }
+
+    // Pill fill on hover and while the flyout is open.
+    &:hover,
+    .nav__anchor--open & {
+      --_nav-pill-bg: color-mix(in srgb, var(--color-grey) 25%, transparent);
     }
 
     &__chevron {
