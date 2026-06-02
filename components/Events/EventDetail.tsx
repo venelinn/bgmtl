@@ -3,6 +3,7 @@ import { BackButton } from "@/components/Button/BackButton"
 import { Icon } from "@/components/Icon"
 import { Section } from "@/components/Section"
 import type { EventItem } from "@/types/events"
+import { slugify } from "@/utils/common"
 import { FormattedDate, FormattedTime } from "@/utils/DateFormat"
 import { getMessages } from "@/utils/getMessages"
 import { renderRichTextContent } from "@/utils/RichText"
@@ -41,6 +42,20 @@ export const EventDetail = ({
 	const t = messages.Events ?? {}
 	const pastEvent = new Date(event.date) < new Date()
 	const heroFallback = heroFallbackImage ?? DEFAULT_HERO_FALLBACK
+
+	// Must match the name the source event card applies on click (see Event.tsx):
+	// derived from the Bulgarian heading so the cover morphs into this hero.
+	const headingForSlug =
+		typeof event.heading === "string"
+			? event.heading
+			: event.heading &&
+					typeof event.heading === "object" &&
+					"heading" in event.heading &&
+					typeof event.heading.heading === "string"
+				? event.heading.heading
+				: ""
+	const bgHeading = (event as { bgHeading?: string }).bgHeading || headingForSlug
+	const heroTransitionName = `event-hero-${slugify(String(bgHeading || "event"))}`
 	const mapHref = event.address
 		? generateGoogleMapsURL(event.address.lat, event.address.lon, event.venue)
 		: null
@@ -57,7 +72,8 @@ export const EventDetail = ({
 						? event.cover
 						: [{ src: heroFallback, url: heroFallback }]
 				}
-				size="fixed"
+				size="full"
+				viewTransitionName={heroTransitionName}
 				imageAlignment="top"
 				height={(event.heroHeight as "full" | "half" | "quarter") || "quarter"}
 				heading={

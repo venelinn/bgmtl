@@ -1,8 +1,9 @@
 "use client";
 import gsap from "gsap";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { Section, type SectionProps } from "@/components/Section";
+import { ViewTransition } from "@/components/ViewTransition";
 import useReduceMotion from "@/hooks/useReduceMotion";
 import { getOptimizedImage } from "@/utils/common";
 import { Heading, type HeadingProps } from "../Headings";
@@ -19,6 +20,12 @@ export interface HeroProps {
   /** Enable/disable image animations (Ken Burns / slide). Default: true */
   imageAnimate?: boolean;
   size?: SectionProps["size"];
+  /**
+   * view-transition-name for the first hero image. Set this to the same name a
+   * source element used (e.g. an event card cover) to morph it into the hero
+   * during a cross-page View Transition. Must be unique on the page.
+   */
+  viewTransitionName?: string;
 }
 
 export const Hero = ({
@@ -31,6 +38,7 @@ export const Hero = ({
   imageAlignment,
   animateContent = false,
   imageAnimate = true,
+  viewTransitionName,
 }: HeroProps) => {
   const reduceMotion = useReduceMotion();
   const heroRef = useRef<HTMLDivElement>(null);
@@ -191,17 +199,34 @@ export const Hero = ({
             const w = optimized?.width || img?.width || 1600;
             const h = optimized?.height || img?.height || 900;
 
-            return (
-              <div key={img?.id ?? i} className={styles.hero__image} data-hero>
+            const isFirst = i === 0;
+            const key = img?.id ?? i;
+            const imageBlock = (
+              <div className={styles.hero__image} data-hero>
                 <Image
                   src={src}
                   alt={img?.alt ?? ""}
                   width={w}
                   height={h}
-                  priority={i === 0}
-                  fetchPriority={i === 0 ? "high" : undefined}
+                  priority={isFirst}
+                  fetchPriority={isFirst ? "high" : undefined}
                 />
               </div>
+            );
+
+            // Wrap the whole image block (incl. the dark :before overlay) so the
+            // morph cross-fades to the final darkened hero instead of popping.
+            return isFirst && viewTransitionName ? (
+              <ViewTransition
+                key={key}
+                name={viewTransitionName}
+                share="morph"
+                default="none"
+              >
+                {imageBlock}
+              </ViewTransition>
+            ) : (
+              <Fragment key={key}>{imageBlock}</Fragment>
             );
           })}
         </div>

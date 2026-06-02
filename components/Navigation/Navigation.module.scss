@@ -14,8 +14,10 @@
   flex: 0 0 auto;
   padding: var(--navigation-padding, 0);
   min-height: var(--section-min-height);
+	container-type: scroll-state;
+  container-name: header;
   // background-color: var(--_header-bgr, var(--color-main));
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  //box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   letter-spacing: 0;
 	background-image: linear-gradient(rgba(0, 0, 0, .9), transparent);
   &.is-open {

@@ -9,7 +9,8 @@
         },
         "fields": {
           "title": {
-            "bg-BG": "Event: Your Event Title"
+            "bg-BG": "Event: Your Event Title",
+            "fr-CA": "Event: Your Event Title"
           },
           "heading": {
             "bg-BG": {
@@ -18,17 +19,27 @@
                 "linkType": "Entry",
                 "id": "heading-your-heading-id"
               }
+            },
+            "fr-CA": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-your-heading-id"
+              }
             }
           },
           "date": {
-            "bg-BG": "2025-01-01T18:00:00"
+            "bg-BG": "2025-01-01T18:00:00",
+            "fr-CA": "2025-01-01T18:00:00"
           },
           "doorsOpen": {
-            "bg-BG": "2025-01-01T18:00:00"
+            "bg-BG": "2025-01-01T18:00:00",
+            "fr-CA": "2025-01-01T18:00:00"
           },
           "venue": {
             "en-CA": "Venue name",
-            "bg-BG": "Venue name"
+            "bg-BG": "Venue name",
+            "fr-CA": "Venue name"
           },
           "excerpt": {
             "en-CA": {
@@ -37,6 +48,11 @@
               "content": []
             },
             "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": []
+            },
+            "fr-CA": {
               "nodeType": "document",
               "data": {},
               "content": []
@@ -49,6 +65,11 @@
               "content": []
             },
             "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": []
+            },
+            "fr-CA": {
               "nodeType": "document",
               "data": {},
               "content": []
@@ -68,17 +89,21 @@
         },
         "fields": {
           "title": {
-            "bg-BG": "Heading Title"
+            "bg-BG": "Heading Title",
+            "fr-CA": "Heading Title"
           },
           "heading": {
             "en-CA": "Heading Text",
-            "bg-BG": "Heading Text"
+            "bg-BG": "Heading Text",
+            "fr-CA": "Heading Text"
           },
           "as": {
-            "bg-BG": "h2"
+            "bg-BG": "h2",
+            "fr-CA": "h2"
           },
           "size": {
-            "bg-BG": "h2"
+            "bg-BG": "h2",
+            "fr-CA": "h2"
           }
         }
       }

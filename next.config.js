@@ -1,5 +1,10 @@
 // const localization = require("./utils/localization")
 
+// Master View Transitions toggle, mirrored in utils/common.ts
+// (VIEW_TRANSITIONS_ENABLED). Set NEXT_PUBLIC_VIEW_TRANSITIONS=false to disable.
+const viewTransitionsEnabled =
+	process.env.NEXT_PUBLIC_VIEW_TRANSITIONS !== "false";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	// i18n: {
@@ -9,6 +14,12 @@ const nextConfig = {
 	// },
 	reactStrictMode: true,
 	trailingSlash: false,
+	experimental: {
+		// Wrap App Router soft navigations in document.startViewTransition() so the
+		// ::view-transition-*(root) animations + shared-element morphs in globals.scss
+		// actually fire on <Link> clicks (otherwise they'd only run on MPA navigations).
+		viewTransition: viewTransitionsEnabled,
+	},
 	images: {
 		// dangerouslyAllowSVG: true,
 		remotePatterns: [

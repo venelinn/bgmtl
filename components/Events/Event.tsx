@@ -8,8 +8,9 @@ import type React from 'react';
 import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { Icon } from '@/components/Icon';
+import { ViewTransition } from '@/components/ViewTransition';
 import type { EventProps } from '@/types/events';
-import { getEventPermalink } from '@/utils/common';
+import { getEventPermalink, slugify } from '@/utils/common';
 import { FormattedDate, FormattedTime } from '@/utils/DateFormat';
 import { renderRichTextContent } from '@/utils/RichText';
 import { Heading } from '../Headings';
@@ -52,6 +53,13 @@ export const Event = ({ event, type, locale, fallbackImage }: EventProps) => {
     locale,
     title: bulgarianHeading ? String(bulgarianHeading) : 'event',
   });
+
+  // Shared-element view transition: the cover and the detail-page hero share this
+  // name, so React morphs one into the other on navigation. Keyed by the same
+  // slug that builds the URL, so the detail page derives an identical name.
+  const heroTransitionName = `event-hero-${slugify(
+    String(bulgarianHeading || 'event'),
+  )}`;
   const mapHref = event.address
     ? generateGoogleMapsURL(event.address.lat, event.address.lon, event.venue)
     : null;
@@ -141,14 +149,16 @@ export const Event = ({ event, type, locale, fallbackImage }: EventProps) => {
           title={String(headingText) ?? 'Event cover'}
           className={styles.event__imageLink}
         >
-          <Image
-            src={cover.src}
-            alt={String(headingText) ?? 'Event cover'}
-            width={cover.width}
-            height={cover.height}
-            className={clsx(isFallback && styles.event__imageFallback)}
-            onError={() => setImageError(true)}
-          />
+          <ViewTransition name={heroTransitionName} share='morph' default='none'>
+            <Image
+              src={cover.src}
+              alt={String(headingText) ?? 'Event cover'}
+              width={cover.width}
+              height={cover.height}
+              className={clsx(isFallback && styles.event__imageFallback)}
+              onError={() => setImageError(true)}
+            />
+          </ViewTransition>
         </Link>
       </figure>
     </article>
