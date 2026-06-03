@@ -205,8 +205,8 @@ export default async function Page(props: {
 							/>
 						</div>
 						<Sidebar>
-							<EventsCalendarConnector locale={lang} />
-							<DonateWidget />
+							<EventsCalendarConnector locale={lang} inlineEventDetail />
+							<DonateWidget variant="dark" />
 						</Sidebar>
 					</div>
 				</SectionShell>

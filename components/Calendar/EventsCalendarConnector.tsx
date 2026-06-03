@@ -8,6 +8,7 @@ interface EventsCalendarConnectorProps {
   selectedDate?: string;
   onDateSelect?: (date: string) => void;
   heading?: HeadingProps;
+  inlineEventDetail?: boolean;
 }
 
 export async function EventsCalendarConnector({
@@ -15,6 +16,7 @@ export async function EventsCalendarConnector({
   heading,
   selectedDate,
   onDateSelect,
+  inlineEventDetail,
 }: EventsCalendarConnectorProps) {
   const events = (await getAllEvents(locale)) as any[];
   const today = new Date();
@@ -32,6 +34,7 @@ export async function EventsCalendarConnector({
 
     return {
       date: normalizedDate,
+      dateTime: event.date,
       title: event.heading?.heading || bulgarianHeading,
       permalink,
       isPastEvent: eventDate < today,
@@ -45,6 +48,7 @@ export async function EventsCalendarConnector({
       heading={heading}
       selectedDate={selectedDate}
       onDateSelect={onDateSelect}
+      inlineEventDetail={inlineEventDetail}
     />
   );
 }

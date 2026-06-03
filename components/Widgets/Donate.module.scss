@@ -10,6 +10,7 @@
 
   @include mx.asBox;
 
+
   &__media {
     display: flex;
     align-items: center;
@@ -31,11 +32,7 @@
     border-radius: var(--spacing-0-5); // 2px
   }
 
-  &__header h3 {
-    font-size: var(--ui-caption-font-size);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--color-main);
+  &__title {
     margin: 0;
   }
 
@@ -78,5 +75,57 @@
     margin-top: var(--spacing-3);
     font-size: var(--ui-small-font-size);
     color: var(--color-grey);
+  }
+
+  // ── Dark variant (homepage sidebar) ──────────────────────────────────────
+  // Navy card with a stacked, single-column call to action.
+  &--dark {
+    // asBox reads these scoped vars for the card surface + base text colour.
+    --_as-box-bgr: var(--color-main);
+    --_as-box-color: color-mix(in srgb, var(--color-white) 78%, transparent);
+
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+
+    .donate-widget__icon {
+      width: auto;
+      height: auto;
+      margin-bottom: var(--spacing-4);
+      background: none;
+      color: var(--color-highlight);
+
+      svg {
+        width: auto;
+        height: auto;
+      }
+    }
+
+    .donate-widget__title {
+      margin-bottom: var(--spacing-2);
+      color: var(--color-white);
+    }
+
+    .donate-widget__text {
+      margin-bottom: var(--spacing-5);
+      color: var(--_as-box-color);
+    }
+
+    .donate-widget__button {
+      position: relative;
+      z-index: 1;
+    }
+
+    // Decorative heart bleeding off the bottom-right corner.
+    .donate-widget__watermark {
+      position: absolute;
+      z-index: 0;
+      right: calc(var(--spacing-6) * -1);
+      bottom: calc(var(--spacing-6) * -1);
+      width: 11rem;
+      height: 11rem;
+      color: color-mix(in srgb, var(--color-white) 5%, transparent);
+      pointer-events: none;
+    }
   }
 }

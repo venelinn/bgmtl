@@ -3,6 +3,7 @@
 
 .calendar {
   @include mx.asBox;
+	padding-top: 0;
 }
 
 .header {
@@ -154,10 +155,40 @@
 
 // Selected date
 .selected {
-  background: #0b57d0 !important;
+  background: var(--color-highlight) !important;
+  color: var(--color-white) !important;
 
   &::after {
     background: white;
+  }
+}
+
+// Inline event detail panel (homepage widget)
+.eventDetail {
+  display: block;
+  margin-top: var(--spacing-5);
+  padding-left: var(--spacing-3);
+  border-left: 3px solid var(--color-highlight);
+  text-decoration: none;
+  color: inherit;
+
+  &:hover .eventDetail__title {
+    text-decoration: underline;
+  }
+
+  &__title {
+    display: block;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-main);
+    line-height: 1.3;
+  }
+
+  &__date {
+    @include typo.ui-small;
+    display: block;
+    margin-top: var(--spacing-1);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-grey);
   }
 }
 

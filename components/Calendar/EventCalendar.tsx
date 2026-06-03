@@ -11,6 +11,8 @@ import styles from "./EventCalendar.module.scss"
 
 export interface CalendarEvent {
 	date: string
+	/** Full ISO datetime (may include time) used for the inline detail panel. */
+	dateTime?: string
 	title: string
 	permalink: string
 	isPastEvent: boolean
@@ -23,6 +25,12 @@ interface EventCalendarProps {
 	onDateSelect?: (date: string) => void
 	isLoading?: boolean
 	heading?: HeadingProps
+	/**
+	 * When true, clicking an event day selects it and reveals the event details
+	 * below the grid instead of navigating straight to the event. Used by the
+	 * homepage sidebar widget.
+	 */
+	inlineEventDetail?: boolean
 }
 
 interface CalendarDay {
@@ -49,6 +57,12 @@ function formatDateKey(date: Date): string {
 	return date.toISOString().split("T")[0]
 }
 
+function formatEventDateTime(dateTime: string, locale: Locale): string {
+	const date = new Date(dateTime)
+	const hasTime = dateTime.includes("T")
+	return format(date, hasTime ? "MMMM d, HH:mm" : "MMMM d", { locale })
+}
+
 export function EventCalendar({
 	calendarEvents,
 	locale,
@@ -56,6 +70,7 @@ export function EventCalendar({
 	onDateSelect,
 	heading = {},
 	isLoading = false,
+	inlineEventDetail = false,
 }: EventCalendarProps) {
 	const t = useTranslations()
 	const today = new Date()
@@ -79,21 +94,53 @@ export function EventCalendar({
 		})
 	}, [selectedLocale])
 
-	// Create a map of dates to event data (permalink and isPastEvent status)
+	// Create a map of dates to event data (permalink, title, time and status)
 	const eventMap = useMemo(() => {
-		const map = new Map<string, { permalink: string; isPastEvent: boolean }>()
+		const map = new Map<
+			string,
+			{
+				permalink: string
+				isPastEvent: boolean
+				title: string
+				dateTime: string
+			}
+		>()
 		calendarEvents.forEach((event) => {
 			map.set(event.date, {
 				permalink: event.permalink,
 				isPastEvent: event.isPastEvent,
+				title: event.title,
+				dateTime: event.dateTime || event.date,
 			})
 		})
 		return map
 	}, [calendarEvents])
 	const todayKey = formatDateKey(today)
 
-	const [currentMonth, setCurrentMonth] = useState(today.getMonth())
-	const [currentYear, setCurrentYear] = useState(today.getFullYear())
+	// Default the inline detail panel to the nearest upcoming event (falling
+	// back to the most recent past event when nothing is upcoming).
+	const defaultSelectedDate = useMemo(() => {
+		if (!inlineEventDetail || calendarEvents.length === 0) return undefined
+		const upcoming = calendarEvents
+			.filter((e) => !e.isPastEvent)
+			.sort((a, b) => a.date.localeCompare(b.date))
+		if (upcoming.length > 0) return upcoming[0].date
+		return [...calendarEvents].sort((a, b) => b.date.localeCompare(a.date))[0]
+			.date
+	}, [calendarEvents, inlineEventDetail])
+
+	const [internalSelectedDate, setInternalSelectedDate] = useState<
+		string | undefined
+	>(defaultSelectedDate)
+	const activeSelectedDate = selectedDate ?? internalSelectedDate
+
+	const initialMonthDate = defaultSelectedDate
+		? new Date(defaultSelectedDate)
+		: today
+	const [currentMonth, setCurrentMonth] = useState(initialMonthDate.getMonth())
+	const [currentYear, setCurrentYear] = useState(
+		initialMonthDate.getFullYear(),
+	)
 
 	// Create set for quick lookup
 	const eventSet = useMemo(
@@ -184,8 +231,13 @@ export function EventCalendar({
 
 	function handleDayClick(day: CalendarDay) {
 		if (!day.hasEvent) return
+		setInternalSelectedDate(day.date)
 		onDateSelect?.(day.date)
 	}
+
+	const selectedEvent = activeSelectedDate
+		? eventMap.get(activeSelectedDate)
+		: undefined
 
 	return (
 		<div className={styles.calendar}>
@@ -243,8 +295,25 @@ export function EventCalendar({
                 ${day.isPast ? styles.past : ""}
                 ${day.hasEvent ? styles.hasEvent : ""}
                 ${day.isPastEvent ? styles.pastEvent : styles.upcomingEvent}
-                ${selectedDate === day.date ? styles.selected : ""}
+                ${activeSelectedDate === day.date ? styles.selected : ""}
               `
+
+							// Inline mode: clicking an event day selects it and reveals
+							// the detail panel below, rather than navigating away.
+							if (inlineEventDetail && day.hasEvent) {
+								return (
+									<button
+										key={day.date}
+										type="button"
+										className={dayClasses}
+										onClick={() => handleDayClick(day)}
+										aria-pressed={activeSelectedDate === day.date}
+										aria-label={`${day.dayNumber} ${MONTHS[currentMonth]} - has event`}
+									>
+										{dayContent}
+									</button>
+								)
+							}
 
 							// If day has an event, render as Link
 							if (day.hasEvent && day.eventPermalink) {
@@ -275,6 +344,18 @@ export function EventCalendar({
 							)
 						})}
 			</div>
+
+			{/* Inline detail for the selected event */}
+			{inlineEventDetail && selectedEvent && (
+				<Link href={selectedEvent.permalink} className={styles.eventDetail}>
+					<span className={styles.eventDetail__title}>
+						{selectedEvent.title}
+					</span>
+					<span className={styles.eventDetail__date}>
+						{formatEventDateTime(selectedEvent.dateTime, selectedLocale)}
+					</span>
+				</Link>
+			)}
 		</div>
 	)
 }

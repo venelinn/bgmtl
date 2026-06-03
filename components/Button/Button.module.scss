@@ -187,11 +187,17 @@
     --_btn-min-width: auto;
     --_btn-hover-bg-color: transparent;
     --_btn-hover-border-color: var(--color-shade-55);
-    --_btn-hover-color: var(--color-shade-0);
+    --_btn-hover-color: var(--color-highlight);
+		--_btn-padding-inline: 0;
+		border: 0;
+		&:hover {
+        border: 0;
+      }
     &.is-outlined {
       --_btn-border-color: var(--color-shade-85);
       &:hover {
         --_btn-border-color: var(--color-shade-55);
+				border: 0;
       }
     }
   }
