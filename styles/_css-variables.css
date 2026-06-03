@@ -103,7 +103,7 @@
   --heading-size-h4-font-weight: var(--font-weight-medium);
   --ui-body-font-weight: var(--font-weight-light);
   --ui-body-color: var(--color-grey-dark);
-  --ui-caption-font-weight: var(--font-weight-light);
+  --ui-caption-font-weight: var(--font-weight-normal);
   --ui-small-font-weight: var(--font-weight-light);
   --body-font-size: var(--font-size-base);
   --ui-body-bg-color: var(--color-white);

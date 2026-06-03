@@ -65,5 +65,17 @@
 		"title": "Страницата не е намерена",
 		"description": "Страницата, която търсите, не съществува или е била преместена.",
 		"goHome": "Към началната страница"
+	},
+	"Directory": {
+		"all": "Всички",
+		"searchPlaceholder": "Търсете асоциации, ключови думи или място…",
+		"searchAriaLabel": "Търсене в списъка",
+		"groupAriaLabel": "Филтриране по група",
+		"categoryAriaLabel": "Филтриране по категория",
+		"clear": "Изчисти търсенето",
+		"noResults": "Няма резултати, отговарящи на търсенето.",
+		"suggestionsCategories": "Категории",
+		"suggestionsListings": "Обекти",
+		"resultsCount": "Намерени резултати: {count}"
 	}
 }

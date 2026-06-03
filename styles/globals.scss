@@ -296,22 +296,8 @@ body {
   color: var(--link-color, inherit);
   transition: font-weight 0.3s ease;
   text-shadow: var(--_link-text-shadow);
-  &:after {
-    content: attr(data-text);
-    content: attr(data-text) / '';
-    height: 0;
-    visibility: hidden;
-    overflow: hidden;
-    user-select: none;
-    pointer-events: none;
-    font-weight: var(--font-weight-bold);
-
-    @media speech {
-      display: none;
-    }
-  }
   &:hover {
-    font-weight: var(--font-weight-bold);
+    text-decoration: underline;
   }
 }
 

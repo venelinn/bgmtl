@@ -3,6 +3,7 @@ import { cache } from "react";
 import { createClient, type EntryCollection, type EntrySkeletonType } from "contentful";
 import { IS_DEV, normalizeSlug, PAGE_TYPE } from "./common";
 import { cachedContentful } from "./contentful-cache";
+import { richTextToPlain } from "./directory";
 import { getContentfulLocale, localization } from "./localization";
 
 const deliveryClient = createClient({
@@ -770,4 +771,94 @@ export async function getAvailableEvents(locale: string, preview?: boolean) {
       const dateB = new Date(b.date).getTime();
       return dateA - dateB;
     });
+}
+
+// --- Community directory (query-driven by city) ---
+
+export type DirectoryData = {
+  groups: { slug: string; label: string; order?: number }[];
+  categories: { slug: string; label: string; order?: number; groupSlug?: string }[];
+  items: {
+    id: string;
+    categorySlug: string;
+    title: string;
+    searchText?: string;
+    content?: unknown;
+    link?: { url?: string; name?: string; target?: string };
+  }[];
+};
+
+/**
+ * Fetches everything the Montreal-style directory needs for a given `city`:
+ * the taxonomy (communityGroup + communityCategory, with localized labels) and
+ * every `card` tagged with that city, mapped to DirectoryCard-ready items.
+ *
+ * Query-driven on purpose: editors add an org by creating a card and setting
+ * `city` + `category` — no manual collection wiring.
+ */
+export async function getCommunityDirectory(
+  city: string,
+  locale: string,
+  preview?: boolean,
+): Promise<DirectoryData> {
+  const contentfulLocale = getContentfulLocale(locale);
+
+  // Fetch independently so one failing query (transient 5xx, rate-limit) degrades
+  // gracefully instead of blanking the whole directory.
+  const safe = async <T>(label: string, p: Promise<T>): Promise<T | null> => {
+    try {
+      return await p;
+    } catch (err) {
+      console.error(`getCommunityDirectory: ${label} fetch failed`, err);
+      return null;
+    }
+  };
+  const [cardsRes, catsRes, groupsRes] = await Promise.all([
+    safe("cards", getEntries("card", { locale: contentfulLocale, "fields.city": city, limit: 500 }, { preview })),
+    safe(
+      "categories",
+      getEntries("communityCategory", { locale: contentfulLocale, order: "fields.order", limit: 200 }, { preview }),
+    ),
+    safe(
+      "groups",
+      getEntries("communityGroup", { locale: contentfulLocale, order: "fields.order", limit: 100 }, { preview }),
+    ),
+  ]);
+
+  const groups = ((groupsRes?.items ?? []).map((e) => mapEntry(e)) as any[])
+    .filter((g) => g?.slug)
+    .map((g) => ({ slug: g.slug as string, label: (g.label ?? g.slug) as string, order: g.order as number | undefined }));
+
+  const categories = ((catsRes?.items ?? []).map((e) => mapEntry(e)) as any[])
+    .filter((c) => c?.slug)
+    .map((c) => ({
+      slug: c.slug as string,
+      label: (c.label ?? c.slug) as string,
+      order: c.order as number | undefined,
+      groupSlug: c.group?.slug as string | undefined,
+    }));
+
+  const items = ((cardsRes?.items ?? []).map((e) => mapEntry(e)) as any[])
+    .map((card) => {
+      const title: string = card?.heading?.heading || card?.title || "";
+      const categorySlug: string = card?.category?.slug || "";
+      const link = card?.link?.url
+        ? { url: card.link.url as string, name: (card.link.name ?? card.link.url) as string, target: "_blank" }
+        : undefined;
+      const searchText = [title, richTextToPlain(card?.content), card?.category?.label]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return {
+        id: card?.id as string,
+        categorySlug,
+        title,
+        searchText,
+        content: card?.content ?? undefined,
+        link,
+      };
+    })
+    .filter((it) => it.id && it.title);
+
+  return { groups, categories, items };
 }

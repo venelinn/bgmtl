@@ -60,5 +60,17 @@
 		"title": "Page not found",
 		"description": "The page you are looking for doesn't exist or has been moved.",
 		"goHome": "Go to homepage"
+	},
+	"Directory": {
+		"all": "All",
+		"searchPlaceholder": "Search for associations, keywords, or location…",
+		"searchAriaLabel": "Search listings",
+		"groupAriaLabel": "Filter by group",
+		"categoryAriaLabel": "Filter by category",
+		"clear": "Clear search",
+		"noResults": "No listings match your search.",
+		"suggestionsCategories": "Categories",
+		"suggestionsListings": "Listings",
+		"resultsCount": "{count} listings found"
 	}
 }
