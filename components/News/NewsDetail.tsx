@@ -41,7 +41,7 @@ export const NewsDetail = ({ news, locale, heroFallbackImage }: NewsDetailProps)
               }
             : { ...news.heading, size: "hero" as const, as: "h1" as const }
         }
-        description={
+        content={
           <FormattedDate dateStr={news.date} locale={locale} includeYear={true} fullFormat={true} />
         }
       />

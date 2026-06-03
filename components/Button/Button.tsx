@@ -4,15 +4,18 @@ import { Icon } from "@/components/Icon"
 import type { FormElementSize } from "@/types/forms"
 import styles from "./Button.module.scss"
 
-export type ButtonVariant =
-	| "primary"
-	| "success"
-	| "secondary"
-	| "toggle"
-	| "request"
-	| "danger"
-	| "warning"
-	| "link"
+export const BUTTON_VARIANTS = [
+	"primary",
+	"success",
+	"secondary",
+	"toggle",
+	"request",
+	"danger",
+	"warning",
+	"link",
+] as const
+
+export type ButtonVariant = (typeof BUTTON_VARIANTS)[number]
 type IconPosition = "left" | "right" | undefined
 
 export interface ButtonProps {

@@ -5,7 +5,8 @@ import {
 	type HeadingSizeValue,
 } from "@/components/Headings"
 import { CollectionConnector } from "@/components/Collection"
-import { contentfulEntryToLink } from "@/utils/linkHelpers"
+import { ContentfulLink } from "@/components/ContentfulLink"
+import { contentfulEntryToLink, getLinkFieldsUrl } from "@/utils/linkHelpers"
 import { contentfulCollectionToConnectorProps } from "./collectionTransformer"
 
 type EmbeddedEntryNode = {
@@ -53,44 +54,22 @@ export function renderEmbeddedEntryBlock(node: EmbeddedEntryNode) {
 		if (props) return <CollectionConnector {...props} />
 	}
 
-	// Handle Link/Button entries with URLs
-	let linkUrl =
-		(fields?.url as string) ||
-		(fields?.URL as string) ||
-		(
-			fields?.attachment as {
-				fields?: { url?: string; file?: { url?: string } }
-			}
-		)?.fields?.url ||
-		(fields?.attachment as { fields?: { file?: { url?: string } } })?.fields
-			?.file?.url
-
-	if (linkUrl?.startsWith("//")) linkUrl = `https:${linkUrl}`
-
-	if (contentType === "link" && linkUrl) {
-		const linkText = (fields?.name ??
-			fields?.title ??
-			fields?.Name ??
-			"Link") as string
-		const isExternalLink = linkUrl.startsWith("http")
-		const variant = (fields?.variant as string) ?? ""
-
-		return (
-			<a
-				href={linkUrl}
-				data-variant={variant}
-				data-text={linkText}
-				className={`${isExternalLink ? "external-link" : ""} ${variant === "button" ? "link--button" : "link"}`}
-				target={
-					(fields?.external ||
-						fields?.target ||
-						(isExternalLink ? "_blank" : "_self")) as string
-				}
-				rel={isExternalLink ? "noopener noreferrer" : ""}
-			>
-				<span className="link__text">{linkText}</span>
-			</a>
-		)
+	if (contentType === "link") {
+		const linkUrl = getLinkFieldsUrl(fields)
+		if (linkUrl) {
+			const linkText = (fields?.name ??
+				fields?.title ??
+				fields?.Name ??
+				"Link") as string
+			return (
+				<ContentfulLink
+					href={linkUrl}
+					fields={fields}
+					label={linkText}
+					isExternal={linkUrl.startsWith("http")}
+				/>
+			)
+		}
 	}
 
 	// Handle Page entries - render as internal links

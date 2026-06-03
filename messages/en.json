@@ -1,86 +1,86 @@
 {
-  "greeting": "Hello",
-  "Events": {
-    "event": "Event",
-    "sectionTitle": "Events",
-    "upcomingEvents": "Upcoming Events",
-    "pastEvents": "Past Events",
-    "backToEvents": "Back to Events",
-    "doorsOpenAt": "Doors open at",
-    "viewOnMap": "View on Map",
-    "viewGallery": "View Gallery",
-    "viewAll": "View all events",
-    "noEventsAvailable": "No events available",
-    "readMore": "read more",
-    "more": "more",
-    "buyTicket": "Buy Ticket",
-    "eventsCalendar": "Events Calendar",
-    "filterByYear": "Filter by year",
-    "allYears": "All years",
-    "location": "Location"
-  },
-  "Donate": {
-    "title": "Keep us going!",
-    "description": "Love what we do? Your support helps us maintain this platform.",
-    "button": "Buy a coffee",
-    "trust": "Donations are securely processed through PayPal"
-  },
-  "Join": {
-    "eyebrow": "Join Our Community",
-    "title": "Representing Bulgarian culture in Quebec.",
-    "description": "Connect with your heritage. Join our mailing list for upcoming cultural events, concerts, and community workshops.",
-    "emailPlaceholder": "Your email address",
-    "button": "Subscribe Now",
-    "subscribing": "Subscribing…",
-    "successMessage": "Thanks for subscribing",
-    "imageAlt": "Traditional Bulgarian embroidery"
-  },
-  "Contact": {
-    "name": "Name",
-    "email": "Email",
-    "message": "Message",
-    "submit": "Submit"
-  },
-  "Subscribe": {
-    "title": "Subscribe to our mailing list",
-    "description": "Stay updated with the latest news and events from our community.",
-    "emailPlaceholder": "Enter your email",
-    "firstNamePlaceholder": "First Name",
-    "lastNamePlaceholder": "Last Name",
-    "button": "Subscribe",
-    "subscribing": "Subscribing…",
-    "successMessage": "Thanks for subscribing",
-    "errorMessage": "An error occurred while subscribing. Please try again."
-  },
-  "Pagination": {
-    "first": "First",
-    "last": "Last",
-    "back": "Prev",
-    "next": "Next",
-    "of": "of"
-  },
-  "News": {
-    "backToNews": "Back to News",
-    "sectionTitle": "News",
-    "latestNews": "News",
-    "viewAll": "View all",
-    "readMore": "Read more"
-  },
-  "NotFound": {
-    "title": "Page not found",
-    "description": "The page you are looking for doesn't exist or has been moved.",
-    "goHome": "Go to homepage"
-  },
-  "Directory": {
-    "all": "All",
-    "searchPlaceholder": "Search for associations, keywords, or location…",
-    "searchAriaLabel": "Search listings",
-    "groupAriaLabel": "Filter by group",
-    "categoryAriaLabel": "Filter by category",
-    "clear": "Clear search",
-    "noResults": "No listings match your search.",
-    "suggestionsCategories": "Categories",
-    "suggestionsListings": "Listings",
-    "resultsCount": "{count} listings found"
-  }
+	"greeting": "Hello",
+	"Events": {
+		"event": "Event",
+		"sectionTitle": "Events",
+		"upcomingEvents": "Upcoming Events",
+		"pastEvents": "Past Events",
+		"backToEvents": "Back to Events",
+		"doorsOpenAt": "Doors open at",
+		"viewOnMap": "View on Map",
+		"viewGallery": "View Gallery",
+		"viewAll": "View all events",
+		"noEventsAvailable": "No events available",
+		"readMore": "read more",
+		"more": "more",
+		"buyTicket": "Buy Ticket",
+		"eventsCalendar": "Events Calendar",
+		"filterByYear": "Filter by year",
+		"allYears": "All years",
+		"location": "Location"
+	},
+	"Donate": {
+		"title": "Keep us going!",
+		"description": "Love what we do? Your support helps us maintain this platform.",
+		"button": "Buy a coffee",
+		"trust": "Donations are securely processed through PayPal"
+	},
+	"Join": {
+		"eyebrow": "Join Our Community",
+		"title": "Representing Bulgarian culture in Montreal.",
+		"description": "Connect with your heritage. Join our mailing list for upcoming cultural events, concerts, and community workshops.",
+		"emailPlaceholder": "Your email address",
+		"button": "Subscribe Now",
+		"subscribing": "Subscribing…",
+		"successMessage": "Thanks for subscribing",
+		"imageAlt": "Traditional Bulgarian embroidery"
+	},
+	"Contact": {
+		"name": "Name",
+		"email": "Email",
+		"message": "Message",
+		"submit": "Submit"
+	},
+	"Subscribe": {
+		"title": "Subscribe to our mailing list",
+		"description": "Stay updated with the latest news and events from our community.",
+		"emailPlaceholder": "Enter your email",
+		"firstNamePlaceholder": "First Name",
+		"lastNamePlaceholder": "Last Name",
+		"button": "Subscribe",
+		"subscribing": "Subscribing…",
+		"successMessage": "Thanks for subscribing",
+		"errorMessage": "An error occurred while subscribing. Please try again."
+	},
+	"Pagination": {
+		"first": "First",
+		"last": "Last",
+		"back": "Prev",
+		"next": "Next",
+		"of": "of"
+	},
+	"News": {
+		"backToNews": "Back to News",
+		"sectionTitle": "News",
+		"latestNews": "News",
+		"viewAll": "View all",
+		"readMore": "Read more"
+	},
+	"NotFound": {
+		"title": "Page not found",
+		"description": "The page you are looking for doesn't exist or has been moved.",
+		"goHome": "Go to homepage"
+	},
+	"Directory": {
+		"all": "All",
+		"searchPlaceholder": "Search for associations, keywords, or location…",
+		"searchAriaLabel": "Search listings",
+		"groupAriaLabel": "Filter by group",
+		"categoryAriaLabel": "Filter by category",
+		"clear": "Clear search",
+		"noResults": "No listings match your search.",
+		"suggestionsCategories": "Categories",
+		"suggestionsListings": "Listings",
+		"resultsCount": "{count} listings found"
+	}
 }

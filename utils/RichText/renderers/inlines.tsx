@@ -1,24 +1,10 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
-import type { Block, Inline } from "@contentful/rich-text-types"
-import { contentfulEntryToLink } from "@/utils/linkHelpers"
+import type { Inline } from "@contentful/rich-text-types"
+import { ContentfulLink } from "@/components/ContentfulLink"
+import { contentfulEntryToLink, getLinkFieldsUrl } from "@/utils/linkHelpers"
 
 type InlineNode = { data: Record<string, unknown> }
-
-function getLinkUrl(fields: Record<string, unknown>): string | undefined {
-	let url =
-		(fields?.url as string) ||
-		(fields?.URL as string) ||
-		(
-			fields?.attachment as {
-				fields?: { url?: string; file?: { url?: string } }
-			}
-		)?.fields?.url ||
-		(fields?.attachment as { fields?: { file?: { url?: string } } })?.fields
-			?.file?.url
-	if (url?.startsWith("//")) url = `https:${url}`
-	return url
-}
 
 export function renderInlineEntryLink(node: InlineNode, children: ReactNode) {
 	const entry = node.data?.target as {
@@ -29,7 +15,7 @@ export function renderInlineEntryLink(node: InlineNode, children: ReactNode) {
 	const contentType = entry?.sys?.contentType?.sys?.id
 
 	if (contentType === "link") {
-		const linkUrl = getLinkUrl(fields)
+		const linkUrl = getLinkFieldsUrl(fields)
 		if (linkUrl) {
 			const hasChildren = Array.isArray(children)
 				? children.length > 0
@@ -37,24 +23,15 @@ export function renderInlineEntryLink(node: InlineNode, children: ReactNode) {
 			const linkText = hasChildren
 				? children
 				: ((fields?.name ?? fields?.title ?? fields?.Name ?? "Link") as string)
-			const isExternalLink = linkUrl.startsWith("http")
-			const variant = (fields?.variant as string) ?? ""
 
 			return (
-				<a
+				<ContentfulLink
 					href={linkUrl}
-					data-variant={variant}
-					data-text={linkText}
-					className={`${isExternalLink ? "external-link" : ""} ${variant === "button" ? "link--button" : "link"}`}
-					target={
-						(fields?.target ??
-							fields?.external ??
-							(isExternalLink ? "_blank" : "_self")) as string
-					}
-					rel={isExternalLink ? "noopener noreferrer" : ""}
+					fields={fields}
+					isExternal={linkUrl.startsWith("http")}
 				>
-					<span className="link__text">{linkText}</span>
-				</a>
+					{linkText}
+				</ContentfulLink>
 			)
 		}
 	}
@@ -127,7 +104,7 @@ export function renderEntryHyperlink(node: InlineNode, children: ReactNode) {
 	const contentType = entry?.sys?.contentType?.sys?.id
 
 	if (contentType === "link") {
-		const linkUrl = getLinkUrl(fields)
+		const linkUrl = getLinkFieldsUrl(fields)
 		if (linkUrl) {
 			const hasChildren = Array.isArray(children)
 				? children.length > 0
@@ -135,22 +112,15 @@ export function renderEntryHyperlink(node: InlineNode, children: ReactNode) {
 			const linkText = hasChildren
 				? children
 				: ((fields?.name ?? fields?.title ?? fields?.Name ?? "Link") as string)
-			const isExternalLink = linkUrl.startsWith("http")
-			const variant = (fields?.variant as string) ?? ""
 
 			return (
-				<a
+				<ContentfulLink
 					href={linkUrl}
-					className={`link link--active ${isExternalLink ? "external-link" : ""} ${variant ? `link--${variant}` : ""}`}
-					target={
-						(fields?.target ??
-							fields?.external ??
-							(isExternalLink ? "_blank" : "_self")) as string
-					}
-					rel={isExternalLink ? "noopener noreferrer" : ""}
+					fields={fields}
+					isExternal={linkUrl.startsWith("http")}
 				>
-					<span className="link__text">{linkText}</span>
-				</a>
+					{linkText}
+				</ContentfulLink>
 			)
 		}
 	}

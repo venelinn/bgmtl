@@ -32,6 +32,7 @@ export function Join({ image }: JoinProps) {
 			aria-label={t("title")}
 			classNames={{ inner: styles.join }}
 			paddingControl="removeTop"
+			id="join-our-community"
 		>
 			<div className={styles.join__content}>
 				<span className={styles.join__eyebrow}>{t("eyebrow")}</span>
@@ -55,7 +56,7 @@ export function Join({ image }: JoinProps) {
 						variant="primary"
 						disabled={status === "loading"}
 						label={status === "loading" ? t("subscribing") : t("button")}
-						iconAfter="Send"
+						icon="Send"
 						className={styles.join__submit}
 					/>
 				</form>

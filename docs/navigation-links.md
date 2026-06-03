@@ -60,6 +60,8 @@ headerMenu
 link
   ├── name: String           ("Facebook", "Contact Us")
   ├── url: String            ("https://facebook.com/...")
+  ├── type: String           ("link" | "button" — stored as `linkPresentation` after mapEntry)
+  ├── variant: String        (Button variant when type is "button": primary, secondary, …)
   ├── target: String         ("_blank" or undefined)
   └── iconName: String       ("Facebook" — Lucide icon name)
 

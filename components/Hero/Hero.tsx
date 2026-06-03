@@ -2,6 +2,7 @@
 import gsap from "gsap";
 import Image from "next/image";
 import { Fragment, useEffect, useRef } from "react";
+import { type HeroContent, renderHeroBody } from "./heroContent";
 import { Section, type SectionProps } from "@/components/Section";
 import { ViewTransition } from "@/components/ViewTransition";
 import useReduceMotion from "@/hooks/useReduceMotion";
@@ -9,10 +10,15 @@ import { getOptimizedImage } from "@/utils/common";
 import { Heading, type HeadingProps } from "../Headings";
 import styles from "./Hero.module.scss";
 
+export type { HeroContent } from "./heroContent";
+
 export interface HeroProps {
   images?: any[];
   heading?: HeadingProps;
-  description?: React.ReactNode;
+  /** One or more body blocks from Contentful (Rich Text + legacy description). */
+  bodies?: HeroContent[];
+  /** Single body — used by EventDetail, NewsDetail, etc. */
+  content?: HeroContent;
   animationID?: string;
   height?: SectionProps["height"];
   imageAlignment?: "top" | "bottom";
@@ -20,7 +26,7 @@ export interface HeroProps {
   /** Enable/disable image animations (Ken Burns / slide). Default: true */
   imageAnimate?: boolean;
   size?: SectionProps["size"];
-  /** Where the title/description block sits within the hero. Default: "center" */
+  /** Where the title/content block sits within the hero. Default: "center" */
   titlePosition?: "center" | "bottom-left" | "bottom-center";
   /**
    * view-transition-name for the first hero image. Set this to the same name a
@@ -33,7 +39,8 @@ export interface HeroProps {
 export const Hero = ({
   images,
   heading,
-  description,
+  bodies,
+  content,
   animationID = "hero",
   height,
   size = "full",
@@ -45,6 +52,7 @@ export const Hero = ({
 }: HeroProps) => {
   const reduceMotion = useReduceMotion();
   const heroRef = useRef<HTMLDivElement>(null);
+  const heroBodies = bodies?.length ? bodies : content != null ? [content] : [];
 
   // Normalize Contentful / external images
   const heroImages =
@@ -106,11 +114,11 @@ export const Hero = ({
         });
       }
       if (desc) {
-        gsap.set(desc, {
-          autoAlpha: animateContent ? 0 : 1,
-          y: animateContent ? 20 : 0,
-          filter: animateContent ? "blur(8px)" : "blur(0px)",
-        });
+        if (animateContent) {
+          gsap.set(desc, { autoAlpha: 0, y: 20, filter: "blur(8px)" });
+        } else {
+          gsap.set(desc, { autoAlpha: 1, y: 0, filter: "none", clearProps: "opacity,visibility" });
+        }
       }
       // ===== ANIMATE CONTENT IN =====
       const animateContentIn = () => {
@@ -249,7 +257,13 @@ export const Hero = ({
             {heading.heading}
           </Heading>
         )}
-        {description && <p data-hero-desc>{description}</p>}
+        {heroBodies.length > 0 ? (
+          <div className={styles.hero__body} data-hero-desc>
+            {heroBodies.map((part, index) => (
+              <Fragment key={index}>{renderHeroBody(part)}</Fragment>
+            ))}
+          </div>
+        ) : null}
       </div>
     </Section>
   );

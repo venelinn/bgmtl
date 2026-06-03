@@ -145,9 +145,9 @@
     --_btn-bg-color: var(--system-error);
     // --_btn-border-color: hsl(from var(--color-green) h s calc(l - 10));
     --_btn-border-color: var(--system-error);
-    --_btn-hover-bg-color: var(--color-shade-100);
+    --_btn-hover-bg-color: color-mix(in srgb, var(--system-error), black 25%);
     --_btn-hover-border-color: var(--system-error);
-    --_btn-hover-color: var(--system-error);
+    --_btn-hover-color: var(--color-white);
     &.is-outlined {
       --_btn-color: var(--system-error);
       --_btn-bg-color: var(--color-shade-100);
@@ -187,7 +187,7 @@
     --_btn-min-width: auto;
     --_btn-hover-bg-color: transparent;
     --_btn-hover-border-color: var(--color-shade-55);
-    --_btn-hover-color: var(--color-highlight);
+    --_btn-hover-color: var(--color-highlight	);
 		--_btn-padding-inline: 0;
 		border: 0;
 		&:hover {

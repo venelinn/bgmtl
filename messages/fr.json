@@ -1,86 +1,86 @@
 {
-  "greeting": "Bonjour",
-  "Events": {
-    "event": "Événement",
-    "sectionTitle": "Événements",
-    "upcomingEvents": "Événements à venir",
-    "pastEvents": "Événements passés",
-    "backToEvents": "Retour aux événements",
-    "doorsOpenAt": "Ouverture des portes à",
-    "viewOnMap": "Voir sur la carte",
-    "viewGallery": "Voir la galerie",
-    "viewAll": "Voir tous les événements",
-    "noEventsAvailable": "Aucun événement disponible",
-    "readMore": "lire la suite",
-    "more": "plus",
-    "buyTicket": "Acheter un billet",
-    "eventsCalendar": "Calendrier des événements",
-    "filterByYear": "Filtrer par année",
-    "allYears": "Toutes les années",
-    "location": "Lieu"
-  },
-  "Donate": {
-    "title": "Soutenez-nous!",
-    "description": "Vous aimez ce que nous faisons ? Votre soutien nous aide à maintenir cette plateforme.",
-    "button": "Offrez-nous un café",
-    "trust": "Les dons sont traités de manière sécurisée par PayPal"
-  },
-  "Join": {
-    "eyebrow": "Rejoignez notre communauté",
-    "title": "Représenter la culture bulgare au Québec.",
-    "description": "Renouez avec votre patrimoine. Inscrivez-vous à notre infolettre pour découvrir les prochains événements culturels, concerts et ateliers communautaires.",
-    "emailPlaceholder": "Votre adresse courriel",
-    "button": "S’abonner",
-    "subscribing": "Abonnement…",
-    "successMessage": "Merci de votre abonnement",
-    "imageAlt": "Broderie bulgare traditionnelle"
-  },
-  "Contact": {
-    "name": "Nom",
-    "email": "Courriel",
-    "message": "Message",
-    "submit": "Envoyer"
-  },
-  "Subscribe": {
-    "title": "Abonnez-vous à notre liste d’envoi",
-    "description": "Restez informé des dernières nouvelles et événements de notre communauté.",
-    "emailPlaceholder": "Entrez votre courriel",
-    "firstNamePlaceholder": "Prénom",
-    "lastNamePlaceholder": "Nom de famille",
-    "button": "S’abonner",
-    "subscribing": "Abonnement en cours…",
-    "successMessage": "Merci de votre abonnement",
-    "errorMessage": "Une erreur est survenue lors de l’abonnement. Veuillez réessayer."
-  },
-  "Pagination": {
-    "first": "Premier",
-    "last": "Dernier",
-    "back": "Précédent",
-    "next": "Suivant",
-    "of": "sur"
-  },
-  "News": {
-    "backToNews": "Retour aux actualités",
-    "sectionTitle": "Actualités",
-    "latestNews": "Actualités",
-    "viewAll": "Voir tout",
-    "readMore": "Lire la suite"
-  },
-  "NotFound": {
-    "title": "Page introuvable",
-    "description": "La page que vous recherchez n'existe pas ou a été déplacée.",
-    "goHome": "Retour à l'accueil"
-  },
-  "Directory": {
-    "all": "Tout",
-    "searchPlaceholder": "Rechercher une association, un mot-clé ou un lieu…",
-    "searchAriaLabel": "Rechercher dans les fiches",
-    "groupAriaLabel": "Filtrer par groupe",
-    "categoryAriaLabel": "Filtrer par catégorie",
-    "clear": "Effacer la recherche",
-    "noResults": "Aucune fiche ne correspond à votre recherche.",
-    "suggestionsCategories": "Catégories",
-    "suggestionsListings": "Fiches",
-    "resultsCount": "{count} fiches trouvées"
-  }
+	"greeting": "Bonjour",
+	"Events": {
+		"event": "Événement",
+		"sectionTitle": "Événements",
+		"upcomingEvents": "Événements à venir",
+		"pastEvents": "Événements passés",
+		"backToEvents": "Retour aux événements",
+		"doorsOpenAt": "Ouverture des portes à",
+		"viewOnMap": "Voir sur la carte",
+		"viewGallery": "Voir la galerie",
+		"viewAll": "Voir tous les événements",
+		"noEventsAvailable": "Aucun événement disponible",
+		"readMore": "lire la suite",
+		"more": "plus",
+		"buyTicket": "Acheter un billet",
+		"eventsCalendar": "Calendrier des événements",
+		"filterByYear": "Filtrer par année",
+		"allYears": "Toutes les années",
+		"location": "Lieu"
+	},
+	"Donate": {
+		"title": "Soutenez-nous!",
+		"description": "Vous aimez ce que nous faisons ? Votre soutien nous aide à maintenir cette plateforme.",
+		"button": "Offrez-nous un café",
+		"trust": "Les dons sont traités de manière sécurisée par PayPal"
+	},
+	"Join": {
+		"eyebrow": "Rejoignez notre communauté",
+		"title": "Représenter la culture bulgare au Montréal.",
+		"description": "Renouez avec votre patrimoine. Inscrivez-vous à notre infolettre pour découvrir les prochains événements culturels, concerts et ateliers communautaires.",
+		"emailPlaceholder": "Votre adresse courriel",
+		"button": "S’abonner",
+		"subscribing": "Abonnement…",
+		"successMessage": "Merci de votre abonnement",
+		"imageAlt": "Broderie bulgare traditionnelle"
+	},
+	"Contact": {
+		"name": "Nom",
+		"email": "Courriel",
+		"message": "Message",
+		"submit": "Envoyer"
+	},
+	"Subscribe": {
+		"title": "Abonnez-vous à notre liste d’envoi",
+		"description": "Restez informé des dernières nouvelles et événements de notre communauté.",
+		"emailPlaceholder": "Entrez votre courriel",
+		"firstNamePlaceholder": "Prénom",
+		"lastNamePlaceholder": "Nom de famille",
+		"button": "S’abonner",
+		"subscribing": "Abonnement en cours…",
+		"successMessage": "Merci de votre abonnement",
+		"errorMessage": "Une erreur est survenue lors de l’abonnement. Veuillez réessayer."
+	},
+	"Pagination": {
+		"first": "Premier",
+		"last": "Dernier",
+		"back": "Précédent",
+		"next": "Suivant",
+		"of": "sur"
+	},
+	"News": {
+		"backToNews": "Retour aux actualités",
+		"sectionTitle": "Actualités",
+		"latestNews": "Actualités",
+		"viewAll": "Voir tout",
+		"readMore": "Lire la suite"
+	},
+	"NotFound": {
+		"title": "Page introuvable",
+		"description": "La page que vous recherchez n'existe pas ou a été déplacée.",
+		"goHome": "Retour à l'accueil"
+	},
+	"Directory": {
+		"all": "Tout",
+		"searchPlaceholder": "Rechercher une association, un mot-clé ou un lieu…",
+		"searchAriaLabel": "Rechercher dans les fiches",
+		"groupAriaLabel": "Filtrer par groupe",
+		"categoryAriaLabel": "Filtrer par catégorie",
+		"clear": "Effacer la recherche",
+		"noResults": "Aucune fiche ne correspond à votre recherche.",
+		"suggestionsCategories": "Catégories",
+		"suggestionsListings": "Fiches",
+		"resultsCount": "{count} fiches trouvées"
+	}
 }

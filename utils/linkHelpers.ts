@@ -5,10 +5,72 @@
  * that can be used across navigation, footer, accordions, etc.
  *
  * Supports bilingual URLs via locale prefixing.
+ *
+ * Link entry appearance (Contentful):
+ * - `type` (mapped to `linkPresentation`): "link" | "button" — text vs button UI
+ * - `variant`: Button variant when presentation is "button"
  */
 
+import { BUTTON_VARIANTS, type ButtonVariant } from "@/components/Button";
+import type { FormElementSize } from "@/types/forms";
 import { normalizeSlug } from "./common";
 import { localization } from "./localization";
+
+export const LINK_PRESENTATIONS = ["link", "button"] as const;
+export type LinkPresentation = (typeof LINK_PRESENTATIONS)[number];
+
+const BUTTON_SIZES = ["sm", "md"] as const;
+
+export function isLinkButtonVariant(value: string | undefined): value is ButtonVariant {
+  return Boolean(value && (BUTTON_VARIANTS as readonly string[]).includes(value));
+}
+
+function isButtonSize(value: string | undefined): value is FormElementSize {
+  return Boolean(value && (BUTTON_SIZES as readonly string[]).includes(value));
+}
+
+/**
+ * Resolves presentation + button variant + size from Contentful link fields.
+ *
+ * Presentation is "button" when `type`/`linkPresentation` says so, or when
+ * `variant` is a real button style (e.g. "primary", "secondary") rather than the
+ * legacy "link"/"button" sentinel. Supports legacy `variant: "link" | "button"`
+ * from before `type` was introduced.
+ */
+export function parseLinkAppearance(fields: Record<string, unknown>): {
+  presentation: LinkPresentation;
+  buttonVariant: ButtonVariant;
+  buttonSize: FormElementSize;
+} {
+  const rawType = fields.type as string | undefined;
+  const rawPresentation = fields.linkPresentation as string | undefined;
+  const rawVariant = fields.variant as string | undefined;
+  const rawSize = fields.size as string | undefined;
+
+  let presentation: LinkPresentation = "link";
+
+  if (rawType === "link" || rawType === "button") {
+    presentation = rawType;
+  } else if (rawPresentation === "link" || rawPresentation === "button") {
+    presentation = rawPresentation;
+  } else if (rawVariant === "link") {
+    presentation = "link";
+  } else if (rawVariant === "button" || isLinkButtonVariant(rawVariant)) {
+    // A concrete button variant (primary, secondary, …) implies a button.
+    presentation = "button";
+  }
+
+  const buttonVariant =
+    presentation === "button" && isLinkButtonVariant(rawVariant) && rawVariant !== "link"
+      ? rawVariant
+      : presentation === "button" && isLinkButtonVariant(rawType)
+        ? rawType
+        : "primary";
+
+  const buttonSize: FormElementSize = isButtonSize(rawSize) ? rawSize : "md";
+
+  return { presentation, buttonVariant, buttonSize };
+}
 
 export type LinkItem = {
   id: string;
@@ -19,7 +81,25 @@ export type LinkItem = {
   target?: string;
   icon: string | null;
   highlight?: boolean;
+  presentation?: LinkPresentation;
+  buttonVariant?: ButtonVariant;
+  buttonSize?: FormElementSize;
 };
+
+/** URL from a raw Contentful link entry `fields` object (rich text, embeds). */
+export function getLinkFieldsUrl(fields: Record<string, unknown>): string | undefined {
+  let url =
+    (fields.url as string) ||
+    (fields.URL as string) ||
+    (
+      fields.attachment as {
+        fields?: { url?: string; file?: { url?: string } };
+      }
+    )?.fields?.url ||
+    (fields.attachment as { fields?: { file?: { url?: string } } })?.fields?.file?.url;
+  if (url?.startsWith("//")) url = `https:${url}`;
+  return url;
+}
 
 /**
  * Infers a Lucide icon name from a social media URL.
@@ -94,6 +174,7 @@ export function contentfulItemToLink(
     const title = (item.name as string) ?? "";
     const url = (item.url as string) ?? "#";
     const iconName = (item.iconName as string) || inferIconFromUrl(url) || null;
+    const { presentation, buttonVariant, buttonSize } = parseLinkAppearance(item);
     return {
       id: item.id as string,
       url,
@@ -102,6 +183,9 @@ export function contentfulItemToLink(
       target: item.target as string | undefined,
       icon: iconName,
       highlight: normalizeHighlight(item),
+      presentation,
+      buttonVariant,
+      buttonSize,
     };
   }
 
@@ -150,10 +234,11 @@ export function contentfulEntryToLink(
   const appLocale = locale ?? (entry.sys?.locale?.split("-")[0] as string | undefined);
 
   if (contentType === "link") {
-    const linkUrl = (fields.url as string) ?? (fields.URL as string) ?? "#";
+    const linkUrl = getLinkFieldsUrl(fields) ?? "#";
     const title = (fields.name as string) ?? (fields.title as string) ?? "Link";
     const isExternal = linkUrl.startsWith("http");
     const target = (fields.target as string) ?? (fields.external ? "_blank" : isExternal ? "_blank" : "_self");
+    const { presentation, buttonVariant, buttonSize } = parseLinkAppearance(fields);
     return {
       id: (entry.sys?.id as string) ?? "",
       url: linkUrl,
@@ -162,6 +247,9 @@ export function contentfulEntryToLink(
       target: target || undefined,
       icon: null,
       highlight: false,
+      presentation,
+      buttonVariant,
+      buttonSize,
     };
   }
 

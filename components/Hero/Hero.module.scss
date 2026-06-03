@@ -51,11 +51,17 @@
 }
 
 .hero__content {
-	text-align: var(--_content-text-align, center);
-  p {
-		margin: 0;
+  position: relative;
+  z-index: 2;
+  text-align: var(--_content-text-align, center);
+	display: grid;
+	gap: var(--spacing-4);
+}
+
+.hero__body {
+  :where(p) {
+    margin: 0;
     @media (min-width: base.$breakpoint-md) {
-      // max-width: 75%;
       text-wrap: balance;
     }
   }

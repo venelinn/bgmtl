@@ -522,11 +522,11 @@ function mapEntry(entry: any, localePassed?: string) {
       // with "_" like _rawHeading so it never collides with a CMS field name.
       _updatedAt: entry.sys?.updatedAt,
       ...Object.fromEntries(
-        Object.entries(entry.fields).map(([key, value]) => [
-          // Preserve original casing here, which fixes siteConfig issues
-          key,
-          parseField(value, locale),
-        ]),
+        Object.entries(entry.fields).map(([key, value]) => {
+          // Link entries use a CMS `type` field (link | button) — keep sys content type on `type`
+          const fieldKey = key === "type" && type === "link" ? "linkPresentation" : key;
+          return [fieldKey, parseField(value, locale)];
+        }),
       ),
     };
 
@@ -543,6 +543,31 @@ function mapEntry(entry: any, localePassed?: string) {
   return null;
 }
 
+function isLocaleFieldMap(obj: Record<string, unknown>): boolean {
+  const keys = Object.keys(obj);
+  if (keys.length === 0) return false;
+  return keys.every((k) => /^[a-z]{2}(-[A-Z]{2})?$/i.test(k));
+}
+
+/** Flatten `{ "bg-BG": doc }` when a field was not resolved to the request locale. */
+function unwrapLocaleField(value: unknown, locale: string): unknown {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return value;
+  if ("sys" in value && (value as { sys?: unknown }).sys) return value;
+  if ((value as { nodeType?: string }).nodeType === "document") return value;
+
+  const record = value as Record<string, unknown>;
+  if (!isLocaleFieldMap(record)) return value;
+
+  const contentfulLocale = getContentfulLocale(locale);
+  return (
+    record[contentfulLocale] ??
+    record[locale] ??
+    record["bg-BG"] ??
+    record["en-CA"] ??
+    Object.values(record)[0]
+  );
+}
+
 function parseField(value: any, locale: string) {
   if (typeof value === "object" && value?.sys) return mapEntry(value, locale);
   if (Array.isArray(value)) {
@@ -553,7 +578,7 @@ function parseField(value: any, locale: string) {
       return mapEntry(v, locale);
     });
   }
-  return value;
+  return unwrapLocaleField(value, locale);
 }
 
 async function getContentModel(contentType: string, locale: string) {

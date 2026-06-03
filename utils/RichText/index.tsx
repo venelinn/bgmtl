@@ -6,19 +6,28 @@ export { renderEmbeddedEntryBlock } from "./renderers/embeddedEntry";
 export { renderEmbeddedAssetBlock } from "./renderers/embeddedAsset";
 export { getCloudinaryImageURL } from "./utils";
 
+/** Contentful Rich Text document root */
+export function isRichTextDocument(value: unknown): value is Document {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    (value as { nodeType?: string }).nodeType === "document" &&
+    Array.isArray((value as { content?: unknown }).content)
+  );
+}
+
 /**
  * Renders Contentful Rich Text content to React components.
  * Supports: headings, links, pages, images, collections (embedded), and hyperlinks.
  */
 export function renderRichTextContent(content: unknown) {
   if (!content) {
-    console.warn("⚠️ RichText: No content provided");
     return null;
   }
 
   if (typeof content === "string") {
-    console.warn("⚠️ RichText: Received string content instead of Document");
-    return <p>{content}</p>;
+    const trimmed = content.trim();
+    return trimmed ? <p>{trimmed}</p> : null;
   }
 
   const options = getRichTextOptions();

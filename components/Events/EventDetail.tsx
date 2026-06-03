@@ -92,7 +92,7 @@ export const EventDetail = ({
 							}
 						: { ...event.heading, size: "hero" as const, as: "h1" as const }
 				}
-				description={event.venue}
+				content={event.venue}
 			/>
 			<Section size="small">
 				<div className={styles.eventDetail}>
