@@ -24,7 +24,7 @@ export function HomeEventsHeader({
 	return (
 		<div className={styles.header}>
 			<Heading as="h2" size="h4" className={styles.header__title}>
-				<Icon name="Guitar" />
+				<Icon name="PartyPopper" />
 				{t("sectionTitle")}
 			</Heading>
 			{showViewAll && (

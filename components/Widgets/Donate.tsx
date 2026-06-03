@@ -76,9 +76,9 @@ export const DonateWidget = ({ variant = "light" }: DonateWidgetProps) => {
 			<Button
 				externalHref={PAYPAL_DONATE_URL}
 				isExternal
-				iconAfter="Coffee"
+				icon="Coffee"
 				label={t("Donate.button")}
-				variant="primary"
+				variant="success"
 				className={styles["donate-widget__button"]}
 			/>
 
