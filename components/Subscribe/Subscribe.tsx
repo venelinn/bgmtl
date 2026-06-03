@@ -1,54 +1,16 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { Button } from "@/components/Button";
 import { InputField } from "@/components/Forms/Input";
 import { Heading } from "@/components/Headings";
 import styles from "./Subscribe.module.scss";
+import { useSubscribe } from "./useSubscribe";
 
 export default function SubscribeForm() {
   const t = useTranslations();
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus("loading");
-    setErrorMessage("");
-
-    try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          firstName,
-          lastName,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        console.log("Subscribe error:", res.status, data);
-        setErrorMessage(data.error || t("Subscribe.errorMessage"));
-        setStatus("error");
-        return;
-      }
-
-      setStatus("success");
-      setEmail("");
-      setFirstName("");
-      setLastName("");
-    } catch {
-      setErrorMessage(t("Subscribe.errorMessage"));
-      setStatus("error");
-    }
-  }
+  const { email, setEmail, firstName, setFirstName, lastName, setLastName, status, errorMessage, handleSubmit } =
+    useSubscribe();
 
   return (
     <div className={styles.form}>

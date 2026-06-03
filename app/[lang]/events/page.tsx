@@ -69,7 +69,7 @@ export default async function EventsPage(props: { params: Params }) {
 					images={heroImages}
 					size="full"
 					imageAlignment="top"
-					height="quarter"
+					height="half"
 					heading={{ heading: title, size: "hero", as: "h1" }}
 				/>
 			)}
