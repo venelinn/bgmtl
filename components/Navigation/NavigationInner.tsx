@@ -23,7 +23,11 @@ type NavigationInnerProps = {
 export function NavigationInner({ pageLocale, data }: NavigationInnerProps) {
   const { setRef, sticky, stuck, fixed, isOpen, toggle } = (useNavigationContext() as any) || {};
   const { logoLink, logo, menuLinks } = data;
-  const [navigationRef, { height }]: any = useElementSize() as any;
+
+	const [navigationRef, { height }]: any = useElementSize() as any
+	const [navigationOuterRef, { height: outerHeight }]: any =
+		useElementSize() as any
+
   const pathname = usePathname();
 
   const menuColumns = extractMenuColumns(menuLinks ?? [], pageLocale, "header");
@@ -35,7 +39,8 @@ export function NavigationInner({ pageLocale, data }: NavigationInnerProps) {
   }, [fixed]);
 
   return (
-    <header data-header className={cx(styles.navigation, "full-width", { [styles["is-open"]]: isOpen })}>
+    <div ref={navigationOuterRef} className={cx(styles.header, "content-grid")}>
+		<header data-header className={cx(styles.navigation, "full-width", { [styles["is-open"]]: isOpen })}>
       <style jsx global>{`
         :root {
           --navigation-height: ${height}px;
@@ -106,5 +111,6 @@ export function NavigationInner({ pageLocale, data }: NavigationInnerProps) {
         <Hamburger isOpen={isOpen} toggle={toggle} />
       </div>
     </header>
+		</div>
   );
 }

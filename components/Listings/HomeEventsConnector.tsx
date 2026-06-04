@@ -3,6 +3,7 @@ import { Event } from "@/components/Events/Event";
 import type { EventItem } from "@/types/events";
 import { getFallbackImageUrl, getListingsData } from "@/utils/content";
 import { HomeEventsHeader } from "./HomeEventsHeader";
+import { Section } from "@/components/Section";
 
 type HomeEventsConnectorProps = {
   locale: string;
@@ -38,9 +39,9 @@ export async function HomeEventsConnector({ locale, limit = 3, preview = false }
   }));
 
   return (
-    <section>
+    <Section padding="none">
       <HomeEventsHeader href={`/${locale}/events`} showViewAll={section.hasMore} />
       <GridCollection items={items} itemsPerRow={1} />
-    </section>
+    </Section>
   );
 }

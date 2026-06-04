@@ -2,22 +2,34 @@
 @use "styles/typo-mixins" as typo;
 @use "styles/mixins" as shared;
 
+
+.header {
+  --_content-grid-column: full-width;
+	position: var(--_navigation-position, sticky);
+  top: 0;
+	width: 100%;
+  z-index: 100;
+  /* Overlay: cancel the space the sticky header reserves so content scrolls
+     under it (acts like fixed, but stays sticky so scroll-state still fires).
+     Set --_header-height to match the rendered header height. */
+  margin-bottom: calc(-1 * var(--_header-height, 80px));
+  /* SCROLL-STATE: Container for stuck detection */
+  container-type: scroll-state;
+  container-name: header;
+}
+
+
 .navigation {
   // --navigation-color: var(--color-white);
+	position: relative;
+	width: 100%;
+  // max-width: var(--_section-max-width);
   color: var(--navigation-color, var(--color-white));
-  position: var(--_navigation-position, sticky);
-  top: 0;
-  left: 0;
-  width: 100%;
-  right: 0;
-  z-index: 1;
   flex: 0 0 auto;
   padding: var(--navigation-padding, 0);
   min-height: var(--section-min-height);
-	container-type: scroll-state;
-  container-name: header;
-  background-color: var(--_header-bgr, var(--color-main));
-  //box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+	background-color: var(--_header-bgr, var(--color-main));
+  box-shadow: var(--_navigation-box-shadow, none);
   letter-spacing: 0;
 	background-image: var(--_navigation-bgr, none);
   &.is-open {
@@ -25,9 +37,21 @@
     --_navigation-position: fixed;
     height: 100%;
   }
-  // @media (max-width: base.$breakpoint-lg) {
-  //   --_navigation-position: fixed;
-  // }
+  @supports (container-type: scroll-state) {
+		@container header scroll-state(stuck: top) {
+			// Translucent so the blurred ::after shows through (opaque bg would hide it)
+			// --_header-bgr: color-mix(in srgb, var(--color-main) 70%, transparent);
+      // --_navigation-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+			&:after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				z-index: -1;
+				backdrop-filter: blur(8px);
+				backface-visibility: hidden;
+			}
+    }
+  }
 
   &__inner {
     display: grid;
