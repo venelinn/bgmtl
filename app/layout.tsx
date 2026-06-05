@@ -45,6 +45,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         {/*
+          Theme bootstrap. Runs before first paint so the saved/preferred theme
+          is on <html> before any CSS resolves — prevents a flash of light mode.
+          Reads localStorage('bgmtl-theme'); falls back to the OS preference.
+          The ThemeToggle (header) reads and updates this same attribute + key.
+        */}
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: pre-paint gate, must be inline + synchronous
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem('bgmtl-theme');var t=(s==='light'||s==='dark')?s:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;}catch(e){}})();`,
+          }}
+        />
+        {/*
           We do NOT wrap with ClientLayout here.
           The [lang]/layout.tsx will do that.
         */}

@@ -71,7 +71,7 @@
   margin: 0;
   min-width: 11rem;
   padding: var(--spacing-1-5);
-  background: var(--color-white);
+  background: var(--surface-container);
   border: 1px solid var(--color-grey-border);
   border-radius: var(--spacing-3);
   box-shadow: 0 10px 30px color-mix(in srgb, var(--color-black) 12%, transparent);
@@ -91,7 +91,7 @@
   gap: var(--spacing-2);
   padding: var(--spacing-2) var(--spacing-3);
   border-radius: var(--spacing-2);
-  color: var(--color-main);
+  color: var(--on-surface);
   font-size: var(--ui-small-font-size);
   font-weight: var(--font-weight-medium);
   text-decoration: none;

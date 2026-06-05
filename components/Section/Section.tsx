@@ -53,7 +53,9 @@ export type SectionProps = {
 	description?: string | undefined
 	imageAlignment?: "top" | "bottom" | undefined
 	headingVariant?: "horizontal" | "vertical"
-	theme?: "light" | "dark" | "highlight" | "transparent"
+	/** Section background variant. Renamed from `theme` to avoid colliding with
+	 * the global `[data-theme="dark"]` used for app-wide dark mode. */
+	tone?: "surface" | "muted" | "highlight" | "transparent"
 	as?: (typeof SectionAsElement)[keyof typeof SectionAsElement]
 	padding?: (typeof SectionPadding)[keyof typeof SectionPadding]
 	paddingControl?: keyof typeof SectionPaddingControl | null
@@ -80,7 +82,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
 		padding = "medium",
 		paddingControl,
 		actions,
-		theme,
+		tone,
 		"data-title-position": dataTitlePosition,
 		"data-js": dataJs,
 		"data-slider": dataSlider,
@@ -113,7 +115,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
 			className={classes}
 			data-anim={animationID || undefined}
 			data-full={height}
-			data-theme={theme}
+			data-tone={tone}
 			data-size={size}
 			data-padding={padding}
 			data-title-position={dataTitlePosition}

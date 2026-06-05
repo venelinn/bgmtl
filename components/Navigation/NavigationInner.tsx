@@ -13,6 +13,7 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Hamburger } from "./Hamburger";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { NavMenuGroup } from "./NavMenuGroup";
+import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Navigation.module.scss";
 
 type NavigationInnerProps = {
@@ -105,6 +106,7 @@ export function NavigationInner({ pageLocale, data }: NavigationInnerProps) {
                 })}
             </ul>
           </div>
+          <ThemeToggle />
           <LocaleSwitcher pageLocale={pageLocale} />
         </div>
 

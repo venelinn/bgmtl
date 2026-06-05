@@ -104,7 +104,7 @@
 
   &__right {
     display: var(--_display-menu-nav, none);
-    gap: var(--spacing-4);
+    // gap: var(--spacing-4);
     @media (min-width: base.$breakpoint-lg) {
       align-items: center;
       justify-self: end;
@@ -266,7 +266,7 @@
     padding: var(--spacing-2) var(--spacing-3);
     border-radius: var(--spacing-2);
     width: 100%;
-    color: var(--color-main);
+    color: var(--on-surface);
     font-size: var(--ui-small-font-size);
     font-weight: var(--font-weight-medium);
     text-decoration: none;
@@ -292,7 +292,7 @@
     position: absolute;
     top: anchor(end);
     left: anchor(start);
-    background: var(--color-white);
+    background: var(--surface-container);
     border-radius: var(--spacing-3);
     padding: var(--spacing-1-5);
     font-weight: var(--font-weight-normal);
@@ -348,7 +348,7 @@
       transform: translateY(-50%);
       width: 100%;
       height: 1px;
-      background-color: var(--color-white);
+      background-color: var(--surface-container);
       transition-timing-function: var(--ease-in);
       transition-duration: 0.3s;
 

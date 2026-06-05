@@ -8,14 +8,14 @@
   border-top-color: var(--_pagination-border-color, var(--color-gray-400));
   margin: auto;
   width: var(--_pagination-width, max-content);
-  &[data-theme="dark"] {
+  &[data-tone="dark"] {
     color: var(--color-gray-600);
     --_pagination-border-color: var(--color-gray-300);
   }
 
   &Btn {
     color: var(--_pagination-btn);
-    [data-theme="light"] & {
+    [data-tone="light"] & {
       // --_pagination-btn: var(--color-gray-100);
     }
     border: none;
@@ -37,7 +37,7 @@
       --_pagination-padding: 14px var(--spacing-4);
       font-weight: var(--font-weight-semi-bold);
       font-size: var(--font-size-xs);
-      [data-theme="light"] & {
+      [data-tone="light"] & {
         // --_pagination-btn: var(--color-teal-400);
       }
     }
@@ -69,17 +69,17 @@
       font-weight: var(--font-weight-semi-bold);
     }
     &:is(:hover, .active) {
-      [data-theme="light"] & {
+      [data-tone="light"] & {
         // --_pagination-btn: var(--color-teal-200);
       }
     }
 
     &[disabled] {
       pointer-events: none;
-      [data-theme="light"] & {
+      [data-tone="light"] & {
         // --_pagination-btn: var(--color-gray-300);
       }
-      [data-theme="dark"] & {
+      [data-tone="dark"] & {
         // --_pagination-btn: var(--color-gray-300);
       }
     }
@@ -101,7 +101,7 @@
       user-select: none;
       transition: 0.2s ease;
       display: var(--_pagination-li, inline-flex);
-      [data-theme="light"] & {
+      [data-tone="light"] & {
         &:hover {
           // color: var(--color-teal-200);
         }
@@ -110,7 +110,7 @@
       align-items: center;
 
       @media (any-hover: hover) {
-        [data-theme="light"] & {
+        [data-tone="light"] & {
           &:hover {
             // color: var(--color-teal-200);
           }
@@ -128,7 +128,7 @@
           height: 2px;
           background-color: var(--color-teal-400);
           background-color: var(--_pagination-active-line, var(--color-teal-400));
-          [data-theme="dark"] & {
+          [data-tone="dark"] & {
             --_pagination-active-line: var(--color-white);
           }
         }

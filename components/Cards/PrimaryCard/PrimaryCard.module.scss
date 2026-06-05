@@ -47,7 +47,7 @@
   &Heading {
     margin-top: 0;
     margin-bottom: 0;
-    --heading-color: var(--color-main);
+    --heading-color: var(--on-surface);
 
     + .primaryContent {
       margin-top: var(--spacing-1);

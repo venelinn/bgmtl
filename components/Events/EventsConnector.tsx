@@ -104,7 +104,7 @@ export const EventsConnector = ({
               <Select
                 value={selectedYear}
                 inputSize="sm"
-                theme="dark"
+                tone="dark"
                 onChange={handleYearChange}
                 aria-label={t("Events.filterByYear")}
               >

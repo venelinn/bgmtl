@@ -95,6 +95,20 @@
   --color-white: var(--system-white);
   --color-black: var(--system-black);
   --box-shadow-base: var(--box-shadow-size) var(--box-shadow-color);
+  --surface-dim: var(--color-grey-light);
+  --surface-container-low: var(--color-grey-light);
+  --surface-container-high: var(--color-grey-light);
+  --surface-container-highest: var(--color-grey-mid);
+  --on-surface: var(--color-main);
+  --on-surface-variant: var(--color-grey-dark);
+  --inverse-surface: var(--color-main);
+  --outline: var(--color-grey);
+  --outline-variant: var(--color-grey-border);
+  --primary: var(--color-blue);
+  --primary-container: var(--color-blue-light);
+  --on-primary-container: var(--color-blue-dark);
+  --secondary: var(--color-green);
+  --error: var(--system-error);
   --font-weight-base: var(--font-weight-normal);
   --heading-size-hero-font-weight: var(--font-weight-medium);
   --heading-size-h1-font-weight: var(--font-weight-black);
@@ -106,6 +120,16 @@
   --ui-caption-font-weight: var(--font-weight-normal);
   --ui-small-font-weight: var(--font-weight-light);
   --body-font-size: var(--font-size-base);
+  --surface: var(--color-white);
+  --surface-bright: var(--color-white);
+  --surface-container-lowest: var(--color-white);
+  --surface-container: var(--color-white);
+  --inverse-on-surface: var(--color-white);
+  --on-primary: var(--color-white);
+  --on-secondary: var(--color-white);
+  --on-error: var(--color-white);
+  --on-background: var(--on-surface);
   --ui-body-bg-color: var(--color-white);
   --body-font-weight: var(--font-weight-base);
+  --background: var(--surface);
 }

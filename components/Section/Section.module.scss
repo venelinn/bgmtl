@@ -120,14 +120,15 @@
     }
   }
 
-  // Theme
-  &[data-theme="dark"] {
+  // Tone — section background variant. Renamed from `data-theme` to avoid a
+  // collision with the global `[data-theme="dark"]` used for app-wide dark mode.
+  &[data-tone="muted"] {
     --_section-bgr: var(--color-grey-light);
     .section__heading {
       --heading-color: inherit;
     }
   }
-  &[data-theme="highlight"] {
+  &[data-tone="highlight"] {
     --_section-bgr: var(--color-blue-light);
     .section__heading {
       --heading-color: inherit;

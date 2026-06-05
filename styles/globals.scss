@@ -4,6 +4,7 @@
 @use 'normalize' as normalize;
 @use 'typography';
 @use 'css-variables';
+@use 'theme-dark';
 @use 'layout' as layout;
 
 @layer frameworks, reset, base, theme, layouts, components, utilities;

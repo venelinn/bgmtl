@@ -10,7 +10,7 @@
   --_select-bg-position: right 0.5rem center;
   --_select-padding-right: 2rem;
   // Theme vars (inherited by control)
-  --_select-bgr: var(--color-white);
+  --_select-bgr: var(--surface-container);
   --_select-border: var(--color-grey-border);
   --_select-color: inherit;
 
@@ -82,11 +82,11 @@
 
   &__error {
     @include typo.ui-small;
-    color: var(--system-error);
+    color: var(--error);
   }
 
   &.error &__control {
-    border-color: var(--system-error);
+    border-color: var(--error);
   }
 
   // Size variants (base = md)

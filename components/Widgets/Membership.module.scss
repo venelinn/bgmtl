@@ -3,7 +3,7 @@
 .membership-widget {
   // Distinct accent from the Donate widget (blue/navy) — this one is green.
   --_accent: var(--color-green);
-  --_accent-soft: color-mix(in srgb, var(--color-green) 8%, var(--color-white));
+  --_accent-soft: color-mix(in srgb, var(--color-green) 8%, var(--surface-container));
   --_accent-text: color-mix(
     in srgb,
     var(--color-green),
@@ -37,8 +37,8 @@
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      color-mix(in srgb, var(--_accent) 14%, var(--color-white)),
-      var(--color-white)
+      color-mix(in srgb, var(--_accent) 14%, var(--surface-container)),
+      var(--surface-container)
     );
     color: var(--_accent);
   }
@@ -48,7 +48,7 @@
     min-width: 0;
     font-size: var(--ui-caption-font-size);
     line-height: 1.5;
-    color: var(--color-main);
+    color: var(--on-surface);
     text-align: left;
     text-wrap: balance;
   }
@@ -65,7 +65,7 @@
     font-size: var(--ui-caption-font-size);
     font-weight: 600;
     letter-spacing: 0.04em;
-    color: var(--color-main);
+    color: var(--on-surface);
     text-align: left;
   }
 
@@ -110,7 +110,7 @@
     flex: 1;
     min-width: 0;
     font-size: var(--ui-caption-font-size);
-    color: var(--color-main);
+    color: var(--on-surface);
   }
 
   &__option-amount {
@@ -128,8 +128,8 @@
     border: 1px solid var(--color-grey-border);
     border-radius: var(--border-radius);
     font-size: var(--ui-caption-font-size);
-    color: var(--color-main);
-    background: var(--color-white);
+    color: var(--on-surface);
+    background: var(--surface-container);
 
     &:focus {
       outline: none;

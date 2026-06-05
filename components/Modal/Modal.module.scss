@@ -2,7 +2,7 @@
 @use "styles/mixins" as mx;
 
 .modal {
-  background: var(--color-white);
+  background: var(--surface-container);
   border: 0;
   border-radius: var(--_modal-border-radius, var(--spacing-4));
   &:has(&__close) {

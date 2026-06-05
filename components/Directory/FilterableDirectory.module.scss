@@ -54,7 +54,7 @@
     padding: 0.9rem 1rem 0.9rem 3rem;
     border: 1px solid var(--color-grey-border);
     border-radius: var(--spacing-3);
-    background-color: var(--color-white);
+    background-color: var(--surface-container);
     color: inherit;
     box-shadow: 0 1px 2px color-mix(in srgb, var(--color-black) 5%, transparent);
 
@@ -84,7 +84,7 @@
     list-style: none;
     max-height: 22rem;
     overflow-y: auto;
-    background-color: var(--color-white);
+    background-color: var(--surface-container);
     border: 1px solid var(--color-grey-border);
     border-radius: var(--spacing-3);
     box-shadow: 0 8px 28px color-mix(in srgb, var(--color-black) 12%, transparent);
@@ -107,7 +107,7 @@
     padding: var(--spacing-2) var(--spacing-3);
     border-radius: var(--spacing-2);
     background-color: var(--_opt-bg);
-    color: var(--color-main);
+    color: var(--on-surface);
     font-size: 0.875rem;
     cursor: pointer;
 
@@ -159,8 +159,8 @@
   &__chip {
     // Scoped vars the base reads; the active state only *reassigns* these,
     // never re-declares the painted properties (project css-styling rule).
-    --_chip-bg: var(--color-white);
-    --_chip-color: var(--color-main);
+    --_chip-bg: var(--surface-container);
+    --_chip-color: var(--on-surface);
     --_chip-border: var(--color-grey-border);
 
     display: inline-flex;
@@ -244,9 +244,9 @@
     width: 100%;
     margin: 0;
     padding: var(--spacing-3) 0 var(--spacing-2);
-    background-color: var(--color-white);
+    background-color: var(--surface-container);
     border-bottom: 1px solid var(--color-grey-border);
-    --heading-color: var(--color-main);
+    --heading-color: var(--on-surface);
   }
 
   // Scroll target wrapper for "jump to listing" from the autocomplete.

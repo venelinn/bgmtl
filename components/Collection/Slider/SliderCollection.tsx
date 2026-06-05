@@ -30,7 +30,7 @@ type LabelsProps = typeof defaultLabels
 
 export type SlideProps = {
 	id: string
-	view: (props: { theme?: "light" | "dark" }) => ReactNode
+	view: (props: { tone?: "light" | "dark" }) => ReactNode
 }
 
 type Breakpoints = {
@@ -45,7 +45,7 @@ export type SliderCollectionProps = {
 	slides: SlideProps[]
 	labels?: Partial<LabelsProps>
 	className?: string
-	theme?: "light" | "dark"
+	tone?: "light" | "dark"
 	slidesPerView?: 1 | 2 | 3 | 4
 	breakpoints?: Breakpoints
 	navigationType: NavigationType
@@ -57,7 +57,7 @@ const SliderCollection = ({
 	id,
 	slides,
 	link,
-	theme,
+	tone,
 	labels: providedLabels,
 	className,
 	slidesPerView = 3,
@@ -81,8 +81,8 @@ const SliderCollection = ({
 
 	const renderSlideView = (
 		view: SlideProps["view"],
-		theme?: "light" | "dark",
-	) => (typeof view === "function" ? view({ theme }) : view)
+		tone?: "light" | "dark",
+	) => (typeof view === "function" ? view({ tone }) : view)
 
 	return (
 		<>
@@ -98,7 +98,7 @@ const SliderCollection = ({
 					onMouseLeave={disableKeyboardControl}
 					onFocus={enableKeyboardControl}
 					onBlur={disableKeyboardControl}
-					data-theme={theme}
+					data-tone={tone}
 				>
 					<>
 						<button
@@ -196,7 +196,7 @@ const SliderCollection = ({
 				<>
 					<Row cols={3}>
 						<Cell>
-							{slides.map((slide) => renderSlideView(slide.view, theme))}
+							{slides.map((slide) => renderSlideView(slide.view, tone))}
 						</Cell>
 					</Row>
 					{!!link && (

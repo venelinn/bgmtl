@@ -46,10 +46,10 @@
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      color-mix(in srgb, var(--color-blue) 14%, var(--color-white)),
-      var(--color-white)
+      color-mix(in srgb, var(--color-blue) 14%, var(--surface-container)),
+      var(--surface-container)
     );
-    color: var(--color-main);
+    color: var(--on-surface);
 
     svg {
       width: 70%;
@@ -62,7 +62,7 @@
     min-width: 0;
     font-size: var(--ui-caption-font-size);
     line-height: 1.5;
-    color: var(--color-main);
+    color: var(--on-surface);
     text-align: left;
   }
 

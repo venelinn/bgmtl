@@ -17,7 +17,9 @@ export interface PaginationProps {
   variant?: (typeof paginationVariants)[keyof typeof paginationVariants];
   visibleRange?: { start: number; end: number };
   labels?: PaginationLabels;
-  theme?: "light" | "dark";
+  /** Renamed from `theme` to avoid colliding with the global
+   * `[data-theme="dark"]` used for app-wide dark mode. */
+  tone?: "light" | "dark";
   pageSize?: number;
 }
 
@@ -44,7 +46,7 @@ export const Pagination = ({
   currentPageIndex,
   visibleRange: providedVisibleRange = { start: 1, end: 4 },
   handleSlideTo,
-  theme = "light",
+  tone = "light",
   pageSize = 10,
 }: PaginationProps) => {
   const labels = {
@@ -90,7 +92,7 @@ export const Pagination = ({
   const showExt = variant === paginationVariants.extended;
 
   return (
-    <nav className={styles.pagination} data-variant={variant} data-theme={theme}>
+    <nav className={styles.pagination} data-variant={variant} data-tone={tone}>
       {showExt && (
         <PaginationNavButton className={styles.text} onClick={() => handleSlideTo(1)} disabled={isFirst}>
           <Icon name="ends-start-micro" className={styles.btnIcon} />

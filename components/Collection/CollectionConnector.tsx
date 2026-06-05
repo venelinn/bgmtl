@@ -92,7 +92,7 @@ function EventsPaginatedWithHeadings({
               <Select
                 value={selectedYear}
                 inputSize="sm"
-                theme="dark"
+                tone="dark"
                 onChange={(e) => setSelectedYear(e.target.value)}
                 aria-label={t("Events.filterByYear")}
               >

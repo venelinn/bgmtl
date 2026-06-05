@@ -262,7 +262,7 @@
 
 @mixin asBox {
   box-shadow: var(--box-shadow-size) var(--box-shadow-color);
-  background-color: var(--_as-box-bgr, var(--color-white));
+  background-color: var(--_as-box-bgr, var(--surface-container));
   padding: var(--_card-padding, var(--spacing-6));
   border-radius: var(--_card-border-radius, var(--border-radius));
   color: var(--_as-box-color);

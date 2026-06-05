@@ -12,7 +12,7 @@ const meta = {
       control: "select",
       options: Object.values(paginationVariants),
     },
-    theme: {
+    tone: {
       control: false,
     },
   },
@@ -26,7 +26,7 @@ const Pagination = ({
   totalItems,
   currentPageIndex,
   variant,
-  theme,
+  tone,
   visibleRange = { start: 1, end: 4 },
   pageSize,
 }: PaginationProps) => {
@@ -44,7 +44,7 @@ const Pagination = ({
         handleSlideTo={(page) => setCurrentPage(page)}
         variant={variant}
         visibleRange={visibleRange}
-        theme={theme}
+        tone={tone}
         pageSize={pageSize}
       />
     </div>
@@ -67,7 +67,7 @@ export const Default: Story = {
         currentPageIndex={args.currentPageIndex}
         handleSlideTo={args.handleSlideTo}
         pageSize={args.pageSize}
-        theme="light"
+        tone="light"
       />
     );
   },

@@ -7,6 +7,14 @@
   --_section-bgr: var(--color-main);
   --_section-padding-bottom: var(--spacing-4);
   color: var(--color-white);
+
+  // In dark mode the page surface (--surface) is already deep navy, and
+  // --color-main sits slightly lighter than it — so the footer would read as a
+  // raised band. Drop the footer to the darkest surface step so it anchors the
+  // page below the body instead.
+  [data-theme="dark"] & {
+    --_section-bgr: var(--surface-container-lowest);
+  }
 }
 
 .footer {

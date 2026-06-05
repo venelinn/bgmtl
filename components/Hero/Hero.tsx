@@ -190,7 +190,7 @@ export const Hero = ({
   return (
     <Section
       animationID={animationID}
-      theme="dark"
+      tone="muted"
       size={size}
       imageAlignment={imageAlignment}
       height={height ? (height as SectionProps["height"]) : undefined}

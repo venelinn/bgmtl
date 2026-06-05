@@ -170,14 +170,14 @@
     --_btn-hover-color: var(--color-white);
 
     &.is-outlined {
-      --_btn-color: var(--color-main);
+      --_btn-color: var(--on-surface);
       --_btn-bg-color: transparent;
       --_btn-border-color: var(--color-main);
       &:hover {
         --_btn-bg-color: color-mix(in srgb, var(--color-main), white 95%);
       }
       --_btn-hover-border-color: var(--color-white);
-      --_btn-hover-color: var(--color-main);
+      --_btn-hover-color: var(--on-surface);
     }
   }
 
@@ -200,6 +200,35 @@
 				border: 0;
       }
     }
+  }
+
+  // ── Dark mode — keep filled buttons rich ─────────────────────────────────
+  // Light fills darken a saturated base (`black 25–35%`). In dark the accent
+  // tokens are lifted to pale tints, so the same recipe washes out — and the
+  // navy `secondary`/`toggle` sit at the surface's own lightness and vanish.
+  // Re-darken harder (white text still passes), and give the navy variants a
+  // deep, separated fill. `:not(.is-outlined)` leaves outlined buttons alone.
+  [data-theme="dark"] & {
+    &.btn--primary:not(.is-outlined) {
+      --_btn-bg-color: color-mix(in srgb, var(--color-blue), black 40%);
+      --_btn-border-color: color-mix(in srgb, var(--color-blue), black 40%);
+      --_btn-hover-bg-color: color-mix(in srgb, var(--color-blue), black 28%);
+      --_btn-hover-border-color: color-mix(in srgb, var(--color-blue), black 28%);
+    }
+    &.btn--success:not(.is-outlined) {
+      --_btn-bg-color: color-mix(in srgb, var(--color-green), black 35%);
+      --_btn-border-color: color-mix(in srgb, var(--color-green), black 35%);
+      --_btn-hover-bg-color: color-mix(in srgb, var(--color-green), black 24%);
+      --_btn-hover-border-color: color-mix(in srgb, var(--color-green), black 24%);
+    }
+    &:is(.btn--secondary, .btn--toggle):not(.is-outlined) {
+      --_btn-bg-color: color-mix(in srgb, var(--color-blue), black 55%);
+      --_btn-border-color: color-mix(in srgb, var(--color-blue), black 45%);
+      --_btn-hover-bg-color: color-mix(in srgb, var(--color-blue), black 45%);
+      --_btn-hover-border-color: color-mix(in srgb, var(--color-blue), black 35%);
+    }
+    // danger is intentionally left to its base rules — it keeps the light-mode
+    // crimson in dark too (--system-error stays the stable brand red).
   }
 }
 

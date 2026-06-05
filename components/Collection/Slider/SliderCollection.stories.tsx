@@ -36,7 +36,7 @@ const meta: Meta<typeof SliderCollection> = {
     id: {
       control: false,
     },
-    theme: {
+    tone: {
       control: false,
     },
     className: {

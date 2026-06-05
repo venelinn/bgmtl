@@ -15,7 +15,9 @@ export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElemen
   inputSize?: FormElementSize;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   children?: React.ReactNode;
-  theme?: "light" | "dark";
+  /** Renamed from `theme` to avoid colliding with the global
+   * `[data-theme="dark"]` used for app-wide dark mode. */
+  tone?: "light" | "dark";
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>((props, ref) => {
@@ -31,7 +33,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>((props, ref) =>
     inputSize,
     onChange,
     children,
-    theme = "light",
+    tone = "light",
     ...rest
   } = props;
 
@@ -60,7 +62,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>((props, ref) =>
   const classes = clsx(styles.select, inputSize === "sm" && styles.sm, full && styles.full, error && styles.error);
 
   return (
-    <div className={classes} data-theme={theme}>
+    <div className={classes} data-tone={tone}>
       {icon && <Icon name={icon} strokeWidth="1.2" className={styles.select__icon} />}
       {label && (
         <label htmlFor={selectId} className={styles.select__label}>
