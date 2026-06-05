@@ -19,6 +19,9 @@
   color: inherit;
   font: inherit;
   cursor: pointer;
+	@media (min-width: base.$breakpoint-md) {
+		margin-inline: var(--spacing-2);
+	}
 }
 
 .themeToggle__glyph {

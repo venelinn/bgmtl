@@ -152,6 +152,7 @@
   justify-content: space-between;
   list-style: none;
   padding: 0;
+	margin: 0;
   align-items: center;
 
   > * {
@@ -187,6 +188,7 @@
     // hover fill. Base bg is a scoped var so hover/highlight only swap the var.
     padding: var(--spacing-1-5) var(--spacing-3);
     border-radius: 999px;
+		display: block;
     background-color: var(--_nav-pill-bg, transparent);
     transition:
       opacity 0.3s var(--ease-in),
@@ -328,7 +330,6 @@
       gap: var(--spacing-1);
       justify-content: flex-start;
       width: 100%;
-			margin-block: 0;
     }
 
     .is-open & .nav__link,
@@ -338,9 +339,8 @@
       gap: var(--spacing-3);
       padding: var(--spacing-3);
       border-radius: var(--spacing-2);
-      font-size: 1rem;
+      font-size: var(--ui-body-font-size);
       --nav-link-opacity: 1;
-			display: block;
 
       &:hover {
         --_nav-pill-bg: color-mix(in srgb, currentColor 14%, transparent);
