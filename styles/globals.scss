@@ -182,11 +182,11 @@ html {
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(var(--color-ocean), 0.15);
   -webkit-text-size-adjust: 100%;
+  padding: 0;
+  margin: 0;
 	container-type: scroll-state;
   container-name: page;
 	scrollbar-gutter: stable;
-  margin: 0;
-  padding: 0;
   scroll-padding-top: var(--navigation-height);
   // color-scheme: light dark;
   @media (prefers-reduced-motion: no-preference) {
@@ -210,6 +210,7 @@ body {
   &:has([data-hero]) {
     --_navigation-bgr: linear-gradient(rgba(0, 0, 0, .9), transparent);
 		--_header-bgr: transparent;
+		--_navigation-mbe: calc(-1 * var(--_header-height, 80px));
   }
 }
 /* ==========================================================================

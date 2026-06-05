@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { EventsCalendarConnector } from "@/components/Calendar"
 import { EventsConnector } from "@/components/Events"
 import { Hero } from "@/components/Hero"
+import { JsonLd } from "@/components/JsonLd"
 import { buildMetadata } from "@/components/MetaData"
 import { Sidebar } from "@/components/Sidebar"
 import SubscribeForm from "@/components/Subscribe/Subscribe"
@@ -15,6 +16,7 @@ import {
 } from "@/utils/content"
 import { getMessages } from "@/utils/getMessages"
 import { localization } from "@/utils/localization"
+import { buildEventsItemListJsonLd } from "@/utils/structuredData"
 
 // No numeric `revalidate`: Contentful data is cached indefinitely under the
 // "contentful" tag (utils/contentful-cache.ts) and busted on publish via the
@@ -61,9 +63,11 @@ export default async function EventsPage(props: { params: Params }) {
 	const eventsPerPage = siteConfig?.eventsPerPage ?? 10
 	const messages = getMessages(lang) as { Events?: { sectionTitle?: string } }
 	const title = messages.Events?.sectionTitle ?? "Events"
+	const eventsItemList = buildEventsItemListJsonLd(events, lang)
 
 	return (
 		<>
+			<JsonLd data={eventsItemList} />
 			{heroImages && heroImages.length > 0 && (
 				<Hero
 					images={heroImages}

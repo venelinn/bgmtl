@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { EventDetail } from "@/components/Events/EventDetail";
+import { JsonLd } from "@/components/JsonLd";
 import { buildMetadata } from "@/components/MetaData";
 import type { EventItem } from "@/types/events";
 import { slugify, getOgImageUrl } from "@/utils/common";
+import { buildEventJsonLd } from "@/utils/structuredData";
 import { getFallbackImageUrl, getAllEvents, getAllEventsBulgarian, getSiteConfig } from "@/utils/content";
 import { localization } from "@/utils/localization";
 
@@ -90,6 +92,12 @@ export default async function EventPage(props: { params: Params }) {
 
   const siteConfig = await getSiteConfig(lang, false);
   const heroFallbackImage = getFallbackImageUrl(siteConfig?.fallbackEvent) ?? undefined;
+  const eventJsonLd = buildEventJsonLd(event, lang);
 
-  return <EventDetail event={event} locale={lang} heroFallbackImage={heroFallbackImage} />;
+  return (
+    <>
+      <JsonLd data={eventJsonLd} />
+      <EventDetail event={event} locale={lang} heroFallbackImage={heroFallbackImage} />
+    </>
+  );
 }

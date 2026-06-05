@@ -1,14 +1,17 @@
 # Metadata & SSR Architecture
 
 **Created**: 2026-02-17
-**Updated**: 2026-03-03
+**Updated**: 2026-06-05
 
 ## Related
 
 - Metadata helper: `components/MetaData.tsx` — `buildMetadata()`
+- Indexability gate: `utils/seo.ts` — `isIndexableEnv()`
+- Structured data: `utils/structuredData.ts` — `buildEventJsonLd()` + `components/JsonLd.tsx`
 - CMS pages: `app/[lang]/[[...slug]]/page.tsx` — `generateMetadata()`
-- Event detail: `app/[lang]/events/[...slug]/page.tsx` — `generateMetadata()`
+- Event detail: `app/[lang]/events/[...slug]/page.tsx` — `generateMetadata()` + Event JSON-LD
 - News detail: `app/[lang]/news/[...slug]/page.tsx` — `generateMetadata()`
+- robots / sitemap: `app/robots.ts`, `app/sitemap.ts`
 
 ## Overview
 
@@ -26,13 +29,22 @@ Located in `components/MetaData.tsx`. Accepts:
 | `pageDescription` | `string \| null`  | Meta description                         |
 | `keywords`        | `string \| null`  | Meta keywords                            |
 | `image`           | `string \| null`  | OG image URL; falls back to default      |
-| `imageWidth`      | `number`          | OG image width in px (optional)          |
-| `imageHeight`     | `number`          | OG image height in px (optional)         |
+| `imageWidth`      | `number`          | OG image width in px (defaults to 1200)  |
+| `imageHeight`     | `number`          | OG image height in px (defaults to 630)  |
+| `imageAlt`        | `string \| null`  | `og:image:alt`; falls back to the title  |
 | `type`            | `string`          | OG type (`website` or `article`)         |
 | `path`            | `string`          | URL path (without locale prefix)         |
 | `locale`          | `string`          | Language code (e.g. `en`, `fr`)          |
 
 Returns a Next.js `Metadata` object with `title`, `description`, `keywords`, `alternates.canonical`, `openGraph`, and `robots`.
+
+The `openGraph.images[0]` it emits is hardened for Facebook's requirements:
+
+- **Forced `https`** — a stray `http://` URL (or `http` `BASE_URL` fallback) is rewritten, since Facebook rejects non-secure image URLs. Both `og:image` and `og:image:secure_url` are emitted.
+- **Dimensions always present** — `width`/`height` default to **1200×630** (1.91:1) when not passed.
+- **`og:image:alt`** and **`og:image:type`** — the MIME type is inferred from the URL extension, defaulting to `image/jpeg` (the Cloudinary OG transform forces `f_jpg`).
+
+`robots` is gated by `isIndexableEnv()` — see [Indexability & staging](#indexability--staging).
 
 ### Per-page metadata sources
 
@@ -71,8 +83,8 @@ The `generateMetadata` export:
 
 1. Finds the news item by matching the Bulgarian heading slug
 2. Uses the heading text as title and description
-3. Uses news `cover` image as OG image when available
-4. Passes `type: "article"` and `path: "news/<slug>"` to `buildMetadata()`
+3. Uses news `cover` image as OG image, resized to 1200×630 via `getOgImageUrl()` (same as events — this was added 2026-06-05; news previously shipped the raw cover URL with no transform/dimensions)
+4. Passes `type: "article"`, `imageWidth: 1200`, `imageHeight: 630`, `imageAlt`, and `path: "news/<slug>"` to `buildMetadata()`
 
 ## OG Image Optimization for Social Sharing
 
@@ -145,9 +157,77 @@ export async function generateMetadata(props: {
 }
 ```
 
+## Structured Data (JSON-LD)
+
+Added 2026-06-05. Server-rendered schema.org markup so Google can show rich results
+(event date/time/location, article cards). Two pieces:
+
+- **`components/JsonLd.tsx`** — `<JsonLd data={...} />`, a server component that renders
+  a `<script type="application/ld+json">`. Keep it in **server** components so crawlers
+  see it on first paint (it is not interactive).
+- **`utils/structuredData.ts`** — pure builders that map our data models to schema.org
+  objects. They only emit fields they can actually populate (no empty/`undefined` keys),
+  so partial-data entries still produce valid markup.
+
+| Builder                          | Page                          | Type        |
+|----------------------------------|-------------------------------|-------------|
+| `buildEventJsonLd(event, locale)`        | `events/[...slug]` (detail)   | `Event`     |
+| `buildEventsItemListJsonLd(events, locale)` | `events` (listing)         | `ItemList` of `Event` |
+| `buildArticleJsonLd(news, locale)`       | `news/[...slug]` (detail)     | `NewsArticle` |
+
+### Event mapping
+
+| Schema field            | Source                              |
+|-------------------------|-------------------------------------|
+| `name`                  | event heading (→ venue fallback)    |
+| `startDate`             | `event.date` (ISO local datetime)   |
+| `doorTime`              | `event.doorsOpen`                   |
+| `location` (`Place`)    | `event.venue` + `GeoCoordinates` from `event.address.lat/lon` |
+| `image`                 | `cover` → `getOgImageUrl()` (1200×630) |
+| `description`           | `excerpt` → `content` → fallback (rich text flattened to plain text) |
+| `offers` (`Offer`)      | `event.ticket.url` + parsed `event.price` (currency hardcoded **CAD**) |
+| `organizer`             | `NEXT_PUBLIC_SITE_NAME` / base URL  |
+| `eventStatus` / `eventAttendanceMode` | `EventScheduled` / `OfflineEventAttendanceMode` |
+
+The events **listing** wraps one `Event` node per event in an `ItemList`, reusing the same
+node builder (without its own `@context`).
+
+### NewsArticle mapping
+
+`headline` (heading, truncated to ≤110 chars), `image`, `datePublished` (`news.date`),
+`dateModified` (`news._updatedAt` → `news.date`), `description`, `mainEntityOfPage`,
+`author`/`publisher` (both the site Organization).
+
+### Notes / gotchas
+
+- **Slugs are derived inside the builder** from the Bulgarian heading (`detailSlug()`) —
+  must stay in sync with the `generateStaticParams` / detail-page matchers. Same scheme as
+  the sitemap so URLs match.
+- **Currency is hardcoded `CAD`** and **price is parsed from free text** (`"From $49"` →
+  `"49"`). Per the JSON-LD price guardrail the value must match the visible price; this
+  takes the first number (the "from" figure). No clean number → `price` omitted, offer
+  still carries the ticket URL.
+- **No `endDate`** (not in the model) and **no publisher `logo`** — both are *recommended*
+  by Google but not required; rich results still validate. Add when a logo asset / end time
+  becomes available.
+- **Validate** with Google's [Rich Results Test](https://search.google.com/test/rich-results)
+  after deploy.
+
+## Indexability & staging
+
+`utils/seo.ts` `isIndexableEnv(baseUrl?)` returns `false` when the `NEXT_PUBLIC_BASE_URL`
+host contains a non-production marker (`develop.`, `staging.`, `preview.`, `localhost`,
+`.vercel.app`). Wired into **two** layers so they stay consistent:
+
+- **`app/robots.ts`** — non-prod hosts get `Disallow: /` (and the sitemap/host lines are dropped).
+- **`buildMetadata`** — non-prod pages emit `robots: { index: false, follow: false }`.
+
+So `develop.bgmtl.com` is blocked both at robots.txt and per-page `<meta name="robots">`.
+Add new staging host patterns to `NON_INDEXABLE_MARKERS` if the naming scheme changes.
+
 ## Environment Variables
 
 | Variable                  | Usage                          |
 |---------------------------|--------------------------------|
-| `NEXT_PUBLIC_BASE_URL`    | Canonical URL prefix           |
-| `NEXT_PUBLIC_SITE_NAME`   | Default title / og:site_name   |
+| `NEXT_PUBLIC_BASE_URL`    | Canonical URL prefix; also drives indexability (`isIndexableEnv`) |
+| `NEXT_PUBLIC_SITE_NAME`   | Default title / og:site_name; JSON-LD organizer/publisher name |

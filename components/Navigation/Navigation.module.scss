@@ -12,7 +12,7 @@
   /* Overlay: cancel the space the sticky header reserves so content scrolls
      under it (acts like fixed, but stays sticky so scroll-state still fires).
      Set --_header-height to match the rendered header height. */
-  margin-bottom: calc(-1 * var(--_header-height, 80px));
+  margin-block-end: var(--_navigation-mbe);
   /* SCROLL-STATE: Container for stuck detection */
   container-type: scroll-state;
   container-name: header;

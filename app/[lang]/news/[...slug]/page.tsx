@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NewsDetail } from "@/components/News/NewsDetail";
+import { JsonLd } from "@/components/JsonLd";
 import { buildMetadata } from "@/components/MetaData";
 import type { NewsItem } from "@/types/news";
 import { getOgImageUrl, slugify } from "@/utils/common";
+import { buildArticleJsonLd } from "@/utils/structuredData";
 import { getAllNews, getAllNewsBulgarian, getFallbackImageUrl, getSiteConfig } from "@/utils/content";
 import { localization } from "@/utils/localization";
 
@@ -100,8 +102,14 @@ export default async function NewsPage(props: { params: Params }) {
 
     const siteConfig = await getSiteConfig(lang, false);
     const heroFallbackImage = getFallbackImageUrl(siteConfig?.fallbackNews) ?? undefined;
+    const articleJsonLd = buildArticleJsonLd(news, lang);
 
-    return <NewsDetail news={news} locale={lang} heroFallbackImage={heroFallbackImage} />;
+    return (
+      <>
+        <JsonLd data={articleJsonLd} />
+        <NewsDetail news={news} locale={lang} heroFallbackImage={heroFallbackImage} />
+      </>
+    );
   } catch {
     return notFound();
   }
