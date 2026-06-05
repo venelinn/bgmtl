@@ -1,6 +1,6 @@
 # Content Flow Specification
 
-> High-level specification for adding content to the bgottawa-gatineau site.  
+> High-level specification for adding content to the bgmtl site.  
 > Use with NotebookLM, GitHub Spec Kit, or as project documentation.
 
 ---

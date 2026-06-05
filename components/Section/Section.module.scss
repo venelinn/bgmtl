@@ -138,6 +138,12 @@
       --heading-color: var(--color-white);
     }
   }
+	&__icon {
+		background-color: var(--color-highlight);
+		border-radius: 50%;
+		color: var(--color-white);
+		padding: 0.35rem;
+	}
 }
 
 .hero-top {

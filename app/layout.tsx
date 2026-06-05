@@ -7,7 +7,7 @@ import "@/styles/globals.scss";
 // We will set the 'lang' attribute on the client in the provider.
 
 export const metadata: Metadata = {
-  title: "National Capital Region Bulgarian Community | Bulgarian Community | bgottawa-gatineau.ca",
+  title: "National Capital Region Bulgarian Community | Bulgarian Community | bgmtl.com",
   description: "National Capital Region Bulgarian Community | Bulgarian Community",
   icons: {
     apple: [{ url: "/static/favicons/apple-touch-icon.png", sizes: "180x180" }],

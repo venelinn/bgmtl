@@ -69,7 +69,7 @@ function ListingsSection({
 	const href = `/${locale}/${section.type}`
 
 	return (
-		<section>
+		<>
 			{section.type === "news" && <ListingsSectionHeading type="news" />}
 			<CollectionConnector
 				cards={cards}
@@ -84,6 +84,6 @@ function ListingsSection({
 					<ViewAllLink href={href} namespace={namespace} />
 				</div>
 			)}
-		</section>
+		</>
 	)
 }

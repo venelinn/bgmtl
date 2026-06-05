@@ -1,6 +1,6 @@
 # Content Flow Specification
 
-> Product specification for the bgottawa-gatineau content architecture.  
+> Product specification for the bgmtl content architecture.  
 > Compatible with GitHub Spec Kit `/speckit.specify` and `/speckit.plan`.
 
 ---

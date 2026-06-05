@@ -49,7 +49,7 @@
 	"Subscribe": {
 		"title": "Абонирайте се за нашия бюлетин",
 		"description": "Бъдете в течение с най-новите новини и събития от нашата общност.",
-		"emailPlaceholder": "Въведете вашия имейл",
+		"emailPlaceholder": "E-mail",
 		"firstNamePlaceholder": "Име",
 		"lastNamePlaceholder": "Фамилия",
 		"button": "Абонирайте се",

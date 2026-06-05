@@ -1,6 +1,6 @@
 # Content Editor Guide
 
-> A simple guide for editors who manage the bgottawa-gatineau website.  
+> A simple guide for editors who manage the bgmtl website.  
 > No technical knowledge required.
 
 ---

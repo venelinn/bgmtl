@@ -13,7 +13,7 @@ Companion to `CONTENTFUL-CACHING-STRATEGY.md` — it reuses the same
 
 ## What your site does today (detected)
 
-`bgottawa-gatineau.ca/sitemap.xml` is a **`<sitemapindex>` → `/sitemap-0.xml`** —
+`bgmtl.com/sitemap.xml` is a **`<sitemapindex>` → `/sitemap-0.xml`** —
 the signature of **`next-sitemap`** (a build-time generator). That means:
 
 - The sitemap only updates **on a full rebuild**, not when you publish in
@@ -71,7 +71,7 @@ crawler → GET /sitemap.xml
    prefix. `app/sitemap.ts` reads the same constant.
 4. **Copy `app/sitemap.ts`** (and `app/robots.ts` if you want it). Set
    `NEXT_PUBLIC_BASE_URL` to your canonical origin (e.g.
-   `https://bgottawa-gatineau.ca`).
+   `https://bgmtl.com`).
 5. **Remove `next-sitemap`** — don't ship two sitemaps. Delete its
    `postbuild` script (`package.json`), `next-sitemap.config.js`, and any
    generated `public/sitemap*.xml` / `public/robots.txt` (the native
@@ -86,7 +86,7 @@ crawler → GET /sitemap.xml
 ## Verify
 
 ```bash
-curl -s https://bgottawa-gatineau.ca/sitemap.xml | head -40
+curl -s https://bgmtl.com/sitemap.xml | head -40
 ```
 
 You should see `<urlset>` (not a `<sitemapindex>`) with `<url>` entries, each

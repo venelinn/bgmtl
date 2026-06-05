@@ -12,7 +12,7 @@ fetchers, add one webhook. Generic — no dependency on the source project.
 
 ## 1. Why your site burns calls (diagnosis)
 
-I fingerprinted `https://bgottawa-gatineau.ca/` and found:
+I fingerprinted `https://bgmtl.com/` and found:
 
 - **Next.js App Router** (RSC `__next_f` payload present) on **Netlify**.
 - **Contentful** (`images.ctfassets.net`).
@@ -99,7 +99,7 @@ Adjust the `@/lib/...` import paths to match your alias / folder layout.
    variables**. Redeploy (env changes only apply to a new build).
 
 6. **Add the Contentful webhook.** Settings → Webhooks → Add:
-   - **URL:** `POST https://bgottawa-gatineau.ca/api/revalidate`
+   - **URL:** `POST https://bgmtl.com/api/revalidate`
    - **Triggers:** Entry → **Publish** and **Unpublish** (add Asset if assets
      render directly).
    - **Header:** `x-revalidate-secret: <the same secret>`
@@ -126,7 +126,7 @@ Adjust the `@/lib/...` import paths to match your alias / folder layout.
 
 **Headers** — before: `x-nextjs-stale-time: 300`. After (on a now-static page):
 ```bash
-curl -sI https://bgottawa-gatineau.ca/ | grep -i "x-nextjs\|cache-control\|age"
+curl -sI https://bgmtl.com/ | grep -i "x-nextjs\|cache-control\|age"
 ```
 
 **The real proof — Contentful API usage:** open Contentful → your space →
@@ -136,7 +136,7 @@ you should see small bumps only around publishes and deploys.
 
 **Webhook smoke test:**
 ```bash
-curl -i -X POST https://bgottawa-gatineau.ca/api/revalidate \
+curl -i -X POST https://bgmtl.com/api/revalidate \
   -H "x-revalidate-secret: <secret>"
 # → 200 {"revalidated":true,...}   (401 = bad secret, 500 = secret not configured)
 ```

@@ -11,7 +11,7 @@ import { getSitemapPaths, SITEMAP_LOCALES } from "@/utils/sitemap-paths";
 // publish webhook (revalidatePath("/sitemap.xml") in utils/revalidation.ts),
 // keeping the project's "no time-based revalidation" guardrail intact.
 
-const BASE_URL = (process.env.NEXT_PUBLIC_BASE_URL || "https://bgottawa-gatineau.ca").replace(/\/+$/, "");
+const BASE_URL = (process.env.NEXT_PUBLIC_BASE_URL || "https://bgmtl.com").replace(/\/+$/, "");
 
 /** Default locale (bg) lives at the root; other locales are path-prefixed. */
 function localePrefix(locale: string): string {

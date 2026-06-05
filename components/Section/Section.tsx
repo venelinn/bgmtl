@@ -5,6 +5,7 @@ import type React from "react"
 import { renderRichTextContent } from "@/utils/RichText"
 import { Heading, type HeadingProps } from "../Headings"
 import styles from "./Section.module.scss"
+import { Icon } from "../Icon"
 
 const SectionAsElement = {
 	section: "section",
@@ -56,32 +57,37 @@ export type SectionProps = {
 	as?: (typeof SectionAsElement)[keyof typeof SectionAsElement]
 	padding?: (typeof SectionPadding)[keyof typeof SectionPadding]
 	paddingControl?: keyof typeof SectionPaddingControl | null
+	actions?: React.ReactNode
 	"data-title-position"?: string
 	"data-js"?: string
 	"data-slider"?: string
 }
 
-export const Section = forwardRef<HTMLElement, SectionProps>(function Section({
-	id = "",
-	children = null,
-	className = "",
-	classNames = {},
-	image = undefined,
-	animationID = null,
-	heading = {},
-	headingVariant = "horizontal",
-	size = "fixed",
-	height = undefined,
-	description = undefined,
-	imageAlignment = undefined,
-	padding = "medium",
-	paddingControl,
-	theme,
-	"data-title-position": dataTitlePosition,
-	"data-js": dataJs,
-	"data-slider": dataSlider,
-	as = "section",
-}, ref) {
+export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
+	{
+		id = "",
+		children = null,
+		className = "",
+		classNames = {},
+		image = undefined,
+		animationID = null,
+		heading = {},
+		headingVariant = "horizontal",
+		size = "fixed",
+		height = undefined,
+		description = undefined,
+		imageAlignment = undefined,
+		padding = "medium",
+		paddingControl,
+		actions,
+		theme,
+		"data-title-position": dataTitlePosition,
+		"data-js": dataJs,
+		"data-slider": dataSlider,
+		as = "section",
+	},
+	ref,
+) {
 	const Tag: React.ElementType = as || "section"
 	const classes = cx(
 		styles.section,
@@ -137,28 +143,42 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section({
 			<div className={cx(styles.section__inner, classNames?.inner)}>
 				{heading?.heading && (
 					<div className={styles.section__header} data-variant={headingVariant}>
-						{heading?.heading && (
-							<Heading
-								as={heading?.as}
-								size={heading?.size}
-								uppercase={heading?.uppercase}
-								animationID="section-title"
-								center={heading?.center}
-								highlight={heading?.highlight}
-								className={cx(styles.section__heading, classNames?.heading)}
-							>
-								{heading?.heading}
-							</Heading>
-						)}
-						{description && (
-							<div
-								className={cx(
-									styles.section__description,
-									classNames?.description,
-								)}
-							>
-								{renderRichTextContent(description)}
-							</div>
+						<div className={styles.titleBlock}>
+							{heading?.heading && (
+								<Heading
+									as={heading?.as}
+									size={heading?.size}
+									uppercase={heading?.uppercase}
+									animationID="section-title"
+									center={heading?.center}
+									highlight={heading?.highlight}
+									className={cx(styles.section__heading, classNames?.heading)}
+								>
+									{heading?.icon && (
+										<Icon
+											name={heading.icon}
+											strokeWidth="2"
+											className={styles.section__icon}
+										/>
+									)}
+									<span className={styles.section__heading__text}>
+										{heading?.heading}
+									</span>
+								</Heading>
+							)}
+							{description && (
+								<div
+									className={cx(
+										styles.section__description,
+										classNames?.description,
+									)}
+								>
+									{renderRichTextContent(description)}
+								</div>
+							)}
+						</div>
+						{actions && (
+							<div className={styles.section__actions}>{actions}</div>
 						)}
 					</div>
 				)}

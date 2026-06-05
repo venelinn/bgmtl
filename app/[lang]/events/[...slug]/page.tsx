@@ -66,6 +66,7 @@ export async function generateMetadata(props: { params: Params }): Promise<Metad
     image: ogImage,
     imageWidth: 1200,
     imageHeight: 630,
+    imageAlt: event.cover?.[0]?.alt || title,
     type: "article",
     path: `events/${last}`,
     locale: lang,

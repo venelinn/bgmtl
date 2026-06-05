@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { NewsDetail } from "@/components/News/NewsDetail";
 import { buildMetadata } from "@/components/MetaData";
 import type { NewsItem } from "@/types/news";
-import { slugify } from "@/utils/common";
+import { getOgImageUrl, slugify } from "@/utils/common";
 import { getAllNews, getAllNewsBulgarian, getFallbackImageUrl, getSiteConfig } from "@/utils/content";
 import { localization } from "@/utils/localization";
 
@@ -63,11 +63,15 @@ export async function generateMetadata(props: { params: Params }): Promise<Metad
 
     const title = getHeadingText(news.heading);
     const coverUrl = news.cover?.[0]?.src ?? null;
+    const ogImage = coverUrl ? getOgImageUrl(coverUrl) : null;
 
     return buildMetadata({
       pageTitle: title || "News",
       pageDescription: title || "News article",
-      image: coverUrl,
+      image: ogImage,
+      imageWidth: 1200,
+      imageHeight: 630,
+      imageAlt: news.cover?.[0]?.alt || title || "News",
       type: "article",
       path: `news/${last}`,
       locale: lang,
