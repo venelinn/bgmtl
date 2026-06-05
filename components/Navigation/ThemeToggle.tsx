@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import styles from "./ThemeToggle.module.scss";
 
@@ -9,17 +10,19 @@ type Theme = "light" | "dark";
 const STORAGE_KEY = "bgmtl-theme";
 
 /**
- * Pure-CSS sun/moon dark-mode toggle (box-shadow icon). The first-paint theme is
- * set by the inline bootstrap script in `app/layout.tsx`; this component reflects
- * and flips it. The visual state is driven by `data-mode` (not `data-theme`) to
+ * Sun/moon dark-mode toggle (pure-CSS box-shadow glyph). Icon-only in the desktop
+ * header; a labelled full-width row inside the mobile menu sheet. First-paint
+ * theme is set by the inline bootstrap script in `app/layout.tsx`; this component
+ * reflects and flips it. State is driven by `data-mode` (not `data-theme`) to
  * avoid re-triggering the global `[data-theme="dark"]` block on this element.
  */
 export const ThemeToggle = () => {
+	const t = useTranslations("Navigation");
 	const [theme, setTheme] = useState<Theme>("light");
 
 	// Adopt whatever the bootstrap script already applied to <html>. Both the
-	// server and the first client render default to "light", so there is no
-	// hydration mismatch; the glyph corrects itself right after mount.
+	// server and the first client render default to "light" (no hydration
+	// mismatch); the glyph corrects itself right after mount.
 	useEffect(() => {
 		if (document.documentElement.dataset.theme === "dark") setTheme("dark");
 	}, []);
@@ -44,7 +47,7 @@ export const ThemeToggle = () => {
 		}
 	};
 
-	const label = `Switch to ${theme === "dark" ? "light" : "dark"} mode`;
+	const aria = `Switch to ${theme === "dark" ? "light" : "dark"} mode`;
 
 	return (
 		<button
@@ -52,8 +55,11 @@ export const ThemeToggle = () => {
 			onClick={toggle}
 			className={styles.themeToggle}
 			data-mode={theme}
-			aria-label={label}
-			title={label}
-		/>
+			aria-label={aria}
+			title={aria}
+		>
+			<span className={styles.themeToggle__glyph} aria-hidden />
+			<span className={styles.themeToggle__label}>{t("theme")}</span>
+		</button>
 	);
 };

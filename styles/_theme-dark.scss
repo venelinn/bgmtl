@@ -92,3 +92,12 @@
 	// Body weight — Raleway 300 sub-pixel renders thin on dark surfaces.
 	--ui-body-font-weight: var(--font-weight-normal); // 300 → 400
 }
+
+// The header is permanent navy chrome in both themes, so its accent must not
+// flip with the page. Keep the active-page pill (`[data-highlight]`) the exact
+// brand red from light mode — the page keeps the lifted --color-highlight for
+// red-text contrast on dark, but inside the nav the original red reads fine
+// (white text on it stays legible, same as light).
+[data-theme="dark"] [data-header] {
+	--color-highlight: hsl(0, 66%, 47%); // light-mode --color-highlight (#c62828)
+}

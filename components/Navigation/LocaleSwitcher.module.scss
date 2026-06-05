@@ -137,3 +137,38 @@
   font-weight: var(--font-weight-bold);
   color: var(--color-grey);
 }
+
+// Inline variant (mobile menu sheet): always-visible rows on the navy panel,
+// so text/glyphs inherit the sheet's white instead of the popover's tokens.
+.languages__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--spacing-1);
+
+  .languages__item {
+    color: inherit;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3);
+    font-size: 1rem;
+
+    &:hover,
+    &:focus-visible {
+      background-color: color-mix(in srgb, currentColor 14%, transparent);
+    }
+  }
+
+  .languages__item--active {
+    font-weight: var(--font-weight-bold);
+    background-color: color-mix(in srgb, currentColor 9%, transparent);
+  }
+
+  .languages__lead {
+    color: inherit;
+  }
+
+  .languages__code {
+    color: color-mix(in srgb, currentColor 70%, transparent);
+  }
+}

@@ -106,8 +106,10 @@ export function NavigationInner({ pageLocale, data }: NavigationInnerProps) {
                 })}
             </ul>
           </div>
-          <ThemeToggle />
-          <LocaleSwitcher pageLocale={pageLocale} />
+          <div className={styles.navigation__settings}>
+            <ThemeToggle />
+            <LocaleSwitcher pageLocale={pageLocale} inline={!isDesktopNav} />
+          </div>
         </div>
 
         <Hamburger isOpen={isOpen} toggle={toggle} />

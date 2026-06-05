@@ -16,7 +16,7 @@
 
 @mixin hero {
   @include headingBase;
-  font-size: clamp(2.5rem, 4vw, var(--heading-size-h1-font-size));
+  font-size: clamp(2rem, 4vw, var(--heading-size-h1-font-size));
   // font-size: var(--heading-size-h1-font-size);
   line-height: 1.3;
   font-weight: 800;

@@ -88,5 +88,9 @@
 		"message": "We use cookies to analyze site traffic and improve your experience. Analytics run only if you accept.",
 		"accept": "Accept",
 		"decline": "Decline"
+	},
+	"Navigation": {
+		"theme": "Dark mode",
+		"language": "Language"
 	}
 }
