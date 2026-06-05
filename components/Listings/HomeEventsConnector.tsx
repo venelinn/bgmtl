@@ -48,6 +48,7 @@ export async function HomeEventsConnector({
 
 	return (
 		<Section padding="none">
+			<HomeEventsHeader href={`/${locale}/events`} showViewAll />
 			<GridCollection items={items} itemsPerRow={1} />
 		</Section>
 	)

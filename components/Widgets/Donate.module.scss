@@ -9,6 +9,7 @@
   );
 
   @include mx.asBox;
+	padding-block-start: 0;
 
 
   &__media {

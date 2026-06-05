@@ -4,10 +4,11 @@
   justify-content: space-between;
   gap: var(--spacing-4);
   flex-wrap: wrap;
-  margin-bottom: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
 
   &__title {
 		--heading-color: var(--color-highlight);
+		font-weight: var(--font-weight-bold);
     margin: 0;
   }
 }
