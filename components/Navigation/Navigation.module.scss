@@ -1,0 +1,478 @@
+@use "styles/base-variables" as base;
+@use "styles/typo-mixins" as typo;
+@use "styles/mixins" as shared;
+
+
+.header {
+  --_content-grid-column: full-width;
+	position: var(--_navigation-position, sticky);
+  top: 0;
+	width: 100%;
+  z-index: 100;
+  /* Overlay: cancel the space the sticky header reserves so content scrolls
+     under it (acts like fixed, but stays sticky so scroll-state still fires).
+     Set --_header-height to match the rendered header height. */
+  margin-block-end: var(--_navigation-mbe);
+  /* SCROLL-STATE: Container for stuck detection */
+  container-type: scroll-state;
+  container-name: header;
+}
+
+
+.navigation {
+  // --navigation-color: var(--color-white);
+	position: relative;
+	width: 100%;
+  // max-width: var(--_section-max-width);
+  color: var(--navigation-color, var(--color-white));
+  flex: 0 0 auto;
+  padding: var(--navigation-padding, 0);
+  min-height: var(--section-min-height);
+	background-color: var(--_header-bgr, var(--color-main));
+  box-shadow: var(--_navigation-box-shadow, none);
+  letter-spacing: 0;
+	background-image: var(--_navigation-bgr, none);
+  &.is-open {
+    --_display-menu-nav: flex;
+    --_navigation-position: fixed;
+    // Solid navy bar pinned to the top; the menu sheet (`__right`) covers the
+    // rest. Over a hero the header bg is transparent, which left the open menu
+    // floating unreadably over the image — force the navy chrome here.
+    --_header-bgr: var(--color-main);
+    --_navigation-bgr: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  @supports (container-type: scroll-state) {
+		@container header scroll-state(stuck: top) {
+			// Translucent so the blurred ::after shows through (opaque bg would hide it)
+			// --_header-bgr: color-mix(in srgb, var(--color-main) 70%, transparent);
+      // --_navigation-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+			&:after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				z-index: -1;
+				backdrop-filter: blur(8px);
+				backface-visibility: hidden;
+			}
+    }
+  }
+
+  &__inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    width: 100%;
+    min-height: 30px;
+    padding: var(--spacing-2) var(--spacing-4);
+  }
+  &__logo {
+    line-height: 0;
+    opacity: var(--_logo-opacity, 1);
+    transition: opacity 0.3s var(--ease-in);
+    z-index: 1;
+
+    a {
+      display: block;
+      color: inherit;
+    }
+    img {
+      // max-width: var(--_logo-max-width, 250px);
+      fill: currentColor;
+      height: clamp(40px, 8vw, 60px);
+      width: auto;
+      object-fit: contain;
+    }
+    .logo-hidden & {
+      --_logo-opacity: 0;
+    }
+    .is-stuck & {
+      --_logo-opacity: 1;
+    }
+  }
+  &__menu {
+    display: var(--_display-menu-nav, grid);
+    @media (max-width: base.$breakpoint-lg) {
+      --_display-menu-nav: none;
+      .nav {
+        font-size: 1.1em;
+        line-height: 1.6;
+      }
+    }
+    .is-open & {
+      @media (max-width: base.$breakpoint-lg-max) {
+        --_display-menu-nav: grid;
+        overflow-y: auto;
+      }
+    }
+  }
+
+  &__right {
+    display: var(--_display-menu-nav, none);
+    // gap: var(--spacing-4);
+    @media (min-width: base.$breakpoint-lg) {
+      align-items: center;
+      justify-self: end;
+      --_display-menu-nav: flex;
+    }
+    @media (max-width: base.$breakpoint-lg-max) {
+      position: absolute;
+      top: var(--navigation-height, 72px);
+      left: 0;
+      width: 100%;
+      padding: var(--spacing-4);
+    }
+    .is-open & {
+      @media (max-width: base.$breakpoint-lg-max) {
+        // Full-screen solid sheet; the logo + close button (higher z-index)
+        // sit above it, and the 5rem top padding drops the menu below that bar
+        // so the navy is seamless (no hero strip peeking through).
+        position: fixed;
+        inset: 0;
+        display: grid;
+        align-content: start;
+        width: 100%;
+        padding: 5rem var(--spacing-4) var(--spacing-10);
+        overflow-y: auto;
+        background-color: var(--color-main);
+      }
+    }
+  }
+}
+
+.nav {
+  --navigation-primary-padding: 100px;
+  --navigation-scroll-padding: 100px;
+  --heading-case: uppercase;
+  @include typo.ui-caption;
+  display: var(--_display-nav, flex);
+  gap: var(--spacing-2);
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+	margin: 0;
+  align-items: center;
+
+  > * {
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+  }
+  &__anchor {
+    position: relative;
+
+    // Touch / coarse pointer: open only via button (`--open` from JS)
+    &--open .nav__sublist {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    // Fine pointer + real hover: flyout on hover or keyboard focus (desktop only)
+    @media (hover: hover) and (pointer: fine) and (min-width: base.$breakpoint-lg) {
+      &:hover .nav__sublist,
+      &:focus-within .nav__sublist {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  &__link {
+    color: var(--_nav-pill-color, inherit);
+    opacity: var(--nav-link-opacity, 0.7);
+    text-decoration: none;
+    // Match the language toggle: pill with rounded corners + translucent grey
+    // hover fill. Base bg is a scoped var so hover/highlight only swap the var.
+    padding: var(--spacing-1-5) var(--spacing-3);
+    border-radius: 999px;
+		display: block;
+    background-color: var(--_nav-pill-bg, transparent);
+    transition:
+      opacity 0.3s var(--ease-in),
+      background-color 0.2s ease;
+    font-weight: var(--font-weight-normal);
+
+    &:hover {
+      --nav-link-opacity: 1;
+      --_nav-pill-bg: color-mix(in srgb, var(--color-grey) 25%, transparent);
+    }
+
+    &--active {
+      --nav-link-opacity: 1;
+      font-weight: var(--font-weight-bold);
+    }
+
+    &--main {
+      font-weight: var(--font-weight-bold);
+    }
+
+    // Highlighted page (Page model `highlightInMenu`): solid accent fill,
+    // full opacity, hover keeps the solid color.
+    &[data-highlight="true"] {
+      --nav-link-opacity: 1;
+      --_nav-pill-bg: var(--color-highlight);
+      --_nav-pill-color: var(--color-white);
+
+      &:hover {
+        --_nav-pill-bg: color-mix(in srgb, var(--color-highlight) 85%, var(--color-black));
+      }
+    }
+  }
+
+  &__title {
+    display: flex;
+    gap: var(--spacing-2);
+    align-items: center;
+    border: 0;
+    margin: 0;
+    // Match the language toggle / plain links: pill with rounded corners.
+    padding: var(--spacing-1-5) var(--spacing-3);
+    border-radius: 999px;
+    background-color: var(--_nav-pill-bg, transparent);
+    transition: background-color 0.2s ease;
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+
+    // Button trigger on desktop flyout; default cursor on hover-capable viewports
+    cursor: pointer;
+    @media (hover: hover) and (pointer: fine) {
+      cursor: default;
+    }
+
+    // Pill fill on hover and while the flyout is open.
+    &:hover,
+    .nav__anchor--open & {
+      --_nav-pill-bg: color-mix(in srgb, var(--color-grey) 25%, transparent);
+    }
+
+    &__chevron {
+      @include shared.chevron(sm);
+      position: relative;
+      transition: transform 0.35s;
+    }
+  }
+
+  &__anchor--open .nav__title__chevron {
+    transform: rotate(180deg);
+  }
+
+  @media (hover: hover) and (pointer: fine) and (min-width: base.$breakpoint-lg) {
+    .nav__anchor:hover .nav__title__chevron {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__sublink {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    line-height: 1.1;
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: var(--spacing-2);
+    width: 100%;
+    color: var(--on-surface);
+    font-size: var(--ui-small-font-size);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+
+    &:focus-visible {
+      background-color: var(--color-grey-light);
+      outline: none;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--color-grey-light);
+      }
+    }
+
+    &--active {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
+  &__sublist {
+    position: absolute;
+    top: anchor(end);
+    left: anchor(start);
+    background: var(--surface-container);
+    border-radius: var(--spacing-3);
+    padding: var(--spacing-1-5);
+    font-weight: var(--font-weight-normal);
+    text-transform: none;
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--color-black) 12%, transparent);
+    border: 1px solid var(--color-grey-border);
+    list-style: none;
+    min-width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: var(--transition);
+    z-index: 20;
+    display: grid;
+    gap: var(--spacing-0-5);
+  }
+
+  /* Mobile: uniform full-width rows — identical treatment to the theme + */
+  /* language rows (see --menu-row in those modules). */
+  @media (max-width: base.$breakpoint-lg-max) {
+    .is-open & {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--spacing-1);
+      justify-content: flex-start;
+      width: 100%;
+    }
+
+    .is-open & .nav__link,
+    .is-open & .nav__title {
+      width: 100%;
+      justify-content: flex-start;
+      gap: var(--spacing-3);
+      padding: var(--spacing-3);
+      border-radius: var(--spacing-2);
+      font-size: var(--ui-body-font-size);
+      --nav-link-opacity: 1;
+
+      &:hover {
+        --_nav-pill-bg: color-mix(in srgb, currentColor 14%, transparent);
+      }
+    }
+
+    // Submenu inline; inherit the panel's white text (was --on-surface, which
+    // renders navy-on-navy / invisible on this navy sheet).
+    .is-open & .nav__sublist {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      box-shadow: none;
+      border: none;
+      padding: 0 0 var(--spacing-1) var(--spacing-5);
+      min-width: auto;
+      background: transparent;
+      gap: 0;
+    }
+    .is-open & .nav__sublink {
+      color: inherit;
+      padding: var(--spacing-3);
+      border-radius: var(--spacing-2);
+      font-size: var(--ui-caption-font-size);
+    }
+  }
+}
+
+// Settings group (theme toggle + language list). On desktop it's transparent
+// (`display: contents`) so the two controls sit directly in the header row; in
+// the mobile sheet it becomes a grouped block, divided from the nav above.
+.navigation__settings {
+  display: contents;
+}
+
+@media (max-width: base.$breakpoint-lg-max) {
+  .is-open .navigation__settings {
+    display: grid;
+    gap: var(--spacing-1);
+    margin-top: var(--spacing-3);
+    padding-top: var(--spacing-3);
+    border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  }
+}
+
+.hamburger {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  justify-self: end;
+  z-index: 60;
+  &__lines {
+    transition: all 0.35s var(--ease-in);
+
+    span {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 1px;
+      // Header is navy chrome in both themes, so the lines are always white.
+      // (Not currentColor: a <button> doesn't inherit color, and color-scheme
+      // flips its UA default to black in light / white in dark. Not
+      // --surface-container either: that goes dark in dark mode and vanished.)
+      background-color: var(--color-white);
+      transition-timing-function: var(--ease-in);
+      transition-duration: 0.3s;
+
+      &:before,
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: -8px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: inherit;
+        transition:
+          top 0.1s var(--ease-in) 0.25s,
+          opacity 0.1s var(--ease-in);
+      }
+
+      &:after {
+        top: auto;
+        bottom: -8px;
+        transition:
+          bottom 0.1s var(--ease-in) 0.25s,
+          transform 0.3s var(--ease-in);
+      }
+    }
+  }
+
+  /* states */
+  &.is-nav-active & {
+    &__lines {
+      width: 1.5rem;
+      &:before {
+        content: "";
+        position: absolute;
+        width: 33px;
+        height: 33px;
+        border-radius: 50%;
+        left: -4px;
+      }
+      span {
+        transition-delay: 0.3s;
+        transition-timing-function: var(--ease-in);
+        transform: rotate(225deg);
+
+        &:before {
+          top: 0;
+          transition:
+            top 0.1s var(--ease-in),
+            opacity 0.1s var(--ease-in) 0.12s;
+          opacity: 0;
+        }
+
+        &:after {
+          bottom: 0;
+          transition:
+            bottom 0.1s var(--ease-in),
+            transform 0.22s var(--ease-in) 0.15s;
+          transform: rotate(-90deg);
+        }
+      }
+    }
+  }
+
+  @media (min-width: base.$breakpoint-lg) {
+    display: none;
+  }
+}

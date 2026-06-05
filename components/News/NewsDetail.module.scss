@@ -1,0 +1,28 @@
+@use 'styles/typo-mixins' as typo;
+
+.newsDetail {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: var(--spacing-8);
+  color: var(--color-highlight);
+  text-decoration: none;
+  font-weight: var(--font-weight-bold);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.newsContent {
+  --link-color: var(--color-highlight);
+  line-height: 1.5;
+  font-size: 1.1em;
+
+  :global(p) {
+    margin-bottom: 1em;
+  }
+}

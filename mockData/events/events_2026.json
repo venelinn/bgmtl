@@ -1,0 +1,2065 @@
+{
+  "events": {
+    "total": 5,
+    "items": [
+      {
+        "sys": {
+          "id": "event-andrea-bocelli-romanza-30th-anniversary-world-tour-centre-be-2026",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Event: ANDREA BOCELLI \"Romanza - 30th Anniversary World Tour\" | Centre Bell 2026",
+            "en-CA": "Event: ANDREA BOCELLI \"Romanza - 30th Anniversary World Tour\" | Centre Bell 2026",
+            "fr-CA": "Event: ANDREA BOCELLI \"Romanza - 30th Anniversary World Tour\" | Centre Bell 2026"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-andrea-bocelli-romanza-30th-anniversary-world-tour-centre-be-2026"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2026-12-13T20:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2026-12-13T20:00:00"
+          },
+          "content": {
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "🎫 https://bit.ly/4tcaONg",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Дати и часове за продажба:",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Публична продажба: петък, 6 февруари 2026 г., 10:00 ч.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Предварителна продажба за членове на FOTL American Express: сряда, 4 февруари 2026 г., 10:00 ч.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Предварителна продажба Ticketmaster: четвъртък, 5 февруари 2026 г., 10:00 ч.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Предварителна продажба Andrea Bocelli Social Fan: четвъртък, 5 февруари 2026 г., 10:00 ч.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Предварителна продажба VIP пакет: сряда, 4 февруари 2026 г., 10:00 ч.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "VIP пакет: петък, 6 февруари 2026 г., 10:00 ч.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Предварителна продажба Stifel: четвъртък, 5 февруари 2026 г., 10:00 ч.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Предварителна продажба Spotify: четвъртък, 5 февруари 2026 г., 10:00 ч.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Предварителна продажба AEG: четвъртък, 5 февруари 2026 г., 10:00 ч.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "🎫 https://bit.ly/4tcaONg",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Sale Dates and Times:",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Public Onsale : Fri, 6 Feb 2026 at 10:00 AM",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente FOTL American Express Presale : Wed, 4 Feb 2026 at 10:00 AM",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente Ticketmaster Presale : Thu, 5 Feb 2026 at 10:00 AM",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente Andrea Bocelli Social Fan : Thu, 5 Feb 2026 at 10:00 AM",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente Forfait VIP Package Presale : Wed, 4 Feb 2026 at 10:00 AM",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Forfait VIP Package : Fri, 6 Feb 2026 at 10:00 AM",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente Stifel Presale : Thu, 5 Feb 2026 at 10:00 AM",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente Spotify Presale : Thu, 5 Feb 2026 at 10:00 AM",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente AEG Presale : Thu, 5 Feb 2026 at 10:00 AM",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "fr-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "🎫 https://bit.ly/4tcaONg",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Dates et horaires de mise en vente :",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Mise en vente au grand public : vendredi 6 février 2026 à 10 h 00",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente FOTL American Express : mercredi 4 février 2026 à 10 h 00",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente Ticketmaster : jeudi 5 février 2026 à 10 h 00",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente Andrea Bocelli Social Fan : jeudi 5 février 2026 à 10 h 00",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente Forfait VIP : mercredi 4 février 2026 à 10 h 00",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Forfait VIP : vendredi 6 février 2026 à 10 h 00",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente Stifel : jeudi 5 février 2026 à 10 h 00",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente Spotify : jeudi 5 février 2026 à 10 h 00",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Prévente AEG : jeudi 5 février 2026 à 10 h 00",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "excerpt": {
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "🎫 https://bit.ly/4tcaONg Дати и часове за продажба: Публична продажба: петък, 6 февруари 2026 г., 10:00 ч.…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "🎫 https://bit.ly/4tcaONg Sale Dates and Times: Public Onsale : Fri, 6 Feb 2026 at 10:00 AM Prévente FOTL American Express Presale : Wed, 4 Feb 2026 at 10:00 AM Prévente Ticketmast…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "fr-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "🎫 https://bit.ly/4tcaONg Dates et horaires de mise en vente : Mise en vente au grand public : vendredi 6 février 2026 à 10 h 00 Prévente FOTL American Express : mercredi 4 février…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "_source": {
+          "fbEventId": "2421817428272591",
+          "url": "https://www.facebook.com/events/2421817428272591/",
+          "needsReview": false
+        }
+      },
+      {
+        "sys": {
+          "id": "event-board-bbq-2026",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Event: Board BBQ 2026",
+            "en-CA": "Event: Board BBQ 2026",
+            "fr-CA": "Event: Board BBQ 2026"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-board-bbq-2026"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2026-06-20T11:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2026-06-20T11:00:00"
+          },
+          "content": {
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Елате да хапнете нещо заедно с общинските представители. Възползвайте се от възможността да зададете въпроси, да обсъдите идеите си или да споделите своите притеснения.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Безплатни безалкохолни напитки и хот-дога ще бъдат сервирани. 🌭🍵",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Всички подробности са тук: https://laprairie.ca/evenements/rencontres-citoyennes/bbq-du-conseil",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Come grab a bite to eat with your local elected officials. Take this opportunity to ask questions, share your ideas, or voice your concerns.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Non-alcoholic beverages and hot dogs will be served free of charge. 🌭🍵",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "All the details are here: https://laprairie.ca/evenements/rencontres-citoyennes/bbq-du-conseil",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "fr-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Venez casser la croûte avec les élues et élus municipaux. Profitez-en pour poser vos questions, échanger sur vos idées ou leur faire part de vos préoccupations.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Des boissons non alcoolisées et des hot-dogs seront servis gratuitement. 🌭🍵",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Tous les détails sont ici : https://laprairie.ca/evenements/rencontres-citoyennes/bbq-du-conseil",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "excerpt": {
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Елате да хапнете нещо заедно с общинските представители. Възползвайте се от възможността да зададете въпроси, да обсъдите идеите си или да споделите своите притеснения.…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Come grab a bite to eat with your local elected officials. Take this opportunity to ask questions, share your ideas, or voice your concerns.…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "fr-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Venez casser la croûte avec les élues et élus municipaux. Profitez-en pour poser vos questions, échanger sur vos idées ou leur faire part de vos préoccupations.…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "venue": {
+            "bg-BG": "ул. „Сен-Лоран“ 504, Ла Прари, QC J5R, Канада",
+            "en-CA": "504 St-Laurent Street, La Prairie, QC J5R, Canada",
+            "fr-CA": "504 Rue St-Laurent, La Prairie, QC J5R, Canada"
+          }
+        },
+        "_source": {
+          "fbEventId": "1534058694748503",
+          "url": "https://www.facebook.com/events/1534058694748503/",
+          "needsReview": false
+        }
+      },
+      {
+        "sys": {
+          "id": "event-stories-for-young-and-old-literary-reading-2026",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Event: Stories for Young and Old - Literary Reading 2026",
+            "en-CA": "Event: Stories for Young and Old - Literary Reading 2026",
+            "fr-CA": "Event: Stories for Young and Old - Literary Reading 2026"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-stories-for-young-and-old-literary-reading-2026"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2026-05-31T14:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2026-05-31T14:00:00"
+          },
+          "content": {
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Здравейте приятели,",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Българският читателски клуб в Монреал ,,Диаспората Чете”, ви кани на ново събитие по случай 1-ви юни - Денят на детето. Този път събитието ще бъде с по-интерактивен формат.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Ще четем детски книжки за малки и големи в ново за нас място - Centre International Masoon Balouch (633 AVE Beaumont, Montréal) в квартала Park X.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Някои от избраните автори са Леда Милева, Петя Кокудева и Валери Петров. Ще обърнем и внимание на илюстрациите на Любен Зидарво, Вадим Лазаркевич и много други.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Ще се радваме да ви посрещнем в неделя 31-ви май от 14 часа.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Вход: дарение по избор (препоръчително дарение за наема на залата $5-$10)",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Hello friends,",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "The Bulgarian Readers’ Club in Montreal, “Diaspora Reads,” invites you to a new event in celebration of June 1—Children’s Day. This time, the event will have a more interactive format.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "We will be reading children’s books for young and old alike at a new venue for us—the Centre International Masoon Balouch (633 Ave. Beaumont, Montreal) in the Park X neighborhood.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Some of the selected authors include Leda Mileva, Petya Kokudeva, and Valeri Petrov. We will also highlight the illustrations of Lyuben Zidarov, Vadim Lazarkevich, and many others.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "We look forward to welcoming you on Sunday, May 31, at 2:00 PM.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Admission: donation of your choice (recommended donation for venue rental: $5–$10)",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "fr-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Bonjour à tous,",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Le club de lecture bulgare de Montréal, « La Diaspora lit », vous invite à un nouvel événement à l'occasion du 1er juin, la Journée de l'enfant. Cette fois-ci, l'événement prendra une forme plus interactive.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Nous lirons des livres pour enfants, pour petits et grands, dans un nouveau lieu pour nous : le Centre International Masoon Balouch (633, avenue Beaumont, Montréal), dans le quartier Park X.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Parmi les auteurs sélectionnés, citons Leda Mileva, Petya Kokudeva et Valeri Petrov. Nous mettrons également à l'honneur les illustrations de Lyuben Zidarvo, Vadim Lazarkevich et bien d'autres.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Nous serons ravis de vous accueillir le dimanche 31 mai à partir de 14 h.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Entrée : don libre (don recommandé pour la location de la salle : 5 $ à 10 $)",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "excerpt": {
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Здравейте приятели, Българският читателски клуб в Монреал ,,Диаспората Чете”, ви кани на ново събитие по случай 1-ви юни - Денят на детето.…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Hello friends, The Bulgarian Readers’ Club in Montreal, “Diaspora Reads,” invites you to a new event in celebration of June 1—Children’s Day.…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "fr-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Bonjour à tous, Le club de lecture bulgare de Montréal, « La Diaspora lit », vous invite à un nouvel événement à l'occasion du 1er juin, la Journée de l'enfant.…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "venue": {
+            "bg-BG": "633 Avenue Beaumont, Монреал, QC H3N 1V7, Канада",
+            "en-CA": "633 Beaumont Avenue, Montreal, QC H3N 1V7, Canada",
+            "fr-CA": "633 Avenue Beaumont, Montréal, QC H3N 1V7, Canada"
+          }
+        },
+        "_source": {
+          "fbEventId": "1941314376556631",
+          "url": "https://www.facebook.com/events/1941314376556631/",
+          "needsReview": false
+        }
+      },
+      {
+        "sys": {
+          "id": "event-bulgarian-bazaar-every-last-sunday-of-the-month-2026",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Event: Bulgarian Bazaar - Every last Sunday of the month 2026",
+            "en-CA": "Event: Bulgarian Bazaar - Every last Sunday of the month 2026",
+            "fr-CA": "Event: Bulgarian Bazaar - Every last Sunday of the month 2026"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-bulgarian-bazaar-every-last-sunday-of-the-month-2026"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2026-05-31T09:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2026-05-31T09:00:00"
+          },
+          "content": {
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Здравейте уважаеми производители, посетители и симпатизанти на",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Българските Базари!",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Каним всички, които желаят да се докоснат за 4 часа до България!",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Кога: 31 май 2026г. Започваме от 9:00 ч. и затваряме в 13:00 ч.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Къде: Българска православна църква",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "1191 Rue Sauvé E, Montréal, QC H2C 1Z8, Canada",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Желаещите да участват могат да се запишат (запазят маса) на тел: 514-677-4241 след 19 ч. всяка вечер.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Hello, dear vendors, visitors, and supporters of",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "the Bulgarian Bazaars!",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "We invite everyone who wants to experience a taste of Bulgaria for 4 hours!",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "When: May 31, 2026. We open at 9:00 a.m. and close at 1:00 p.m.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Where: Bulgarian Orthodox Church",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "1191 Rue Sauvé E, Montréal, QC H2C 1Z8, Canada",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Those wishing to participate can register (reserve a table) by calling 514-677-4241 after 7:00 p.m. every evening.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "fr-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Bonjour à tous, chers exposants, visiteurs et sympathisants des",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Bazars bulgares !",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Nous invitons tous ceux qui souhaitent découvrir la Bulgarie le temps de quatre heures !",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Quand : le 31 mai 2026. Nous ouvrons à 9 h et fermons à 13 h.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Où : Église orthodoxe bulgare",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "1191, rue Sauvé E, Montréal, QC H2C 1Z8, Canada",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Les personnes souhaitant participer peuvent s'inscrire (réserver une table) par téléphone au 514-677-4241 après 19 h tous les soirs.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "excerpt": {
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Здравейте уважаеми производители, посетители и симпатизанти на Българските Базари! Каним всички, които желаят да се докоснат за 4 часа до България! Кога: 31 май 2026г.…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Hello, dear vendors, visitors, and supporters of the Bulgarian Bazaars! We invite everyone who wants to experience a taste of Bulgaria for 4 hours! When: May 31, 2026.…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "fr-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Bonjour à tous, chers exposants, visiteurs et sympathisants des Bazars bulgares ! Nous invitons tous ceux qui souhaitent découvrir la Bulgarie le temps de quatre heures !…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "venue": {
+            "bg-BG": "1191 Rue Sauvé E, Монреал, QC H2C 1Z8, Канада",
+            "en-CA": "1191 Sauvé Street East, Montreal, QC H2C 1Z8, Canada",
+            "fr-CA": "1191 Rue Sauvé E, Montréal, QC H2C 1Z8, Canada"
+          }
+        },
+        "_source": {
+          "fbEventId": "980236321159740",
+          "url": "https://www.facebook.com/events/980236321159740/",
+          "needsReview": false
+        }
+      },
+      {
+        "sys": {
+          "id": "event-montreal-bulgarian-festival-2026-2026",
+          "contentType": "event"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Event: Montreal Bulgarian Festival (2026) 2026",
+            "en-CA": "Event: Montreal Bulgarian Festival (2026) 2026",
+            "fr-CA": "Event: Montreal Bulgarian Festival (2026) 2026"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "heading-montreal-bulgarian-festival-2026-2026"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2026-05-17T13:00:00"
+          },
+          "doorsOpen": {
+            "bg-BG": "2026-05-17T13:00:00"
+          },
+          "content": {
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Nearly 100 dancers will be coming together from various cities within the country on May 17 for the Bulgarian festival of Montreal!",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Don't miss out on the traditional dances and delicious Bulgarian FOOD!🍴",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "⏰ PROGRAM",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "1:00 - 2:30 pm : stage performances",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "2:30 - 4:00 pm: hora dances with the public",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Годишният български фестивал в Монреал ще се състои на 17-ти май 2026 г. от 13 ч. в парк Cabot Square (metro Atwater 📍)",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "За пореден път сме подготвили пъстра програма, изпълнена с много танци и забава. Ще може да се насладите на участието на домакините - Ансамбъл “Зорница” - както разбира се и на гостуващи български и чуждестранни състави от Монреал и Канада.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "За финал, ще завъртим отново едно голямо общо българско хоро, в което всеки е поканен да се включи.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Затова запазете датата, подгответе си удобни обувки и елате на мегдана в българска премяна (приветстваме и носии)!",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "🤍💚❤️",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Видео: https://fb.watch/qjErTsQa1W/",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Nearly 100 dancers from various cities across the country will gather on May 17 for the Bulgarian Festival of Montreal!",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Don’t miss the traditional dances and delicious Bulgarian food!🍴",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "⏰ PROGRAM",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "1:00 – 2:30 pm: stage performances",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "2:30 - 4:00 pm: hora dances with the audience",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "The annual Bulgarian festival in Montreal will take place on May 17, 2026, starting at 1:00 pm at Cabot Square (Atwater metro station 📍)",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Once again, we have prepared a colorful program filled with lots of dancing and fun. You’ll be able to enjoy performances by the hosts—the “Zornitsa” Ensemble—as well as, of course, guest Bulgarian and international groups from Montreal and Canada.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "To wrap things up, we’ll once again lead a big, communal Bulgarian horo, and everyone is invited to join in.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "So save the date, put on some comfortable shoes, and come to the town square dressed in Bulgarian attire (traditional costumes are welcome too)!",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "🤍💚❤️",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Video: https://fb.watch/qjErTsQa1W/",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "fr-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Près de 100 danseurs venus de différentes villes du pays se réuniront le 17 mai à l'occasion du festival bulgare de Montréal !",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Ne manquez pas les danses traditionnelles et la délicieuse cuisine bulgare !🍴",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "⏰ PROGRAMME",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "13 h - 14 h 30 : spectacles sur scène",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "14 h 30 - 16 h : danses en cercle avec le public",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Le festival bulgare annuel de Montréal aura lieu le 17 mai 2026 à partir de 13 h au parc Cabot Square (métro Atwater 📍)",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Une fois de plus, nous avons préparé un programme varié, riche en danses et en divertissements. Vous pourrez profiter de la participation des hôtes – l'ensemble « Zornitsa » – ainsi que, bien sûr, de groupes bulgares et étrangers invités, venus de Montréal et du Canada.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Pour finir, nous organiserons à nouveau un grand horo bulgare collectif, auquel tout le monde est invité à se joindre.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Alors, réservez la date, préparez des chaussures confortables et venez sur la place en tenue bulgare (les costumes traditionnels sont les bienvenus) !",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "🤍💚❤️",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Vidéo : https://fb.watch/qjErTsQa1W/",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "excerpt": {
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Nearly 100 dancers will be coming together from various cities within the country on May 17 for the Bulgarian festival of Montreal!…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Nearly 100 dancers from various cities across the country will gather on May 17 for the Bulgarian Festival of Montreal!…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "fr-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Près de 100 danseurs venus de différentes villes du pays se réuniront le 17 mai à l'occasion du festival bulgare de Montréal !…",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "venue": {
+            "bg-BG": "ул. „Сен-Катрин“ 2330 Запад, Монреал, Квебек H3H",
+            "en-CA": "2330 Saint-Catherine St W, Montreal, Quebec H3H",
+            "fr-CA": "2330, rue Sainte-Catherine Ouest, Montréal (Québec) H3H"
+          }
+        },
+        "_source": {
+          "fbEventId": "1614095242977322",
+          "url": "https://www.facebook.com/events/1614095242977322/",
+          "needsReview": false
+        }
+      }
+    ]
+  },
+  "headings": {
+    "total": 5,
+    "items": [
+      {
+        "sys": {
+          "id": "heading-andrea-bocelli-romanza-30th-anniversary-world-tour-centre-be-2026",
+          "contentType": "heading"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "АНДРЕА БОЧЕЛИ „Романца – Световно турне по повод 30-годишнината“ | Център Бел",
+            "en-CA": "ANDREA BOCELLI \"Romanza - 30th Anniversary World Tour\" | Centre Bell",
+            "fr-CA": "ANDREA BOCELLI « Romanza - Tournée mondiale du 30e anniversaire » | Centre Bell"
+          },
+          "heading": {
+            "bg-BG": "АНДРЕА БОЧЕЛИ „Романца – Световно турне по повод 30-годишнината“ | Център Бел",
+            "en-CA": "ANDREA BOCELLI \"Romanza - 30th Anniversary World Tour\" | Centre Bell",
+            "fr-CA": "ANDREA BOCELLI « Romanza - Tournée mondiale du 30e anniversaire » | Centre Bell"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "heading-board-bbq-2026",
+          "contentType": "heading"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Барбекю на съвета",
+            "en-CA": "Board BBQ",
+            "fr-CA": "BBQ du conseil"
+          },
+          "heading": {
+            "bg-BG": "Барбекю на съвета",
+            "en-CA": "Board BBQ",
+            "fr-CA": "BBQ du conseil"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "heading-stories-for-young-and-old-literary-reading-2026",
+          "contentType": "heading"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Приказки за малки и големи - литературно четене",
+            "en-CA": "Stories for Young and Old - Literary Reading",
+            "fr-CA": "Contes pour petits et grands - lecture littéraire"
+          },
+          "heading": {
+            "bg-BG": "Приказки за малки и големи - литературно четене",
+            "en-CA": "Stories for Young and Old - Literary Reading",
+            "fr-CA": "Contes pour petits et grands - lecture littéraire"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "heading-bulgarian-bazaar-every-last-sunday-of-the-month-2026",
+          "contentType": "heading"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Български Базар - Всяка последна неделя на месеца",
+            "en-CA": "Bulgarian Bazaar - Every last Sunday of the month",
+            "fr-CA": "Marché bulgare - Chaque dernier dimanche du mois"
+          },
+          "heading": {
+            "bg-BG": "Български Базар - Всяка последна неделя на месеца",
+            "en-CA": "Bulgarian Bazaar - Every last Sunday of the month",
+            "fr-CA": "Marché bulgare - Chaque dernier dimanche du mois"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "heading-montreal-bulgarian-festival-2026-2026",
+          "contentType": "heading"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Български фестивал в Монреал (2026)",
+            "en-CA": "Montreal Bulgarian Festival (2026)",
+            "fr-CA": "Festival bulgare de Montréal (2026)"
+          },
+          "heading": {
+            "bg-BG": "Български фестивал в Монреал (2026)",
+            "en-CA": "Montreal Bulgarian Festival (2026)",
+            "fr-CA": "Festival bulgare de Montréal (2026)"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      }
+    ]
+  }
+}

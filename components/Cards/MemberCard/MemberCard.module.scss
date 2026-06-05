@@ -1,0 +1,99 @@
+@use "styles/base-variables" as base;
+@use "styles/typo-mixins" as typo;
+@use "styles/mixins" as mx;
+
+.card {
+  --_border-radius: var(--spacing-3);
+  display: grid;
+  gap: var(--spacing-4);
+  border-radius: var(--_card-border-radius, var(--_border-radius));
+  height: 100%;
+  align-content: start;
+  @container (min-width: 581px) {
+    --_card-img-ratio: 16/6;
+    // grid-template-columns: 200px 1fr;
+  }
+  &:has(a[href]) {
+    position: relative;
+    // @include mx.border-shadow(true);
+    @include mx.card-clickable;
+    &:hover {
+      img {
+        scale: 1.02;
+      }
+    }
+  }
+  img {
+    aspect-ratio: var(--_card-img-ratio, 1/1);
+    object-fit: cover;
+    transition: scale 0.5s var(--ease-in);
+    border-radius: var(--spacing-3);
+    width: 100%;
+  }
+  &__heading {
+    @include typo.h4;
+  }
+  &__role {
+    @include typo.ui-small;
+  }
+  &__link {
+    @include mx.card-link(0);
+    cursor: pointer;
+    outline: none;
+    span {
+      @include mx.sr-only;
+    }
+  }
+  &__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: var(--spacing-4);
+    color: var(--color-white);
+    display: grid;
+    align-content: end;
+    isolation: isolate;
+    &:before {
+      content: "";
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.8) 100%);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      border-radius: var(--_border-radius);
+    }
+    p {
+      margin: 0;
+    }
+  }
+  &__description {
+    @include typo.ui-small;
+  }
+}
+
+.mleader {
+  color: var(--color-grey);
+  background-color: #fff;
+  border-radius: var(--spacing-3);
+  padding: var(--_mleader-padding, 2rem 0 0 0);
+  display: grid;
+  gap: 2rem;
+  @media (width > base.$breakpoint-md) {
+    --_mleader-padding: 2rem;
+    grid-template-columns: auto 1fr;
+    max-width: var(--page-width);
+    img {
+      max-width: 400px;
+    }
+  }
+  img {
+    border-radius: inherit;
+  }
+  &__name {
+    color: var(--color-highlight);
+  }
+}

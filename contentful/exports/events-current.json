@@ -1,0 +1,1961 @@
+{
+  "retrievedAt": "2026-02-09T13:49:59.639Z",
+  "spaceId": "huajfyusfsch",
+  "environment": "master",
+  "events": {
+    "total": 4,
+    "items": [
+      {
+        "sys": {
+          "id": "4uMaIhp6mOZxh4h1gB0qqu",
+          "contentType": "event",
+          "createdAt": "2026-02-08T14:04:28.161Z",
+          "updatedAt": "2026-02-08T14:20:46.380Z",
+          "publishedAt": "2026-02-08T14:20:46.380Z"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Празнична Гала на Българската Общност!"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "3SMxEIrD7itleMAftMt8Qj"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2025-12-13T18:30"
+          },
+          "venue": {
+            "en-CA": "Prime Venue – Banquet And Reception Centre",
+            "bg-BG": "Prime Venue – Banquet And Reception Centre"
+          },
+          "address": {
+            "bg-BG": {
+              "lon": -75.7007,
+              "lat": 45.3467
+            }
+          },
+          "cover": {
+            "bg-BG": [
+              {
+                "url": "http://res.cloudinary.com/dysoiulfl/image/upload/f_auto/q_auto/v1770560089/587500897_18327878518245013_8600509629616381057_n_kar00v.jpg",
+                "tags": [],
+                "type": "upload",
+                "bytes": 241242,
+                "width": 1440,
+                "format": "jpg",
+                "height": 960,
+                "version": 1770560089,
+                "duration": null,
+                "metadata": {},
+                "public_id": "587500897_18327878518245013_8600509629616381057_n_kar00v",
+                "created_at": "2026-02-08T14:14:49Z",
+                "secure_url": "https://res.cloudinary.com/dysoiulfl/image/upload/f_auto/q_auto/v1770560089/587500897_18327878518245013_8600509629616381057_n_kar00v.jpg",
+                "original_url": "http://res.cloudinary.com/dysoiulfl/image/upload/v1770560089/587500897_18327878518245013_8600509629616381057_n_kar00v.jpg",
+                "resource_type": "image",
+                "raw_transformation": "f_auto/q_auto",
+                "original_secure_url": "https://res.cloudinary.com/dysoiulfl/image/upload/v1770560089/587500897_18327878518245013_8600509629616381057_n_kar00v.jpg",
+                "original_transformed_url": "http://res.cloudinary.com/dysoiulfl/image/upload/f_auto/q_auto/v1770560089/587500897_18327878518245013_8600509629616381057_n_kar00v.jpg"
+              }
+            ]
+          },
+          "excerpt": {
+            "en-CA": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Get ready for a night filled with lots of surprises, dancing, and fun! Special entertainment for the kids!",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            "bg-BG": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Каним ви на незабравима вечер, изпълнена с изненади, танци и страхотна веселба!\nОчакват ви много изненади и страхотна веселба! Специални забавления за децата.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            }
+          },
+          "content": {
+            "en-CA": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Get ready for a night filled with lots of surprises, dancing, and fun! Special entertainment for the kids!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Evening Program:",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "6:30 – 7:30 pm",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – Welcome drink ",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "7:00 – 7:50 pm",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – Arts & Crafts for the kids",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "7:10 – 7:30 pm ",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "– Announcement of the Honorary Diploma Winners",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "7:30 – 8:30 pm",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – Dinner is served, children are served first",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "8:00 – 9:00 pm ",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "– Children’s entertainment: Mythic K‑Pop Party with Rumi",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "8:55 – 9:10 pm",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – Performance by Bulgarian Folk Dance Club “Izvorche”",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "9:10 – 10:00 pm",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – Horo, dancing and DJ",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "10:00 – 10:30 pm",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – Raffle",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "10:30 pm – 12:00 am",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – More dancing and celebrating",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    }
+                  ],
+                  "nodeType": "unordered-list"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "\n",
+                      "nodeType": "text"
+                    },
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Menu:",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Fresh buns and butter, appetizer and salad",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Main course (choice of): chicken Florentina /roasted salmon / vegan/vegetarian option",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Kids menu: homemade chicken fingers with fries",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Side: potatoes and vegetables",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Dessert, coffee, and tea",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    }
+                  ],
+                  "nodeType": "unordered-list"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "We can’t wait to see you at the Gala!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            },
+            "bg-BG": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Каним ви на незабравима вечер, изпълнена с изненади, танци и страхотна веселба!\nОчакват ви много изненади и страхотна веселба! Специални забавления за децата.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Програма на вечерта:",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "18:30 – 19:30 ",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "– Посрещане с welcome drink ",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "19:00 – 19:50 ",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "– Aрт и крафт занимания за децата",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "19:10 – 19:30",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – Тържествено обявяване на носителите на почетни грамоти",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "19:30 – 20:30",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – Сервиране на вечерята",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "20:00 – 21:00",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – Детско забавление: Mythic K‑Pop Party with Rumi",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "20:55 – 21:10",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – Специално изпълнение на Фолклорен танцов клуб „Изворче“",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "21:10 – 22:00 ",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "– Хора, танци и DJ",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "22:00 – 22:30",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – Томбола",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "22:30 – 00:00",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": " – Още танци и празнично настроение",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    }
+                  ],
+                  "nodeType": "unordered-list"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Меню:",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Пресни хлебчета c масло, oрдьовър и cалата",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Основно ястие по избор: пиле „Флорентина“/печенa сьомга/веган/вегетарианска опция",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Детско меню: домашни пилешки хапки с пържени картофки",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Гарнитура: картофи и зеленчуци",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Десерт, кафе и чай\n",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    }
+                  ],
+                  "nodeType": "unordered-list"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Очакваме ви с нетърпение на Галата!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            }
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "10zhr8RA8eLa6g1ecwFl18",
+          "contentType": "event",
+          "createdAt": "2026-02-07T22:48:00.547Z",
+          "updatedAt": "2026-02-07T22:49:47.724Z",
+          "publishedAt": "2026-02-07T22:49:47.724Z"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Test event"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "1EQqdHHiSTcEunVcnTIUpO"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2026-02-12T00:00"
+          },
+          "venue": {
+            "en-CA": "Avant-Garde Bar & Gift Shop",
+            "bg-BG": "Avant-Garde Bar & Gift Shop"
+          },
+          "address": {
+            "bg-BG": {
+              "lon": -75.6889,
+              "lat": 45.42664
+            }
+          },
+          "ticket": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5NaYXZpvmfdLpuHw8piOZz"
+              }
+            }
+          },
+          "cover": {
+            "bg-BG": [
+              {
+                "url": "http://res.cloudinary.com/dysoiulfl/image/upload/f_auto/q_auto/v1768557939/Parliament-Hill-Ottawa-TourismNeil-Robertson-upscale-4x_hydp53.webp",
+                "tags": [],
+                "type": "upload",
+                "bytes": 2888434,
+                "width": 4000,
+                "format": "webp",
+                "height": 2704,
+                "version": 1768557939,
+                "duration": null,
+                "metadata": {},
+                "public_id": "Parliament-Hill-Ottawa-TourismNeil-Robertson-upscale-4x_hydp53",
+                "created_at": "2026-01-16T10:05:39Z",
+                "secure_url": "https://res.cloudinary.com/dysoiulfl/image/upload/f_auto/q_auto/v1768557939/Parliament-Hill-Ottawa-TourismNeil-Robertson-upscale-4x_hydp53.webp",
+                "resource_type": "image",
+                "original_url": "http://res.cloudinary.com/dysoiulfl/image/upload/v1768557939/Parliament-Hill-Ottawa-TourismNeil-Robertson-upscale-4x_hydp53.webp",
+                "original_secure_url": "https://res.cloudinary.com/dysoiulfl/image/upload/v1768557939/Parliament-Hill-Ottawa-TourismNeil-Robertson-upscale-4x_hydp53.webp",
+                "original_transformed_url": "http://res.cloudinary.com/dysoiulfl/image/upload/f_auto/q_auto/v1768557939/Parliament-Hill-Ottawa-TourismNeil-Robertson-upscale-4x_hydp53.webp",
+                "raw_transformation": "f_auto/q_auto"
+              }
+            ]
+          },
+          "excerpt": {
+            "en-CA": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Bulgarian professionals in Ottawa-Gatineau — it’s time to connect!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Join us for our upcoming event, “Networking for Bulgarian Professionals,” designed to bring together members of the Bulgarian community working and thriving in the Ottawa-Gatineau region.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            },
+            "bg-BG": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Български професионалисти в Отава-Гатино — време е да се свържем!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Присъединете се към нас за специалното събитие „Нетуъркинг за български професионалисти“, което цели да събере професионалисти от българската общност в района Отава-Гатино.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            }
+          },
+          "content": {
+            "en-CA": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Bulgarian professionals in Ottawa-Gatineau — it’s time to connect!",
+                      "nodeType": "text"
+                    },
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "\nJoin us for our upcoming event, “Networking for Bulgarian Professionals,” designed to bring together members of the Bulgarian community working and thriving in the Ottawa-Gatineau region.\nExpect opportunities for:\n– Collaboration and idea exchange\n– Meaningful professional connections\n– Inspiring conversations\nWhether you’re looking to expand your network, share your expertise, or simply meet others who share your background and interests, this event is the perfect starting point.\nCome ready to meet new people, exchange ideas, and leave inspired.We can’t wait to see you there!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            },
+            "bg-BG": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Български професионалисти в Отава-Гатино — време е да се свържем!",
+                      "nodeType": "text"
+                    },
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "\nПрисъединете се към нас за специалното събитие „Нетуъркинг за български професионалисти“, което цели да събере професионалисти от българската общност в района Отава-Гатино.\nОчаква ви вечер, изпълнена с възможности за:\n– Сътрудничество и нови идеи\n– Стойностни професионални контакти\n– Вдъхновяващи разговори\nНезависимо дали искате да разширите мрежата си, да обмените опит или просто да се срещнете с други българи, които споделят вашите професионални интереси — това събитие е отлична отправна точка.\nЕлате с отворено съзнание, готовност за нови запознанства и вдъхновение. Очакваме ви с нетърпение!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            }
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "289tEdJGqfMyFe3xiSAO2J",
+          "contentType": "event",
+          "createdAt": "2026-02-07T13:47:20.801Z",
+          "updatedAt": "2026-02-07T17:12:55.803Z",
+          "publishedAt": "2026-02-07T17:12:55.803Z"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Нетуъркинг за български професионалисти"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "59a7Y0CWkgDoEkPVoF3aZE"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2025-11-26T00:00"
+          },
+          "venue": {
+            "en-CA": "Avant-Garde Bar & Gift Shop",
+            "bg-BG": "Avant-Garde Bar & Gift Shop"
+          },
+          "address": {
+            "bg-BG": {
+              "lon": -75.6889,
+              "lat": 45.42664
+            }
+          },
+          "ticket": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "5NaYXZpvmfdLpuHw8piOZz"
+              }
+            }
+          },
+          "cover": {
+            "bg-BG": [
+              {
+                "url": "http://res.cloudinary.com/dysoiulfl/image/upload/f_auto/q_auto/v1770472144/NETWORKING.png_wp6joq.png",
+                "tags": [],
+                "type": "upload",
+                "bytes": 1530626,
+                "width": 1024,
+                "format": "png",
+                "height": 1348,
+                "version": 1770472144,
+                "duration": null,
+                "metadata": {},
+                "public_id": "NETWORKING.png_wp6joq",
+                "created_at": "2026-02-07T13:49:04Z",
+                "secure_url": "https://res.cloudinary.com/dysoiulfl/image/upload/f_auto/q_auto/v1770472144/NETWORKING.png_wp6joq.png",
+                "original_url": "http://res.cloudinary.com/dysoiulfl/image/upload/v1770472144/NETWORKING.png_wp6joq.png",
+                "resource_type": "image",
+                "raw_transformation": "f_auto/q_auto",
+                "original_secure_url": "https://res.cloudinary.com/dysoiulfl/image/upload/v1770472144/NETWORKING.png_wp6joq.png",
+                "original_transformed_url": "http://res.cloudinary.com/dysoiulfl/image/upload/f_auto/q_auto/v1770472144/NETWORKING.png_wp6joq.png"
+              }
+            ]
+          },
+          "excerpt": {
+            "en-CA": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Bulgarian professionals in Ottawa-Gatineau — it’s time to connect!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Join us for our upcoming event, “Networking for Bulgarian Professionals,” designed to bring together members of the Bulgarian community working and thriving in the Ottawa-Gatineau region.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            },
+            "bg-BG": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Български професионалисти в Отава-Гатино — време е да се свържем!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Присъединете се към нас за специалното събитие „Нетуъркинг за български професионалисти“, което цели да събере професионалисти от българската общност в района Отава-Гатино.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            }
+          },
+          "content": {
+            "en-CA": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Bulgarian professionals in Ottawa-Gatineau — it’s time to connect!",
+                      "nodeType": "text"
+                    },
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "\nJoin us for our upcoming event, “Networking for Bulgarian Professionals,” designed to bring together members of the Bulgarian community working and thriving in the Ottawa-Gatineau region.\nExpect opportunities for:\n– Collaboration and idea exchange\n– Meaningful professional connections\n– Inspiring conversations\nWhether you’re looking to expand your network, share your expertise, or simply meet others who share your background and interests, this event is the perfect starting point.\nCome ready to meet new people, exchange ideas, and leave inspired.We can’t wait to see you there!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Български професионалисти в Отава-Гатино — време е да се свържем!",
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "data": {}
+                    },
+                    {
+                      "nodeType": "text",
+                      "value": "\nПрисъединете се към нас за специалното събитие „Нетуъркинг за български професионалисти“, което цели да събере професионалисти от българската общност в района Отава-Гатино.\nОчаква ви вечер, изпълнена с възможности за:\n– Сътрудничество и нови идеи\n– Стойностни професионални контакти\n– Вдъхновяващи разговори\nНезависимо дали искате да разширите мрежата си, да обмените опит или просто да се срещнете с други българи, които споделят вашите професионални интереси — това събитие е отлична отправна точка.\nЕлате с отворено съзнание, готовност за нови запознанства и вдъхновение. Очакваме ви с нетърпение!",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "M0V2GzwC3x7ylxcs7OnDe",
+          "contentType": "event",
+          "createdAt": "2026-02-07T12:50:42.612Z",
+          "updatedAt": "2026-02-07T17:12:36.274Z",
+          "publishedAt": "2026-02-07T17:12:36.274Z"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Антарктически приказки"
+          },
+          "heading": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "7t3eRrYsD6R3uKe1LJpGSo"
+              }
+            }
+          },
+          "date": {
+            "bg-BG": "2025-11-30T00:00"
+          },
+          "venue": {
+            "en-CA": "Geneva Hall, Knox Presbyterian Church",
+            "bg-BG": "Geneva Hall, Knox Presbyterian Church"
+          },
+          "address": {
+            "bg-BG": {
+              "lon": -75.6909,
+              "lat": 45.41921
+            }
+          },
+          "ticket": {
+            "bg-BG": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Entry",
+                "id": "632ShVOfaW0bYbBSLsp6kf"
+              }
+            }
+          },
+          "cover": {
+            "bg-BG": [
+              {
+                "url": "http://res.cloudinary.com/dysoiulfl/image/upload/f_auto/q_auto/v1770470284/Antractic.png_bmua4b.png",
+                "tags": [],
+                "type": "upload",
+                "bytes": 297762,
+                "width": 590,
+                "format": "png",
+                "height": 403,
+                "version": 1770470284,
+                "duration": null,
+                "metadata": {},
+                "public_id": "Antractic.png_bmua4b",
+                "created_at": "2026-02-07T13:18:04Z",
+                "secure_url": "https://res.cloudinary.com/dysoiulfl/image/upload/f_auto/q_auto/v1770470284/Antractic.png_bmua4b.png",
+                "original_url": "http://res.cloudinary.com/dysoiulfl/image/upload/v1770470284/Antractic.png_bmua4b.png",
+                "resource_type": "image",
+                "raw_transformation": "f_auto/q_auto",
+                "original_secure_url": "https://res.cloudinary.com/dysoiulfl/image/upload/v1770470284/Antractic.png_bmua4b.png",
+                "original_transformed_url": "http://res.cloudinary.com/dysoiulfl/image/upload/f_auto/q_auto/v1770470284/Antractic.png_bmua4b.png"
+              }
+            ]
+          },
+          "excerpt": {
+            "en-CA": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "An inspiring musical and poetic spectacle, born on the Ice Continent, arrives in the heart of Ottawa!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Maestro Theodosius Spasov and virtuoso guitarist Hristian Tsvyatkov, together with charismatic actors Boyka Velkova and Lyubomir Kovachev, will take you on an unforgettable journey through poetry and music, inspired by the magic of Antarctica.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            },
+            "bg-BG": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Един вдъхновяващ музикално-поетичен спектакъл, роден на Ледения континент, пристига в сърцето на Отава!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Маестро Теодосий Спасов",
+                      "nodeType": "text"
+                    },
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": " и виртуозният китарист ",
+                      "nodeType": "text"
+                    },
+                    {
+                      "data": {},
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "value": "Християн Цвятков",
+                      "nodeType": "text"
+                    },
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": ", заедно с харизматичните актьори Бойка Велкова и Любомир Ковачев, ще ви отведат на незабравимо пътешествие чрез поезия и музика, вдъхновено от магията на Антарктида.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            }
+          },
+          "content": {
+            "en-CA": {
+              "data": {},
+              "content": [
+                {
+                  "data": {
+                    "target": {
+                      "sys": {
+                        "id": "632ShVOfaW0bYbBSLsp6kf",
+                        "type": "Link",
+                        "linkType": "Entry"
+                      }
+                    }
+                  },
+                  "content": [],
+                  "nodeType": "embedded-entry-block"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "$36 in advance",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "$41 at the door",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "$31 for members",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "$26 for students",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Free for children under 12",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    }
+                  ],
+                  "nodeType": "unordered-list"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "An inspiring musical and poetic spectacle, born on the Ice Continent, arrives in the heart of Ottawa!",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Maestro Theodosius Spasov and virtuoso guitarist Hristian Tsvyatkov, together with charismatic actors Boyka Velkova and Lyubomir Kovachev, will take you on an unforgettable journey through poetry and music, inspired by the magic of Antarctica.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Don’t miss this unique cultural dialogue between continents, arts and emotions.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Book your tickets in time and immerse yourself in “Antarctic Tales” – a spectacle that warms the heart even in the coldest latitudes.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            },
+            "bg-BG": {
+              "nodeType": "document",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "unordered-list",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "list-item",
+                      "data": {},
+                      "content": [
+                        {
+                          "nodeType": "paragraph",
+                          "data": {},
+                          "content": [
+                            {
+                              "nodeType": "text",
+                              "value": "$36 предварителнo",
+                              "marks": [],
+                              "data": {}
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "list-item",
+                      "data": {},
+                      "content": [
+                        {
+                          "nodeType": "paragraph",
+                          "data": {},
+                          "content": [
+                            {
+                              "nodeType": "text",
+                              "value": "$41 на място",
+                              "marks": [],
+                              "data": {}
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "list-item",
+                      "data": {},
+                      "content": [
+                        {
+                          "nodeType": "paragraph",
+                          "data": {},
+                          "content": [
+                            {
+                              "nodeType": "text",
+                              "value": "$31 за членове",
+                              "marks": [],
+                              "data": {}
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "list-item",
+                      "data": {},
+                      "content": [
+                        {
+                          "nodeType": "paragraph",
+                          "data": {},
+                          "content": [
+                            {
+                              "nodeType": "text",
+                              "value": "$26 за студенти",
+                              "marks": [],
+                              "data": {}
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "list-item",
+                      "data": {},
+                      "content": [
+                        {
+                          "nodeType": "paragraph",
+                          "data": {},
+                          "content": [
+                            {
+                              "nodeType": "text",
+                              "value": "Безплатно за деца до 12 години",
+                              "marks": [],
+                              "data": {}
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Един вдъхновяващ музикално-поетичен спектакъл, роден на Ледения континент, пристига в сърцето на Отава!",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Маестро Теодосий Спасов",
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "data": {}
+                    },
+                    {
+                      "nodeType": "text",
+                      "value": " и виртуозният китарист ",
+                      "marks": [],
+                      "data": {}
+                    },
+                    {
+                      "nodeType": "text",
+                      "value": "Християн Цвятков",
+                      "marks": [
+                        {
+                          "type": "bold"
+                        }
+                      ],
+                      "data": {}
+                    },
+                    {
+                      "nodeType": "text",
+                      "value": ", заедно с харизматичните актьори Бойка Велкова и Любомир Ковачев, ще ви отведат на незабравимо пътешествие чрез поезия и музика, вдъхновено от магията на Антарктида.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Не пропускайте този уникален културен диалог между континенти, изкуства и емоции.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "paragraph",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "text",
+                      "value": "Резервирайте билетите си навреме и се потопете в „Антарктически приказки“ – спектакъл, който стопля сърцето дори в най-студените ширини.",
+                      "marks": [],
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "headings": {
+    "total": 4,
+    "items": [
+      {
+        "sys": {
+          "id": "3SMxEIrD7itleMAftMt8Qj",
+          "contentType": "heading",
+          "createdAt": "2026-02-08T14:04:36.502Z",
+          "updatedAt": "2026-02-08T15:31:16.721Z",
+          "publishedAt": "2026-02-08T15:31:16.721Z"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Празнична Гала на Българската Общност!"
+          },
+          "heading": {
+            "en-CA": "Bulgarian Community Holiday Gala!",
+            "bg-BG": "Празнична Гала на Българската Общност!"
+          },
+          "as": {
+            "bg-BG": "h1"
+          },
+          "size": {
+            "bg-BG": "h1"
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "1EQqdHHiSTcEunVcnTIUpO",
+          "contentType": "heading",
+          "createdAt": "2026-02-07T22:48:19.785Z",
+          "updatedAt": "2026-02-07T22:48:45.730Z",
+          "publishedAt": "2026-02-07T22:48:45.730Z"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Title: Test Event "
+          },
+          "heading": {
+            "en-CA": "Test Event ",
+            "bg-BG": "Тест събитие"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "59a7Y0CWkgDoEkPVoF3aZE",
+          "contentType": "heading",
+          "createdAt": "2026-02-07T13:47:33.680Z",
+          "updatedAt": "2026-02-07T13:47:55.310Z",
+          "publishedAt": "2026-02-07T13:47:55.310Z"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Нетуъркинг за български професионалисти"
+          },
+          "heading": {
+            "en-CA": "Networking for Bulgarian professionals",
+            "bg-BG": "Нетуъркинг за български професионалисти"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      },
+      {
+        "sys": {
+          "id": "7t3eRrYsD6R3uKe1LJpGSo",
+          "contentType": "heading",
+          "createdAt": "2026-02-07T13:15:06.251Z",
+          "updatedAt": "2026-02-07T13:15:43.441Z",
+          "publishedAt": "2026-02-07T13:15:43.441Z"
+        },
+        "fields": {
+          "title": {
+            "bg-BG": "Антарктически приказки"
+          },
+          "heading": {
+            "en-CA": "Antarctic Tales",
+            "bg-BG": "Антарктически приказки"
+          },
+          "as": {
+            "bg-BG": "h2"
+          },
+          "size": {
+            "bg-BG": "h2"
+          }
+        }
+      }
+    ]
+  }
+}

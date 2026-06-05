@@ -1,0 +1,273 @@
+@use "styles/typo-mixins" as typo;
+
+.directory {
+  --_directory-gap: var(--spacing-6);
+  display: grid;
+  gap: var(--_directory-gap);
+
+  &__header {
+    display: grid;
+    gap: var(--spacing-2);
+		margin-bottom: var(--spacing-4);
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__intro {
+    @include typo.ui-caption;
+  }
+
+  &__controls {
+		background-color: var(--color-grey-light);
+		padding: var(--spacing-8);
+		border-radius: var(--spacing-4);
+    display: grid;
+    gap: var(--spacing-4);
+		margin-block: var(--spacing-8);
+  }
+
+  // ── Search ──
+  &__search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__searchIcon {
+    position: absolute;
+    left: var(--spacing-4);
+    flex-shrink: 0;
+    pointer-events: none;
+    color: var(--color-grey);
+  }
+
+  &__searchInput {
+    appearance: none;
+    -webkit-appearance: none;
+    min-width: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.9rem 1rem 0.9rem 3rem;
+    border: 1px solid var(--color-grey-border);
+    border-radius: var(--spacing-3);
+    background-color: var(--surface-container);
+    color: inherit;
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--color-black) 5%, transparent);
+
+    &::placeholder {
+      color: var(--color-grey);
+    }
+
+    &::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+    }
+
+    &:focus {
+      outline: 2px solid color-mix(in srgb, var(--color-main) 35%, transparent);
+      outline-offset: 1px;
+    }
+  }
+
+  // ── Autocomplete suggestions ──
+  &__suggest {
+    position: absolute;
+    top: calc(100% + var(--spacing-2));
+    left: 0;
+    right: 0;
+    z-index: 5;
+    margin: 0;
+    padding: var(--spacing-2);
+    list-style: none;
+    max-height: 22rem;
+    overflow-y: auto;
+    background-color: var(--surface-container);
+    border: 1px solid var(--color-grey-border);
+    border-radius: var(--spacing-3);
+    box-shadow: 0 8px 28px color-mix(in srgb, var(--color-black) 12%, transparent);
+  }
+
+  &__suggestHeading {
+    padding: var(--spacing-2) var(--spacing-3) var(--spacing-1);
+    color: var(--color-grey);
+    font-size: 0.6875rem;
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__suggestOption {
+    --_opt-bg: transparent;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: var(--spacing-2);
+    background-color: var(--_opt-bg);
+    color: var(--on-surface);
+    font-size: 0.875rem;
+    cursor: pointer;
+
+    &--active {
+      --_opt-bg: var(--color-grey-light);
+    }
+  }
+
+  &__suggestIcon {
+    flex-shrink: 0;
+    color: var(--color-grey);
+  }
+
+  &__clear {
+    position: absolute;
+    right: var(--spacing-3);
+    display: inline-grid;
+    place-items: center;
+    flex-shrink: 0;
+    padding: var(--spacing-1);
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--color-grey);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-grey-dark);
+    }
+  }
+
+  // ── Browse chips ──
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+  }
+
+  // Tier 2 sits under the group row; nudge it in to read as a sub-level.
+  &__chipsSub {
+    padding-left: var(--spacing-3);
+    border-left: 2px solid var(--color-grey-border);
+  }
+
+  &__categorySelect {
+    max-width: 18rem;
+  }
+
+  &__chip {
+    // Scoped vars the base reads; the active state only *reassigns* these,
+    // never re-declares the painted properties (project css-styling rule).
+    --_chip-bg: var(--surface-container);
+    --_chip-color: var(--on-surface);
+    --_chip-border: var(--color-grey-border);
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--_chip-border);
+    border-radius: 999px;
+    background-color: var(--_chip-bg);
+    color: var(--_chip-color);
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+
+    &:hover {
+      --_chip-border: var(--color-grey);
+    }
+
+    // White text on --color-main (hsl 209 94% 14%) passes WCAG AA.
+    &[data-active="true"] {
+      --_chip-bg: var(--color-main);
+      --_chip-color: var(--color-white);
+      --_chip-border: transparent;
+    }
+  }
+
+  &__chipCount {
+    --_count-bg: transparent;
+    --_count-color: var(--color-grey);
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.25rem;
+    padding: 0 0.35rem;
+    border-radius: 999px;
+    background-color: var(--_count-bg);
+    color: var(--_count-color);
+    font-size: 0.6875rem;
+    font-weight: var(--font-weight-bold);
+  }
+
+  &__chip[data-active="true"] &__chipCount {
+    --_count-bg: color-mix(in srgb, var(--color-white) 22%, transparent);
+    --_count-color: var(--color-white);
+  }
+
+  // ── Results meta ──
+  &__count {
+    margin: 0;
+    color: var(--color-grey-dark);
+    font-weight: var(--font-weight-bold);
+  }
+
+  // ── A→Z letter index ──
+  // `isolation: isolate` gives the index its own stacking context so the sticky
+  // letters reliably paint above the cards (gsap can give a card its own
+  // stacking context during the scroll-in animation).
+  &__index {
+    display: grid;
+    gap: var(--spacing-8);
+    isolation: isolate;
+  }
+
+  &__section {
+    display: grid;
+    gap: var(--spacing-4);
+  }
+
+  &__letter {
+    // Sticky phone-book header. Sits below the fixed site nav by default;
+    // `--directory-sticky-top` lets a page override the offset.
+    position: sticky;
+    top: var(--directory-sticky-top, calc(var(--navigation-height) + 1rem));
+    z-index: 2;
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: var(--spacing-3) 0 var(--spacing-2);
+    background-color: var(--surface-container);
+    border-bottom: 1px solid var(--color-grey-border);
+    --heading-color: var(--on-surface);
+  }
+
+  // Scroll target wrapper for "jump to listing" from the autocomplete.
+  &__card {
+    height: 100%;
+    border-radius: var(--spacing-4);
+    // Land below the fixed nav + the sticky letter when scrolled into view.
+    scroll-margin-top: calc(var(--navigation-height) + 5rem);
+    transition: box-shadow 0.3s ease;
+
+    &--highlight {
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-main) 45%, transparent);
+    }
+  }
+
+  &__empty {
+    @include typo.ui-caption;
+    padding: var(--spacing-8) var(--spacing-4);
+    text-align: center;
+    color: var(--color-grey);
+    background-color: var(--color-grey-light);
+    border-radius: var(--spacing-3);
+  }
+}

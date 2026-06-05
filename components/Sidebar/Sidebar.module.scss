@@ -1,0 +1,22 @@
+@use 'styles/base-variables' as base;
+@use 'styles/typo-mixins' as typo;
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  width: 100%;
+  min-width: 340px;
+	max-width: 340px;
+  position: sticky;
+  top: 0;
+
+  @media (max-width: base.$breakpoint-md) {
+    max-width: 100%;
+  }
+}
+
+.widgetTitle {
+  margin: 0 0 var(--spacing-4) 0;
+  color: var(--color-text-primary);
+}

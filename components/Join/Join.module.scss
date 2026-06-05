@@ -1,0 +1,140 @@
+@use "styles/base-variables" as base;
+
+.join {
+  // White headings/text on the dark navy card.
+  --heading-color: var(--color-white);
+	--_bg-color: #020308;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  background-color: var(--_bg-color);
+  border-radius: var(--spacing-6); // ~24px, matches rounded-3xl in the mock
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: var(--box-shadow-size) var(--box-shadow-color);
+
+  @media (min-width: base.$breakpoint-md) {
+    grid-template-columns: 7fr 5fr;
+    align-items: stretch;
+    min-height: 400px;
+  }
+
+  &__content {
+    padding: var(--spacing-10);
+    color: var(--color-white);
+
+    @media (min-width: base.$breakpoint-md) {
+      padding: var(--spacing-14);
+    }
+  }
+
+  &__eyebrow {
+    display: block;
+    margin-bottom: var(--spacing-4);
+    color: var(--color-highlight);
+    font-size: var(--ui-small-font-size);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin-bottom: var(--spacing-5);
+    line-height: 1.1;
+  }
+
+  &__description {
+    margin: 0 0 var(--spacing-8);
+    max-width: 30rem;
+    color: color-mix(in srgb, var(--color-white) 80%, transparent);
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+
+    @media (min-width: base.$breakpoint-sm) {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  &__input {
+    flex: 1 1 auto;
+    min-width: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    padding: var(--spacing-4) var(--spacing-5);
+    border-radius: var(--spacing-3);
+    background: color-mix(in srgb, var(--color-white) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-white) 20%, transparent);
+    color: var(--color-white);
+    font-size: var(--ui-body-font-size);
+
+    &::placeholder {
+      color: color-mix(in srgb, var(--color-white) 50%, transparent);
+    }
+
+    &:focus-visible {
+      outline: 2px solid color-mix(in srgb, var(--color-highlight) 70%, transparent);
+      outline-offset: 2px;
+      border-color: transparent;
+    }
+  }
+
+  // Scoped under __form to outrank the Button's own .button--primary vars.
+  &__form &__submit {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    --_btn-color: var(--color-white);
+    --_btn-hover-color: var(--color-white);
+    --_btn-bg-color: var(--color-highlight);
+    --_btn-border-color: var(--color-highlight);
+    --_btn-hover-bg-color: color-mix(in srgb, var(--color-highlight), black 15%);
+    --_btn-hover-border-color: color-mix(in srgb, var(--color-highlight), black 15%);
+  }
+
+  &__status {
+    display: block;
+    margin: var(--spacing-4) 0 0;
+    min-height: 1.25rem;
+    font-size: var(--ui-small-font-size);
+
+    &--success {
+      color: var(--color-lime);
+    }
+
+    &--error {
+      color: color-mix(in srgb, var(--color-highlight), white 25%);
+    }
+  }
+
+  &__media {
+    position: relative;
+    min-height: 240px;
+
+    // Soft navy-to-transparent blend so the photo melts into the card on desktop.
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(to right, var(--_bg-color), transparent 45%);
+    }
+
+    @media (max-width: base.$breakpoint-md-max) {
+      aspect-ratio: 16 / 9;
+      min-height: 0;
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+
+  &__image {
+    object-fit: cover;
+  }
+}

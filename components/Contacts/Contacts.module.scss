@@ -1,0 +1,85 @@
+@use "styles/base-variables" as base;
+.contact {
+  @media (min-width: base.$breakpoint-md) {
+    width: 100%;
+    margin: auto;
+    max-width: 50%;
+  }
+  fieldset {
+    border: none;
+  }
+  input::-ms-clear {
+    display: none;
+  }
+}
+
+.contact__item {
+  label {
+    display: block;
+  }
+  input,
+  textarea {
+    display: block;
+    border: 0;
+    outline: none;
+    max-width: 100%;
+    border: 1px solid var(--color-grey-border);
+    border-radius: var(--spacing-3);
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 1.5rem 1rem;
+    font-family: var(--body-font-family);
+    font-size: var(--ui-body-font-size);
+    background-color: transparent;
+    &:focus {
+      border-color: var(--base-color);
+    }
+    &.error {
+      border-bottom-color: var(--base-color);
+    }
+  }
+  span {
+    position: absolute;
+    text-indent: -9999px;
+  }
+  textarea {
+    field-sizing: content;
+  }
+  &--right {
+    justify-self: end;
+  }
+}
+
+.contact-info {
+  margin: 4.8rem auto 0;
+  font-family: sans-serif;
+  font-size: 1.5rem;
+  text-align: center;
+}
+.contact-info .collapse {
+  padding: 0;
+}
+.contact-info .icon {
+  margin-bottom: 2.1rem;
+}
+.contact-info .icon i {
+  font-size: 4.2rem;
+  color: #ffffff;
+}
+.contact-info h5 {
+  color: var(--base-color);
+}
+
+.contact-dialog {
+  padding: 2em;
+  border-radius: 2px;
+  transition: 0.2s color;
+  text-align: center;
+  margin-top: 2rem;
+  position: static;
+  color: var(--modal-status, red);
+  &[data-status="true"] {
+    --modal-status: green;
+  }
+}

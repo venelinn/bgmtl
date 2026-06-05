@@ -1,0 +1,148 @@
+@use "styles/base-variables" as base;
+@use "styles/typo-mixins" as typo;
+@use "styles/mixins.scss" as mx;
+
+.sliderContainer {
+  position: relative;
+  height: 100%;
+
+  // :global {
+  //   .swiper-slide-active {
+  //     z-index: 1;
+  //   }
+  // }
+}
+
+.paddingForNavigationButton {
+  --_padding: var(--spacing-5);
+  padding-right: var(--_padding);
+  padding-left: var(--_padding);
+
+  &.hide {
+    --_padding: 0;
+  }
+
+  &.desktopOnly {
+    @media (max-width: base.$breakpoint-md) {
+      --_padding: 0;
+    }
+  }
+
+  @media (min-width: base.$breakpoint-md) {
+    --_padding: 0;
+  }
+}
+
+.swiper {
+  --swiper-navigation-sides-offset: 0;
+
+  color: inherit;
+}
+
+.swiperPadding {
+  padding: var(--spacing-2);
+}
+
+.swiperSlide {
+  container-type: inline-size;
+}
+
+.slideImage {
+  width: 100%;
+  height: 100%;
+}
+
+.navigationButton {
+  --_nav-btn-size: var(--spacing-6);
+  color: var(--_nav-btn-color, var(--color-teal-200));
+  width: var(--_nav-btn-size);
+  height: var(--_nav-btn-size);
+
+  font-size: var(--_nav-btn-size);
+  position: absolute;
+  top: calc(50% - 2rem);
+  z-index: 2;
+  background-color: transparent;
+
+  border: 0;
+  transform: translateY(-50%);
+  cursor: pointer;
+
+  &Prev {
+    left: var(--_nav-btn-left, calc(var(--spacing-6) * -1));
+
+    @media (min-width: base.$breakpoint-xl) {
+      --_nav-btn-left: -40px;
+    }
+  }
+
+  &Next {
+    right: var(--_nav-btn-right, calc(var(--spacing-6) * -1));
+
+    @media (min-width: base.$breakpoint-xl) {
+      --_nav-btn-right: -40px;
+    }
+  }
+
+  .hide & {
+    display: none;
+  }
+
+  &.desktopOnly {
+    @media (max-width: base.$breakpoint-md) {
+      display: none;
+    }
+  }
+
+  &[disabled]:not(.active) {
+    color: var(--color-gray-400);
+
+    cursor: not-allowed;
+  }
+
+  .navigationButtonIcon {
+    display: flex;
+    justify-content: center;
+
+    transition: color 0.3s ease;
+
+    &::before {
+      height: 27px;
+    }
+  }
+}
+
+.pagination {
+  margin-top: var(--spacing-4);
+  @include mx.swiperPagination;
+
+  &.hide {
+    display: none;
+  }
+
+  &.desktopOnly {
+    @media (max-width: base.$breakpoint-md) {
+      display: none;
+    }
+  }
+}
+
+.slideLabelMessage {
+  @include typo.ui-caption;
+
+  position: relative;
+
+  // Calculates position to align label with left side of slide
+  // left: calc(
+  //   (100% - calc((100% - (var(--_slidesPerView, 1) - 1) * var(--_spaceBetween, 16px)) / var(--_slidesPerView, 1))) / 2
+  // );
+
+  display: inline-block;
+  margin-top: 1rem;
+
+  color: var(--color-gray-100);
+
+  + .pagination {
+    margin-top: 0.5rem;
+  }
+}

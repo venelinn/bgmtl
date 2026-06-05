@@ -1,0 +1,42 @@
+@use "styles/base-variables" as base;
+.inner {
+  --_heading-mb: 0;
+  position: relative;
+  &__heading,
+  &__description {
+    --heading-bottom: 0;
+  }
+  &__description {
+    opacity: 0.8;
+  }
+  p {
+    margin: 0;
+  }
+  &__offset {
+    --_slider-padding-left: calc((100vw - var(--page-width)) / 2 - var(--padding-inline, 1rem));
+    .inner__heading,
+    .inner__description {
+      @media (width > base.$breakpoint-lg) {
+        padding-left: calc((100dvw - var(--page-width)) / 2 - var(--padding-inline, 1rem));
+      }
+      @media (width <= base.$breakpoint-lg) {
+        padding-left: var(--padding-mobile);
+      }
+    }
+  }
+}
+
+.grid__button__wrapper {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.slider__wrapper {
+  position: relative;
+  padding-top: var(--_slider-wrapper-pt, 2rem);
+  isolation: isolate;
+  @media (width > base.$breakpoint-md) {
+    padding-left: var(--_slider-padding-left);
+  }
+}

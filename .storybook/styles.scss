@@ -1,0 +1,41 @@
+@use "../styles/_mixins" as shared;
+@use "../styles/_typo-mixins" as typo;
+@use "../styles/_typography";
+@use "../styles/_normalize" as normalize;
+@use "../styles/_css-variables";
+
+:root {
+  --swiper-navigation-color: var(--color-blue);
+  --swiper-pagination-color: var(--color-blue);
+
+  //  --body-font-family: "Montserrat", sans-serif;
+  --body-font-family: "Poppins", sans-serif;
+  --page-max-width: 1120px;
+  --padding-desktop: 1.5rem;
+  --padding-mobile: 1rem;
+  --border-radius: var(--spacing-1);
+
+  --box-shadow-color: #00000029;
+  --box-shadow-size: 0 1px 4px;
+  --anim-line-speed: 300ms;
+  --anim-line: cubic-bezier(0.42, 0.63, 0.13, 0.99);
+  --text-in: cubic-bezier(0.31, 0.11, 0.12, 0.99);
+  --ease-in: cubic-bezier(0.4, 0, 0.2, 1);
+  interpolate-size: allow-keywords;
+}
+
+body {
+  @include typo.ui-body;
+}
+
+@layer theme {
+  @include typography.typography;
+}
+
+@layer utilities {
+  @import "tailwindcss/theme.css";
+  @import "tailwindcss/utilities.css";
+}
+
+@layer components {
+}

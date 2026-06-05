@@ -1,0 +1,92 @@
+[
+  {
+    "id": "lagoon-56",
+    "heading": { "titleKey": "Lagoon 56'", "size": "h4" },
+    "image": {
+      "src": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1600&q=80",
+      "width": 1600,
+      "height": 900,
+      "alt": "Lagoon 56 catamaran in Nassau harbor"
+    },
+    "link": { "href": "/boats/lagoon-56", "label": "from $3,800" },
+    "location": "Nassau",
+    "passengers": "Up to 25 passengers",
+    "length": "56 feet",
+    "price": 3800
+  },
+  {
+    "id": "catamaran-40",
+    "heading": { "titleKey": "Catamaran 40", "size": "h4" },
+    "image": {
+      "src": "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=80",
+      "width": 1600,
+      "height": 900,
+      "alt": "Catamaran 40 sailing"
+    },
+    "link": { "href": "/boats/catamaran-40", "label": "from $1,990" },
+    "location": "Nassau",
+    "passengers": "Up to 10 passengers",
+    "length": "40 feet",
+    "price": 1990
+  },
+  {
+    "id": "75-sunseeker",
+    "heading": { "titleKey": "75 Sunseeker", "size": "h4" },
+    "image": {
+      "src": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80",
+      "width": 1600,
+      "height": 900,
+      "alt": "75 Sunseeker yacht under way"
+    },
+    "link": { "href": "/boats/75-sunseeker", "label": "from $4,130" },
+    "location": "Nassau",
+    "passengers": "Up to 18 passengers",
+    "length": "75 feet",
+    "price": 4130
+  },
+  {
+    "id": "110-crescent",
+    "heading": { "titleKey": "110 Crescent", "size": "h4" },
+    "image": {
+      "src": "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=80",
+      "width": 1600,
+      "height": 900,
+      "alt": "110 Crescent yacht cruising"
+    },
+    "link": { "href": "/boats/110-crescent", "label": "from $14,750" },
+    "location": "Nassau",
+    "passengers": "Up to 13 passengers",
+    "length": "110 feet",
+    "price": 14750
+  },
+  {
+    "id": "58-sea-ray",
+    "heading": { "titleKey": "58' Sea Ray", "size": "h4" },
+    "image": {
+      "src": "https://images.unsplash.com/photo-1552418235-7d7cad2b8b7e?auto=format&fit=crop&w=1600&q=80",
+      "width": 1600,
+      "height": 900,
+      "alt": "58 foot Sea Ray on the water"
+    },
+    "link": { "href": "/boats/58-sea-ray", "label": "from $2,760" },
+    "location": "Nassau",
+    "passengers": "Up to 12 passengers",
+    "length": "58 feet",
+    "price": 2760
+  },
+  {
+    "id": "luxury-yacht-65",
+    "heading": { "titleKey": "Luxury Yacht 65'", "size": "h4" },
+    "image": {
+      "src": "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=1600&q=80",
+      "width": 1600,
+      "height": 900,
+      "alt": "Luxury Yacht 65 in tropical water"
+    },
+    "link": { "href": "/boats/luxury-yacht-65", "label": "from $3,500" },
+    "location": "Nassau",
+    "passengers": "Up to 12 passengers",
+    "length": "65 feet",
+    "price": 3500
+  }
+]

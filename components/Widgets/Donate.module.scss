@@ -1,0 +1,132 @@
+@use 'styles/mixins' as mx;
+
+.donate-widget {
+  // Darker shade of the widget tone (blue) for the heading's left border.
+  --_heading-highlight-color: color-mix(
+    in srgb,
+    var(--color-blue),
+    var(--color-black) 10%
+  );
+
+  @include mx.asBox;
+	padding-block-start: 0;
+
+
+  &__media {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+  }
+
+  &__accent {
+    width: var(--spacing-1); // 4px
+    height: 1.5rem; // 24px
+    background: var(--color-highlight);
+    border-radius: var(--spacing-0-5); // 2px
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__icon {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--color-blue) 14%, var(--surface-container)),
+      var(--surface-container)
+    );
+    color: var(--on-surface);
+
+    svg {
+      width: 70%;
+      height: 70%;
+    }
+  }
+
+  &__text {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--ui-caption-font-size);
+    line-height: 1.5;
+    color: var(--on-surface);
+    text-align: left;
+  }
+
+  &__button {
+    width: 100%;
+  }
+
+  &__trust {
+    display: block;
+    margin-top: var(--spacing-3);
+    font-size: var(--ui-small-font-size);
+    color: var(--color-grey);
+  }
+
+  // ── Dark variant (homepage sidebar) ──────────────────────────────────────
+  // Navy card with a stacked, single-column call to action.
+  &--dark {
+    // asBox reads these scoped vars for the card surface + base text colour.
+    --_as-box-bgr: var(--color-main);
+    --_as-box-color: color-mix(in srgb, var(--color-white) 78%, transparent);
+
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+
+    .donate-widget__icon {
+      width: auto;
+      height: auto;
+      margin-bottom: var(--spacing-4);
+      background: none;
+      color: var(--color-highlight);
+
+      svg {
+        width: auto;
+        height: auto;
+      }
+    }
+
+    .donate-widget__title {
+      margin-bottom: var(--spacing-2);
+      color: var(--color-white);
+    }
+
+    .donate-widget__text {
+      margin-bottom: var(--spacing-5);
+      color: var(--_as-box-color);
+    }
+
+    .donate-widget__button {
+      position: relative;
+      z-index: 1;
+    }
+
+    // Decorative heart bleeding off the bottom-right corner.
+    .donate-widget__watermark {
+      position: absolute;
+      z-index: 0;
+      right: calc(var(--spacing-6) * -1);
+      bottom: calc(var(--spacing-6) * -1);
+      width: 11rem;
+      height: 11rem;
+      color: color-mix(in srgb, var(--color-white) 5%, transparent);
+      pointer-events: none;
+    }
+  }
+}

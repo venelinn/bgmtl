@@ -1,0 +1,305 @@
+@use "styles/typo-mixins" as typo;
+@use "styles/mixins" as mx;
+
+.calendar {
+  @include mx.asBox;
+	padding-top: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.monthYear {
+  text-transform: capitalize;
+  font-weight: var(--font-weight-medium);
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+
+  &:hover {
+    background: var(--color-grey-light);
+    color: var(--color-grey-dark);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-blue);
+    outline-offset: 2px;
+  }
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.weekday {
+  @include typo.ui-small;
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+  padding: 0.5rem 0;
+  text-transform: uppercase;
+  // letter-spacing: 0.5px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    transform 0.1s;
+  position: relative;
+
+  &:hover:not(:disabled) {
+    transform: scale(1.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-blue);
+    outline-offset: 2px;
+  }
+}
+
+.dayNumber {
+  position: relative;
+  z-index: 1;
+}
+
+// Event indicators
+.hasEvent {
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.upcomingEvent.hasEvent {
+  background: var(--color-green);
+  color: var(--color-white);
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-main), black 10%);
+  }
+}
+
+.pastEvent.hasEvent {
+  background: color-mix(in srgb, var(--color-blue) 12%, var(--color-white));
+  color: color-mix(in srgb, var(--color-blue), black 25%);
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-blue) 22%, var(--color-white));
+  }
+}
+
+// Status colors
+.available {
+  background: color-mix(in srgb, var(--color-green) 12%, var(--color-white));
+  color: color-mix(in srgb, var(--color-green), black 25%);
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-green) 22%, var(--color-white));
+  }
+}
+// Other month days
+
+// Today indicator
+.today {
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--color-blue);
+  }
+}
+
+// Past dates
+.past {
+  opacity: 0.8;
+}
+
+// Selected date. Compound `.day.selected` (both classes are always applied to
+// the cell) wins specificity over `.pastEvent.hasEvent` / `.available` without
+// needing `!important`.
+.day.selected {
+  background: var(--color-highlight);
+  color: var(--color-white);
+
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-highlight), black 10%);
+  }
+
+  &::after {
+    background: var(--color-white);
+  }
+}
+
+// Inline event detail panel (homepage widget)
+.eventDetail {
+  display: block;
+  margin-top: var(--spacing-5);
+  padding-left: var(--spacing-3);
+  border-left: 3px solid var(--color-highlight);
+  text-decoration: none;
+  color: inherit;
+
+  &:hover .eventDetail__title {
+    text-decoration: underline;
+  }
+
+  &__title {
+    display: block;
+    font-weight: var(--font-weight-medium);
+    color: var(--on-surface);
+    line-height: 1.3;
+  }
+
+  &__date {
+    @include typo.ui-small;
+    display: block;
+    margin-top: var(--spacing-1);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-grey);
+  }
+}
+
+// Loading skeleton
+.daySkeleton {
+  aspect-ratio: 1;
+  background-image: linear-gradient(
+    90deg,
+    var(--color-grey-light) 25%,
+    var(--color-grey-border) 37%,
+    var(--color-grey-light) 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 50%;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Legend
+.legend {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-grey-border);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--color-grey);
+}
+
+.legendDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+
+  &.available {
+    background: var(--color-green);
+  }
+
+  &.blocked {
+    background: var(--system-error);
+  }
+
+  &.booked {
+    background: var(--system-warning);
+  }
+}
+
+// Dark mode — the light-mode discs use lifted accents (solid green / red) and
+// white-based tints (past / available) that glow on the dark calendar. Re-base
+// the tints on the dark surface and dim the solid discs so active days read as
+// quiet markers rather than beacons.
+[data-theme="dark"] {
+  .upcomingEvent.hasEvent {
+    background: color-mix(in srgb, var(--color-green), black 38%);
+
+    &:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--color-green), black 26%);
+    }
+  }
+
+  .pastEvent.hasEvent {
+    background: color-mix(in srgb, var(--color-blue) 18%, var(--surface-container));
+    color: var(--color-blue);
+
+    &:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--color-blue) 26%, var(--surface-container));
+    }
+  }
+
+  .available {
+    background: color-mix(in srgb, var(--color-green) 18%, var(--surface-container));
+    color: var(--color-green);
+
+    &:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--color-green) 26%, var(--surface-container));
+    }
+  }
+
+  // Keep `.day.selected` last so it still wins over past/available at equal
+  // specificity when a selected day also has an event.
+  .day.selected {
+    background: color-mix(in srgb, var(--color-highlight), black 28%);
+
+    &:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--color-highlight), black 18%);
+    }
+  }
+}

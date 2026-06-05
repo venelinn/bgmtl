@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/.pnpm-store
 /.pnp
 .pnp.js
 
@@ -27,6 +28,10 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+
+# facebook events scraper (session cookies + raw scrape output)
+.fb-session.json
+mockData/events/_scraped/
 
 # vercel
 .vercel

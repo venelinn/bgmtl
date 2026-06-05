@@ -1,0 +1,295 @@
+/* ==========================================================================
+    Button
+========================================================================== */
+
+.btn {
+  --_btn-padding-inline: var(--spacing-5);
+  --_btn-padding-block: var(--spacing-4);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  outline: var(--_btn-outline, none);
+  outline-offset: var(--_btn-outline-offset, 0);
+  background-color: var(--_btn-bg-color);
+  border: 1px solid var(--_btn-border-color);
+  color: var(--_btn-color, inherit);
+  font-weight: var(--_btn-font-weight, var(--font-weight-medium));
+  padding-inline: var(--_btn-padding-inline);
+  padding-block: var(--_btn-padding-block);
+  border-radius: var(--_btn-border-radius, var(--spacing-1-5));
+  min-width: var(--_btn-min-width);
+  font-family: inherit;
+  font-size: var(--_btn-font-size, var(--ui-caption-font-size));
+  flex-direction: var(--_btn-flex-direction);
+  cursor: pointer;
+  text-decoration: none;
+  line-height: var(--_btn-line-height, 1);
+  &.icon-only {
+    --_btn-padding-block: 0.5rem;
+    &.is-rounded {
+      --_btn-border-radius: 44px;
+    }
+  }
+  &.is-rounded {
+    --_btn-border-radius: 44px;
+  }
+  &--icon-left {
+    // --_btn-padding-inline: var(--spacing-2-5);
+  }
+  // &--icon-right {
+  // 	--_btn-padding-r: .5rem;
+  // }
+  @media (prefers-reduced-motion: no-preference) {
+    transition:
+      color 0.6s var(--ease-in),
+      border 0.3s var(--ease-in),
+      background 0.4s var(--ease-in);
+  }
+  .icon {
+    opacity: 0.7;
+    scale: var(--_icon-scale, 1.2);
+  }
+
+  &:is(:hover, :focus-visible) {
+    --_btn-color: var(--_btn-hover-color);
+    --_btn-border-color: var(--_btn-hover-border-color);
+    --_btn-bg-color: var(--_btn-hover-bg-color);
+  }
+
+  &:is(:disabled, .is-disabled) {
+    opacity: 0.5;
+    pointer-events: none;
+    filter: grayscale(1);
+  }
+
+  &--sm {
+    --_btn-padding-inline: var(--spacing-5);
+    --_btn-padding-block: var(--spacing-2-5);
+    --_btn-font-size: var(--ui-caption-font-size);
+    --_btn-min-width: auto;
+    --_btn-font-weight: var(--font-weight-normal);
+    --_icon-scale: 1.4;
+  }
+
+  // primary → Blue (Update / Apply)
+  // success → Green (Create / Add New)
+  // toggle → Gray/Blue (Toggles)
+  // request → Purple/Blue (Requests)
+  // danger → Red (Delete)
+  // warning / attention → Orange/Yellow (Resolve Conflicts / Take Action)
+
+  &--primary {
+    --_btn-color: var(--system-white);
+    --_btn-bg-color: color-mix(in srgb, var(--color-blue), black 25%);
+    --_btn-border-color: color-mix(in srgb, var(--color-blue), black 25%);
+    --_btn-hover-bg-color: color-mix(in srgb, var(--color-blue), black 35%);
+    --_btn-hover-border-color: color-mix(in srgb, var(--color-blue), black 35%);
+    --_btn-hover-color: var(--color-white);
+    &.is-outlined {
+      --_btn-color: var(--color-blue);
+      --_btn-bg-color: transparent;
+      --_btn-border-color: var(--color-blue);
+      &:hover {
+        --_btn-bg-color: color-mix(in srgb, var(--color-blue), white 95%);
+      }
+      // --_btn-hover-bg-color: red;
+      --_btn-hover-border-color: var(--color-white);
+      --_btn-hover-color: var(--color-black);
+    }
+  }
+  &--success {
+    --_btn-color: var(--system-white);
+    --_btn-bg-color: color-mix(in srgb, var(--color-green), black 25%);
+    --_btn-border-color: color-mix(in srgb, var(--color-green), black 25%);
+    --_btn-hover-bg-color: color-mix(in srgb, var(--color-green), black 35%);
+    --_btn-hover-border-color: color-mix(in srgb, var(--color-green), black 35%);
+    --_btn-hover-color: var(--color-white);
+    &.is-outlined {
+      --_btn-color: var(--color-green);
+      --_btn-bg-color: transparent;
+      --_btn-border-color: var(--color-green);
+      &:hover {
+        --_btn-bg-color: color-mix(in srgb, var(--color-green), white 95%);
+      }
+      --_btn-hover-border-color: var(--color-white);
+      --_btn-hover-color: var(--color-black);
+    }
+  }
+  &--secondary {
+    --_btn-color: var(--system-white);
+    --_btn-bg-color: var(--color-main);
+    --_btn-border-color: var(--color-main);
+    --_btn-hover-bg-color: color-mix(in srgb, var(--color-main), black 10%);
+    --_btn-hover-border-color: color-mix(in srgb, var(--color-main), black 10%);
+    --_btn-hover-color: var(--color-white);
+    &.is-outlined {
+      --_btn-color: var(--color-blue);
+      --_btn-bg-color: transparent;
+      --_btn-border-color: var(--color-blue);
+      &:hover {
+        --_btn-bg-color: color-mix(in srgb, var(--color-blue), white 95%);
+      }
+      // --_btn-hover-bg-color: red;
+      --_btn-hover-border-color: var(--color-white);
+      --_btn-hover-color: var(--color-black);
+    }
+  }
+
+  &--danger {
+    --_btn-color: var(--color-white);
+    --_btn-bg-color: var(--system-error);
+    // --_btn-border-color: hsl(from var(--color-green) h s calc(l - 10));
+    --_btn-border-color: var(--system-error);
+    --_btn-hover-bg-color: color-mix(in srgb, var(--system-error), black 25%);
+    --_btn-hover-border-color: var(--system-error);
+    --_btn-hover-color: var(--color-white);
+    &.is-outlined {
+      --_btn-color: var(--system-error);
+      --_btn-bg-color: var(--color-shade-100);
+      --_btn-border-color: var(--system-error);
+      --_btn-hover-bg-color: var(--system-error);
+      --_btn-hover-border-color: var(--system-error);
+      --_btn-hover-color: var(--color-shade-100);
+      &:hover {
+        --_btn-color: var(--color-shade-100);
+      }
+    }
+  }
+
+  &--toggle {
+    --_btn-color: var(--system-white);
+    --_btn-bg-color: var(--color-main);
+    --_btn-border-color: var(--color-main);
+    --_btn-hover-bg-color: color-mix(in srgb, var(--color-main), var(--color-main) 10%);
+    --_btn-hover-border-color: color-mix(in srgb, var(--color-main), var(--color-main) 10%);
+    --_btn-hover-color: var(--color-white);
+
+    &.is-outlined {
+      --_btn-color: var(--on-surface);
+      --_btn-bg-color: transparent;
+      --_btn-border-color: var(--color-main);
+      &:hover {
+        --_btn-bg-color: color-mix(in srgb, var(--color-main), white 95%);
+      }
+      --_btn-hover-border-color: var(--color-white);
+      --_btn-hover-color: var(--on-surface);
+    }
+  }
+
+  &--link {
+    --_btn-bg-color: var(--color-shade-100);
+    --_btn-border-color: transparent;
+    --_btn-min-width: auto;
+    --_btn-hover-bg-color: transparent;
+    --_btn-hover-border-color: var(--color-shade-55);
+    --_btn-hover-color: var(--color-highlight	);
+		--_btn-padding-inline: 0;
+		border: 0;
+		&:hover {
+        border: 0;
+      }
+    &.is-outlined {
+      --_btn-border-color: var(--color-shade-85);
+      &:hover {
+        --_btn-border-color: var(--color-shade-55);
+				border: 0;
+      }
+    }
+  }
+
+  // ── Dark mode — keep filled buttons rich ─────────────────────────────────
+  // Light fills darken a saturated base (`black 25–35%`). In dark the accent
+  // tokens are lifted to pale tints, so the same recipe washes out — and the
+  // navy `secondary`/`toggle` sit at the surface's own lightness and vanish.
+  // Re-darken harder (white text still passes), and give the navy variants a
+  // deep, separated fill. `:not(.is-outlined)` leaves outlined buttons alone.
+  [data-theme="dark"] & {
+    &.btn--primary:not(.is-outlined) {
+      --_btn-bg-color: color-mix(in srgb, var(--color-blue), black 40%);
+      --_btn-border-color: color-mix(in srgb, var(--color-blue), black 40%);
+      --_btn-hover-bg-color: color-mix(in srgb, var(--color-blue), black 28%);
+      --_btn-hover-border-color: color-mix(in srgb, var(--color-blue), black 28%);
+    }
+    &.btn--success:not(.is-outlined) {
+      --_btn-bg-color: color-mix(in srgb, var(--color-green), black 35%);
+      --_btn-border-color: color-mix(in srgb, var(--color-green), black 35%);
+      --_btn-hover-bg-color: color-mix(in srgb, var(--color-green), black 24%);
+      --_btn-hover-border-color: color-mix(in srgb, var(--color-green), black 24%);
+    }
+    &:is(.btn--secondary, .btn--toggle):not(.is-outlined) {
+      --_btn-bg-color: color-mix(in srgb, var(--color-blue), black 55%);
+      --_btn-border-color: color-mix(in srgb, var(--color-blue), black 45%);
+      --_btn-hover-bg-color: color-mix(in srgb, var(--color-blue), black 45%);
+      --_btn-hover-border-color: color-mix(in srgb, var(--color-blue), black 35%);
+    }
+    // danger is intentionally left to its base rules — it keeps the light-mode
+    // crimson in dark too (--system-error stays the stable brand red).
+  }
+}
+
+.animated {
+  border: 0 solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+  outline: 1px solid;
+  outline-color: rgba(255, 255, 255, 0.5);
+  outline-offset: 0px;
+  text-shadow: none;
+  transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+  &:hover {
+    border: 1px solid;
+    box-shadow:
+      inset 0 0 20px rgba(255, 255, 255, 0.5),
+      0 0 20px rgba(255, 255, 255, 0.2);
+    outline-color: rgba(255, 255, 255, 0);
+    outline-offset: 15px;
+    // text-shadow: 1px 1px 2px #427388;
+  }
+}
+
+.text-reveal {
+  --_btn-gap: 0;
+  // TODO: add for md
+  --btn-padding-l: var(--spacing-2);
+  --btn-padding-r: var(--spacing-2);
+  &:before {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    // Add transitions for the button's size change
+    // We must re-declare the original transitions plus our new ones
+    transition: all 0.7s ease;
+  }
+
+  .button__text {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0;
+    @media (prefers-reduced-motion: no-preference) {
+      transition: all 0.7s ease;
+    }
+  }
+
+  // --- Hover State (Show Text) ---
+  &:is(:hover, :focus-visible) {
+    // Restore default gap from base .btn
+    --_btn-gap: 0.4rem;
+    // Restore default padding from base .btn
+    --btn-padding-l: var(--spacing-3);
+    --btn-padding-r: var(--spacing-3);
+    // Remove the aspect-ratio constraint
+    aspect-ratio: auto;
+
+    .button__text {
+      max-width: 150px; // Set to a reasonable max-width
+      opacity: 1;
+    }
+  }
+}

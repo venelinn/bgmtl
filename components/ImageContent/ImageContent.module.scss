@@ -1,0 +1,122 @@
+@use "styles/base-variables" as base;
+@use "styles/typo-mixins" as typo;
+
+.module {
+  display: grid;
+  gap: var(--_module-gap, 0);
+  @media (min-width: base.$breakpoint-md) {
+    grid-template-columns: var(--image-grid-template-columns, 1fr 1fr);
+    min-height: var(--_module-min-height, auto);
+  }
+  @media (max-width: base.$breakpoint-md-max) {
+    &[data-order="content-first"] {
+      .module__image {
+        order: 1;
+      }
+      .module__content {
+        order: 2;
+      }
+    }
+  }
+  &__image {
+    @media (width > base.$breakpoint-lg) {
+      aspect-ratio: 4/3;
+    }
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+  &--full-height {
+    --_module-gap: 0;
+    --_module-min-height: 100vh;
+    .module__image {
+      position: relative;
+      overflow: hidden;
+      &--animate {
+        transform-origin: 50% 0;
+        transform: scale(1.2);
+      }
+
+      @media (max-width: base.$breakpoint-md-max) {
+        aspect-ratio: 4/3;
+      }
+      img {
+        bottom: 0;
+        height: 100%;
+        left: 0;
+        margin: 0;
+        max-width: none;
+        padding: 0;
+        position: absolute;
+        max-height: 100%;
+        right: 0;
+        top: 0;
+        width: 100%;
+        object-fit: cover;
+        aspect-ratio: 1/1;
+      }
+    }
+  }
+  .module__content {
+    display: grid;
+    align-content: center;
+    padding-left: var(--_image-content-padding-left, 2rem);
+    padding-right: var(--_image-content-padding-right, 2rem);
+    @media (width > base.$breakpoint-lg) {
+      // max-width: 70%;
+    }
+  }
+  @media (width > base.$breakpoint-lg) {
+    &[data-order="image"] {
+      --_image-content-padding-left: 4vw;
+      --_image-content-padding-right: calc((100vw - var(--page-width)) / 3); // TODO: make 1280px a variable
+    }
+    &[data-order="content"] {
+      .module__content {
+        order: -1;
+      }
+      --_image-content-padding-left: calc((100vw - var(--page-width)) / 3); // TODO: make 1280px a variable
+      --_image-content-padding-right: 4vw;
+    }
+  }
+
+  blockquote {
+    margin-left: 0;
+    padding: 0.5rem;
+    @include typo.h4;
+    p {
+      position: relative;
+      margin: 0;
+      &:before,
+      &:after {
+        font-size: 2rem;
+        position: absolute;
+        line-height: 0.1;
+        line-height: 1;
+        font-family: serif;
+      }
+      &:before {
+        content: var(--_open-quote, open-quote);
+        top: var(--_top-quote, -4px);
+        left: var(--_left-quote, -1.2rem);
+        [lang="fr"] & {
+          --_open-quote: "«";
+          --_top-quote: -20px;
+          --_left-quote: -32px;
+        }
+      }
+      &:after {
+        content: var(--_close-quote, close-quote);
+        bottom: var(--_bottom-quote, -0.5rem);
+        margin-left: 3px;
+        [lang="fr"] & {
+          --_close-quote: "»";
+          --_bottom-quote: -18px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,176 @@
+@use 'styles/base-variables' as base;
+@use 'styles/typo-mixins' as typo;
+
+.event {
+  display: grid;
+  gap: var(--spacing-8);
+  padding-top: var(--spacing-8);
+  border-top: 1px solid var(--color-grey-border, #e5e5e5);
+  grid-template-columns: var(--_event-grid-columns);
+	margin-bottom: var(--spacing-4);
+	@media (width > base.$breakpoint-md) {
+    --_event-grid-columns: 1fr minmax(200px, 280px);
+  }
+  @container (max-width: 650px) {
+    --_event-grid-columns: 1fr;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    min-width: 0;
+  }
+  &__header {
+    @include typo.ui-caption;
+    display: flex;
+    gap: var(--spacing-4);
+    background-color: var(--color-grey-light);
+    padding: var(--spacing-2);
+    flex-wrap: wrap;
+  }
+  &__heading {
+    margin-top: var(--spacing-4);
+  }
+
+  &__date {
+    display: flex;
+    gap: var(--spacing-1);
+    align-items: center;
+  }
+
+  &__title {
+    margin: 0 0 var(--spacing-1) 0;
+  }
+
+  &__titleLink {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__location {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  &__mapLink {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-4);
+  }
+
+  &__time,
+  &__doors {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+  }
+
+  &__excerpt {
+    @include typo.ui-body;
+    margin-top: var(--spacing-2);
+
+    :global(p) {
+      margin: 0;
+      display: inline;
+    }
+
+    :global(.link) {
+      display: inline;
+      margin-left: var(--spacing-1);
+      color: var(--color-highlight);
+      font-weight: var(--font-weight-normal);
+      text-decoration: underline;
+      text-underline-offset: 0.3em;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    align-items: center;
+    margin-top: var(--spacing-4);
+  }
+
+  &__price {
+    @include typo.ui-caption(true);
+    display: inline-block;
+    padding: var(--spacing-1) var(--spacing-3);
+    color: var(--color-highlight, #2563eb);
+    background: color-mix(
+      in srgb,
+      var(--color-highlight, #2563eb) 12%,
+      transparent
+    );
+    border-radius: 9999px;
+  }
+
+  &__image {
+    margin: 0;
+    order: -1;
+    border-radius: var(--spacing-2);
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    background: var(--surface-container);
+
+    @media (min-width: base.$breakpoint-md) {
+      order: 0;
+      aspect-ratio: 4 / 3;
+      min-height: 180px;
+    }
+    @container (max-width: 650px) {
+      order: -1;
+    }
+
+    &Link {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+        &.event__imageFallback {
+          object-fit: contain;
+          scale: 0.8;
+        }
+      }
+    }
+  }
+}
+
+.readMoreLink {
+  display: inline-block;
+  margin-top: var(--spacing-2);
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--color-highlight);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: inherit;
+  &:hover {
+    opacity: 0.8;
+  }
+}
