@@ -82,5 +82,11 @@
 		"suggestionsCategories": "Catégories",
 		"suggestionsListings": "Fiches",
 		"resultsCount": "{count} fiches trouvées"
+	},
+	"CookieConsent": {
+		"title": "Cookies",
+		"message": "Nous utilisons des cookies pour analyser le trafic et améliorer votre expérience. Les statistiques ne sont activées que si vous acceptez.",
+		"accept": "Accepter",
+		"decline": "Refuser"
 	}
 }

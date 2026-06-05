@@ -82,5 +82,11 @@
 		"suggestionsCategories": "Categories",
 		"suggestionsListings": "Listings",
 		"resultsCount": "{count} listings found"
+	},
+	"CookieConsent": {
+		"title": "Cookies",
+		"message": "We use cookies to analyze site traffic and improve your experience. Analytics run only if you accept.",
+		"accept": "Accept",
+		"decline": "Decline"
 	}
 }

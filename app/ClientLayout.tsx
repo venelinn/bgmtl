@@ -5,6 +5,7 @@ import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { usePathname } from "next/navigation"; // <- App Router hook
 import { type AbstractIntlMessages, NextIntlClientProvider } from "next-intl";
 import { useEffect } from "react";
+import { CookieConsent } from "@/components/CookieConsent";
 import useNextCssRemovalPrevention from "@/hooks/useNextCssRemovalPrevention";
 import { NavigationContextProvider } from "../context/navigationContext";
 import { TransitionContextProvider } from "../context/transitionContext";
@@ -47,6 +48,7 @@ export function ClientLayout({
     <TransitionContextProvider>
       <NextIntlClientProvider locale={lang} messages={messages} timeZone="America/Toronto">
         <NavigationContextProvider>{children}</NavigationContextProvider>
+        <CookieConsent />
       </NextIntlClientProvider>
     </TransitionContextProvider>
   );
