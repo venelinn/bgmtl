@@ -39,14 +39,12 @@ export async function DirectoryConnector(props: DirectoryConnectorProps) {
       intro={props.intro}
       items={data.items}
       categories={data.categories}
-      groups={data.groups}
       itemsPerRow={itemsPerRow}
       autocomplete={props.autocomplete !== false}
       labels={{
         all: m.all,
         searchPlaceholder: m.searchPlaceholder,
         searchAriaLabel: m.searchAriaLabel,
-        groupAriaLabel: m.groupAriaLabel,
         categoryAriaLabel: m.categoryAriaLabel,
         clear: m.clear,
         noResults: m.noResults,

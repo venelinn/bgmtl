@@ -11,18 +11,11 @@ import styles from "./LocaleSwitcher.module.scss"
 
 type LocaleSwitcherProps = {
 	pageLocale: string
-	/** Leading glyph on each dropdown row: per-country flag or a generic globe. */
+	/** Leading glyph on each row: per-country flag or a generic globe. */
 	rowIcon?: "flag" | "globe"
-	/** Render the locales as a plain always-visible list instead of a dropdown
-	 * (used inside the mobile menu sheet). */
-	inline?: boolean
 }
 
-export const LocaleSwitcher = ({
-	pageLocale,
-	rowIcon = "flag",
-	inline = false,
-}: LocaleSwitcherProps) => {
+export const LocaleSwitcher = ({ pageLocale, rowIcon = "flag" }: LocaleSwitcherProps) => {
 	const pathname = usePathname() // ✅ replaces router.asPath
 	const [open, setOpen] = useState(false)
 	const menuRef = useRef<HTMLDivElement>(null)
@@ -102,40 +95,44 @@ export const LocaleSwitcher = ({
 		)
 	}
 
-	// Mobile menu: a plain always-visible list, no trigger / dropdown.
-	if (inline) {
-		return (
+	// Both variants render; CSS picks one per breakpoint (see the `.languages` /
+	// `.languages__list` media queries). Doing the desktop/mobile split in CSS —
+	// not via a JS media-query hook that resolves only after hydration — avoids
+	// the first-paint flash where the inline list showed (looking "open") before
+	// collapsing to the dropdown.
+	return (
+		<>
+			{/* Desktop: trigger + popover dropdown. */}
+			<div className={styles.languages}>
+				<Button
+					variant="link"
+					size="sm"
+					icon="Globe"
+					iconAfter="ChevronDown"
+					label={pageLocale.toUpperCase()}
+					onClick={toggle}
+					className={cx(
+						styles.languages__trigger,
+						open && styles["languages__trigger--open"],
+					)}
+				/>
+				<div
+					ref={menuRef}
+					popover="auto"
+					role="menu"
+					aria-label="Select language"
+					className={styles.languages__menu}
+				>
+					{localization.locales.map((lang) => renderLink(lang, "menuitem"))}
+				</div>
+			</div>
+
+			{/* Mobile (inside the menu sheet): a plain always-visible list. */}
 			<ul className={styles.languages__list} aria-label="Select language">
 				{localization.locales.map((lang) => (
 					<li key={lang}>{renderLink(lang)}</li>
 				))}
 			</ul>
-		)
-	}
-
-	return (
-		<div className={styles.languages}>
-			<Button
-				variant="link"
-				size="sm"
-				icon="Globe"
-				iconAfter="ChevronDown"
-				label={pageLocale.toUpperCase()}
-				onClick={toggle}
-				className={cx(
-					styles.languages__trigger,
-					open && styles["languages__trigger--open"],
-				)}
-			/>
-			<div
-				ref={menuRef}
-				popover="auto"
-				role="menu"
-				aria-label="Select language"
-				className={styles.languages__menu}
-			>
-				{localization.locales.map((lang) => renderLink(lang, "menuitem"))}
-			</div>
-		</div>
+		</>
 	)
 }

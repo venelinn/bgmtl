@@ -1,7 +1,7 @@
 "use client";
-import gsap from "gsap";
+import clsx from "clsx";
 import Image from "next/image";
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { type HeroContent, renderHeroBody } from "./heroContent";
 import { Section, type SectionProps } from "@/components/Section";
 import { ViewTransition } from "@/components/ViewTransition";
@@ -23,7 +23,7 @@ export interface HeroProps {
   height?: SectionProps["height"];
   imageAlignment?: "top" | "bottom";
   animateContent?: boolean;
-  /** Enable/disable image animations (Ken Burns / slide). Default: true */
+  /** Enable/disable image animations (Ken Burns + crossfade slideshow). Default: true */
   imageAnimate?: boolean;
   size?: SectionProps["size"];
   /** Where the title/content block sits within the hero. Default: "center" */
@@ -36,6 +36,9 @@ export interface HeroProps {
   viewTransitionName?: string;
 }
 
+// Crossfade cadence (ms): how long each slide holds before advancing.
+const SLIDE_INTERVAL_MS = 8000;
+
 export const Hero = ({
   images,
   heading,
@@ -45,13 +48,12 @@ export const Hero = ({
   height,
   size = "full",
   imageAlignment,
-  animateContent = false,
+  animateContent = true,
   imageAnimate = true,
   titlePosition = "center",
   viewTransitionName,
 }: HeroProps) => {
   const reduceMotion = useReduceMotion();
-  const heroRef = useRef<HTMLDivElement>(null);
   const heroBodies = bodies?.length ? bodies : content != null ? [content] : [];
 
   // Normalize Contentful / external images
@@ -64,128 +66,21 @@ export const Hero = ({
       })
       .filter(Boolean) ?? [];
 
-  // Derived key for hook deps: true when image animations are enabled and there are multiple images
-  const imageAnimationKey = Boolean(imageAnimate && heroImages.length > 1);
+  // Slideshow + Ken Burns only kick in with more than one image (matches the
+  // previous behaviour — a lone image stays static).
+  const hasSlideshow = Boolean(imageAnimate && heroImages.length > 1);
 
+  const [active, setActive] = useState(0);
+
+  // Advance the active slide on an interval; CSS handles the actual crossfade
+  // (and the looping Ken Burns). Loops forever — paused under reduce-motion.
   useEffect(() => {
-    if (reduceMotion || !heroRef.current) return;
-
-    const ctx = gsap.context(() => {
-      const imgs = gsap.utils.toArray<HTMLElement>("[data-hero]");
-      const enableImageAnimation = Boolean(imageAnimationKey && imgs.length > 1);
-      const background = heroRef.current?.querySelector("[data-hero-background]");
-      const title = heroRef.current?.querySelector<HTMLElement>("[data-hero-title]");
-      const desc = heroRef.current?.querySelector<HTMLElement>("[data-hero-desc]");
-
-      const duration = 1;
-      const timeout = 8;
-      let current = 0;
-
-      // ===== BACKGROUND KEN BURNS =====
-      if (background && enableImageAnimation) {
-        const bgTl = gsap.timeline({ repeat: -1 });
-        bgTl
-          .set(background, { transformOrigin: "right center" })
-          .to(background, { scale: 1.25, duration: 15, ease: "none" })
-          .to(background, { x: "25%", duration: 15, ease: "none" })
-          .set(background, { x: "0%", transformOrigin: "left center" })
-          .to(background, { scale: 1, duration: 15, ease: "none" });
-
-        bgTl.timeScale(0.3); // slow motion
-      }
-
-      // ===== INITIAL STATES =====
-      if (enableImageAnimation) {
-        gsap.set(imgs, { autoAlpha: 0, scale: 1.1 });
-        if (imgs[0]) {
-          gsap.set(imgs[0], { autoAlpha: 0, scale: 1.2 }); // initial image entrance
-        }
-      } else {
-        // No image animation: ensure first image is visible and others hidden
-        gsap.set(imgs, { autoAlpha: 0, scale: 1 });
-        if (imgs[0]) gsap.set(imgs[0], { autoAlpha: 1, scale: 1 });
-      }
-
-      if (title) {
-        gsap.set(title, {
-          autoAlpha: animateContent ? 0 : 1,
-          scale: animateContent ? 1.15 : 1,
-          filter: animateContent ? "blur(12px)" : "blur(0px)",
-        });
-      }
-      if (desc) {
-        if (animateContent) {
-          gsap.set(desc, { autoAlpha: 0, y: 20, filter: "blur(8px)" });
-        } else {
-          gsap.set(desc, { autoAlpha: 1, y: 0, filter: "none", clearProps: "opacity,visibility" });
-        }
-      }
-      // ===== ANIMATE CONTENT IN =====
-      const animateContentIn = () => {
-        const tl = gsap.timeline();
-
-        if (animateContent && title) {
-          tl.to(title, {
-            autoAlpha: 1,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 2,
-            ease: "power3.out",
-          });
-        }
-        if (animateContent && desc) {
-          tl.to(
-            desc,
-            {
-              autoAlpha: 1,
-              y: 0,
-              filter: "blur(0px)",
-              duration: 1.5,
-              ease: "power3.out",
-            },
-            animateContent && title ? "-=1" : 0,
-          );
-        }
-
-        return tl;
-      };
-
-      // ===== FIRST IMAGE ANIMATION =====
-      if (enableImageAnimation) {
-        const initialTl = gsap.timeline();
-        initialTl.to(imgs[0], {
-          autoAlpha: 1,
-          scale: 1,
-          duration: 2.5,
-          ease: "power3.out",
-        });
-        initialTl.add(animateContentIn(), "-=0.5"); // content animates slightly after image starts
-      } else {
-        // Only animate content when images are static
-        animateContentIn();
-      }
-
-      // ===== SLIDE ROTATION =====
-      // ===== SLIDE ROTATION =====
-      if (enableImageAnimation) {
-        const goTo = (index: number) => {
-          if (index === current) return;
-
-          gsap
-            .timeline()
-            .to(imgs[current], { autoAlpha: 0, duration, ease: "none" })
-            .to(imgs[index], { autoAlpha: 1, duration, ease: "none" }, 0);
-
-          current = index;
-          gsap.delayedCall(timeout, () => goTo(index + 1 > imgs.length - 1 ? 0 : index + 1));
-        };
-
-        gsap.delayedCall(timeout, () => goTo(1));
-      }
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, [imageAnimationKey, reduceMotion, animateContent]);
+    if (!hasSlideshow || reduceMotion) return;
+    const id = window.setInterval(() => {
+      setActive((i) => (i + 1) % heroImages.length);
+    }, SLIDE_INTERVAL_MS);
+    return () => window.clearInterval(id);
+  }, [hasSlideshow, reduceMotion, heroImages.length]);
 
   return (
     <Section
@@ -194,7 +89,6 @@ export const Hero = ({
       size={size}
       imageAlignment={imageAlignment}
       height={height ? (height as SectionProps["height"]) : undefined}
-      ref={heroRef}
       data-title-position={titlePosition}
       classNames={{
         main: styles.main,
@@ -204,7 +98,10 @@ export const Hero = ({
     >
       {/* BACKGROUND IMAGES */}
       {heroImages.length > 0 && (
-        <div className={styles.hero__background} data-hero-background>
+        <div
+          className={clsx(styles.hero__background, hasSlideshow && styles["hero__background--motion"])}
+          data-hero-background
+        >
           {heroImages.map((img, i) => {
             const optimized = getOptimizedImage(img, 1600, "100");
             const src = optimized?.url || img?.src || img?.url || "";
@@ -214,7 +111,7 @@ export const Hero = ({
             const isFirst = i === 0;
             const key = img?.id ?? i;
             const imageBlock = (
-              <div className={styles.hero__image} data-hero>
+              <div className={clsx(styles.hero__image, i === active && styles["hero__image--active"])} data-hero>
                 <Image
                   src={src}
                   alt={img?.alt ?? ""}
@@ -229,12 +126,7 @@ export const Hero = ({
             // Wrap the whole image block (incl. the dark :before overlay) so the
             // morph cross-fades to the final darkened hero instead of popping.
             return isFirst && viewTransitionName ? (
-              <ViewTransition
-                key={key}
-                name={viewTransitionName}
-                share="morph"
-                default="none"
-              >
+              <ViewTransition key={key} name={viewTransitionName} share="morph" default="none">
                 {imageBlock}
               </ViewTransition>
             ) : (
@@ -245,20 +137,19 @@ export const Hero = ({
       )}
 
       {/* CONTENT */}
-      <div className={styles.hero__content} data-anim="hero-content">
+      <div className={clsx(styles.hero__content, animateContent && styles["hero__content--animate"])} data-anim="hero-content">
         {heading && (
           <Heading
             as={heading.as}
             size={heading.size}
             center={titlePosition !== "bottom-left"}
             className={styles.hero__title}
-            data-hero-title
           >
             {heading.heading}
           </Heading>
         )}
         {heroBodies.length > 0 ? (
-          <div className={styles.hero__body} data-hero-desc>
+          <div className={styles.hero__body}>
             {heroBodies.map((part, index) => (
               <Fragment key={index}>{renderHeroBody(part)}</Fragment>
             ))}

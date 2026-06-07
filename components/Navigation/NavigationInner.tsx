@@ -108,7 +108,7 @@ export function NavigationInner({ pageLocale, data }: NavigationInnerProps) {
           </div>
           <div className={styles.navigation__settings}>
             <ThemeToggle />
-            <LocaleSwitcher pageLocale={pageLocale} inline={!isDesktopNav} />
+            <LocaleSwitcher pageLocale={pageLocale} />
           </div>
         </div>
 

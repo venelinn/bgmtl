@@ -17,6 +17,7 @@
     { "slug": "plumber", "groupSlug": "services", "order": 1, "label": { "en-CA": "Plumbers", "bg-BG": "Водопроводчици", "fr-CA": "Plombiers" } },
     { "slug": "electrician", "groupSlug": "services", "order": 2, "label": { "en-CA": "Electricians", "bg-BG": "Електротехници", "fr-CA": "Électriciens" } },
     { "slug": "cleaning", "groupSlug": "services", "order": 3, "label": { "en-CA": "Cleaning", "bg-BG": "Почистване", "fr-CA": "Nettoyage" } },
+    { "slug": "renovation", "groupSlug": "services", "order": 4, "label": { "en-CA": "Renovation", "bg-BG": "Ремонти", "fr-CA": "Rénovation" } },
     { "slug": "lawyer", "groupSlug": "professional", "order": 1, "label": { "en-CA": "Lawyers", "bg-BG": "Адвокати", "fr-CA": "Avocats" } },
     { "slug": "accountant", "groupSlug": "professional", "order": 2, "label": { "en-CA": "Accountants", "bg-BG": "Счетоводители", "fr-CA": "Comptables" } },
     { "slug": "photographer", "groupSlug": "professional", "order": 3, "label": { "en-CA": "Photographers", "bg-BG": "Фотографи", "fr-CA": "Photographes" } },

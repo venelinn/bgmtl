@@ -1,73 +1,49 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import {
-  type DirectoryCategory,
-  type DirectoryGroup,
-  type DirectoryItem,
-  FilterableDirectory,
-} from "./FilterableDirectory";
-
-const groups: DirectoryGroup[] = [
-  { slug: "community", label: "Community", order: 1 },
-  { slug: "faith", label: "Faith", order: 2 },
-  { slug: "services", label: "Services", order: 3 },
-];
+import { type DirectoryCategory, type DirectoryItem, FilterableDirectory } from "./FilterableDirectory";
 
 const categories: DirectoryCategory[] = [
-  { slug: "association", label: "Associations", order: 1, groupSlug: "community" },
-  { slug: "cultural-center", label: "Cultural Centres", order: 2, groupSlug: "community" },
-  { slug: "school", label: "Schools", order: 3, groupSlug: "community" },
-  { slug: "church", label: "Churches", order: 1, groupSlug: "faith" },
-  { slug: "plumber", label: "Plumbers", order: 1, groupSlug: "services" },
+  { slug: "association", label: "Associations", order: 1 },
+  { slug: "cultural-center", label: "Cultural Centres", order: 2 },
+  { slug: "school", label: "Schools", order: 3 },
+  { slug: "church", label: "Churches", order: 4 },
+  { slug: "plumber", label: "Plumbers", order: 5 },
 ];
-
-/** Minimal Contentful rich-text doc (a bulleted list, like the real card data). */
-const richList = (lines: string[]) => ({
-  nodeType: "document",
-  data: {},
-  content: [
-    {
-      nodeType: "unordered-list",
-      data: {},
-      content: lines.map((value) => ({
-        nodeType: "list-item",
-        data: {},
-        content: [{ nodeType: "paragraph", data: {}, content: [{ nodeType: "text", value, marks: [], data: {} }] }],
-      })),
-    },
-  ],
-});
 
 const items: DirectoryItem[] = [
   {
     id: "zornica",
-    categorySlug: "cultural-center",
+    categorySlugs: ["cultural-center", "school"], // multi-tag example
     title: "Zornica Cultural Centre",
-    content: richList(["7448 Kingsley Suite 501, CSL Montreal, QC H4W 1P2", "514-369-0589"]),
-    link: { url: "https://www.zornica.com", name: "www.zornica.com", target: "_blank" },
+    address: "7448 Kingsley Suite 501, CSL Montreal, QC H4W 1P2",
+    phone: "514-369-0589",
+    website: "https://www.zornica.com",
   },
   {
     id: "st-ivan-rilsky",
-    categorySlug: "church",
+    categorySlugs: ["church"],
     title: "St. Ivan Rilsky Church",
-    content: richList(["1191 Blvd. Sauve Ouest, Montreal, QC H2C 1Z8", "514-956-7835"]),
-    link: { url: "https://www.stivanrilsky.org", name: "www.stivanrilsky.org", target: "_blank" },
+    address: "1191 Blvd. Sauve Ouest, Montreal, QC H2C 1Z8",
+    phone: "514-956-7835",
+    website: "https://www.stivanrilsky.org",
   },
   {
     id: "assoc-qc",
-    categorySlug: "association",
+    categorySlugs: ["association"],
     title: "Association des Bulgares du Québec",
+    email: "info@example.org",
     note: "Sample association entry.",
   },
   {
     id: "school-mtl",
-    categorySlug: "school",
+    categorySlugs: ["school"],
     title: "Bulgarian School Montreal",
     note: "Sample school entry.",
   },
   {
     id: "plumber-mtl",
-    categorySlug: "plumber",
+    categorySlugs: ["plumber"],
     title: "Ivan’s Plumbing",
+    phone: "514-555-0123",
     note: "Sample services entry.",
   },
 ];
@@ -80,7 +56,6 @@ const meta: Meta<typeof FilterableDirectory> = {
     intro: "Find Bulgarian associations, churches, schools and more across Montreal.",
     items,
     categories,
-    groups,
     itemsPerRow: 2,
   },
 };
@@ -89,12 +64,6 @@ export default meta;
 type Story = StoryObj<typeof FilterableDirectory>;
 
 export const Default: Story = {};
-
-export const NoGroups: Story = {
-  args: {
-    groups: undefined,
-  },
-};
 
 export const Empty: Story = {
   args: {
