@@ -811,6 +811,7 @@ export type DirectoryData = {
     email?: string;
     website?: string;
     address?: string;
+    note?: string;
   }[];
 };
 
@@ -868,7 +869,8 @@ export async function getCommunityDirectory(
       const email = (entry?.email as string) || undefined;
       const website = (entry?.website as string) || undefined;
       const address = (entry?.address as string) || undefined;
-      const searchText = [title, address, ...categoryLabels].filter(Boolean).join(" ").toLowerCase();
+      const note = (entry?.note as string) || undefined;
+      const searchText = [title, address, note, ...categoryLabels].filter(Boolean).join(" ").toLowerCase();
       return {
         id: entry?.id as string,
         categorySlugs,
@@ -878,6 +880,7 @@ export async function getCommunityDirectory(
         email,
         website,
         address,
+        note,
       };
     })
     .filter((it) => it.id && it.title);

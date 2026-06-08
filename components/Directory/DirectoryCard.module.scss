@@ -66,6 +66,7 @@
     color: var(--color-grey-dark);
     // Take the slack so the footer link sits at the bottom across a row.
     flex: 1 1 auto;
+		align-content: start;
   }
 
   &__detail {
@@ -92,11 +93,10 @@
   &__note {
     @include typo.ui-caption;
     flex: 1 1 auto;
-    padding: var(--spacing-4);
+    padding: var(--spacing-2);
     border-radius: var(--spacing-2);
     background-color: color-mix(in srgb, var(--color-blue) 8%, var(--surface-container));
     color: var(--color-grey-dark);
-    font-style: italic;
   }
 
   &__footer {
