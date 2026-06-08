@@ -28,6 +28,9 @@
     align-items: stretch;
     gap: var(--spacing-3);
     margin-block: var(--spacing-8);
+		padding: var(--spacing-4);
+		background-color: var(--color-grey-light);
+		border-radius: var(--spacing-3);
 
     @media (max-width: 40rem) {
       flex-direction: column;

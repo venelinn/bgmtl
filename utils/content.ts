@@ -739,10 +739,18 @@ export async function getListingsData(
     if (listingType === "events") {
       const events = await getAllEvents(locale, preview);
       const eventCards = events.map((e) => ({ ...e, type: "event" }));
+      // Match the /events listing order: upcoming events soonest-first, then
+      // past events newest-first. A plain date-descending sort would surface
+      // the furthest-future event first, so the home teaser and any events
+      // listing preview would disagree with the dedicated events page.
+      const now = Date.now();
       const sorted = eventCards.sort((a, b) => {
         const dateA = new Date(a.date || 0).getTime();
         const dateB = new Date(b.date || 0).getTime();
-        return dateB - dateA;
+        const aUpcoming = dateA >= now;
+        const bUpcoming = dateB >= now;
+        if (aUpcoming !== bUpcoming) return aUpcoming ? -1 : 1;
+        return aUpcoming ? dateA - dateB : dateB - dateA;
       });
       sections.push({
         type: "events",
