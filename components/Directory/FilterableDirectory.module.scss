@@ -19,13 +19,22 @@
     @include typo.ui-caption;
   }
 
+  // Search + category dropdown on one row, sharing a height so they read as a
+  // single filter bar. Stacks on small screens.
   &__controls {
+    --_filter-h: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: var(--spacing-3);
+    margin-block: var(--spacing-8);
+		padding: var(--spacing-4);
 		background-color: var(--color-grey-light);
-		padding: var(--spacing-8);
-		border-radius: var(--spacing-4);
-    display: grid;
-    gap: var(--spacing-4);
-		margin-block: var(--spacing-8);
+		border-radius: var(--spacing-3);
+
+    @media (max-width: 40rem) {
+      flex-direction: column;
+    }
   }
 
   // ── Search ──
@@ -33,7 +42,14 @@
     position: relative;
     display: flex;
     align-items: center;
-    width: 100%;
+    flex: 1 1 16rem;
+    min-width: 0;
+
+    // In the stacked (column) layout the flex-basis becomes a *height*; reset to
+    // content height so the field doesn't balloon to 16rem tall.
+    @media (max-width: 40rem) {
+      flex: 0 0 auto;
+    }
   }
 
   &__searchIcon {
@@ -51,7 +67,8 @@
     width: 100%;
     font-family: inherit;
     font-size: 1rem;
-    padding: 0.9rem 1rem 0.9rem 3rem;
+    height: var(--_filter-h);
+    padding: 0 1rem 0 3rem;
     border: 1px solid var(--color-grey-border);
     border-radius: var(--spacing-3);
     background-color: var(--surface-container);
@@ -139,77 +156,30 @@
     }
   }
 
-  // ── Browse chips ──
-  &__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-2);
-  }
+  // ── Category dropdown ──
+  // The wrapper is the flex child; `full` makes the inner <Select> fill it.
+  &__categoryFilter {
+    flex: 0 0 15rem;
 
-  // Tier 2 sits under the group row; nudge it in to read as a sub-level.
-  &__chipsSub {
-    padding-left: var(--spacing-3);
-    border-left: 2px solid var(--color-grey-border);
-  }
-
-  &__categorySelect {
-    max-width: 18rem;
-  }
-
-  &__chip {
-    // Scoped vars the base reads; the active state only *reassigns* these,
-    // never re-declares the painted properties (project css-styling rule).
-    --_chip-bg: var(--surface-container);
-    --_chip-color: var(--on-surface);
-    --_chip-border: var(--color-grey-border);
-
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-2);
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--_chip-border);
-    border-radius: 999px;
-    background-color: var(--_chip-bg);
-    color: var(--_chip-color);
-    font-family: inherit;
-    font-size: 0.875rem;
-    font-weight: var(--font-weight-medium);
-    line-height: 1;
-    cursor: pointer;
-    transition:
-      background-color 0.15s ease,
-      color 0.15s ease,
-      border-color 0.15s ease;
-
-    &:hover {
-      --_chip-border: var(--color-grey);
+    // Match the search field's height/radius/surface so the two read as one bar.
+    // `.select__control` (the native <select>) reads its size from `--_select-*`
+    // custom props; the element selector here is specificity 0,1,1 so its radius
+    // + shadow win over the shared Select's own 0,1,0 control rules.
+    select {
+      --_select-min-height: var(--_filter-h);
+      --_select-padding-tb: 0;
+      --_select-font-size: 1rem;
+      --_select-bgr: var(--surface-container);
+      height: var(--_filter-h);
+      border: 1px solid var(--color-grey-border);
+      border-radius: var(--spacing-3);
+      box-shadow: 0 1px 2px color-mix(in srgb, var(--color-black) 5%, transparent);
     }
 
-    // White text on --color-main (hsl 209 94% 14%) passes WCAG AA.
-    &[data-active="true"] {
-      --_chip-bg: var(--color-main);
-      --_chip-color: var(--color-white);
-      --_chip-border: transparent;
+    // Stacked: content height, not the 15rem row basis (which becomes a height).
+    @media (max-width: 40rem) {
+      flex: 0 0 auto;
     }
-  }
-
-  &__chipCount {
-    --_count-bg: transparent;
-    --_count-color: var(--color-grey);
-    display: inline-grid;
-    place-items: center;
-    min-width: 1.25rem;
-    padding: 0 0.35rem;
-    border-radius: 999px;
-    background-color: var(--_count-bg);
-    color: var(--_count-color);
-    font-size: 0.6875rem;
-    font-weight: var(--font-weight-bold);
-  }
-
-  &__chip[data-active="true"] &__chipCount {
-    --_count-bg: color-mix(in srgb, var(--color-white) 22%, transparent);
-    --_count-color: var(--color-white);
   }
 
   // ── Results meta ──
@@ -238,7 +208,7 @@
     // Sticky phone-book header. Sits below the fixed site nav by default;
     // `--directory-sticky-top` lets a page override the offset.
     position: sticky;
-    top: var(--directory-sticky-top, calc(var(--navigation-height) + 1rem));
+    top: var(--directory-sticky-top, calc(var(--navigation-height) + 2.5rem));
     z-index: 2;
     display: block;
     width: 100%;

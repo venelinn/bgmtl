@@ -5,3 +5,30 @@
 	container-type: inline-size;
 	container-name: grid-collection;
 }
+
+// Fade-in-up entrance, fired by the cell entering the DOM (so it works for
+// dynamically filtered lists too). Persisted cells don't re-animate; only newly
+// mounted ones do — no flicker while typing in search.
+.cell {
+	@media (prefers-reduced-motion: no-preference) {
+		animation: grid-card-in 0.5s ease both;
+
+		// Light stagger for the first couple of rows; later cards just fade in.
+		@for $i from 1 through 8 {
+			&:nth-child(#{$i}) {
+				animation-delay: #{($i - 1) * 0.05}s;
+			}
+		}
+	}
+}
+
+@keyframes grid-card-in {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

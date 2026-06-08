@@ -1,6 +1,4 @@
-"use client";
-import gsap from "gsap";
-import { type ReactNode, useEffect, useRef } from "react";
+import type { ReactNode } from "react";
 import { Cell, Row, type RowProps } from "@/components/Grid";
 import styles from "./GridCollection.module.scss";
 
@@ -15,36 +13,17 @@ export type GridCollectionProps = {
   cardsWidth?: string;
 };
 
-export const GridCollection = ({ items, itemsPerRow = 2 }: GridCollectionProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const cells = Array.from(containerRef.current.querySelectorAll<HTMLElement>("[data-anim-item]"));
-
-    gsap.fromTo(
-      cells,
-      { opacity: 0, y: 20 }, // initial state
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: containerRef.current, // trigger the animation when the container enters the viewport
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-      },
-    );
-  }, []);
-  return (
-    <Row cols={itemsPerRow} className={styles.wrapper} ref={containerRef}>
-      {items.map((item) => (
-        <Cell key={item.id} data-anim-item>
-          {item.content}
-        </Cell>
-      ))}
-    </Row>
-  );
-};
+// Entrance is a plain CSS fade-in-up (see .module.scss). It replaces the previous
+// GSAP + ScrollTrigger reveal: nothing here depended on JS animation, and the
+// scroll gate broke the filterable directory — sections mounted already in the
+// viewport stayed stuck at opacity 0 because no scroll ever fired their trigger.
+// CSS animates each card as it enters the DOM, so filtered results always show.
+export const GridCollection = ({ items, itemsPerRow = 2 }: GridCollectionProps) => (
+  <Row cols={itemsPerRow} className={styles.wrapper}>
+    {items.map((item) => (
+      <Cell key={item.id} className={styles.cell}>
+        {item.content}
+      </Cell>
+    ))}
+  </Row>
+);

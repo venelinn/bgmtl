@@ -3,7 +3,6 @@ import { cache } from "react";
 import { createClient, type EntryCollection, type EntrySkeletonType } from "contentful";
 import { IS_DEV, normalizeSlug, PAGE_TYPE } from "./common";
 import { cachedContentful } from "./contentful-cache";
-import { richTextToPlain } from "./directory";
 import { getContentfulLocale, localization } from "./localization";
 
 const deliveryClient = createClient({
@@ -740,10 +739,18 @@ export async function getListingsData(
     if (listingType === "events") {
       const events = await getAllEvents(locale, preview);
       const eventCards = events.map((e) => ({ ...e, type: "event" }));
+      // Match the /events listing order: upcoming events soonest-first, then
+      // past events newest-first. A plain date-descending sort would surface
+      // the furthest-future event first, so the home teaser and any events
+      // listing preview would disagree with the dedicated events page.
+      const now = Date.now();
       const sorted = eventCards.sort((a, b) => {
         const dateA = new Date(a.date || 0).getTime();
         const dateB = new Date(b.date || 0).getTime();
-        return dateB - dateA;
+        const aUpcoming = dateA >= now;
+        const bUpcoming = dateB >= now;
+        if (aUpcoming !== bUpcoming) return aUpcoming ? -1 : 1;
+        return aUpcoming ? dateA - dateB : dateB - dateA;
       });
       sections.push({
         type: "events",
@@ -801,25 +808,28 @@ export async function getAvailableEvents(locale: string, preview?: boolean) {
 // --- Community directory (query-driven by city) ---
 
 export type DirectoryData = {
-  groups: { slug: string; label: string; order?: number }[];
-  categories: { slug: string; label: string; order?: number; groupSlug?: string }[];
+  categories: { slug: string; label: string; order?: number }[];
   items: {
     id: string;
-    categorySlug: string;
+    /** Category slugs this entry is tagged with (matches DirectoryCategory slugs). */
+    categorySlugs: string[];
     title: string;
     searchText?: string;
-    content?: unknown;
-    link?: { url?: string; name?: string; target?: string };
+    phone?: string;
+    email?: string;
+    website?: string;
+    address?: string;
+    note?: string;
   }[];
 };
 
 /**
- * Fetches everything the Montreal-style directory needs for a given `city`:
- * the taxonomy (communityGroup + communityCategory, with localized labels) and
- * every `card` tagged with that city, mapped to DirectoryCard-ready items.
+ * Fetches everything the directory needs for a given `city`: the category
+ * taxonomy (communityCategory, with localized labels) and every `directoryEntry`
+ * tagged with that city, mapped to DirectoryCard-ready items.
  *
- * Query-driven on purpose: editors add an org by creating a card and setting
- * `city` + `category` — no manual collection wiring.
+ * Query-driven on purpose: editors add an org by creating a directoryEntry and
+ * setting `city` + `categories` — no manual collection wiring.
  */
 export async function getCommunityDirectory(
   city: string,
@@ -838,21 +848,16 @@ export async function getCommunityDirectory(
       return null;
     }
   };
-  const [cardsRes, catsRes, groupsRes] = await Promise.all([
-    safe("cards", getEntries("card", { locale: contentfulLocale, "fields.city": city, limit: 500 }, { preview })),
+  const [cardsRes, catsRes] = await Promise.all([
+    safe(
+      "entries",
+      getEntries("directoryEntry", { locale: contentfulLocale, "fields.city": city, limit: 500 }, { preview }),
+    ),
     safe(
       "categories",
       getEntries("communityCategory", { locale: contentfulLocale, order: "fields.order", limit: 200 }, { preview }),
     ),
-    safe(
-      "groups",
-      getEntries("communityGroup", { locale: contentfulLocale, order: "fields.order", limit: 100 }, { preview }),
-    ),
   ]);
-
-  const groups = ((groupsRes?.items ?? []).map((e) => mapEntry(e)) as any[])
-    .filter((g) => g?.slug)
-    .map((g) => ({ slug: g.slug as string, label: (g.label ?? g.slug) as string, order: g.order as number | undefined }));
 
   const categories = ((catsRes?.items ?? []).map((e) => mapEntry(e)) as any[])
     .filter((c) => c?.slug)
@@ -860,30 +865,33 @@ export async function getCommunityDirectory(
       slug: c.slug as string,
       label: (c.label ?? c.slug) as string,
       order: c.order as number | undefined,
-      groupSlug: c.group?.slug as string | undefined,
     }));
 
   const items = ((cardsRes?.items ?? []).map((e) => mapEntry(e)) as any[])
-    .map((card) => {
-      const title: string = card?.heading?.heading || card?.title || "";
-      const categorySlug: string = card?.category?.slug || "";
-      const link = card?.link?.url
-        ? { url: card.link.url as string, name: (card.link.name ?? card.link.url) as string, target: "_blank" }
-        : undefined;
-      const searchText = [title, richTextToPlain(card?.content), card?.category?.label]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
+    .map((entry) => {
+      const title: string = entry?.name || entry?.heading?.heading || entry?.title || "";
+      const cats = (Array.isArray(entry?.categories) ? entry.categories : []).filter(Boolean) as any[];
+      const categorySlugs = cats.map((c) => c?.slug as string).filter(Boolean);
+      const categoryLabels = cats.map((c) => c?.label as string).filter(Boolean);
+      const phone = (entry?.phone as string) || undefined;
+      const email = (entry?.email as string) || undefined;
+      const website = (entry?.website as string) || undefined;
+      const address = (entry?.address as string) || undefined;
+      const note = (entry?.note as string) || undefined;
+      const searchText = [title, address, note, ...categoryLabels].filter(Boolean).join(" ").toLowerCase();
       return {
-        id: card?.id as string,
-        categorySlug,
+        id: entry?.id as string,
+        categorySlugs,
         title,
         searchText,
-        content: card?.content ?? undefined,
-        link,
+        phone,
+        email,
+        website,
+        address,
+        note,
       };
     })
     .filter((it) => it.id && it.title);
 
-  return { groups, categories, items };
+  return { categories, items };
 }

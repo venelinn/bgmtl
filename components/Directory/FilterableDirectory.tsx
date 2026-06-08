@@ -2,17 +2,13 @@
 
 // Public, client-side filterable directory ("notebook" style).
 //
-// Two-tier browse + live search + an A→Z index over a grid of DirectoryCards:
-//   • Tier 1 — group chips (Community, Faith, Services, Professional, …)
-//   • Tier 2 — the selected group's categories, as chips OR (past
-//     CATEGORY_CHIP_LIMIT) an auto dropdown, so long lists stay tidy.
-//   • Results are sorted A→Z and split into letter sections (A, B, C…).
+// Deliberately simple: live search + a single category dropdown ("All" on top,
+// then every category that has listings) over an A→Z index of DirectoryCards.
 // Search is independent ("filter the visible results") and matches each item's
 // `searchText`, so the long tail is always reachable by typing.
 //
-// Data + categories are meant to come from Contentful via DirectoryConnector;
-// this component is pure presentation. With no `groups` it degrades to a single
-// flat row of category chips.
+// Data + categories come from Contentful via DirectoryConnector; this component
+// is pure presentation.
 
 import clsx from "clsx"
 import { useEffect, useMemo, useState } from "react"
@@ -24,27 +20,19 @@ import { Section } from "@/components/Section"
 import { DirectorySearch } from "./DirectorySearch"
 import styles from "./FilterableDirectory.module.scss"
 
-export type DirectoryGroup = {
-	slug: string
-	label: string
-	order?: number
-}
-
 export type DirectoryCategory = {
-	/** Stable slug, matched against each item's `categorySlug`. */
+	/** Stable slug, matched against each item's `categorySlugs`. */
 	slug: string
-	/** Localized, human-readable chip label. */
+	/** Localized, human-readable label. */
 	label: string
-	/** Sort order for the chips (lower first). */
+	/** Sort order in the dropdown (lower first). */
 	order?: number
-	/** Which group this category belongs to (matches a DirectoryGroup slug). */
-	groupSlug?: string
 }
 
 export type DirectoryItem = {
 	id: string
-	/** Which category this item belongs to (matches a DirectoryCategory slug). */
-	categorySlug: string
+	/** Category slugs this item is tagged with (each matches a DirectoryCategory slug). */
+	categorySlugs: string[]
 	/** Display name (also the default search + A→Z sort key). */
 	title: string
 	/**
@@ -52,17 +40,17 @@ export type DirectoryItem = {
 	 * Optional — falls back to `title`.
 	 */
 	searchText?: string
-	/** Card body — a Contentful rich-text document. */
-	content?: unknown
+	phone?: string
+	email?: string
+	website?: string
+	address?: string
 	note?: React.ReactNode
-	link?: { url?: string; name?: string; target?: string }
 }
 
 export type FilterableDirectoryLabels = {
 	all?: string
 	searchPlaceholder?: string
 	searchAriaLabel?: string
-	groupAriaLabel?: string
 	categoryAriaLabel?: string
 	clear?: string
 	noResults?: string
@@ -74,10 +62,8 @@ export type FilterableDirectoryLabels = {
 
 export type FilterableDirectoryProps = {
 	items: DirectoryItem[]
-	/** Provides chip labels + ordering; chips render only for categories present in `items`. */
+	/** Provides dropdown labels + ordering; options render only for categories present in `items`. */
 	categories?: DirectoryCategory[]
-	/** Optional first tier. When present (and categories carry `groupSlug`), browse becomes 2-tier. */
-	groups?: DirectoryGroup[]
 	/** Page heading — a resolved `heading` entry (rendered via the shared Heading component). */
 	heading?: HeadingProps
 	intro?: React.ReactNode
@@ -89,15 +75,10 @@ export type FilterableDirectoryProps = {
 
 const ALL = "all"
 
-// Above this many categories in the active group, tier 2 renders as a dropdown
-// instead of a chip row (keeps long lists like "Professional" manageable).
-const CATEGORY_CHIP_LIMIT = 6
-
 const DEFAULT_LABELS: Required<FilterableDirectoryLabels> = {
 	all: "All",
 	searchPlaceholder: "Search for associations, keywords, or location…",
 	searchAriaLabel: "Search listings",
-	groupAriaLabel: "Filter by group",
 	categoryAriaLabel: "Filter by category",
 	clear: "Clear search",
 	noResults: "No listings match your search.",
@@ -132,37 +113,9 @@ function fold(s: string): string {
 		.toLowerCase()
 }
 
-// Filter chip. Raw <button> on purpose — the shared <Button> takes only a string
-// `label` and has no pressed/active state or count slot, so it can't express a
-// toggle chip. Mirrors the canonical Search bar's intentionally-raw chips.
-// Module-level so it isn't a fresh component type each render (no remount/jank).
-const Chip = ({
-	label,
-	count,
-	active,
-	onClick,
-}: {
-	label: string
-	count: number
-	active: boolean
-	onClick: () => void
-}) => (
-	<button
-		type="button"
-		className={styles.directory__chip}
-		data-active={active}
-		aria-pressed={active}
-		onClick={onClick}
-	>
-		{label}
-		<span className={styles.directory__chipCount}>{count}</span>
-	</button>
-)
-
 export const FilterableDirectory = ({
 	items,
 	categories = [],
-	groups = [],
 	heading,
 	intro,
 	itemsPerRow = 2,
@@ -171,7 +124,6 @@ export const FilterableDirectory = ({
 }: FilterableDirectoryProps) => {
 	const t = { ...DEFAULT_LABELS, ...labels }
 
-	const [activeGroup, setActiveGroup] = useState<string>(ALL)
 	const [activeCategory, setActiveCategory] = useState<string>(ALL)
 	const [query, setQuery] = useState("")
 	const [highlightedId, setHighlightedId] = useState<string | null>(null)
@@ -180,48 +132,20 @@ export const FilterableDirectory = ({
 		() => new Map(categories.map((c) => [c.slug, c.label])),
 		[categories],
 	)
-	const groupBySlug = useMemo(
-		() => new Map(categories.map((c) => [c.slug, c.groupSlug])),
-		[categories],
-	)
-	const hasGroups = groups.length > 0 && categories.some((c) => c.groupSlug)
 
-	// Per-category item counts (drives every chip badge / dropdown count).
+	// Per-category item counts (drives the dropdown option counts).
 	const countByCategory = useMemo(() => {
 		const m = new Map<string, number>()
 		for (const item of items)
-			m.set(item.categorySlug, (m.get(item.categorySlug) ?? 0) + 1)
+			for (const slug of item.categorySlugs)
+				m.set(slug, (m.get(slug) ?? 0) + 1)
 		return m
 	}, [items])
 
-	// Tier 1 — group chips that actually have items, ordered by the CMS `order`.
-	const groupChips = useMemo(() => {
-		if (!hasGroups) return []
-		const counts = new Map<string, number>()
-		for (const item of items) {
-			const g = groupBySlug.get(item.categorySlug)
-			if (g) counts.set(g, (counts.get(g) ?? 0) + 1)
-		}
-		return groups
-			.filter((g) => counts.get(g.slug))
-			.map((g) => ({
-				slug: g.slug,
-				label: g.label,
-				order: g.order ?? Number.MAX_SAFE_INTEGER,
-				count: counts.get(g.slug) ?? 0,
-			}))
-			.sort((a, b) => a.order - b.order || a.label.localeCompare(b.label))
-	}, [hasGroups, items, groups, groupBySlug])
-
-	// Tier 2 — categories shown for the current selection.
-	const categoryChips = useMemo(() => {
-		const inScope = (c: DirectoryCategory) => {
-			if (!countByCategory.get(c.slug)) return false
-			if (!hasGroups) return true
-			return activeGroup !== ALL && c.groupSlug === activeGroup
-		}
+	// Every category that actually has listings, ordered by the CMS `order`.
+	const categoryOptions = useMemo(() => {
 		return categories
-			.filter(inScope)
+			.filter((c) => countByCategory.get(c.slug))
 			.map((c) => ({
 				slug: c.slug,
 				label: c.label,
@@ -229,25 +153,17 @@ export const FilterableDirectory = ({
 				count: countByCategory.get(c.slug) ?? 0,
 			}))
 			.sort((a, b) => a.order - b.order || a.label.localeCompare(b.label))
-	}, [categories, countByCategory, hasGroups, activeGroup])
-
-	const showCategoryTier = hasGroups ? activeGroup !== ALL : true
-	const useCategoryDropdown = categoryChips.length > CATEGORY_CHIP_LIMIT
+	}, [categories, countByCategory])
 
 	const filtered = useMemo(() => {
 		const q = fold(query.trim())
 		return items.filter((item) => {
-			if (hasGroups && activeGroup !== ALL) {
-				if (groupBySlug.get(item.categorySlug) !== activeGroup) return false
-				if (activeCategory !== ALL && item.categorySlug !== activeCategory)
-					return false
-			} else if (!hasGroups && activeCategory !== ALL) {
-				if (item.categorySlug !== activeCategory) return false
-			}
+			if (activeCategory !== ALL && !item.categorySlugs.includes(activeCategory))
+				return false
 			if (!q) return true
 			return fold(item.searchText ?? item.title).includes(q)
 		})
-	}, [items, hasGroups, activeGroup, activeCategory, query, groupBySlug])
+	}, [items, activeCategory, query])
 
 	// Sort A→Z and split into letter sections (A, B, C…).
 	const sections = useMemo(() => {
@@ -267,7 +183,7 @@ export const FilterableDirectory = ({
 	}, [filtered])
 
 	// Autocomplete suggestions (computed across the whole dataset so you can jump
-	// anywhere, regardless of the active group/category).
+	// anywhere, regardless of the active category).
 	const suggestions = useMemo(() => {
 		const q = fold(query.trim())
 		if (!autocomplete || !q) return { categories: [], listings: [] }
@@ -284,7 +200,6 @@ export const FilterableDirectory = ({
 
 	const pickCategory = (slug: string) => {
 		setQuery("")
-		setActiveGroup(hasGroups ? (groupBySlug.get(slug) ?? ALL) : ALL)
 		setActiveCategory(slug)
 	}
 
@@ -292,7 +207,6 @@ export const FilterableDirectory = ({
 	// then scrolls to + briefly highlights it.
 	const pickListing = (id: string) => {
 		setQuery("")
-		setActiveGroup(ALL)
 		setActiveCategory(ALL)
 		setHighlightedId(id)
 	}
@@ -317,20 +231,17 @@ export const FilterableDirectory = ({
 				)}
 			>
 				<DirectoryCard
-					tag={labelBySlug.get(item.categorySlug) ?? item.categorySlug}
+					tags={item.categorySlugs.map((s) => labelBySlug.get(s) ?? s)}
 					title={item.title}
-					content={item.content}
+					phone={item.phone}
+					email={item.email}
+					website={item.website}
+					address={item.address}
 					note={item.note}
-					link={item.link}
 				/>
 			</div>
 		),
 	})
-
-	const selectGroup = (slug: string) => {
-		setActiveGroup(slug)
-		setActiveCategory(ALL)
-	}
 
 	return (
 		<Section className={styles.directory}>
@@ -363,72 +274,27 @@ export const FilterableDirectory = ({
 					}}
 				/>
 
-				{/* Tier 1 — group chips (or flat category chips when no groups). */}
-				{hasGroups && groupChips.length > 0 && (
-					<div
-						className={styles.directory__chips}
-						role="group"
-						aria-label={t.groupAriaLabel}
-					>
-						<Chip
-							label={t.all}
-							count={items.length}
-							active={activeGroup === ALL}
-							onClick={() => selectGroup(ALL)}
-						/>
-						{groupChips.map((g) => (
-							<Chip
-								key={g.slug}
-								label={g.label}
-								count={g.count}
-								active={activeGroup === g.slug}
-								onClick={() => selectGroup(g.slug)}
-							/>
-						))}
-					</div>
-				)}
-
-				{/* Tier 2 — categories: chip row, or a dropdown once the list grows. */}
-				{showCategoryTier &&
-					categoryChips.length > 0 &&
-					(useCategoryDropdown ? (
+				{/* Single category dropdown — "All" on top, then every category with listings.
+				    Wrapped so the layout class lands on the flex child (Select spreads
+				    className onto the inner <select>, not its wrapper). */}
+				{categoryOptions.length > 0 && (
+					<div className={styles.directory__categoryFilter}>
 						<Select
-							className={styles.directory__categorySelect}
+							full
 							value={activeCategory}
-							inputSize="sm"
+							icon="ListFilter"
 							aria-label={t.categoryAriaLabel}
 							onChange={(e) => setActiveCategory(e.target.value)}
 						>
 							<option value={ALL}>{t.all}</option>
-							{categoryChips.map((c) => (
+							{categoryOptions.map((c) => (
 								<option key={c.slug} value={c.slug}>
 									{c.label} ({c.count})
 								</option>
 							))}
 						</Select>
-					) : (
-						<div
-							className={`${styles.directory__chips} ${styles.directory__chipsSub}`}
-							role="group"
-							aria-label={t.categoryAriaLabel}
-						>
-							<Chip
-								label={t.all}
-								count={categoryChips.reduce((n, c) => n + c.count, 0)}
-								active={activeCategory === ALL}
-								onClick={() => setActiveCategory(ALL)}
-							/>
-							{categoryChips.map((c) => (
-								<Chip
-									key={c.slug}
-									label={c.label}
-									count={c.count}
-									active={activeCategory === c.slug}
-									onClick={() => setActiveCategory(c.slug)}
-								/>
-							))}
-						</div>
-					))}
+					</div>
+				)}
 			</div>
 
 			<p className={styles.directory__count} aria-live="polite">

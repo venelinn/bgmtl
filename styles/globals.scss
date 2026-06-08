@@ -125,10 +125,10 @@ html[data-vt="off"]::view-transition-new(*) {
    Gated by `html[data-home-intro]`, set pre-paint by the inline script in
    app/layout.tsx (homepage only, once per session, skipped for reduced motion).
    Keyed off the existing `data-anim` hooks (driven by `animationID` in
-   Contentful). We animate WRAPPERS the Hero's GSAP never touches
-   (`.hero__background` opacity, the `[data-anim="hero-content"]` block), so the
-   sequence never fights the hero's own image/Ken-Burns animation.
-   Order: hero image → hero title → navigation → the rest. */
+   Contentful). We animate the hero IMAGE layer only — the hero title/content
+   reveal is owned by the Hero itself (`hero__content--animate`, on by default),
+   so animating it here too would double up.
+   Order: hero image → navigation → the rest. */
 @media (prefers-reduced-motion: no-preference) {
   html[data-home-intro] {
     /* 1 — hero image layer (opacity only; Hero owns its transform/Ken Burns).
@@ -136,15 +136,11 @@ html[data-vt="off"]::view-transition-new(*) {
     [data-hero-background] {
       animation: home-intro-fade 800ms var(--ease-in) 0ms both;
     }
-    /* 2 — hero title/description block. */
-    [data-anim="hero-content"] {
-      animation: home-intro-rise 700ms var(--ease-in) 300ms both;
-    }
-    /* 3 — site navigation (drops in from the top). */
+    /* 2 — site navigation (drops in from the top). */
     [data-anim="navigation"] {
       animation: home-intro-drop 600ms var(--ease-in) 550ms both;
     }
-    /* 4 — the rest: every section after the hero (hero is the first child). */
+    /* 3 — the rest: every section after the hero (hero is the first child). */
     .page .content-grid > :nth-child(n + 2) {
       animation: home-intro-rise 700ms var(--ease-in) 750ms both;
     }

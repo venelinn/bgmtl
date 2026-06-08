@@ -1,4 +1,5 @@
 @use "styles/typo-mixins" as typo;
+@use "styles/mixins" as mx;
 
 .card {
   --_card-radius: var(--spacing-4);
@@ -14,12 +15,39 @@
     0 1px 2px color-mix(in srgb, var(--color-black) 6%, transparent),
     0 10px 24px color-mix(in srgb, var(--color-black) 4%, transparent);
 
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+  }
+
   &__tag {
-    color: var(--color-highlight);
-    font-size: 0.75rem;
-    font-weight: var(--font-weight-bold);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+		// Mirror the active filter chip: solid brand fill, white text. Scoped vars
+		// so the dark-mode block only *reassigns* them (never re-paints).
+		--_badge-bg: color-mix(in srgb, var(--color-main), white 95%);
+		--_badge-color: color-mix(in srgb, var(--color-main), white 10%);;
+		--_badge-border: color-mix(in srgb, var(--color-main), white 65%);;
+
+		@include typo.ui-small(true);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 9999px;
+		text-transform: capitalize;
+		white-space: nowrap;
+		box-sizing: border-box;
+		padding: var(--spacing-1) var(--spacing-1-5);
+		border: 1px solid var(--_badge-border);
+		background-color: var(--_badge-bg);
+		color: var(--_badge-color);
+
+		// Dark: a navy pill on the near-navy surface would vanish, so switch to the
+		// lifted semantic accent (bright-blue fill, dark text) — same emphasis,
+		// proper contrast.
+		[data-theme="dark"] & {
+			--_badge-bg: var(--primary);
+			--_badge-color: var(--on-primary);
+		}
   }
 
   &__title {
@@ -27,44 +55,48 @@
     --heading-color: var(--on-surface);
   }
 
-  // Rendered rich-text body (contact lists, links, paragraphs).
-  &__body {
+  // Structured contact rows (address / phone / email), each icon-prefixed.
+  &__details {
     @include typo.ui-caption;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--spacing-2);
     color: var(--color-grey-dark);
     // Take the slack so the footer link sits at the bottom across a row.
     flex: 1 1 auto;
+		align-content: start;
+  }
 
-    p {
-      margin: 0;
-    }
+  &__detail {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
 
-    ul,
-    ol {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      gap: var(--spacing-2);
-    }
+  &__detailIcon {
+    flex-shrink: 0;
+    margin-top: 0.15em;
+    color: var(--color-highlight);
+  }
 
-    a {
-      color: var(--color-blue);
-      text-decoration: none;
+  &__detailLink {
+    color: var(--color-blue);
+    text-decoration: none;
 
-      &:hover {
-        text-decoration: underline;
-      }
+    &:hover {
+      text-decoration: underline;
     }
   }
 
   &__note {
     @include typo.ui-caption;
     flex: 1 1 auto;
-    padding: var(--spacing-4);
+    padding: var(--spacing-2);
     border-radius: var(--spacing-2);
     background-color: color-mix(in srgb, var(--color-blue) 8%, var(--surface-container));
     color: var(--color-grey-dark);
-    font-style: italic;
   }
 
   &__footer {
@@ -74,19 +106,30 @@
   }
 
   &__link {
+		@include typo.ui-caption;
+		color: var(--color-blue);
+    font-weight: var(--font-weight-medium);
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-2);
-    color: var(--color-blue);
-    font-weight: var(--font-weight-medium);
+    max-width: 100%;
     text-decoration: none;
 
+    // text-overflow:ellipsis can't apply to the flex container itself, so it
+    // goes on the URL span; min-width:0 lets that flex item shrink below its
+    // content width (otherwise it overflows instead of truncating).
+    & > span {
+			@include mx.ellipsis;
+			min-width: 0;
+    }
+
     &:hover {
-      text-decoration: underline;
+			text-decoration: underline;
     }
   }
 
   &__linkIcon {
+		color: var(--color-highlight);
     flex-shrink: 0;
   }
 }

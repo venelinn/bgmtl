@@ -1,31 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { DirectoryCard } from "./DirectoryCard";
 
-/** Minimal Contentful rich-text doc (a bulleted list, like the real card data). */
-const richList = (lines: string[]) => ({
-  nodeType: "document",
-  data: {},
-  content: [
-    {
-      nodeType: "unordered-list",
-      data: {},
-      content: lines.map((value) => ({
-        nodeType: "list-item",
-        data: {},
-        content: [{ nodeType: "paragraph", data: {}, content: [{ nodeType: "text", value, marks: [], data: {} }] }],
-      })),
-    },
-  ],
-});
-
 const meta: Meta<typeof DirectoryCard> = {
   title: "Components/Directory/DirectoryCard",
   component: DirectoryCard,
   args: {
-    tag: "Cultural Centres",
+    tags: ["Cultural Centres", "Schools"],
     title: "Zornica Cultural Centre",
-    content: richList(["7448 Kingsley Suite 501, CSL Montreal, QC H4W 1P2", "514-369-0589", "info@zornica.com"]),
-    link: { url: "https://www.zornica.com", name: "www.zornica.com", target: "_blank" },
+    address: "7448 Kingsley Suite 501, CSL Montreal, QC H4W 1P2",
+    phone: "514-369-0589",
+    email: "info@zornica.com",
+    website: "https://www.zornica.com",
   },
 };
 
@@ -36,10 +21,12 @@ export const Default: Story = {};
 
 export const NoteOnly: Story = {
   args: {
-    tag: "Associations",
+    tags: ["Associations"],
     title: "Association des Bulgares du Québec",
-    content: undefined,
+    address: undefined,
+    phone: undefined,
+    email: undefined,
+    website: undefined,
     note: "Sample placeholder entry — replace with real Contentful data.",
-    link: undefined,
   },
 };
