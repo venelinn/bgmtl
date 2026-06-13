@@ -22,7 +22,8 @@
     "events:build": "node scripts/build-events-json.js",
     "events:import": "node scripts/import-events.js",
     "events:covers": "node scripts/attach-event-covers.js",
-    "events:add": "node scripts/add-fb-event.js"
+    "events:add": "node scripts/add-fb-event.js",
+    "events:newsletter": "node scripts/build-newsletter.js"
   },
   "dependencies": {
     "@contentful/rich-text-types": "^17.2.7",
