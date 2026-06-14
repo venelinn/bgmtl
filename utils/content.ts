@@ -619,6 +619,17 @@ export async function getEventById(id: string, locale: string, preview?: boolean
   return null;
 }
 
+/** Fetch one published `newsletter` entry (with its referenced events resolved). */
+export async function getNewsletterById(id: string, locale: string, preview?: boolean) {
+  const contentfulLocale = getContentfulLocale(locale);
+  const { items } = await getEntries("newsletter", { locale: contentfulLocale, "sys.id": id }, { preview });
+
+  if (items.length > 0) {
+    return mapEntry(items[0], locale);
+  }
+  return null;
+}
+
 export async function getAllEventIds(locale: string, preview?: boolean) {
   const contentfulLocale = getContentfulLocale(locale);
   const { items } = await getEntries("event", { locale: contentfulLocale, limit: 100 }, { preview });

@@ -4,6 +4,7 @@
   // White headings/text on the dark navy card.
   --heading-color: var(--color-white);
 	--_bg-color: #020308;
+  --_error-color: color-mix(in srgb, var(--color-highlight), white 25%);
 
   display: grid;
   grid-template-columns: 1fr;
@@ -71,16 +72,28 @@
     border: 1px solid color-mix(in srgb, var(--color-white) 20%, transparent);
     color: var(--color-white);
     font-size: var(--ui-body-font-size);
+    // Transparent outline up front so the focus ring can ease in/out instead of
+    // snapping on — outline can't transition from `none`, only its color.
+    outline: 2px solid transparent;
+    transition: outline-color 0.5s ease, border-color 0.5s ease;
 
     &::placeholder {
       color: color-mix(in srgb, var(--color-white) 50%, transparent);
     }
 
     &:focus-visible {
-      outline: 2px solid color-mix(in srgb, var(--color-highlight) 70%, transparent);
-      outline-offset: 2px;
+      // Teal-green accent ring — a positive "active" cue, kept distinct from the
+      // brand red (error) and lime (success) so focus never reads as either.
+      outline-color: color-mix(in srgb, var(--color-green) 50%, transparent);
       border-color: transparent;
     }
+  }
+
+  // When the form surfaces an error, tint the field via currentColor so the
+  // border reuses the same color as the error message — one source of truth.
+  &__content:has(&__status--error) &__input {
+    color: var(--_error-color);
+    border-color: currentColor;
   }
 
   // Scoped under __form to outrank the Button's own .button--primary vars.
@@ -99,14 +112,14 @@
     display: block;
     margin: var(--spacing-4) 0 0;
     min-height: 1.25rem;
-    font-size: var(--ui-small-font-size);
+    font-size: var(--ui-caption-font-size);
 
     &--success {
       color: var(--color-lime);
     }
 
     &--error {
-      color: color-mix(in srgb, var(--color-highlight), white 25%);
+      color: var(--_error-color);
     }
   }
 

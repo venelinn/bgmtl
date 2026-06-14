@@ -210,6 +210,25 @@ body {
 		--_navigation-mbe: calc(-1 * var(--_header-height, 80px));
   }
 }
+
+/* Light-green text selection site-wide, echoing the brand accent. */
+::selection {
+  background: color-mix(in srgb, var(--color-green) 15%, transparent);
+}
+
+/* Consistent, smoothly-fading focus ring on every form field. The transparent
+   outline sits up front so it can transition (outline can't animate from
+   `none`). Wrapped in :where() for ZERO specificity, so it's only a baseline —
+   any component with its own focus styling (Forms/Input's blue ring, Search's
+   intentional `outline: none`, the Join card's green) overrides it cleanly. */
+:where(input, textarea, select) {
+  outline: 2px solid transparent;
+  transition: outline-color 0.5s ease, border-color 0.5s ease;
+
+  &:focus-visible {
+    outline-color: color-mix(in srgb, var(--color-green) 50%, transparent);
+  }
+}
 /* ==========================================================================
     Global
 ========================================================================== */

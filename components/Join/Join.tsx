@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import { useTranslations } from "next-intl"
-import Image from "next/image"
-import { Button } from "@/components/Button"
-import { Heading } from "@/components/Headings"
-import { useSubscribe } from "@/components/Subscribe/useSubscribe"
-import styles from "./Join.module.scss"
-import { Section } from "../Section"
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { Button } from "@/components/Button";
+import { Heading } from "@/components/Headings";
+import { useSubscribe } from "@/components/Subscribe/useSubscribe";
+import { Section } from "../Section";
+import styles from "./Join.module.scss";
 
 const DEFAULT_JOIN_IMAGE =
-	"https://res.cloudinary.com/dgly3nv8f/image/upload/v1780489756/join_wuuf2g.png"
+	"https://res.cloudinary.com/dgly3nv8f/image/upload/v1780489756/join_wuuf2g.png";
 
 export type JoinProps = {
-	image?: { src: string; alt?: string }
-}
+	image?: { src: string; alt?: string };
+};
 
 /**
  * Full-width "Join our community" call-to-action. Replaces the sidebar
@@ -21,11 +21,12 @@ export type JoinProps = {
  * (useSubscribe) in a larger, image-led layout.
  */
 export function Join({ image }: JoinProps) {
-	const t = useTranslations("Join")
-	const { email, setEmail, status, errorMessage, handleSubmit } = useSubscribe()
+	const t = useTranslations("Join");
+	const { email, setEmail, status, errorMessage, handleSubmit } =
+		useSubscribe();
 
-	const imageSrc = image?.src ?? DEFAULT_JOIN_IMAGE
-	const imageAlt = image?.alt ?? t("imageAlt")
+	const imageSrc = image?.src ?? DEFAULT_JOIN_IMAGE;
+	const imageAlt = image?.alt ?? t("imageAlt");
 
 	return (
 		<Section
@@ -85,5 +86,5 @@ export function Join({ image }: JoinProps) {
 				/>
 			</div>
 		</Section>
-	)
+	);
 }
