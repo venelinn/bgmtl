@@ -33,6 +33,9 @@ yarn-error.log*
 .fb-session.json
 mockData/events/_scraped/
 
+# generated newsletter HTML (paste into Brevo, not source)
+scripts/output/
+
 # vercel
 .vercel
 

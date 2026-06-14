@@ -10,6 +10,10 @@ type ProviderResult =
   | { ok: true }
   | { ok: false; status: number; error: string };
 
+// Mirrors the client check in useSubscribe — rejects malformed addresses like
+// "foo@gmailc" that the browser's lax type="email" validation lets through.
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
@@ -104,6 +108,10 @@ async function subscribeBrevo({ email, firstName, lastName }: SubscribePayload):
 export async function POST(req: NextRequest) {
   try {
     const { email, firstName, lastName } = (await req.json()) as SubscribePayload;
+
+    if (typeof email !== "string" || !EMAIL_PATTERN.test(email.trim())) {
+      return json({ error: "Invalid email address" }, 400);
+    }
 
     const provider = (process.env.SUBSCRIBE_PROVIDER || "brevo").toLowerCase();
 

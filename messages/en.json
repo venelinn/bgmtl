@@ -50,7 +50,8 @@
 		"button": "Subscribe",
 		"subscribing": "Subscribing…",
 		"successMessage": "Thanks for subscribing",
-		"errorMessage": "An error occurred while subscribing. Please try again."
+		"errorMessage": "An error occurred while subscribing. Please try again.",
+		"invalidEmail": "Please enter a valid email address."
 	},
 	"Pagination": {
 		"first": "First",

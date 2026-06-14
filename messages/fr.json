@@ -50,7 +50,8 @@
 		"button": "S’abonner",
 		"subscribing": "Abonnement en cours…",
 		"successMessage": "Merci de votre abonnement",
-		"errorMessage": "Une erreur est survenue lors de l’abonnement. Veuillez réessayer."
+		"errorMessage": "Une erreur est survenue lors de l’abonnement. Veuillez réessayer.",
+		"invalidEmail": "Veuillez saisir une adresse e-mail valide."
 	},
 	"Pagination": {
 		"first": "Premier",

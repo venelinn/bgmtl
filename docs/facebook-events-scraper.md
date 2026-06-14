@@ -132,6 +132,31 @@ Each scraped event produces:
 IDs are `event-<slug>-<year>` / `heading-<slug>-<year>`, where the slug is
 derived from the English title (Cyrillic is transliterated).
 
+## Gotchas & limitations
+
+Learned the hard way — check these when something looks off:
+
+- **Contentful entry IDs cap at 64 chars.** A too-long title → `Invalid resource
+  id` (HTTP 400). The slug is capped (`SLUG_MAX` in `scripts/lib/events-format.js`)
+  so `event-<slug>-<year|date>` fits; if you change the id scheme, re-check the math.
+- **`venue` is a required field.** An event with no venue fails to *publish*
+  (HTTP 422) and is left as a draft. Concert promos and events with no structured
+  Facebook location need a venue set manually.
+- **Venue heuristic is weak without a structured FB location.** When an event has
+  no Facebook "location", the parser can grab a prose sentence that merely
+  contains an address fragment (comma + digit + "Montréal"). **Always eyeball the
+  venue** after `events:add`; fix it in Contentful if it's a sentence.
+- **Cloudinary cloud split.** New covers upload to `CLOUDINARY_CLOUD_NAME`
+  (`dgly3nv8f`); older covers live on `dysoiulfl`. Both render on the site, but
+  they won't appear together in one Contentful media picker.
+- **FB cover/links are signed and expire** within days (`oe=…`), so run
+  `events:covers` / `events:add` soon after scraping.
+- **Group scraping is scoped to `[role="main"]`** to exclude the logged-in user's
+  personal "Recommended / Your upcoming events" sidebar. Event detail pages are
+  parsed the same way for both group and single-event scrapers.
+- **Recurring events** (same title, different date) collide on `event-<slug>-<year>`.
+  Use `events:add` (date-stamped ids) for those, not the year batch.
+
 ## When Facebook changes its DOM
 
 Facebook obfuscates and frequently changes its markup, so the scraper leans on
@@ -139,6 +164,6 @@ several fallbacks (`og:` meta tags, embedded JSON timestamps, visible text) and
 records the raw date string it found. If an event won't parse:
 
 1. Re-run with `--debug --headed` and inspect `_scraped/debug/<id>.txt`.
-2. Adjust the extraction logic in `scripts/scrape-fb-events.js`
-   (`extractEvent`), or hand-fix the date in `_scraped/<year>.raw.json` and
+2. Adjust the extraction logic in `scripts/lib/fb-extract.js` (`extractEvent` /
+   `parseMainText`), or hand-fix the date in `_scraped/<year>.raw.json` and
    re-run `events:build`.
