@@ -17,22 +17,29 @@ Each listing is a dedicated **`directoryEntry`** content type (NOT the generic
 | `email`      | Symbol                            | —         | card builds `mailto:` |
 | `website`    | Symbol                            | —         | full URL; card footer external link |
 | `address`    | Symbol                            | —         | shown with a map-pin icon |
+| `logo`       | Cloudinary asset                  | —         | rendered top-right of the card; URL resolved via `getFallbackImageUrl` |
 
 `name` is the only required + localized field, so it must carry a value in **every**
 space locale (`en-CA`, `bg-BG`, `fr-CA`) or publish fails. Default locale is `bg-BG`.
 
 ### Taxonomy (the tags)
 
-Tags are a controlled vocabulary, not free text — two-tier:
+Tags are a controlled vocabulary, not free text — a single tier:
 
-- **`communityGroup`** — top tier: Community, Faith, Media, Services, Professional.
-- **`communityCategory`** — a category (slug + label) linked to one group, e.g.
-  `plumber` → Services, `renovation` → Services, `church` → Faith.
+- **`communityCategory`** — a category (slug + label + order), e.g. `plumber`,
+  `church`, `school`. These are the filter chips / dropdown options.
+
+> The filter is **single-tier**. An earlier design had a top-level
+> **`communityGroup`** tier (Community, Faith, Services…) above categories, but
+> that browse tier was never wired into the live component. It was removed
+> (2026-06): the `communityGroup` content type and its entries, plus the
+> `communityCategory.group` link field, were deleted directly in Contentful, and
+> the `groups`/`groupSlug` keys were dropped from `community-taxonomy.json`.
 
 Source of truth: [`mockData/bg-community/community-taxonomy.json`](../mockData/bg-community/community-taxonomy.json).
 A `directoryEntry`'s `categories` link to `communityCategory` entries. A tag whose
-category isn't in the taxonomy (or has no group) still lists under "All" but gets no
-filter chip — so add the category first.
+category isn't in the taxonomy still lists under "All" but gets no filter chip — so
+add the category first.
 
 ## How it renders
 
@@ -42,12 +49,12 @@ Query-driven by `city`, no manual collection wiring:
 page (communityDirectory section, city="montreal")
   → DirectoryConnector            components/Directory/DirectoryConnector.tsx
     → getCommunityDirectory(city) utils/content.ts   (fetches directoryEntry + taxonomy)
-      → FilterableDirectory       (client: group→category filter, search, A→Z index)
-        → DirectoryCard           (name + tag chips + icon rows: address/phone/email/website)
+      → FilterableDirectory       (client: category dropdown, search, A→Z index)
+        → DirectoryCard           (name + logo + tag chips + icon rows: address/phone/email/website)
 ```
 
-- Filter is two-tier: group chips → category chips. An entry matches a group if **any**
-  of its tags belongs to it (counted once per group).
+- Filter is single-tier: one category dropdown ("All" + every category that has
+  listings, ordered by the CMS `order`).
 - Card tag chips mirror the active filter chip; dark mode uses the lifted `--primary`
   accent (see `DirectoryCard.module.scss`).
 

@@ -5,9 +5,9 @@
  * (`migration.createEntry` is unavailable), so entry creation lives here.
  * Idempotent: existing entries (by fixed id) are skipped.
  *
- * Creates: communityGroup + communityCategory (from community-taxonomy.json),
- * the Montreal communityDirectory section, its SEO metaData, and the
- * /bg-community-montreal page that renders it.
+ * Creates: communityCategory (from community-taxonomy.json), the Montreal
+ * communityDirectory section, its SEO metaData, and the /bg-community-montreal
+ * page that renders it.
  *
  *   node contentful/seed-community-directory.cjs
  *   (reads CONTENTFUL_SPACE_ID / _ENVIRONMENT / _MANAGEMENT_TOKEN from env)
@@ -70,20 +70,13 @@ async function main() {
     console.log("✓ created + published", entryId);
   };
 
-  // 1. Groups
-  for (const g of taxonomy.groups || []) {
-    await ensure("communityGroup", `community-group-${g.slug}`, {
-      slug: nonLoc(g.slug),
-      order: nonLoc(g.order),
-      label: g.label,
-    });
-  }
-
-  // 2. Categories (linked to their group)
+  // 1. Categories (flat — the single-tier filter dropdown, ordered by `order`)
   for (const c of taxonomy.categories || []) {
-    const fields = { slug: nonLoc(c.slug), order: nonLoc(c.order), label: c.label };
-    if (c.groupSlug) fields.group = nonLoc(linkRef(`community-group-${c.groupSlug}`));
-    await ensure("communityCategory", `community-category-${c.slug}`, fields);
+    await ensure("communityCategory", `community-category-${c.slug}`, {
+      slug: nonLoc(c.slug),
+      order: nonLoc(c.order),
+      label: c.label,
+    });
   }
 
   // 3. Heading entry for the directory (rendered via the shared Heading component)

@@ -45,6 +45,8 @@ export type DirectoryItem = {
 	website?: string
 	address?: string
 	note?: React.ReactNode
+	/** Logo image URL (resolved from the entry's `logo` asset). */
+	logo?: string
 }
 
 export type FilterableDirectoryLabels = {
@@ -233,6 +235,7 @@ export const FilterableDirectory = ({
 				<DirectoryCard
 					tags={item.categorySlugs.map((s) => labelBySlug.get(s) ?? s)}
 					title={item.title}
+					logo={item.logo}
 					phone={item.phone}
 					email={item.email}
 					website={item.website}

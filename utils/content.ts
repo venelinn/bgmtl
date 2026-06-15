@@ -831,6 +831,8 @@ export type DirectoryData = {
     website?: string;
     address?: string;
     note?: string;
+    /** Resolved logo image URL (Cloudinary/Contentful asset), if set. */
+    logo?: string;
   }[];
 };
 
@@ -889,6 +891,7 @@ export async function getCommunityDirectory(
       const website = (entry?.website as string) || undefined;
       const address = (entry?.address as string) || undefined;
       const note = (entry?.note as string) || undefined;
+      const logo = getFallbackImageUrl(entry?.logo) || undefined;
       const searchText = [title, address, note, ...categoryLabels].filter(Boolean).join(" ").toLowerCase();
       return {
         id: entry?.id as string,
@@ -900,6 +903,7 @@ export async function getCommunityDirectory(
         website,
         address,
         note,
+        logo,
       };
     })
     .filter((it) => it.id && it.title);

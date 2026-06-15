@@ -19,6 +19,12 @@ type Story = StoryObj<typeof DirectoryCard>;
 
 export const Default: Story = {};
 
+export const WithLogo: Story = {
+  args: {
+    logo: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=360&h=96&fit=crop",
+  },
+};
+
 export const NoteOnly: Story = {
   args: {
     tags: ["Associations"],

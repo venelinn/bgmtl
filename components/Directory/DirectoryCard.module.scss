@@ -1,8 +1,16 @@
 @use "styles/typo-mixins" as typo;
 @use "styles/mixins" as mx;
+@use "styles/base-variables" as base;
+
 
 .card {
   --_card-radius: var(--spacing-4);
+	@media (width >= base.$breakpoint-md) {
+		--_logo-size: 90px;
+	}
+	@media (width < base.$breakpoint-md) {
+		--_logo-size: 70px;
+	}
   display: flex;
   flex-direction: column;
   gap: var(--spacing-3);
@@ -12,8 +20,44 @@
   border: 1px solid var(--color-grey-border);
   border-radius: var(--_card-radius);
   box-shadow:
-    0 1px 2px color-mix(in srgb, var(--color-black) 6%, transparent),
-    0 10px 24px color-mix(in srgb, var(--color-black) 4%, transparent);
+	0 1px 2px color-mix(in srgb, var(--color-black) 6%, transparent),
+	0 10px 24px color-mix(in srgb, var(--color-black) 4%, transparent);
+	&:has(.card__logo) {
+		--_logo-clearance: calc(var(--_logo-size) + var(--spacing-6) * 2); // logo size + padding on both sides
+	}
+
+  // Title row: name on the left, logo pinned to the right. The title takes the
+  // slack so the logo stays flush-right; `align-items: flex-start` keeps a tall
+  // logo from stretching against a single-line title.
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-3);
+		padding-right: var(--_logo-clearance);
+  }
+
+  // Fixed-size box with a `fill` image inside (object-fit: contain, anchored
+  // right), so any logo aspect ratio sits flush-right without distortion.
+  &__logo {
+		position: absolute;
+		top: var(--spacing-6);
+		right: var(--spacing-6);
+		flex-shrink: 0;
+    border: 1px solid var(--color-grey-border);
+    box-sizing: content-box;
+		display: block;
+    text-align: center;
+    height: var(--_logo-size);
+    width: var(--_logo-size);
+    line-height: var(--_logo-size);
+		img {
+			width: calc(var(--_logo-size) - var(--spacing-1-5)); // border compensation
+			height: auto;
+			vertical-align: middle;
+		}
+
+  }
 
   &__tags {
     display: flex;
@@ -67,6 +111,7 @@
     // Take the slack so the footer link sits at the bottom across a row.
     flex: 1 1 auto;
 		align-content: start;
+		padding-right: var(--_logo-clearance);
   }
 
   &__detail {
@@ -97,6 +142,7 @@
     border-radius: var(--spacing-2);
     background-color: color-mix(in srgb, var(--color-blue) 8%, var(--surface-container));
     color: var(--color-grey-dark);
+		width: fit-content;
   }
 
   &__footer {
