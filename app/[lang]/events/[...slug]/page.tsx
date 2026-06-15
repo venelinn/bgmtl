@@ -59,7 +59,10 @@ export async function generateMetadata(props: { params: Params }): Promise<Metad
   }
 
   const title = getHeadingText(event.heading, event.venue);
-  const coverUrl = event.cover?.[0]?.src ?? null;
+  // Prefer the event cover; fall back to the configured event fallback image so
+  // cover-less events still share a relevant og:image (not the generic site one).
+  const siteConfig = await getSiteConfig(lang, false);
+  const coverUrl = event.cover?.[0]?.src ?? getFallbackImageUrl(siteConfig?.fallbackEvent) ?? null;
   const ogImage = coverUrl ? getOgImageUrl(coverUrl) : null;
 
   return buildMetadata({

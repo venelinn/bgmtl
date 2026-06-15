@@ -33,5 +33,13 @@ export const getContentfulLocale = (locale: string) => {
 	return localization.contentfulLocales[0]
 }
 
+/**
+ * Path prefix for building locale-aware links. The default locale (bg) is served
+ * unprefixed (proxy.ts rewrites / → /bg), so it returns ""; every other locale
+ * returns "/{locale}". Use as `${getLocalePrefix(locale)}/events`.
+ */
+export const getLocalePrefix = (locale?: string): string =>
+	locale && locale !== localization.defaultLocale ? `/${locale}` : ""
+
 // Export all properties as a default object for convenience,
 // just like your old file did.

@@ -5,6 +5,7 @@ import { componentMap } from "@/components"
 import { EventsCalendarConnector } from "@/components/Calendar"
 import { Join } from "@/components/Join"
 import { ListingsConnector } from "@/components/Listings"
+import { HomeDirectoryConnector } from "@/components/Listings/HomeDirectoryConnector"
 import { HomeEventsConnector } from "@/components/Listings/HomeEventsConnector"
 import { HomeNewsConnector } from "@/components/Listings/HomeNewsConnector"
 import { buildMetadata } from "@/components/MetaData"
@@ -150,7 +151,7 @@ export default async function Page(props: {
 		sections?: Section[]
 		sidebar?: boolean
 		widgets?: WidgetType[]
-		listings?: ("events" | "news")[]
+		listings?: ("events" | "news" | "directory")[]
 	}
 
 	const isHomepage = slug.length === 0
@@ -215,17 +216,26 @@ export default async function Page(props: {
 
 				<Join />
 
+				{listings.includes("directory") && (
+					<HomeDirectoryConnector locale={lang} limit={3} preview={isEnabled} />
+				)}
+
 				<HomeNewsConnector locale={lang} limit={3} preview={isEnabled} />
 			</>
 		)
 	}
 
 	// ── All other pages: keep the existing sidebar option ────────────────────
+	// The "directory" teaser is homepage-only; ListingsConnector only knows
+	// events/news, so drop it here.
+	const feedListings = listings.filter(
+		(l): l is "events" | "news" => l === "events" || l === "news",
+	)
 	const mainContent = (
 		<>
-			{listings.length > 0 && (
+			{feedListings.length > 0 && (
 				<ListingsConnector
-					listings={listings}
+					listings={feedListings}
 					locale={lang}
 					limit={3}
 					preview={isEnabled}

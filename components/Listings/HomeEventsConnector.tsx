@@ -2,6 +2,7 @@ import { GridCollection } from "@/components/Collection"
 import { Event } from "@/components/Events/Event"
 import type { EventItem } from "@/types/events"
 import { getFallbackImageUrl, getListingsData } from "@/utils/content"
+import { getLocalePrefix } from "@/utils/localization"
 import { HomeEventsHeader } from "./HomeEventsHeader"
 import { Section } from "@/components/Section"
 
@@ -48,7 +49,10 @@ export async function HomeEventsConnector({
 
 	return (
 		<Section padding="none">
-			<HomeEventsHeader href={`/${locale}/events`} showViewAll />
+			<HomeEventsHeader
+				href={`${getLocalePrefix(locale)}/events`}
+				showViewAll
+			/>
 			<GridCollection items={items} itemsPerRow={1} />
 		</Section>
 	)

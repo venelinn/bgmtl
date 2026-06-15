@@ -73,6 +73,8 @@
 		"goHome": "Go to homepage"
 	},
 	"Directory": {
+		"sectionTitle": "Community Directory",
+		"viewAll": "View all listings",
 		"all": "All",
 		"searchPlaceholder": "Search for associations, keywords, or location…",
 		"searchAriaLabel": "Search listings",
