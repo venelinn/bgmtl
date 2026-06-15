@@ -1,29 +1,22 @@
 {
-  "groups": [
-    { "slug": "community", "order": 1, "label": { "en-CA": "Community", "bg-BG": "Общност", "fr-CA": "Communauté" } },
-    { "slug": "faith", "order": 2, "label": { "en-CA": "Faith", "bg-BG": "Вяра", "fr-CA": "Foi" } },
-    { "slug": "media", "order": 3, "label": { "en-CA": "Media", "bg-BG": "Медии", "fr-CA": "Médias" } },
-    { "slug": "services", "order": 4, "label": { "en-CA": "Services", "bg-BG": "Услуги", "fr-CA": "Services" } },
-    { "slug": "professional", "order": 5, "label": { "en-CA": "Professional", "bg-BG": "Професионалисти", "fr-CA": "Professionnels" } }
-  ],
   "categories": [
-    { "slug": "association", "groupSlug": "community", "order": 1, "label": { "en-CA": "Associations", "bg-BG": "Сдружения", "fr-CA": "Associations" } },
-    { "slug": "cultural-center", "groupSlug": "community", "order": 2, "label": { "en-CA": "Cultural Centres", "bg-BG": "Културни центрове", "fr-CA": "Centres culturels" } },
-    { "slug": "school", "groupSlug": "community", "order": 3, "label": { "en-CA": "Schools", "bg-BG": "Училища", "fr-CA": "Écoles" } },
-    { "slug": "folk-club", "groupSlug": "community", "order": 4, "label": { "en-CA": "Folk Formations & Clubs", "bg-BG": "Фолклорни формирования и клубове", "fr-CA": "Groupes folkloriques" } },
-    { "slug": "church", "groupSlug": "faith", "order": 1, "label": { "en-CA": "Churches", "bg-BG": "Църкви", "fr-CA": "Églises" } },
-    { "slug": "newspaper", "groupSlug": "media", "order": 1, "label": { "en-CA": "Newspapers", "bg-BG": "Вестници", "fr-CA": "Journaux" } },
-    { "slug": "radio", "groupSlug": "media", "order": 2, "label": { "en-CA": "Radio", "bg-BG": "Радио", "fr-CA": "Radio" } },
-    { "slug": "plumber", "groupSlug": "services", "order": 1, "label": { "en-CA": "Plumbers", "bg-BG": "Водопроводчици", "fr-CA": "Plombiers" } },
-    { "slug": "electrician", "groupSlug": "services", "order": 2, "label": { "en-CA": "Electricians", "bg-BG": "Електротехници", "fr-CA": "Électriciens" } },
-    { "slug": "cleaning", "groupSlug": "services", "order": 3, "label": { "en-CA": "Cleaning", "bg-BG": "Почистване", "fr-CA": "Nettoyage" } },
-    { "slug": "renovation", "groupSlug": "services", "order": 4, "label": { "en-CA": "Renovation", "bg-BG": "Ремонти", "fr-CA": "Rénovation" } },
-    { "slug": "lawyer", "groupSlug": "professional", "order": 1, "label": { "en-CA": "Lawyers", "bg-BG": "Адвокати", "fr-CA": "Avocats" } },
-    { "slug": "accountant", "groupSlug": "professional", "order": 2, "label": { "en-CA": "Accountants", "bg-BG": "Счетоводители", "fr-CA": "Comptables" } },
-    { "slug": "photographer", "groupSlug": "professional", "order": 3, "label": { "en-CA": "Photographers", "bg-BG": "Фотографи", "fr-CA": "Photographes" } },
-    { "slug": "realtor", "groupSlug": "professional", "order": 4, "label": { "en-CA": "Realtors", "bg-BG": "Брокери", "fr-CA": "Courtiers immobiliers" } },
-    { "slug": "notary", "groupSlug": "professional", "order": 5, "label": { "en-CA": "Notaries", "bg-BG": "Нотариуси", "fr-CA": "Notaires" } },
-    { "slug": "doctor", "groupSlug": "professional", "order": 6, "label": { "en-CA": "Doctors", "bg-BG": "Лекари", "fr-CA": "Médecins" } },
-    { "slug": "business", "groupSlug": "professional", "order": 7, "label": { "en-CA": "Businesses", "bg-BG": "Бизнеси", "fr-CA": "Entreprises" } }
+    { "slug": "association", "order": 1, "label": { "en-CA": "Associations", "bg-BG": "Сдружения", "fr-CA": "Associations" } },
+    { "slug": "cultural-center", "order": 2, "label": { "en-CA": "Cultural Centres", "bg-BG": "Културни центрове", "fr-CA": "Centres culturels" } },
+    { "slug": "school", "order": 3, "label": { "en-CA": "Schools", "bg-BG": "Училища", "fr-CA": "Écoles" } },
+    { "slug": "folk-club", "order": 4, "label": { "en-CA": "Folk Formations & Clubs", "bg-BG": "Фолклорни формирования и клубове", "fr-CA": "Groupes folkloriques" } },
+    { "slug": "church", "order": 5, "label": { "en-CA": "Churches", "bg-BG": "Църкви", "fr-CA": "Églises" } },
+    { "slug": "newspaper", "order": 6, "label": { "en-CA": "Newspapers", "bg-BG": "Вестници", "fr-CA": "Journaux" } },
+    { "slug": "radio", "order": 7, "label": { "en-CA": "Radio", "bg-BG": "Радио", "fr-CA": "Radio" } },
+    { "slug": "plumber", "order": 8, "label": { "en-CA": "Plumbers", "bg-BG": "Водопроводчици", "fr-CA": "Plombiers" } },
+    { "slug": "electrician", "order": 9, "label": { "en-CA": "Electricians", "bg-BG": "Електротехници", "fr-CA": "Électriciens" } },
+    { "slug": "cleaning", "order": 10, "label": { "en-CA": "Cleaning", "bg-BG": "Почистване", "fr-CA": "Nettoyage" } },
+    { "slug": "renovation", "order": 11, "label": { "en-CA": "Renovation", "bg-BG": "Ремонти", "fr-CA": "Rénovation" } },
+    { "slug": "lawyer", "order": 12, "label": { "en-CA": "Lawyers", "bg-BG": "Адвокати", "fr-CA": "Avocats" } },
+    { "slug": "accountant", "order": 13, "label": { "en-CA": "Accountants", "bg-BG": "Счетоводители", "fr-CA": "Comptables" } },
+    { "slug": "photographer", "order": 14, "label": { "en-CA": "Photographers", "bg-BG": "Фотографи", "fr-CA": "Photographes" } },
+    { "slug": "realtor", "order": 15, "label": { "en-CA": "Realtors", "bg-BG": "Брокери", "fr-CA": "Courtiers immobiliers" } },
+    { "slug": "notary", "order": 16, "label": { "en-CA": "Notaries", "bg-BG": "Нотариуси", "fr-CA": "Notaires" } },
+    { "slug": "doctor", "order": 17, "label": { "en-CA": "Doctors", "bg-BG": "Лекари", "fr-CA": "Médecins" } },
+    { "slug": "business", "order": 18, "label": { "en-CA": "Businesses", "bg-BG": "Бизнеси", "fr-CA": "Entreprises" } }
   ]
 }
