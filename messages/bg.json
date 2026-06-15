@@ -78,6 +78,8 @@
 		"goHome": "Към началната страница"
 	},
 	"Directory": {
+		"sectionTitle": "Указател",
+		"viewAll": "Виж всички",
 		"all": "Всички",
 		"searchPlaceholder": "Търсете асоциации, ключови думи или място…",
 		"searchAriaLabel": "Търсене в списъка",

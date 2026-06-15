@@ -910,3 +910,59 @@ export async function getCommunityDirectory(
 
   return { categories, items };
 }
+
+export type LatestDirectoryEntry = {
+  id: string;
+  title: string;
+  /** Category labels — rendered as the small chips on DirectoryCard. */
+  tags: string[];
+  phone?: string;
+  email?: string;
+  website?: string;
+  address?: string;
+  note?: string;
+  logo?: string;
+};
+
+/**
+ * Fetches the most recently created `directoryEntry` entries for a city (newest
+ * first), mapped to DirectoryCard-ready items. Powers the homepage "latest
+ * listings" teaser — distinct from getCommunityDirectory, which returns the full
+ * filterable set with its category taxonomy.
+ */
+export async function getLatestDirectoryEntries(
+  locale: string,
+  limit = 3,
+  preview?: boolean,
+  city = "montreal",
+): Promise<LatestDirectoryEntry[]> {
+  const contentfulLocale = getContentfulLocale(locale);
+  try {
+    const res = await getEntries(
+      "directoryEntry",
+      { locale: contentfulLocale, "fields.city": city, order: "-sys.createdAt", limit },
+      { preview },
+    );
+    return ((res?.items ?? []).map((e) => mapEntry(e)) as any[])
+      .map((entry) => {
+        const title: string = entry?.name || entry?.heading?.heading || entry?.title || "";
+        const cats = (Array.isArray(entry?.categories) ? entry.categories : []).filter(Boolean) as any[];
+        const tags = cats.map((c) => c?.label as string).filter(Boolean);
+        return {
+          id: entry?.id as string,
+          title,
+          tags,
+          phone: (entry?.phone as string) || undefined,
+          email: (entry?.email as string) || undefined,
+          website: (entry?.website as string) || undefined,
+          address: (entry?.address as string) || undefined,
+          note: (entry?.note as string) || undefined,
+          logo: getFallbackImageUrl(entry?.logo) || undefined,
+        };
+      })
+      .filter((it) => it.id && it.title);
+  } catch (err) {
+    console.error("getLatestDirectoryEntries: fetch failed", err);
+    return [];
+  }
+}

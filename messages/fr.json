@@ -73,6 +73,8 @@
 		"goHome": "Retour à l'accueil"
 	},
 	"Directory": {
+		"sectionTitle": "Répertoire communautaire",
+		"viewAll": "Voir toutes les fiches",
 		"all": "Tout",
 		"searchPlaceholder": "Rechercher une association, un mot-clé ou un lieu…",
 		"searchAriaLabel": "Rechercher dans les fiches",
