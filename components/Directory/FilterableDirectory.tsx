@@ -99,9 +99,18 @@ function sortName(item: DirectoryItem): string {
 	return item.title.replace(/^\s*\[[^\]]*\]\s*/, "").trim()
 }
 
+// Section letter for the A→Z index. Diacritics are stripped (NFD + drop combining
+// marks) so accented names group with their base letter ("Étoile" → "E"); without
+// this they'd sort interleaved with un-accented names (base sensitivity) yet land
+// in separate "É"/"E" sections, producing duplicate React keys. Cyrillic is left
+// intact, matching `fold`.
 function letterOf(name: string): string {
 	const m = name.match(/\p{L}/u)
-	return m ? m[0].toUpperCase() : "#"
+	if (!m) return "#"
+	return m[0]
+		.normalize("NFD")
+		.replace(/\p{Diacritic}/gu, "")
+		.toUpperCase()
 }
 
 // Accent- and case-insensitive folding so French queries match regardless of
