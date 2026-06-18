@@ -22,6 +22,12 @@ const nextConfig = {
 	},
 	images: {
 		// dangerouslyAllowSVG: true,
+		// Serve images straight from the Contentful/Cloudinary CDNs instead of
+		// Netlify's billed image optimizer (see utils/imageLoader.ts). With a
+		// custom loader, remotePatterns is no longer enforced, but it's kept as
+		// living documentation of the allowed sources.
+		loader: "custom",
+		loaderFile: "./utils/imageLoader.ts",
 		remotePatterns: [
 			{
 				protocol: "https",

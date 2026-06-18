@@ -9,6 +9,7 @@
     "clean": "rm -rf .next",
     "dev": "pnpm run build-dictionary && next dev -p 3020",
     "build": "pnpm run clean && pnpm run build-dictionary && next build",
+    "build:ci": "pnpm run build-dictionary && next build",
     "start": "next start",
     "storybook": "storybook dev -p 6018",
     "build-storybook": "storybook build --output-dir ./.next/storybook",

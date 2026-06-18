@@ -36,6 +36,7 @@ const ContentfulImage = ({ image, className }: ContentfulImageProps) => {
 			alt={image?.title || ""}
 			width={width}
 			height={height}
+			sizes="(max-width: 48rem) 100vw, 800px"
 			className={className}
 		/>
 	);

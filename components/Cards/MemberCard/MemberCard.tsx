@@ -48,6 +48,7 @@ export const MemberCard = ({ id, heading, content, role, image, imageRatio }: Ca
             alt={heading?.heading || altText}
             width={widthNumber}
             height={heightNumber}
+            sizes="(max-width: 48rem) 50vw, 300px"
             data-ratio={imageRatio}
           />
         )}

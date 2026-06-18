@@ -117,6 +117,7 @@ export const Hero = ({
                   alt={img?.alt ?? ""}
                   width={w}
                   height={h}
+                  sizes="100vw"
                   priority={isFirst}
                   fetchPriority={isFirst ? "high" : undefined}
                 />

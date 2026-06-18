@@ -59,6 +59,7 @@ export const News = ({ news, locale, fallbackImage }: NewsProps) => {
             alt={String(headingText) ?? "News cover"}
             width={cover.width}
             height={cover.height}
+            sizes="(max-width: 48rem) 100vw, 400px"
             className={clsx(isFallback && styles.news__imageFallback)}
             onError={() => setImageError(true)}
           />
