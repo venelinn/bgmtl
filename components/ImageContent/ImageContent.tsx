@@ -66,7 +66,13 @@ export const ImageContent = ({ heading, variant, image, content, fullHeight, isC
         data-orientation={imageAspectRatio > 1 ? "horizontal" : "vertical"}
         data-anim="cover-image"
       >
-        <Image src={src} alt={image?.alt || ""} width={width} height={height} />
+        <Image
+          src={src}
+          alt={image?.alt || ""}
+          width={width}
+          height={height}
+          sizes={fullHeight ? "100vw" : "(max-width: 48rem) 100vw, 50vw"}
+        />
       </div>
       <div data-anim="content-image" className={styles.module__content}>
         {heading && (

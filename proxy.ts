@@ -62,16 +62,18 @@ export function proxy(request: NextRequest) {
   return NextResponse.rewrite(url);
 }
 
-// The config matcher remains the same.
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - api (API routes)
+     * Match all request paths EXCEPT those that never need locale rewriting.
+     * Every match invokes the edge function (billed), so we exclude here rather
+     * than relying only on the early-returns in the body:
+     * - api, _next/static, _next/image, favicon.ico — framework/asset routes
+     * - robots.txt, sitemap.xml — static SEO files
+     * - any path ending in a common static-asset extension (css/js/fonts/images)
+     *   Extensionless content paths still match; the dotted spam paths handled
+     *   in the body end in `.ca`, which is intentionally absent from this list.
      */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\.(?:ico|png|jpg|jpeg|gif|svg|webp|avif|css|js|mjs|woff|woff2|ttf|otf|map|json)$).*)",
   ],
 };

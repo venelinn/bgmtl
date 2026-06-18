@@ -17,6 +17,17 @@
     { "slug": "realtor", "order": 15, "label": { "en-CA": "Realtors", "bg-BG": "Брокери", "fr-CA": "Courtiers immobiliers" } },
     { "slug": "notary", "order": 16, "label": { "en-CA": "Notaries", "bg-BG": "Нотариуси", "fr-CA": "Notaires" } },
     { "slug": "doctor", "order": 17, "label": { "en-CA": "Doctors", "bg-BG": "Лекари", "fr-CA": "Médecins" } },
-    { "slug": "business", "order": 18, "label": { "en-CA": "Businesses", "bg-BG": "Бизнеси", "fr-CA": "Entreprises" } }
+    { "slug": "business", "order": 18, "label": { "en-CA": "Businesses", "bg-BG": "Бизнеси", "fr-CA": "Entreprises" } },
+    { "slug": "education", "order": 19, "label": { "en-CA": "Education & Tutoring", "bg-BG": "Образование и уроци", "fr-CA": "Cours et éducation" } },
+    { "slug": "beauty", "order": 20, "label": { "en-CA": "Beauty & Cosmetics", "bg-BG": "Красота и козметика", "fr-CA": "Beauté" } },
+    { "slug": "auto", "order": 21, "label": { "en-CA": "Auto Services", "bg-BG": "Авто услуги", "fr-CA": "Services auto" } },
+    { "slug": "food", "order": 22, "label": { "en-CA": "Food & Baking", "bg-BG": "Храна и сладкарство", "fr-CA": "Cuisine et pâtisserie" } },
+    { "slug": "arts", "order": 23, "label": { "en-CA": "Arts & Crafts", "bg-BG": "Изкуство и занаяти", "fr-CA": "Arts et artisanat" } },
+    { "slug": "shopping", "order": 24, "label": { "en-CA": "Shopping", "bg-BG": "Пазаруване", "fr-CA": "Boutique" } },
+    { "slug": "pets", "order": 25, "label": { "en-CA": "Pet Services", "bg-BG": "Домашни любимци", "fr-CA": "Animaux" } },
+    { "slug": "tailoring", "order": 26, "label": { "en-CA": "Tailoring", "bg-BG": "Шивашки услуги", "fr-CA": "Couture" } },
+    { "slug": "it", "order": 27, "label": { "en-CA": "IT & Computer", "bg-BG": "Компютърни услуги", "fr-CA": "Informatique" } },
+    { "slug": "driving-school", "order": 28, "label": { "en-CA": "Driving School", "bg-BG": "Автошкола", "fr-CA": "Auto-école" } },
+    { "slug": "finance", "order": 29, "label": { "en-CA": "Finance", "bg-BG": "Финанси", "fr-CA": "Finances" } }
   ]
 }
