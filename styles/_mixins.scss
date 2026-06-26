@@ -207,12 +207,12 @@
     }
 
     &:hover {
-      --card-shadow: 0 0 0 1px var(--color-teal-400), 0 8px 16px 0 hsl(from var(--color-teal-100) h s l / 0.16);
+      --card-shadow: 0 0 0 1px var(--color-grey), 0 8px 16px 0 hsl(from var(--color-grey-light) h s l / 0.16);
     }
   }
 }
 
-@mixin card-clickable($link: var(--color-teal-200), $hover: var(--color-teal-400)) {
+@mixin card-clickable($link: var(--color-grey-light), $hover: var(--color-grey)) {
   --_card-link-color: #{$link};
   position: relative;
 
@@ -255,8 +255,8 @@
     border: 1px solid var(--swiper-custom-pagination-color);
   }
   .swiper-pagination-bullet-active {
-    --swiper-pagination-color: var(--color-teal-400);
-    --swiper-custom-pagination-color: var(--color-teal-400);
+    --swiper-pagination-color: var(--color-grey);
+    --swiper-custom-pagination-color: var(--color-grey);
   }
 }
 

@@ -37,7 +37,7 @@
   `#eaeaea`, `#1f2937`, `#6b7280`, `#d97706`, `#e0e0e0`. None of these are in
   `colors.json`. Dark mode will silently break here.
 - **Phantom token reference.** `OwnerBoatCard.module.scss` uses
-  `var(--color-teal-400)` for focus rings — that variable does not exist in
+  `var(--color-gr-400)` for focus rings — that variable does not exist in
   `colors.json`. Falls back to `currentColor`.
 - **Two parallel shadow systems.** Cards use `0 2px 8px rgba(0,0,0,0.1)`
   inline; tokens define `--box-shadow-base` from `rgba(56,65,74,0.15)`. Neither
@@ -366,7 +366,7 @@ Token swaps + a few opinionated changes:
 - Verified icon `--system-success` is currently dark green (#046239) —
   invisible on dark. Swap to `--color-warm` (champagne) in dark; reads more
   luxurious anyway and aligns with "trust + premium."
-- **Fix the phantom token**: `--color-teal-400` → `--color-accent`. Ships the
+- **Fix the phantom token**: `--color-grey` → `--color-accent`. Ships the
   focus ring properly in both modes.
 - Status switch (`theme="green"`): on dark, the active state should shift to
   `--color-accent` so it reads as the brand, and the off-state track should be
@@ -690,7 +690,7 @@ side.
 
 1. **Do not ship dark mode without first paying the token-drift debt.**
    `BoatCard.module.scss` has 6+ hardcoded hex values; `OwnerBoatCard`
-   references a phantom `--color-teal-400`. Dark mode will surface every
+   references a phantom `--color-grey`. Dark mode will surface every
    shortcut anyone took. The cleanup ships value either way.
 2. **Make `--color-blue-dark` (#0f2541) the canvas.** It is already in the
    brand. Anchoring dark mode in a token that is already approved is the
@@ -848,11 +848,10 @@ The first pass identified one phantom token. The actual inventory:
 
 | Phantom | Files affected (count) | Likely intent |
 |---|---|---|
-| `--color-teal-100` | `_mixins.scss` (card-clickable shadow) | very-light teal |
-| `--color-teal-200` | `_mixins.scss`, `Calendar`, `Pagination` (commented), GalleryBase (commented) | light teal — focus/hover |
-| `--color-teal-400` | `_mixins.scss` (card-clickable, swiper), `Pagination`, `OwnerBoatCard`, `Gallery`, `Mosaic`, `InfoCard` | mid teal — primary accent in places |
-| `--color-teal-800` | `Pagination` | dark teal |
-| `--color-sapphire` | `Navigation` (mobile open state), `BoatTabs`, `PhotoManager`, `Bookings` | a navigation/tab accent |
+| `--color-grey-100` | `_mixins.scss` (card-clickable shadow) | very-light grey |
+| `--color-grey-200` | `_mixins.scss`, `Calendar`, `Pagination` (commented), GalleryBase (commented) | light grey — focus/hover |
+| `--color-grey` | `_mixins.scss` (card-clickable, swiper), `Pagination`, `OwnerBoatCard`, `Gallery`, `Mosaic`, `InfoCard` | mid grey — primary accent in places |
+| `--color-grey-dark` | `Pagination` | dark teal |
 | `--color-ocean` | `globals.scss` (tap highlight) | mobile tap highlight |
 
 **This is a hidden second design language.** Someone was building toward a
@@ -863,7 +862,7 @@ Either:
   values, and ship them as part of the dark-mode work (it's the natural moment
   to clean up).
 - **Resolve backward:** sweep the codebase and replace each phantom with the
-  intended existing token (`--color-teal-400` → `--color-blue` or
+  intended existing token (`--color-grey` → `--color-blue` or
   `--color-green` depending on context).
 
 Option 1 is faster but expands the palette permanently. Option 2 is the
@@ -1033,7 +1032,7 @@ script then falls through to `prefers-color-scheme`.
 
 These are blockers, not nice-to-haves:
 
-1. **Resolve the phantom token system** (G6) — `--color-teal-*`, `--color-sapphire`, `--color-ocean`. Ship as light-mode-clean PR first.
+1. **Resolve the phantom token system** (G6) — `--color-grey-*`, `--color-sapphire`, `--color-ocean`. Ship as light-mode-clean PR first.
 2. **Rename Section's `data-theme`** to `data-tone` (G11.3) — naming collision with global theme.
 3. **Update `app/layout.tsx`** with the pre-hydration script and verify the dark favicon at `/public/favicon-dark.ico` is correct.
 4. **Remove `corner-shape: squircle`** from Navigation and Hero — it does
