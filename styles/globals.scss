@@ -186,9 +186,9 @@ html {
 	scrollbar-gutter: stable;
   scroll-padding-top: var(--navigation-height);
   // color-scheme: light dark;
-  @media (prefers-reduced-motion: no-preference) {
-    scroll-behavior: smooth;
-  }
+  // @media (prefers-reduced-motion: no-preference) {
+  //   scroll-behavior: smooth;
+  // }
 }
 
 body {

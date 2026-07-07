@@ -1,4 +1,5 @@
 import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
 import type { HeadingProps } from "@/components/Headings";
 import { getCommunityDirectory } from "@/utils/content";
 import { getMessages } from "@/utils/getMessages";
@@ -14,6 +15,14 @@ type DirectoryConnectorProps = {
   intro?: string;
   itemsPerRow?: number;
   autocomplete?: boolean;
+  /**
+   * Category slug from the URL path (`/community/<slug>`) — pre-selects the
+   * filter so the initial server render is already scoped (shareable + SEO).
+   * An unknown/empty slug 404s.
+   */
+  initialCategory?: string;
+  /** Locale-prefixed base path for the directory, e.g. `/en/community`. Drives URL sync. */
+  basePath?: string;
 };
 
 /**
@@ -28,6 +37,16 @@ export async function DirectoryConnector(props: DirectoryConnectorProps) {
   const locale = props.locale || "bg";
   const { isEnabled } = await draftMode();
   const data = await getCommunityDirectory(city, locale, isEnabled);
+
+  // A category in the URL path must resolve to at least one listing; unknown or
+  // empty categories 404 (no soft-404 shells for crawlers to index).
+  if (
+    props.initialCategory &&
+    !data.items.some((it) => it.categorySlugs.includes(props.initialCategory as string))
+  ) {
+    notFound();
+  }
+
   if (!data.items.length) return null;
 
   const m = ((getMessages(locale) as Record<string, unknown>)?.Directory ?? {}) as Record<string, string>;
@@ -40,6 +59,8 @@ export async function DirectoryConnector(props: DirectoryConnectorProps) {
       items={data.items}
       categories={data.categories}
       itemsPerRow={itemsPerRow}
+      initialCategory={props.initialCategory}
+      basePath={props.basePath}
       autocomplete={props.autocomplete !== false}
       labels={{
         all: m.all,

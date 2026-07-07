@@ -17,8 +17,31 @@ import { DonateWidget, MembershipConnector } from "@/components/Widgets"
 import type { SliderConnectorProps } from "@/types/slider"
 import type { WidgetType } from "@/types/widgets"
 import { IS_DEV } from "@/utils/common"
-import { getPageBySlug, getPagePaths } from "@/utils/content"
+import {
+	getCommunityCategories,
+	getPageBySlug,
+	getPagePaths,
+} from "@/utils/content"
 import { getContentfulLocale, localization } from "@/utils/localization"
+
+// The `/community` directory is a single Contentful page, but categories are
+// exposed as shareable path segments (`/community/<slug>`). Because this route
+// is the catch-all, we intercept that extra segment here rather than letting it
+// resolve as a (non-existent) page slug.
+const DIRECTORY_SLUG = "community"
+
+/**
+ * If `slug` is a directory category path (`["community", "<category>"]`), returns
+ * the underlying page slug plus the category. Otherwise null.
+ */
+function parseDirectoryPath(
+	slug: string[],
+): { pageSlug: string; category: string } | null {
+	if (slug.length === 2 && slug[0] === DIRECTORY_SLUG) {
+		return { pageSlug: DIRECTORY_SLUG, category: slug[1] }
+	}
+	return null
+}
 
 // No numeric `revalidate`: Contentful data is cached indefinitely under the
 // "contentful" tag (utils/contentful-cache.ts) and busted on publish via the
@@ -61,15 +84,35 @@ export async function generateMetadata(props: {
 
 	if (!localization.locales.includes(lang)) return {}
 
+	// Canonical keeps the full path (`community/<category>`); the page it's built
+	// from is the base directory page.
+	const directory = parseDirectoryPath(slug)
 	const path = slug.length > 0 ? slug.join("/") : "/"
+	const pageSlug = directory ? directory.pageSlug : path
 	const contentfulLocale = getContentfulLocale(lang)
-	const pageData = await getPageBySlug(path, contentfulLocale, isEnabled)
+	const pageData = await getPageBySlug(pageSlug, contentfulLocale, isEnabled)
 
 	const meta = (pageData as any)?.metaData
 
+	let pageTitle = meta?.pageTitle ?? null
+	let pageDescription = meta?.pageDescription ?? null
+
+	// Give each category path a distinct title/description so they don't compete
+	// as duplicate content. An unknown category still 404s at render time.
+	if (directory) {
+		const categories = await getCommunityCategories(lang, isEnabled)
+		const cat = categories.find((c) => c.slug === directory.category)
+		if (cat) {
+			pageTitle = pageTitle ? `${cat.label} — ${pageTitle}` : cat.label
+			pageDescription = pageDescription
+				? `${cat.label} · ${pageDescription}`
+				: pageDescription
+		}
+	}
+
 	return buildMetadata({
-		pageTitle: meta?.pageTitle ?? null,
-		pageDescription: meta?.pageDescription ?? null,
+		pageTitle,
+		pageDescription,
 		keywords: meta?.keywords ?? null,
 		path,
 		locale: lang,
@@ -80,7 +123,10 @@ export async function generateMetadata(props: {
  * Renders a single top-level Contentful section. Used for the hero (rendered
  * full-width, first) and for the remaining body sections.
  */
-function renderSection(section: Section) {
+function renderSection(
+	section: Section,
+	directoryProps?: Record<string, unknown>,
+) {
 	const Component = componentMap[section.type]
 	if (!Component) return null
 
@@ -111,7 +157,11 @@ function renderSection(section: Section) {
 				: null
 			if (!Child) return null
 
-			return <Child key={child.id} {...child} />
+			const childProps =
+				child.type === "communityDirectory"
+					? { ...child, ...directoryProps }
+					: child
+			return <Child key={child.id} {...childProps} />
 		})
 
 		return (
@@ -125,7 +175,11 @@ function renderSection(section: Section) {
 		)
 	}
 
-	return <Component key={section.id} {...section} />
+	const sectionProps =
+		section.type === "communityDirectory"
+			? { ...section, ...directoryProps }
+			: section
+	return <Component key={section.id} {...sectionProps} />
 }
 
 export default async function Page(props: {
@@ -138,9 +192,26 @@ export default async function Page(props: {
 	// 3️⃣ Validate locale
 	if (!localization.locales.includes(lang)) return notFound()
 
-	// 2. Build the path
-	const path = slug.length > 0 ? slug.join("/") : "/"
+	// 2. Build the path. A `/community/<category>` path resolves to the base
+	// `community` page; the category is threaded into the directory section so the
+	// server render is pre-filtered (shareable + SEO).
+	const directory = parseDirectoryPath(slug)
+	const path = directory
+		? directory.pageSlug
+		: slug.length > 0
+			? slug.join("/")
+			: "/"
 	const contentfulLocale = getContentfulLocale(lang)
+
+	// Locale prefix mirrors buildMetadata: default locale (bg) at root, others prefixed.
+	const localePrefix = lang === localization.defaultLocale ? "" : `/${lang}`
+	const directoryProps =
+		path === DIRECTORY_SLUG
+			? {
+					initialCategory: directory?.category,
+					basePath: `${localePrefix}/${DIRECTORY_SLUG}`,
+				}
+			: undefined
 
 	// 3. Fetch data with the preview flag
 	const pageData = await getPageBySlug(path, contentfulLocale, isEnabled)
@@ -185,7 +256,7 @@ export default async function Page(props: {
 
 	const heroContent = heroSection ? renderSection(heroSection) : null
 	const cmsSections = otherSections?.length
-		? otherSections.map(renderSection)
+		? otherSections.map((s) => renderSection(s, directoryProps))
 		: null
 
 	// ── Homepage: bespoke layout (no page-level sidebar) ─────────────────────
