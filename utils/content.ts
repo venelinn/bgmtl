@@ -939,8 +939,8 @@ export async function getCommunityCategories(
 export type LatestDirectoryEntry = {
   id: string;
   title: string;
-  /** Category labels — rendered as the small chips on DirectoryCard. */
-  tags: string[];
+  /** Categories (slug + label) — rendered as the chips on DirectoryCard, linked to `/community/<slug>`. */
+  tags: { slug: string; label: string }[];
   phone?: string;
   email?: string;
   website?: string;
@@ -972,7 +972,9 @@ export async function getLatestDirectoryEntries(
       .map((entry) => {
         const title: string = entry?.name || entry?.heading?.heading || entry?.title || "";
         const cats = (Array.isArray(entry?.categories) ? entry.categories : []).filter(Boolean) as any[];
-        const tags = cats.map((c) => c?.label as string).filter(Boolean);
+        const tags = cats
+          .filter((c) => c?.slug)
+          .map((c) => ({ slug: c.slug as string, label: (c.label ?? c.slug) as string }));
         return {
           id: entry?.id as string,
           title,

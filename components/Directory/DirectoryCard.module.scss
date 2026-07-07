@@ -91,6 +91,41 @@
 			--_badge-bg: var(--primary);
 			--_badge-color: var(--on-primary);
 		}
+
+		// Anchor variant: same pill, now a clickable category link. Adds affordance
+		// (pointer + hover lift) and strips the default link underline/color.
+		& {
+			cursor: pointer;
+			text-decoration: none;
+			transition: background-color 0.15s ease, border-color 0.15s ease;
+		}
+		&:hover {
+			--_badge-bg: color-mix(in srgb, var(--color-main), white 88%);
+			--_badge-border: color-mix(in srgb, var(--color-main), white 50%);
+		}
+		&:focus-visible {
+			outline: 2px solid var(--color-main);
+			outline-offset: 2px;
+		}
+		[data-theme="dark"] &:hover {
+			--_badge-bg: color-mix(in srgb, var(--primary), white 12%);
+		}
+
+		// Active variant: the tag matching the current category filter. Solid brand
+		// fill so it reads as "selected" against the light inactive pills; it's the
+		// current view, so no hover lift / pointer.
+		&--active,
+		&--active:hover {
+			--_badge-bg: var(--color-main);
+			--_badge-color: white;
+			--_badge-border: var(--color-main);
+			cursor: default;
+
+			[data-theme="dark"] & {
+				--_badge-bg: var(--primary);
+				--_badge-color: var(--on-primary);
+			}
+		}
   }
 
   &__title {

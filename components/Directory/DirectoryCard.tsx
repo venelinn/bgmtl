@@ -1,12 +1,28 @@
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { Heading } from "@/components/Headings";
 import { Icon } from "@/components/Icon";
 import styles from "./DirectoryCard.module.scss";
 
+/**
+ * A category chip. A plain string renders a static pill; an object with `href`
+ * renders a clickable link (to the category page). `onClick` lets a client parent
+ * intercept the navigation for instant in-page filtering.
+ */
+export type DirectoryCardTag =
+	| string
+	| {
+			label: string;
+			href?: string;
+			onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+			/** Marks this tag as the currently active category filter. */
+			active?: boolean;
+	  };
+
 export type DirectoryCardProps = {
-	/** Category labels — rendered as the small rust uppercase chips. */
-	tags?: string[];
+	/** Category chips — plain labels, or `{ label, href, onClick }` for clickable category links. */
+	tags?: DirectoryCardTag[];
 	title?: React.ReactNode;
 	/** Logo image URL, rendered at the top of the card (left-aligned, contained). */
 	logo?: string;
@@ -40,11 +56,31 @@ export const DirectoryCard = ({
 		<article className={styles.card}>
 			{tags && tags.length > 0 && (
 				<div className={styles.card__tags}>
-					{tags.map((tag) => (
-						<span key={tag} className={styles.card__tag}>
-							{tag}
-						</span>
-					))}
+					{tags.map((tag) => {
+						const t = typeof tag === "string" ? { label: tag } : tag;
+						const className = clsx(
+							styles.card__tag,
+							t.active && styles["card__tag--active"],
+						);
+						if (t.href) {
+							return (
+								<a
+									key={t.label}
+									href={t.href}
+									className={className}
+									aria-current={t.active ? "true" : undefined}
+									onClick={t.onClick}
+								>
+									{t.label}
+								</a>
+							);
+						}
+						return (
+							<span key={t.label} className={className}>
+								{t.label}
+							</span>
+						);
+					})}
 				</div>
 			)}
 

@@ -302,7 +302,23 @@ export const FilterableDirectory = ({
 				)}
 			>
 				<DirectoryCard
-					tags={item.categorySlugs.map((s) => labelBySlug.get(s) ?? s)}
+					tags={item.categorySlugs.map((s) => ({
+						label: labelBySlug.get(s) ?? s,
+						// Highlight the tag matching the current category filter.
+						active: activeCategory === s,
+						// Real link to the category page (crawlable, cmd/middle-click opens
+						// it) — but normal click filters in-page instantly, no refetch.
+						href: basePath ? `${basePath}/${s}` : undefined,
+						onClick: basePath
+							? (e: React.MouseEvent) => {
+									// Let modified clicks (new tab / new window) navigate for real.
+									if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+									e.preventDefault()
+									// Clicking the already-active tag clears the filter (toggle).
+									pickCategory(activeCategory === s ? ALL : s)
+								}
+							: undefined,
+					}))}
 					title={item.title}
 					logo={item.logo}
 					phone={item.phone}

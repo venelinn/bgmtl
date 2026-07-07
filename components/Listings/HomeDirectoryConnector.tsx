@@ -31,7 +31,10 @@ export async function HomeDirectoryConnector({
 		content: (
 			<DirectoryCard
 				key={entry.id}
-				tags={entry.tags}
+				tags={entry.tags.map((tag) => ({
+					label: tag.label,
+					href: `${localePrefix}/community/${tag.slug}`,
+				}))}
 				title={entry.title}
 				logo={entry.logo}
 				address={entry.address}
