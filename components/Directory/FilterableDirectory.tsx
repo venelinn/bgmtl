@@ -11,7 +11,7 @@
 // is pure presentation.
 
 import clsx from "clsx"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { GridCollection } from "@/components/Collection"
 import { Select } from "@/components/Forms/Select"
 import { Heading, type HeadingProps } from "@/components/Headings"
@@ -72,6 +72,14 @@ export type FilterableDirectoryProps = {
 	itemsPerRow?: 1 | 2 | 3 | 4
 	/** Show the search autocomplete dropdown (categories + listings). Default true. */
 	autocomplete?: boolean
+	/** Category slug pre-selected from the URL path (`/community/<slug>`). Seeds the initial (SSR) filter. */
+	initialCategory?: string
+	/**
+	 * Locale-prefixed base path for the directory, e.g. `/en/community`. When set,
+	 * category → path segment and search → `?q=` are mirrored into the URL so the
+	 * current view is shareable/bookmarkable.
+	 */
+	basePath?: string
 	labels?: FilterableDirectoryLabels
 }
 
@@ -124,6 +132,16 @@ function fold(s: string): string {
 		.toLowerCase()
 }
 
+// Derive the active category slug from a directory pathname, relative to
+// `basePath` (`/en/community` → ALL, `/en/community/school` → "school").
+function categoryFromPath(pathname: string, basePath: string): string {
+	if (pathname === basePath || pathname === `${basePath}/`) return ALL
+	if (pathname.startsWith(`${basePath}/`)) {
+		return decodeURIComponent(pathname.slice(basePath.length + 1).split("/")[0]) || ALL
+	}
+	return ALL
+}
+
 export const FilterableDirectory = ({
 	items,
 	categories = [],
@@ -131,13 +149,55 @@ export const FilterableDirectory = ({
 	intro,
 	itemsPerRow = 2,
 	autocomplete = true,
+	initialCategory,
+	basePath,
 	labels,
 }: FilterableDirectoryProps) => {
 	const t = { ...DEFAULT_LABELS, ...labels }
 
-	const [activeCategory, setActiveCategory] = useState<string>(ALL)
+	// Seed from the URL-provided category so the server render is already filtered
+	// (SSR/shareable). `query` starts empty to match SSR HTML, then hydrates from
+	// `?q=` in an effect below (search is a client-only, non-indexed filter).
+	const [activeCategory, setActiveCategory] = useState<string>(initialCategory ?? ALL)
 	const [query, setQuery] = useState("")
 	const [highlightedId, setHighlightedId] = useState<string | null>(null)
+
+	// Skip the URL-sync effect's first run so hydration doesn't rewrite the URL.
+	const didMountRef = useRef(false)
+
+	// Post-hydration: adopt `?q=` from the shared URL, and keep state in sync when
+	// the user navigates back/forward (popstate) between category paths.
+	useEffect(() => {
+		if (!basePath) return
+		const applyFromLocation = () => {
+			const params = new URLSearchParams(window.location.search)
+			setQuery(params.get("q") ?? "")
+			setActiveCategory(categoryFromPath(window.location.pathname, basePath))
+		}
+		applyFromLocation()
+		window.addEventListener("popstate", applyFromLocation)
+		return () => window.removeEventListener("popstate", applyFromLocation)
+	}, [basePath])
+
+	// Mirror the current category + search into the URL (replaceState — no server
+	// round-trip, no history spam) so it's copy-paste shareable and reload-safe.
+	useEffect(() => {
+		if (!basePath) return
+		if (!didMountRef.current) {
+			didMountRef.current = true
+			return
+		}
+		const params = new URLSearchParams(window.location.search)
+		const q = query.trim()
+		if (q) params.set("q", q)
+		else params.delete("q")
+		const catPath = activeCategory === ALL ? basePath : `${basePath}/${activeCategory}`
+		const qs = params.toString()
+		const nextUrl = qs ? `${catPath}?${qs}` : catPath
+		if (nextUrl !== `${window.location.pathname}${window.location.search}`) {
+			window.history.replaceState(window.history.state, "", nextUrl)
+		}
+	}, [activeCategory, query, basePath])
 
 	const labelBySlug = useMemo(
 		() => new Map(categories.map((c) => [c.slug, c.label])),

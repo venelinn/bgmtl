@@ -911,6 +911,31 @@ export async function getCommunityDirectory(
   return { categories, items };
 }
 
+/**
+ * Lean fetch of just the community category taxonomy (no directoryEntry query).
+ * Used by the page's `generateMetadata` to resolve a category slug → label for
+ * the `/community/<slug>` routes without paying for the full directory fetch.
+ */
+export async function getCommunityCategories(
+  locale: string,
+  preview?: boolean,
+): Promise<{ slug: string; label: string; order?: number }[]> {
+  const contentfulLocale = getContentfulLocale(locale);
+  const catsRes = await getEntries(
+    "communityCategory",
+    { locale: contentfulLocale, order: "fields.order", limit: 200 },
+    { preview },
+  ).catch(() => null);
+
+  return ((catsRes?.items ?? []).map((e) => mapEntry(e)) as any[])
+    .filter((c) => c?.slug)
+    .map((c) => ({
+      slug: c.slug as string,
+      label: (c.label ?? c.slug) as string,
+      order: c.order as number | undefined,
+    }));
+}
+
 export type LatestDirectoryEntry = {
   id: string;
   title: string;

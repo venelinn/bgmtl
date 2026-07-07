@@ -27,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       data-vt={VIEW_TRANSITIONS_ENABLED ? undefined : "off"}
+			data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <body className={raleway.className}>
