@@ -33,13 +33,6 @@ export function ClientLayout({
     }
   }, [pathname]); // Use pathname, not router
 
-  /* Update HTML lang attribute */
-  useEffect(() => {
-    if (lang) {
-      document.documentElement.lang = lang;
-    }
-  }, [lang]);
-
   /* Temporary fix to avoid flash of unstyled content (FOUC) */
   useNextCssRemovalPrevention();
 
