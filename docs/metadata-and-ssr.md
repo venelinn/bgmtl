@@ -15,6 +15,14 @@
 
 ## Overview
 
+> **The root layout is `app/[lang]/layout.tsx`** — there is no
+> `app/layout.tsx`. It renders `<html lang={lang}>` from the route param, and
+> **nothing in it may call `headers()` or `cookies()`**: a request-time read in
+> the root layout opts every route in the app into dynamic rendering and would
+> cost the site its Netlify Durable cache hits. See
+> [app-layout-and-lang.md](./app-layout-and-lang.md).
+
+
 All pages use the Next.js App Router `generateMetadata` API instead of the legacy `<Head>` / `useRouter` pattern from Pages Router. A shared `buildMetadata()` utility constructs the `Metadata` object from Contentful or API data.
 
 ## How It Works

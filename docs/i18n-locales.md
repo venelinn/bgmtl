@@ -8,6 +8,14 @@ contentfulLocales: ["bg-BG", "en-CA", "fr-CA"],
 defaultLocale: "bg",   // served at the root; others are path-prefixed (/fr/...)
 ```
 
+`<html lang>` comes from the `[lang]` route param, because
+`app/[lang]/layout.tsx` **is** the root layout — see
+[app-layout-and-lang.md](./app-layout-and-lang.md). It used to be hardcoded
+`lang="en"` and patched by a client effect, so every locale declared itself
+English in the served markup. Adding a locale needs nothing extra for this to
+work, but note it is the *served* attribute that matters: verify with
+`curl -s <url> | grep -oE '<html lang="[a-z]{2}"'`, not in devtools.
+
 Enabling a locale (or adding a new one) means touching **three** files. Each one
 **fails silently** by falling back to another locale instead of erroring, so a
 missing entry looks like "translations aren't working".
