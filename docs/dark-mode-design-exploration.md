@@ -606,7 +606,7 @@ Worth shipping regardless — fixes existing radius drift across the codebase.
 2. Add a `ThemeProvider` (or small client hook) that:
    - Reads `prefers-color-scheme` on first visit.
    - Persists user choice in `localStorage` (e.g. key `db-theme`).
-   - Sets `data-theme` on `<html>` early — in `app/layout.tsx`, inline a tiny
+   - Sets `data-theme` on `<html>` early — in `app/[lang]/layout.tsx`, inline a tiny
      script before hydration to avoid flash of light mode.
 3. Add a toggle in the user menu / mobile menu. Three states: System / Light /
    Dark.
@@ -721,7 +721,7 @@ The redesign is mostly *making them load-bearing*.
 # Addendum — Global Scope Findings
 
 The first pass leaned heavily on card examples. Re-reading at the global level
-(`app/layout.tsx`, `styles/globals.scss`, `Navigation.module.scss`,
+(`app/[lang]/layout.tsx`, `styles/globals.scss`, `Navigation.module.scss`,
 `Footer.module.scss`, `Section.module.scss`, `_mixins.scss`,
 `tailwind.config.js`) surfaced material that changes the strategy. The
 sections below supersede or extend, not replace, the report above.
@@ -761,7 +761,7 @@ re-introduce these unless you commit to `light-dark()` as the strategy.**
 without `color-scheme` on the root). The recommended path remains
 `[data-theme="dark"]` so the user's saved preference wins over OS.
 
-A separate signal: `app/layout.tsx` already ships **two favicons**:
+A separate signal: `app/[lang]/layout.tsx` already ships **two favicons**:
 
 ```tsx
 <link rel="icon" href="/favicon.ico" media="(prefers-color-scheme: light)" />
@@ -974,7 +974,7 @@ pattern is already doing the same job better.
 The original Phase B mentioned a `ThemeProvider`. With the global picture, the
 specific implementation looks like:
 
-**1. Pre-hydration script** (in `app/layout.tsx`, before children):
+**1. Pre-hydration script** (in `app/[lang]/layout.tsx`, before children):
 
 ```tsx
 <script
@@ -990,7 +990,7 @@ specific implementation looks like:
 ```
 
 This runs before paint and prevents the white-flash. Required because the
-existing `<html lang="en">` is server-rendered.
+existing `<html lang={lang}>` is server-rendered (from the route param).
 
 **2. `color-scheme` on the root** must update with `data-theme`:
 
@@ -1034,7 +1034,7 @@ These are blockers, not nice-to-haves:
 
 1. **Resolve the phantom token system** (G6) — `--color-grey-*`, `--color-sapphire`, `--color-ocean`. Ship as light-mode-clean PR first.
 2. **Rename Section's `data-theme`** to `data-tone` (G11.3) — naming collision with global theme.
-3. **Update `app/layout.tsx`** with the pre-hydration script and verify the dark favicon at `/public/favicon-dark.ico` is correct.
+3. **Update `app/[lang]/layout.tsx`** with the pre-hydration script and verify the dark favicon at `/public/favicon-dark.ico` is correct.
 4. **Remove `corner-shape: squircle`** from Navigation and Hero — it does
    nothing for ~98% of users and the 32px radius is already correct.
 5. **Migrate components from `--color-white`/`--color-main` to semantic

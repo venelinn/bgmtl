@@ -13,9 +13,12 @@ require("dotenv").config()
  *   node scripts/build-newsletter.js                       # upcoming events (default)
  *   node scripts/build-newsletter.js --mode news
  *   node scripts/build-newsletter.js --mode eventsAndNews
+ *   node scripts/build-newsletter.js --mode directory
+ *   node scripts/build-newsletter.js --mode eventsAndDirectory
  *   node scripts/build-newsletter.js --mode selectedEvents --events <id1>,<id2>
  *   node scripts/build-newsletter.js --entry <newsletterEntryId>   # read mode/intro/events from a CMS entry
  *   node scripts/build-newsletter.js --limit 6 --out path/to/file.html
+ *   node scripts/build-newsletter.js --intro "Ред 1\n\nРед 2" --preheader "…" --subject "…"
  *   node scripts/build-newsletter.js --entry <id> --brevo-draft     # also create a Brevo DRAFT campaign
  *
  * Env (from .env):
@@ -37,6 +40,7 @@ const {
 	richTextToPlain,
 	truncate,
 	thumbUrl,
+	logoUrl,
 } = require("./lib/newsletter-render")
 
 // ---- config ---------------------------------------------------------------
@@ -49,7 +53,17 @@ const BASE_URL = (
 ).replace(/\/+$/, "")
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "bgmtl.com"
 const LOCALE = "bg-BG"
-const MODES = ["upcomingEvents", "selectedEvents", "news", "eventsAndNews"]
+const MODES = [
+	"upcomingEvents",
+	"selectedEvents",
+	"news",
+	"eventsAndNews",
+	"directory",
+	"eventsAndDirectory",
+]
+// City whose directory listings the newsletter features (matches the site's
+// `/community` page).
+const DIRECTORY_CITY = process.env.NEWSLETTER_DIRECTORY_CITY || "montreal"
 
 const argv = process.argv.slice(2)
 const getArg = (name, fallback) => {
@@ -68,6 +82,10 @@ const EVENT_IDS = getArg("events", "")
 	.map((s) => s.trim())
 	.filter(Boolean)
 const MODE = getArg("mode", "upcomingEvents")
+// Per-edition copy without a CMS entry. "\n\n" in --intro starts a new paragraph.
+const INTRO = getArg("intro", null)
+const PREHEADER = getArg("preheader", null)
+const SUBJECT = getArg("subject", null)
 const BREVO_DRAFT = hasFlag("brevo-draft")
 
 if (!DELIVERY_TOKEN) {
@@ -178,6 +196,49 @@ function newsToItem(n) {
 	}
 }
 
+/** Map a resolved `directoryEntry` → normalized newsletter item. */
+function directoryToItem(d) {
+	const f = d.fields
+	const tags = (Array.isArray(f.categories) ? f.categories : [])
+		.map((c) => c?.fields)
+		.filter(Boolean)
+	const website = f.website ? String(f.website) : ""
+	// Show the bare domain — a full URL wraps badly in a narrow email card.
+	const domain = website.replace(/^https?:\/\//, "").replace(/\/.*$/, "")
+	return {
+		type: "directory",
+		title: f.name || "",
+		badge: tags
+			.map((t) => t.label || t.slug)
+			.filter(Boolean)
+			.join(" · "),
+		excerpt: truncate(f.note || "", 120),
+		meta: [
+			f.address ? `📍 ${f.address}` : "",
+			f.phone ? `☎ ${f.phone}` : "",
+			domain ? `🌐 ${domain}` : "",
+		].filter(Boolean),
+		image: logoUrl(f.logo?.[0]?.secure_url || f.logo?.[0]?.url),
+		// Deep-link to the listing's category so the entry is visible on arrival.
+		url: tags[0]?.slug
+			? `${BASE_URL}/community/${tags[0].slug}`
+			: `${BASE_URL}/community`,
+	}
+}
+
+/** Newest listings first (matches the homepage "latest listings" teaser). */
+async function fetchLatestDirectory(limit = LIMIT) {
+	const res = await client.getEntries({
+		content_type: "directoryEntry",
+		locale: LOCALE,
+		"fields.city": DIRECTORY_CITY,
+		order: "-sys.createdAt",
+		include: 2,
+		limit,
+	})
+	return res.items.map(directoryToItem).filter((it) => it.title)
+}
+
 async function fetchUpcomingEvents(limit = LIMIT) {
 	const res = await client.getEntries({
 		content_type: "event",
@@ -248,6 +309,7 @@ async function fetchNewsletterEntry(id) {
 async function collectSections({ mode, eventIds, max }) {
 	const EVENTS_LABEL = "✨ Предстоящи събития"
 	const NEWS_LABEL = "📰 Новини"
+	const DIRECTORY_LABEL = "🆕 Нови в каталога на общността"
 	switch (mode) {
 		case "selectedEvents":
 			return [
@@ -259,6 +321,15 @@ async function collectSections({ mode, eventIds, max }) {
 			return [
 				{ label: EVENTS_LABEL, items: await fetchUpcomingEvents(max) },
 				{ label: NEWS_LABEL, items: await fetchNews(max) },
+			]
+		case "directory":
+			return [
+				{ label: DIRECTORY_LABEL, items: await fetchLatestDirectory(max) },
+			]
+		case "eventsAndDirectory":
+			return [
+				{ label: EVENTS_LABEL, items: await fetchUpcomingEvents(max) },
+				{ label: DIRECTORY_LABEL, items: await fetchLatestDirectory(max) },
 			]
 		default:
 			return [{ label: EVENTS_LABEL, items: await fetchUpcomingEvents(max) }]
@@ -305,9 +376,9 @@ async function main() {
 		mode: MODE,
 		eventIds: EVENT_IDS,
 		max: LIMIT,
-		intro: undefined,
-		subject: undefined,
-		preheader: undefined,
+		intro: INTRO ? INTRO.replace(/\\n/g, "\n") : undefined,
+		subject: SUBJECT || undefined,
+		preheader: PREHEADER || undefined,
 	}
 
 	if (ENTRY_ID) {
@@ -316,9 +387,10 @@ async function main() {
 			mode: entry.mode,
 			eventIds: entry.eventIds,
 			max: entry.max,
-			intro: entry.intro,
-			subject: entry.subject,
-			preheader: entry.preheader,
+			// Explicit flags still win, so an entry can be re-rendered with tweaked copy.
+			intro: config.intro || entry.intro,
+			subject: config.subject || entry.subject,
+			preheader: config.preheader || entry.preheader,
 		}
 		console.log(
 			`📄 entry ${ENTRY_ID}: mode=${config.mode}, events=${config.eventIds.length}, max=${config.max}`,
@@ -340,12 +412,24 @@ async function main() {
 		)
 
 	const subject = config.subject || "Бюлетин на общността"
+	// The footer buttons follow the content: events lead, and a directory
+	// section adds a second, outlined button to the catalog.
+	const has = (type) =>
+		sections.some((s) => s.items.some((it) => it.type === type))
+	const directoryCta = has("directory")
+		? { url: `${BASE_URL}/community`, label: "Виж каталога на общността" }
+		: null
 	const html = renderNewsletter({
 		siteName: SITE_NAME,
 		baseUrl: BASE_URL,
 		intro: config.intro,
 		preheader: config.preheader,
 		sections,
+		ctaUrl: has("event") || !directoryCta ? undefined : directoryCta.url,
+		ctaLabel: has("event") || !directoryCta ? undefined : directoryCta.label,
+		ctaSecondaryUrl:
+			has("event") && directoryCta ? directoryCta.url : undefined,
+		ctaSecondaryLabel: directoryCta ? directoryCta.label : undefined,
 	})
 
 	fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true })

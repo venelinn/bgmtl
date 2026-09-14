@@ -43,7 +43,7 @@ override + toggle.
 
 | Asset | Where | Why it matters |
 |---|---|---|
-| Pre-paint inline script pattern | `app/layout.tsx:41-46` | Copy it to set `data-theme` before first paint → no flash of light. |
+| Pre-paint inline script pattern | `app/[lang]/layout.tsx:41-46` | Copy it to set `data-theme` before first paint → no flash of light. |
 | Cascade layers incl. `theme` | `styles/globals.scss:9` | `[data-theme="dark"]` overrides belong in `@layer theme` — clean precedence, no specificity wars. |
 | `color-scheme` hook (commented) | `styles/globals.scss:191` | `// color-scheme: light dark;` — someone started this. We drive it per-theme instead. |
 | View Transitions | `styles/globals.scss:63-88` | `document.startViewTransition` can wrap the theme flip for a premium cross-fade. |
@@ -320,7 +320,7 @@ Wiring in `NavigationInner.tsx`:
 
 ### 5.1 Pre-paint bootstrap (no flash)
 
-Add a second inline script in `app/layout.tsx` (next to the existing
+Add a second inline script in `app/[lang]/layout.tsx` (next to the existing
 home-intro one at `:41`), running before paint:
 
 ```tsx

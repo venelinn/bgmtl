@@ -15,6 +15,7 @@
     "build-storybook": "storybook build --output-dir ./.next/storybook",
     "build-dictionary": "style-dictionary build -c ./tokens/config.js",
     "lint-format": "biome check --write",
+    "purge-cache": "node scripts/purge-cache.js",
     "contentful:migrate": "contentful space migration",
     "contentful:import-bg-community": "node scripts/import-bg-community.js",
     "events:login": "node scripts/scrape-fb-events.js --login",

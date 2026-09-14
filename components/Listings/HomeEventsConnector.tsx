@@ -3,7 +3,7 @@ import { Event } from "@/components/Events/Event"
 import type { EventItem } from "@/types/events"
 import { getFallbackImageUrl, getListingsData } from "@/utils/content"
 import { getLocalePrefix } from "@/utils/localization"
-import { HomeEventsHeader } from "./HomeEventsHeader"
+import { HomeSectionHeader } from "./HomeSectionHeader"
 import { Section } from "@/components/Section"
 
 type HomeEventsConnectorProps = {
@@ -49,7 +49,9 @@ export async function HomeEventsConnector({
 
 	return (
 		<Section padding="none">
-			<HomeEventsHeader
+			<HomeSectionHeader
+				icon="PartyPopper"
+				namespace="Events"
 				href={`${getLocalePrefix(locale)}/events`}
 				showViewAll
 			/>

@@ -1,7 +1,6 @@
 "use client"
 
 import cx from "clsx"
-import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Button } from "@/components/Button"
@@ -68,6 +67,17 @@ export const LocaleSwitcher = ({ pageLocale, rowIcon = "flag" }: LocaleSwitcherP
 	}, [])
 
 	// One locale row, shared by the dropdown and the inline (mobile) list.
+	//
+	// A plain <a>, not next/link, on purpose. `app/[lang]/layout.tsx` is the ROOT
+	// layout — it renders <html lang> and the two pre-paint bootstrap <script>s.
+	// A soft (client-side) navigation across locales changes the `[lang]` segment,
+	// so React re-renders that root layout on the client and re-creates those
+	// <script> nodes. Scripts created by a client render never execute, which is
+	// what React's "Encountered a script tag while rendering React component"
+	// warning is telling us, and it leaves <html>'s language/theme bootstrap in a
+	// state nobody re-ran. Changing the document's language is a document-level
+	// change, so let the browser do a real navigation: every locale page is
+	// prerendered and edge-cached, so the cost is a cache hit.
 	const renderLink = (lang: string, role?: string) => {
 		const isActive = pageLocale === lang
 		const safePath = pathname ?? "/"
@@ -75,10 +85,11 @@ export const LocaleSwitcher = ({ pageLocale, rowIcon = "flag" }: LocaleSwitcherP
 		const newPath = `/${lang}${safePath.replace(/^\/[a-z]{2}(\/|$)/, "/")}`
 
 		return (
-			<Link
+			<a
 				href={newPath}
 				key={lang}
 				role={role}
+				hrefLang={lang}
 				aria-current={isActive ? "true" : undefined}
 				className={cx(
 					styles.languages__item,
@@ -91,7 +102,7 @@ export const LocaleSwitcher = ({ pageLocale, rowIcon = "flag" }: LocaleSwitcherP
 					{localeNames[lang] ?? lang}
 				</span>
 				<span className={styles.languages__code}>{lang.toUpperCase()}</span>
-			</Link>
+			</a>
 		)
 	}
 

@@ -1,7 +1,7 @@
 import type { CollectionConnectorProps } from "@/components/Collection"
 import { CollectionConnector } from "@/components/Collection"
 import { getFallbackImageUrl, getListingsData } from "@/utils/content"
-import { ListingsSectionHeading } from "./ListingsSectionHeading"
+import { HomeSectionHeader } from "./HomeSectionHeader"
 import { ViewAllLink } from "./ViewAllLink"
 
 export type ListingType = "events" | "news"
@@ -68,15 +68,40 @@ function ListingsSection({
 	const namespace = section.type === "events" ? "Events" : "News"
 	const href = `/${locale}/${section.type}`
 
+	// News gets the same icon + inline "view all" header the homepage sections
+	// use. Events don't: `CollectionConnector` splits them into Upcoming/Past
+	// sub-headings, so a section header above that would attach to the wrong
+	// list — they keep the centred link underneath instead.
+	if (section.type === "news") {
+		return (
+			<>
+				<HomeSectionHeader
+					icon="Newspaper"
+					namespace="News"
+					titleKey="latestNews"
+					href={href}
+					showViewAll={section.hasMore}
+				/>
+				<CollectionConnector
+					cards={cards}
+					cardVariant={cardVariant}
+					locale={locale}
+					variant="grid"
+					itemsPerRow={1}
+					fallbackImage={fallbackImage}
+				/>
+			</>
+		)
+	}
+
 	return (
 		<>
-			{section.type === "news" && <ListingsSectionHeading type="news" />}
 			<CollectionConnector
 				cards={cards}
 				cardVariant={cardVariant}
 				locale={locale}
 				variant="grid"
-				itemsPerRow={cardVariant === "news" ? 1 : 1}
+				itemsPerRow={1}
 				fallbackImage={fallbackImage}
 			/>
 			{section.hasMore && (

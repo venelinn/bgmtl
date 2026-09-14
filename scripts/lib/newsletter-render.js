@@ -9,8 +9,10 @@
  *
  * Contract:
  *   item    = { type:'event'|'news', title, when, venue?, excerpt?, image?, url }
+ *           | { type:'directory', title, badge?, excerpt?, meta?: string[], image?, url }
  *   section = { label: string, items: item[] }
- *   renderNewsletter({ siteName, baseUrl, intro?, preheader?, sections, ctaUrl?, ctaLabel? })
+ *   renderNewsletter({ siteName, baseUrl, intro?, preheader?, sections, ctaUrl?, ctaLabel?,
+ *                      ctaSecondaryUrl?, ctaSecondaryLabel? })
  */
 
 // ---- brand (mirrors styles/_css-variables.css) ----------------------------
@@ -109,6 +111,21 @@ function thumbUrl(url, w = 560, h = 350) {
 		.replace("/image/upload/", `/image/upload/c_fill,w_${w},h_${h}/`)
 }
 
+/**
+ * Cloudinary: pad a directory logo into a square on white. Logos come in every
+ * aspect ratio, so c_fill (used for covers) would crop them — c_pad keeps the
+ * whole mark and letterboxes it instead.
+ */
+function logoUrl(url, size = 144) {
+	if (!url) return ""
+	return url
+		.replace(/^http:\/\//, "https://")
+		.replace(
+			"/image/upload/",
+			`/image/upload/c_pad,b_white,w_${size},h_${size}/`,
+		)
+}
+
 // ---- cards ----------------------------------------------------------------
 
 function card(item, ctaText) {
@@ -147,9 +164,67 @@ function card(item, ctaText) {
       </tr>`
 }
 
+/**
+ * Directory listing card — same shell as `card()`, but built around a padded
+ * square logo (or a letter avatar when a listing has none) and contact meta
+ * lines instead of a date + excerpt.
+ */
+function directoryCard(item, ctaText) {
+	const initial = escapeHtml(
+		String(item.title || "?")
+			.trim()
+			.charAt(0),
+	)
+	const media = item.image
+		? `<img src="${item.image}" width="72" height="72" alt="" class="dir-img-i" style="display:block;width:72px;height:72px;object-fit:contain;background:#ffffff;border:1px solid #e9edf2;border-radius:10px;" />`
+		: `<table role="presentation" width="72" cellpadding="0" cellspacing="0" border="0" style="width:72px;"><tr><td align="center" valign="middle" height="72" style="height:72px;background:#eaf7fd;border:1px solid #d7edf7;border-radius:10px;color:${NAVY};font-size:26px;font-weight:800;line-height:72px;">${initial}</td></tr></table>`
+	const meta = (item.meta || [])
+		.filter(Boolean)
+		.map(
+			(line) =>
+				`<div style="color:#6b7785;font-size:12px;line-height:1.5;margin:4px 0 0;">${escapeHtml(line)}</div>`,
+		)
+		.join("")
+	return `
+      <tr>
+        <td style="padding:0 0 12px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border:1px solid #e9edf2;border-radius:14px;">
+            <tr>
+              <td style="padding:14px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td class="dir-img" width="72" valign="top" style="padding:0 14px 0 0;">
+                      <a href="${item.url}" style="text-decoration:none;">${media}</a>
+                    </td>
+                    <td class="dir-body" valign="top">
+                      ${item.badge ? `<span style="display:inline-block;background:#e4f6ef;color:${GREEN};font-size:11px;font-weight:700;line-height:1;padding:6px 10px;border-radius:999px;">${escapeHtml(item.badge)}</span>` : ""}
+                      <a href="${item.url}" style="display:block;color:${NAVY};font-size:16px;font-weight:700;line-height:1.3;text-decoration:none;margin:9px 0 0;">${escapeHtml(item.title)}</a>
+                      ${item.excerpt ? `<div style="color:#48535f;font-size:13px;line-height:1.55;margin:7px 0 0;">${escapeHtml(item.excerpt)}</div>` : ""}
+                      ${meta}
+                      <a href="${item.url}" style="display:inline-block;margin-top:10px;color:${GREEN};font-size:13px;font-weight:700;text-decoration:none;">${escapeHtml(ctaText)} →</a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>`
+}
+
+const CARD_CTA = {
+	news: "Прочети",
+	directory: "Виж в каталога",
+	event: "Виж повече",
+}
+
 function sectionBlock(section) {
-	const cardCta = section.items[0]?.type === "news" ? "Прочети" : "Виж повече"
-	const cards = section.items.map((it) => card(it, cardCta)).join("")
+	const cards = section.items
+		.map((it) => {
+			const cta = CARD_CTA[it.type] || CARD_CTA.event
+			return it.type === "directory" ? directoryCard(it, cta) : card(it, cta)
+		})
+		.join("")
 	return `
           <!-- section: ${escapeHtml(section.label)} -->
           <tr>
@@ -176,6 +251,8 @@ function renderNewsletter({
 	sections = [],
 	ctaUrl,
 	ctaLabel = "Виж всички събития",
+	ctaSecondaryUrl,
+	ctaSecondaryLabel = "Виж каталога на общността",
 }) {
 	const introParas = String(intro || "")
 		.split(/\n\s*\n/)
@@ -193,6 +270,9 @@ function renderNewsletter({
 		.join("")
 
 	const cta = ctaUrl || `${baseUrl}/events`
+	const ctaSecondary = ctaSecondaryUrl
+		? `<div style="margin:10px 0 0;"><a href="${ctaSecondaryUrl}" style="display:inline-block;background:#ffffff;border:1px solid ${NAVY};color:${NAVY};font-size:14px;font-weight:700;text-decoration:none;padding:12px 24px;border-radius:10px;">${escapeHtml(ctaSecondaryLabel)} →</a></div>`
+		: ""
 
 	return `<!doctype html>
 <html lang="bg" xmlns="http://www.w3.org/1999/xhtml">
@@ -212,6 +292,8 @@ function renderNewsletter({
       .ev-img, .ev-body { display:block !important; width:100% !important; padding:0 !important; }
       .ev-img { padding-bottom:12px !important; }
       .ev-img-i { width:100% !important; height:auto !important; }
+      .dir-img { width:60px !important; padding:0 12px 0 0 !important; }
+      .dir-img-i { width:60px !important; height:60px !important; }
       .h1 { font-size:22px !important; }
     }
   </style>
@@ -247,6 +329,7 @@ function renderNewsletter({
           <tr>
             <td class="px" align="center" style="padding:14px 32px 32px;">
               <a href="${cta}" style="display:inline-block;background:${NAVY};color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;padding:13px 26px;border-radius:10px;">${escapeHtml(ctaLabel)} →</a>
+              ${ctaSecondary}
             </td>
           </tr>
 
@@ -279,6 +362,7 @@ module.exports = {
 	richTextToPlain,
 	truncate,
 	thumbUrl,
+	logoUrl,
 	escapeHtml,
 	// constants
 	NAVY,

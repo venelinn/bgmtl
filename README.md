@@ -19,7 +19,9 @@ A Contentful-powered, multilingual [Next.js](https://nextjs.org/) site featuring
 ## Project Structure
 
 ```
-app/                 # Next.js App Router — app/[lang]/[[...slug]], events, news, api/revalidate
+app/                 # Next.js App Router. `app/[lang]/layout.tsx` is the ROOT layout
+                     # (renders <html>/<body>); there is no app/layout.tsx — see
+                     # docs/app-layout-and-lang.md. Routes: [lang]/[[...slug]], events, news, api
 components/          # Reusable UI (Events, News, Listings, Forms, Navigation, Membership, Donate, ...)
 constants/          # SUPPORTED_LOCALES and other shared constants
 context/            # React context providers (navigation, transitions)
@@ -96,9 +98,22 @@ This builds the design-token dictionary and starts Next.js on [localhost:3015](h
 
 Routing is locale-prefixed via the `app/[lang]` dynamic segment and powered by `next-intl`. Supported locales are defined in [`constants/locales.ts`](./constants/locales.ts) (`SUPPORTED_LOCALES`), and translation dictionaries live in [`messages/`](./messages/). When switching locales, the app navigates to the same route under the selected locale.
 
+`app/[lang]/layout.tsx` **is the root layout**, so `<html lang>` comes from the route param and is correct in the served markup. It previously sat above `[lang]`, hardcoded `lang="en"`, and was patched by a client effect — which crawlers never see, so every locale declared itself English. **Nothing in that layout may call `headers()` or `cookies()`**: a request-time read there opts every route into dynamic rendering and would cost the site its Netlify cache hits.
+
+Adding a locale touches three files — see [`docs/i18n-locales.md`](./docs/i18n-locales.md). Layout and `<html lang>` details: [`docs/app-layout-and-lang.md`](./docs/app-layout-and-lang.md).
+
 ## Content & Contentful
 
 Content is managed in Contentful and rendered with `@contentful/rich-text-react-renderer`. Editorial changes are pushed to the site through the on-demand revalidation webhook at `/api/revalidate` (authorized with `CONTENTFUL_REVALIDATE_SECRET`).
+
+Responses are cached with `revalidate: false`, so that webhook is the **only** thing that refreshes deployed content. Two tools exist because the failure is silent — if the secret is missing on the deployment, the route 500s to every caller including the webhook:
+
+```bash
+curl -s https://bgmtl.com/api/health    # {"revalidation":"configured"} — can it refresh at all?
+pnpm purge-cache                        # force a refresh (⚠ defaults to PRODUCTION)
+```
+
+Local `next dev` needs neither — the Contentful cache is skipped in development. See [`docs/on-demand-revalidation.md`](./docs/on-demand-revalidation.md).
 
 Import, export, and migration helpers live in [`contentful/`](./contentful/) and [`scripts/`](./scripts/).
 
