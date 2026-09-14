@@ -1,0 +1,133 @@
+@use 'styles/base-variables' as base;
+@use 'styles/typo-mixins' as typo;
+
+/// The shared skeleton of a one-per-row listing card (Event, News).
+///
+/// Both sit in the same `GridCollection` on the homepage and on CMS pages, so
+/// they have to read as one family: cover to the right, title with the
+/// highlight rule, a grey icon-led meta strip, then the excerpt with an inline
+/// "read more". This used to be two copies of the same ~80 lines and they had
+/// already drifted — news had a bespoke date column, a different read-more link
+/// and no container query.
+///
+/// `@include` it inside the block's own class so `&` resolves to that class:
+///
+///   .news { @include card.listing-card('news'); }
+///
+/// It is a Sass mixin, not a second `.module.scss`, so each component keeps a
+/// single CSS-Module scope. Block-specific parts (an event's price, ticket
+/// button and venue link) go in the component's own file after the include.
+///
+/// @param {String} $block - the block class name, used to reference the
+///   image-fallback modifier by its literal local name.
+@mixin listing-card($block) {
+  display: grid;
+  gap: var(--spacing-8);
+  padding-top: var(--spacing-8);
+  border-top: 1px solid var(--color-grey-border, #e5e5e5);
+  grid-template-columns: var(--_listing-card-columns);
+  margin-bottom: var(--spacing-4);
+
+  @media (width > base.$breakpoint-md) {
+    --_listing-card-columns: 1fr minmax(200px, 280px);
+  }
+  @container (max-width: 650px) {
+    --_listing-card-columns: 1fr;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    min-width: 0;
+  }
+
+  // Meta strip: date, and whatever else the block adds (time, venue).
+  &__header {
+    @include typo.ui-caption;
+    display: flex;
+    gap: var(--spacing-4);
+    background-color: var(--color-grey-light);
+    padding: var(--spacing-2);
+    flex-wrap: wrap;
+  }
+
+  &__date {
+    display: flex;
+    gap: var(--spacing-1);
+    align-items: center;
+  }
+
+  &__title {
+    margin: 0 0 var(--spacing-1) 0;
+  }
+
+  &__titleLink {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // The excerpt's rich text and the "read more" link share one line: the
+  // rendered <p> goes inline so the link trails the last sentence.
+  &__excerpt {
+    @include typo.ui-body;
+    margin-top: var(--spacing-2);
+
+    :global(p) {
+      margin: 0;
+      display: inline;
+    }
+
+    :global(.link) {
+      display: inline;
+      margin-left: var(--spacing-1);
+      color: var(--color-highlight);
+      font-weight: var(--font-weight-normal);
+      text-decoration: underline;
+      text-underline-offset: 0.3em;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &__image {
+    margin: 0;
+    order: -1;
+    border-radius: var(--spacing-2);
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    background: var(--surface-container);
+
+    @media (min-width: base.$breakpoint-md) {
+      order: 0;
+      aspect-ratio: 4 / 3;
+      min-height: 180px;
+    }
+    @container (max-width: 650px) {
+      order: -1;
+    }
+
+    &Link {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+        // A fallback logo is letterboxed rather than cropped.
+        &.#{$block}__imageFallback {
+          object-fit: contain;
+          scale: 0.8;
+        }
+      }
+    }
+  }
+}

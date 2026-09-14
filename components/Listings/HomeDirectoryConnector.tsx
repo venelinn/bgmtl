@@ -3,7 +3,7 @@ import { DirectoryCard } from "@/components/Directory/DirectoryCard"
 import { Section } from "@/components/Section"
 import { getLatestDirectoryEntries } from "@/utils/content"
 import { getLocalePrefix } from "@/utils/localization"
-import { HomeDirectoryHeader } from "./HomeDirectoryHeader"
+import { HomeSectionHeader } from "./HomeSectionHeader"
 
 type HomeDirectoryConnectorProps = {
 	locale: string
@@ -48,7 +48,12 @@ export async function HomeDirectoryConnector({
 
 	return (
 		<Section padding="medium">
-			<HomeDirectoryHeader href={`${localePrefix}/community`} showViewAll />
+			<HomeSectionHeader
+				icon="BookUser"
+				namespace="Directory"
+				href={`${localePrefix}/community`}
+				showViewAll
+			/>
 			<GridCollection items={items} itemsPerRow={items.length >= 3 ? 3 : 2} />
 		</Section>
 	)
