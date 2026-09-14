@@ -32,8 +32,11 @@ pnpm events:newsletter                 # all upcoming events (default) → scrip
 pnpm events:newsletter --mode news     # latest news
 pnpm events:newsletter --mode eventsAndNews
 pnpm events:newsletter --mode selectedEvents --events <id1>,<id2>
+pnpm events:newsletter --mode directory                # newest community listings
+pnpm events:newsletter --mode eventsAndDirectory       # upcoming events + newest listings
 pnpm events:newsletter --entry <newsletterEntryId>   # read mode/intro/events from a CMS entry
 pnpm events:newsletter --limit 6 --out /tmp/x.html
+pnpm events:newsletter --intro "Ред 1\n\nРед 2" --preheader "…" --subject "…"   # per-edition copy, no CMS entry
 pnpm events:newsletter --entry <id> --brevo-draft     # also create the Brevo draft via API
 ```
 
@@ -82,14 +85,25 @@ The `contentMode` field (CLI: `--mode`) decides what goes in:
 | `selectedEvents` | Only the events in the entry's `events` field, in that order (CLI: `--events <ids>`) |
 | `news` | Latest news, newest-first |
 | `eventsAndNews` | Upcoming events section **+** latest news section |
+| `directory` | Newest `directoryEntry` listings for the city (`montreal`), newest-first |
+| `eventsAndDirectory` | Upcoming events section **+** newest listings section |
 
 `maxItems` caps each section (default 8). Empty sections are omitted automatically.
+
+The directory modes reuse the homepage "latest listings" query
+(`getLatestDirectoryEntries` / `order=-sys.createdAt`), so a listing appears in the
+email in the order it was added to the CMS. Listing cards deep-link to
+`/community/<first category slug>` so the entry is visible on arrival, and the
+footer grows a second, outlined **"Виж каталога на общността"** button whenever a
+directory section is present. Override the city with `NEWSLETTER_DIRECTORY_CITY`.
 
 ## The "newsletter" content type (Path B)
 
 Created by two migrations:
 [`…create-newsletter-content-type.js`](../contentful/migration/2026-06-13-create-newsletter-content-type.js)
-and [`…add-newsletter-send-fields.js`](../contentful/migration/2026-06-13-add-newsletter-send-fields.js).
+and [`…add-newsletter-send-fields.js`](../contentful/migration/2026-06-13-add-newsletter-send-fields.js);
+the directory modes were added to the `contentMode` dropdown by
+[`…newsletter-directory-modes.js`](../contentful/migration/2026-09-12-newsletter-directory-modes.js).
 
 | Field | Type | Purpose |
 |---|---|---|
@@ -97,7 +111,7 @@ and [`…add-newsletter-send-fields.js`](../contentful/migration/2026-06-13-add-
 | `subject` | Symbol | Email subject line |
 | `preheader` | Symbol | Inbox preview text (optional) |
 | `intro` | Text | Greeting paragraphs (blank line = new paragraph; empty = default) |
-| `contentMode` | Symbol (dropdown) | One of the four modes |
+| `contentMode` | Symbol (dropdown) | One of the six modes |
 | `events` | Array→Entry(event) | Used by `selectedEvents`; order = email order |
 | `maxItems` | Integer | Optional per-section cap |
 | `status` | Symbol (dropdown) | `draft` (default) · `send` · `sent` (system) |
@@ -160,9 +174,11 @@ All presentation lives in [`scripts/lib/newsletter-render.js`](../scripts/lib/ne
 | Brand colors (navy/cyan/green) | `NAVY` / `ACCENT` / `GREEN` |
 | Logo | `LOGO_URL` (Cloudinary `f_png` of the nav SVG — see below) |
 | Default intro / preheader | `DEFAULT_INTRO` / `DEFAULT_PREHEADER` |
-| Card markup | `card()` |
+| Card markup (events / news) | `card()` |
+| Card markup (directory listings) | `directoryCard()` — square padded logo or letter avatar, category chip, contact lines |
+| Per-type card CTA wording | `CARD_CTA` |
 | Section label block | `sectionBlock()` |
-| Overall shell / CTA / footer | `renderNewsletter()` |
+| Overall shell / CTA(s) / footer | `renderNewsletter()` (`ctaUrl`/`ctaLabel` + optional `ctaSecondaryUrl`/`ctaSecondaryLabel`) |
 | Responsive rules | `<style>` in `renderNewsletter()` (`@media max-width:600px`) |
 | Date wording (Bulgarian; hides 00:00) | `formatDateBg()` |
 
@@ -220,4 +236,5 @@ Then send a Brevo test and check on desktop + phone.
 | Endpoint/preview 500 | Usually `CONTENTFUL_MANAGEMENT_TOKEN`/`CONTENTFUL_SPACE_ID` unset (the endpoint reads the entry via the Management API). |
 | Publishing didn't send | Status wasn't `send`, or `sentAt` is already set (guard) — clear `sentAt` to re-send. |
 | Brevo errors | Need `BREVO_API_KEY`, `BREVO_LIST_ID`, `BREVO_SENDER_EMAIL`; sender must be verified in Brevo. |
-| Images soft on mobile | Bump the `thumbUrl(..., w, h)` size. |
+| Images soft on mobile | Bump the `thumbUrl(..., w, h)` size (`logoUrl(..., size)` for directory logos). |
+| Listing logo looks cropped | Logos go through `logoUrl` (`c_pad`, never `c_fill`) — if one still looks wrong, the CMS `logo` asset itself is off. |

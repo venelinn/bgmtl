@@ -8,7 +8,12 @@
  */
 
 import { createClient as createManagementClient } from "contentful-management"
-import { getAllEvents, getAllNews, getEventById } from "./content"
+import {
+	getAllEvents,
+	getAllNews,
+	getEventById,
+	getLatestDirectoryEntries,
+} from "./content"
 import { getEventPermalink, getNewsPermalink } from "./common"
 // Shared pure renderer (CommonJS — allowed via tsconfig allowJs + esModuleInterop).
 import {
@@ -18,6 +23,7 @@ import {
 	richTextToPlain,
 	truncate,
 	thumbUrl,
+	logoUrl,
 } from "../scripts/lib/newsletter-render"
 
 const BASE_URL = (
@@ -29,27 +35,39 @@ const DEFAULT_MAX = 8
 
 const EVENTS_LABEL = "✨ Предстоящи събития"
 const NEWS_LABEL = "📰 Новини"
+const DIRECTORY_LABEL = "🆕 Нови в каталога на общността"
+const DIRECTORY_CTA = { url: "/community", label: "Виж каталога на общността" }
+// City whose directory listings the newsletter features (the site's /community page).
+const DIRECTORY_CITY = "montreal"
 
 export type NewsletterMode =
 	| "upcomingEvents"
 	| "selectedEvents"
 	| "news"
 	| "eventsAndNews"
+	| "directory"
+	| "eventsAndDirectory"
 export const NEWSLETTER_MODES: NewsletterMode[] = [
 	"upcomingEvents",
 	"selectedEvents",
 	"news",
 	"eventsAndNews",
+	"directory",
+	"eventsAndDirectory",
 ]
 
 type Item = {
-	type: "event" | "news"
+	type: "event" | "news" | "directory"
 	title: string
-	when: string
+	when?: string
 	venue?: string
 	excerpt?: string
 	image?: string
 	url: string
+	/** directory only: the category chip, where an event card shows its date. */
+	badge?: string
+	/** directory only: contact lines (address / phone / site). */
+	meta?: string[]
 }
 type Section = { label: string; items: Item[] }
 
@@ -89,6 +107,31 @@ function newsToItem(n: any): Item {
 	}
 }
 
+function directoryToItem(d: any): Item {
+	const tags = Array.isArray(d.tags) ? d.tags : []
+	// Show the bare domain — a full URL wraps badly in a narrow email card.
+	const domain = String(d.website || "")
+		.replace(/^https?:\/\//, "")
+		.replace(/\/.*$/, "")
+	return {
+		type: "directory",
+		title: d.title,
+		badge: tags
+			.map((t: any) => t.label || t.slug)
+			.filter(Boolean)
+			.join(" · "),
+		excerpt: truncate(d.note, 120),
+		meta: [
+			d.address ? `📍 ${d.address}` : "",
+			d.phone ? `☎ ${d.phone}` : "",
+			domain ? `🌐 ${domain}` : "",
+		].filter(Boolean),
+		image: logoUrl(d.logo),
+		// Deep-link to the listing's category so the entry is visible on arrival.
+		url: `${BASE_URL}/community${tags[0]?.slug ? `/${tags[0].slug}` : ""}`,
+	}
+}
+
 // ---- data per mode ---------------------------------------------------------
 
 function startOfToday(now: number): number {
@@ -122,6 +165,16 @@ async function latestNews(max: number): Promise<Item[]> {
 	return (news as any[]).slice(0, max).map(newsToItem)
 }
 
+async function latestDirectory(max: number): Promise<Item[]> {
+	const entries = await getLatestDirectoryEntries(
+		LOCALE,
+		max,
+		false,
+		DIRECTORY_CITY,
+	)
+	return entries.map(directoryToItem)
+}
+
 /** Build the labelled sections for a given mode. */
 export async function collectSections(
 	mode: NewsletterMode,
@@ -142,6 +195,13 @@ export async function collectSections(
 			return [
 				{ label: EVENTS_LABEL, items: await upcomingEvents(max) },
 				{ label: NEWS_LABEL, items: await latestNews(max) },
+			]
+		case "directory":
+			return [{ label: DIRECTORY_LABEL, items: await latestDirectory(max) }]
+		case "eventsAndDirectory":
+			return [
+				{ label: EVENTS_LABEL, items: await upcomingEvents(max) },
+				{ label: DIRECTORY_LABEL, items: await latestDirectory(max) },
 			]
 		default:
 			return [{ label: EVENTS_LABEL, items: await upcomingEvents(max) }]
@@ -168,12 +228,23 @@ export async function buildNewsletter(
 		max: config.max,
 	})
 	const total = sections.reduce((n, s) => n + s.items.length, 0)
+	// The footer buttons follow the content: events lead, and a directory section
+	// adds a second, outlined button to the catalog.
+	const has = (type: Item["type"]) =>
+		sections.some((s) => s.items.some((it) => it.type === type))
+	const directoryUrl = has("directory")
+		? `${BASE_URL}${DIRECTORY_CTA.url}`
+		: undefined
 	const html = renderNewsletter({
 		siteName: SITE_NAME,
 		baseUrl: BASE_URL,
 		intro: config.intro,
 		preheader: config.preheader,
 		sections,
+		ctaUrl: !has("event") && directoryUrl ? directoryUrl : undefined,
+		ctaLabel: !has("event") && directoryUrl ? DIRECTORY_CTA.label : undefined,
+		ctaSecondaryUrl: has("event") ? directoryUrl : undefined,
+		ctaSecondaryLabel: directoryUrl ? DIRECTORY_CTA.label : undefined,
 	})
 	return { html, total, subject: config.subject || "Бюлетин на общността" }
 }
