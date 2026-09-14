@@ -106,6 +106,15 @@ Adding a locale touches three files — see [`docs/i18n-locales.md`](./docs/i18n
 
 Content is managed in Contentful and rendered with `@contentful/rich-text-react-renderer`. Editorial changes are pushed to the site through the on-demand revalidation webhook at `/api/revalidate` (authorized with `CONTENTFUL_REVALIDATE_SECRET`).
 
+Responses are cached with `revalidate: false`, so that webhook is the **only** thing that refreshes deployed content. Two tools exist because the failure is silent — if the secret is missing on the deployment, the route 500s to every caller including the webhook:
+
+```bash
+curl -s https://bgmtl.com/api/health    # {"revalidation":"configured"} — can it refresh at all?
+pnpm purge-cache                        # force a refresh (⚠ defaults to PRODUCTION)
+```
+
+Local `next dev` needs neither — the Contentful cache is skipped in development. See [`docs/on-demand-revalidation.md`](./docs/on-demand-revalidation.md).
+
 Import, export, and migration helpers live in [`contentful/`](./contentful/) and [`scripts/`](./scripts/).
 
 ## Deployment

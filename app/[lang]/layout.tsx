@@ -53,6 +53,12 @@ export function generateStaticParams() {
  * Nothing added here may call `headers()` or `cookies()`: a request-time read
  * in this layout would opt every route in the app into dynamic rendering and
  * cost the site its Netlify Durable cache hits.
+ *
+ * The trade-off of rooting the app at `[lang]`: a SOFT navigation across
+ * locales re-renders this layout — `<html>`, `<body>` and the pre-paint
+ * `<script>`s below — on the client, where scripts never execute. So
+ * cross-locale links must be real document navigations; `LocaleSwitcher` uses a
+ * plain `<a>`, not `next/link`, for exactly this reason. Keep it that way.
  */
 export default async function LangLayout({
   children,

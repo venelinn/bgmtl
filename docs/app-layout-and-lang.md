@@ -88,12 +88,14 @@ static routes      23 → 46
    injects it through its own runtime queue (`self.__next_s.push(...)`), which
    runs during hydration — *after* first paint — reintroducing the theme and
    home-intro flashes the scripts exist to prevent.
-4. **A soft navigation that changes `lang` re-renders `<html>`/`<head>`**, and
-   React refuses to execute an inline `<script>` during a client render,
-   logging *"Encountered a script tag while rendering React component"*. It is a
-   dev-only warning and harmless — the scripts already ran. If it becomes
-   noisy, the fix is to make internal links locale-prefixed (see below), not to
-   move the scripts.
+4. **Cross-locale navigation must be a real document navigation, not a soft
+   nav.** A soft (client-side) navigation that changes `lang` re-renders this
+   layout — `<html>`, `<body>` and both pre-paint scripts — on the client, and
+   React never executes a `<script>` it creates during a client render, logging
+   *"Encountered a script tag while rendering React component"*. So
+   `LocaleSwitcher` renders a plain `<a>`, not `next/link`. Keep it that way,
+   and do not "fix" the warning by moving the scripts (see rule 3). Every locale
+   page is prerendered and edge-cached, so a full navigation costs a cache hit.
 
 ## Known remaining issue: locale-less default URLs
 
@@ -104,8 +106,9 @@ Bulgarian pages are unprefixed (`/about`) while English and French are
 - Each Bulgarian page has two working URLs (`/about` and `/bg/about`), relying
   on canonical tags to consolidate them.
 - A client-side navigation to an unprefixed link changes the `[lang]` param —
-  which triggers the warning in rule 4, and drops a French or English visitor
-  back into Bulgarian, because `proxy.ts` only rewrites server-side.
+  which re-renders the root layout on the client (rule 4), and drops a French or
+  English visitor back into Bulgarian, because `proxy.ts` only rewrites
+  server-side.
 
 Fixing it means always prefixing (including `bg`) and keeping the rewrite for
 backwards compatibility. Not done here — it is a separate, wider change.

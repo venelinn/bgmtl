@@ -277,6 +277,26 @@ CONTENTFUL_REVALIDATE_SECRET=
 Set the same `CONTENTFUL_REVALIDATE_SECRET` in the host (Netlify/Vercel) env.
 Never commit the real value.
 
+**Verify it actually landed there.** The route checks the secret's presence
+*before* auth, so an unset secret makes it answer `500 "Revalidation is not
+configured"` to everything — the webhook included — with nothing to see. Add a
+health endpoint so one request answers the question:
+
+```ts
+// app/api/health/route.ts — presence only, never the value
+export function GET() {
+  return Response.json({
+    ok: true,
+    revalidation: isRevalidationConfigured() ? "configured" : "missing",
+  });
+}
+```
+
+```bash
+curl -s https://<your-domain>/api/health
+pnpm purge-cache        # scripts/purge-cache.js — manual tag bust, defaults to PRODUCTION
+```
+
 ## Contentful webhook
 
 Settings → Webhooks → add one:
