@@ -1,6 +1,5 @@
 import { format } from "date-fns"
 import { bg, enCA, frCA } from "date-fns/locale"
-import { toZonedTime } from "date-fns-tz"
 
 // Shared locale configuration
 const locales = {
@@ -10,6 +9,27 @@ const locales = {
 	"bg-BG": bg,
 	fr: frCA,
 	"fr-CA": frCA,
+}
+
+/**
+ * Contentful stores event dates as a naive local datetime ("2025-12-13T18:30")
+ * with no offset, so `new Date(str)` would resolve it against the *server's*
+ * timezone (UTC in production) and shift the displayed time. Build the Date
+ * from the literal parts instead, exactly like the newsletter renderer does.
+ *
+ * @param {string} dateStr
+ * @returns {Date|null}
+ */
+const parseNaive = (dateStr) => {
+	const m = String(dateStr || "").match(
+		/^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2}))?/,
+	)
+	if (!m) {
+		const fallback = new Date(dateStr)
+		return Number.isNaN(fallback.getTime()) ? null : fallback
+	}
+	const [, y, mo, d, h = "0", mi = "0"] = m
+	return new Date(Number(y), Number(mo) - 1, Number(d), Number(h), Number(mi))
 }
 
 /**
@@ -25,7 +45,8 @@ export const FormattedDate = ({
 	includeYear = true,
 	fullFormat = false,
 }) => {
-	if (!dateStr) {
+	const date = dateStr ? parseNaive(dateStr) : null
+	if (!date) {
 		return null
 	}
 
@@ -33,7 +54,7 @@ export const FormattedDate = ({
 
 	// Full date format: "30 November 2025"
 	if (fullFormat === true) {
-		const fullDate = format(new Date(dateStr), "d MMMM yyyy", {
+		const fullDate = format(date, "d MMMM yyyy", {
 			locale: selectedLocale,
 		})
 		return <>{fullDate}</>
@@ -41,18 +62,18 @@ export const FormattedDate = ({
 
 	// Card format: "Sunday, April 14, 2024" (fullFormat="card")
 	if (fullFormat === "card") {
-		const cardDate = format(new Date(dateStr), "EEEE, MMMM d, yyyy", {
+		const cardDate = format(date, "EEEE, MMMM d, yyyy", {
 			locale: selectedLocale,
 		})
 		return <>{cardDate}</>
 	}
 
 	// Abbreviated format (default)
-	const dayName = format(new Date(dateStr), "EEE", { locale: selectedLocale }) // Day name
-	const day = format(new Date(dateStr), "d", { locale: selectedLocale }) // Day number
+	const dayName = format(date, "EEE", { locale: selectedLocale }) // Day name
+	const day = format(date, "d", { locale: selectedLocale }) // Day number
 	const monthYear = includeYear
-		? format(new Date(dateStr), "MMM ''yy", { locale: selectedLocale }) // Month and year
-		: format(new Date(dateStr), "MMM", { locale: selectedLocale }) // Month only
+		? format(date, "MMM ''yy", { locale: selectedLocale }) // Month and year
+		: format(date, "MMM", { locale: selectedLocale }) // Month only
 
 	return (
 		<>
@@ -64,23 +85,17 @@ export const FormattedDate = ({
 }
 
 // Function to format the time (hours and minutes)
-export const FormattedTime = ({
-	dateStr,
-	locale,
-	timezone = "America/Toronto",
-}) => {
-	if (!dateStr) {
+export const FormattedTime = ({ dateStr, locale }) => {
+	const date = dateStr ? parseNaive(dateStr) : null
+	if (!date) {
 		return null
 	}
 
 	// Define locale fallback
 	const selectedLocale = locales[locale] || enCA
 
-	// Parse the date as a zoned time
-	const zonedDate = toZonedTime(dateStr, timezone)
-
-	// Format the time in 12-hour format with AM/PM
-	const formattedTime = format(zonedDate, "hh:mm a", {
+	// 24-hour format everywhere ("19:00")
+	const formattedTime = format(date, "HH:mm", {
 		locale: selectedLocale,
 	})
 

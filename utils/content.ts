@@ -29,7 +29,48 @@ const getClient = (isPreview?: boolean) => {
   return deliveryClient;
 };
 
-// Utility function to safely determine the Contentful locale and fetch entries
+/**
+ * Content types whose truncation has already been reported, so a busy route does
+ * not print the same warning on every request. Keyed by content type + limit.
+ */
+const truncationWarned = new Set<string>();
+
+/**
+ * Shout when a fetch came back full and Contentful says there is more.
+ *
+ * Every query in this file is a SINGLE request with a hard `limit` — there is no
+ * pagination anywhere. That is fine at the current scale (344 entries in the
+ * whole space, the largest content type at 63), but it fails silently rather
+ * than loudly: at 101 events the 101st simply stops existing on the site. No
+ * error, no gap in the UI, nothing in the logs. It is the same shape as the bug
+ * documented in the Sunwing model — a single `limit=1000` page against a space
+ * holding 6194 entries.
+ *
+ * `limit: 1` is exempt: those are deliberate singleton lookups
+ * (siteConfiguration, header, footer) where more than one entry existing is
+ * normal and ignoring the rest is the intent.
+ *
+ * When this fires, the fix is to paginate that fetch — loop on `skip` until
+ * `items.length >= total` — not to raise the limit again.
+ */
+function warnIfTruncated(
+  content_type: string,
+  limit: unknown,
+  res: { items: unknown[]; total: number },
+): void {
+  if (typeof limit !== "number" || limit <= 1) return;
+  if (res.items.length >= res.total || res.items.length < limit) return;
+
+  const key = `${content_type}:${limit}`;
+  if (truncationWarned.has(key)) return;
+  truncationWarned.add(key);
+
+  console.warn(
+    `[contentful] "${content_type}" returned ${res.items.length} of ${res.total} entries ` +
+      `(limit ${limit}). The rest are NOT on the site. Paginate this fetch.`,
+  );
+}
+
 // Utility function to safely determine the Contentful locale and fetch entries
 async function getEntries<T extends EntrySkeletonType = EntrySkeletonType>(
   content_type: string,
@@ -64,11 +105,18 @@ async function getEntries<T extends EntrySkeletonType = EntrySkeletonType>(
   // Ordinary traffic/crawlers hit this cache and spend ZERO Contentful calls;
   // the publish webhook (revalidateTag) is the only thing that refetches.
   // Preview/draft reads bypass the cache so editors always see fresh drafts.
-  return cachedContentful(
+  const res = await cachedContentful(
     () => client.getEntries<T>({ content_type, ...params }),
     [content_type, JSON.stringify(params), String(preview)],
     { bypass: preview },
   );
+
+  // Checked outside the cache on purpose: inside, the warning would be printed
+  // once and then cached away for as long as the entry lives, which for an
+  // indefinitely-cached fetch means effectively never seen again.
+  warnIfTruncated(content_type, params.limit, res);
+
+  return res;
 }
 /**
  * Resolves the preview path for an entry ID. Used by the preview API route to redirect
