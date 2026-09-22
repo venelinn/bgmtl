@@ -10,5 +10,4 @@ export const FormattedDate: (props: {
 export const FormattedTime: (props: {
   dateStr: string;
   locale: string;
-  timezone?: string;
 }) => ReactNode;

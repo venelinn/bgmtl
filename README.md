@@ -28,7 +28,10 @@ context/            # React context providers (navigation, transitions)
 contentful/         # Contentful export/import scripts, migrations, and content export
 hooks/              # Custom React hooks
 messages/           # next-intl translation dictionaries
-scripts/            # Contentful import/export/migration node scripts
+mockData/           # Scraped + built Facebook event JSON (events/, events/_scraped/)
+docs/               # Longer-form docs (events scraper, newsletter, i18n, revalidation, ...)
+scripts/            # Node scripts: Contentful import/export/migration, FB event
+                    # pipeline (scrape/build/import/covers/add), newsletter builder
 styles/             # Global SCSS, variables, mixins, typography
 tokens/             # Style Dictionary design-token config
 utils/              # Contentful client, content fetching, localization helpers
@@ -71,7 +74,13 @@ Key variables:
 | `NEXT_PUBLIC_BASE_URL` | Public site URL |
 | `NEXT_PUBLIC_SITE_NAME` | Public site name |
 | `CLOUDINARY_CLOUD_NAME` | Cloudinary account for image delivery |
-| `MAILCHIMP_API_KEY` / `MAILCHIMP_LIST_ID` | Newsletter subscriptions |
+| `MAILCHIMP_API_KEY` / `MAILCHIMP_LIST_ID` | Legacy newsletter subscriptions |
+| `BREVO_API_KEY` / `BREVO_LIST_ID` | Newsletter list + campaign drafts |
+| `BREVO_SENDER_NAME` / `BREVO_SENDER_EMAIL` | Newsletter sender identity |
+| `NEWSLETTER_WEBHOOK_SECRET` | Guards the `/api/newsletter` routes |
+| `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` | Cover-image uploads (`events:covers`, `events:add`) |
+| `DEEPL_API_KEY` | Auto-translation for scraped Facebook events |
+| `FB_EVENTS_URL` / `FB_GROUP_ID` | Default Facebook events source to scrape |
 
 ### 3. Run the dev server
 
@@ -79,20 +88,30 @@ Key variables:
 pnpm dev
 ```
 
-This builds the design-token dictionary and starts Next.js on [localhost:3015](http://localhost:3015).
+This builds the design-token dictionary and starts Next.js on [localhost:3020](http://localhost:3020).
 
 ## Scripts
 
 | Command | Description |
 | --- | --- |
-| `pnpm dev` | Build design tokens, then run the dev server on port 3015 |
+| `pnpm dev` | Build design tokens, then run the dev server on port 3020 |
 | `pnpm build` | Clean, build design tokens, then build for production |
+| `pnpm build:ci` | Same, minus the `clean` step (used by Netlify — keeps the build cache) |
 | `pnpm start` | Start the production server |
 | `pnpm build-dictionary` | Generate design tokens via Style Dictionary |
 | `pnpm storybook` | Run Storybook on port 6018 |
 | `pnpm lint-format` | Lint and format with Biome (writes fixes) |
 | `pnpm contentful:migrate` | Run a Contentful space migration |
 | `pnpm contentful:import-bg-community` | Import Bulgarian community content |
+| `pnpm purge-cache` | Force an on-demand revalidation (⚠ defaults to PRODUCTION) |
+| `pnpm events:login` | Save a Facebook session to `.fb-session.json` (one-time / on expiry) |
+| `pnpm events:scrape` | Scrape a Facebook group/page events list → `mockData/events/_scraped/<year>.raw.json` |
+| `pnpm events:scrape-one` | Scrape a single Facebook event by URL or id |
+| `pnpm events:build` | Translate + shape a scraped year into `mockData/events/events_<year>.json` |
+| `pnpm events:import` | Import a built events JSON into Contentful |
+| `pnpm events:covers` | Upload scraped Facebook covers to Cloudinary and attach them |
+| `pnpm events:add` | One Facebook event URL → scraped, translated, created, cover attached, published |
+| `pnpm events:newsletter` | Build the Brevo newsletter HTML → `scripts/output/newsletter-bg.html` |
 
 ## Localization (i18n)
 
@@ -114,6 +133,31 @@ pnpm purge-cache                        # force a refresh (⚠ defaults to PRODU
 ```
 
 Local `next dev` needs neither — the Contentful cache is skipped in development. See [`docs/on-demand-revalidation.md`](./docs/on-demand-revalidation.md).
+
+### Importing events from Facebook
+
+Events come from the public Facebook group rather than being typed into Contentful by hand. Log in once, then either run the batch pipeline for a whole year or add a single event in one command:
+
+```bash
+pnpm events:login                      # one-time: save a FB session (re-run when it expires)
+
+# whole year
+pnpm events:scrape -- --year 2026      # → mockData/events/_scraped/2026.raw.json
+pnpm events:build 2026                 # → mockData/events/events_2026.json (translated)
+pnpm events:import events_2026         # → Contentful
+pnpm events:covers 2026                # → covers to Cloudinary, attached to the events
+
+# one event, end to end
+pnpm events:add -- https://www.facebook.com/events/1605426171589137/
+```
+
+Facebook cover URLs are signed and expire within days, so run the cover step soon after scraping. Always eyeball the built JSON (and the `venue`, which is required to publish) before importing. Full flag reference, gotchas, and what to do when Facebook changes its DOM: [`docs/facebook-events-scraper.md`](./docs/facebook-events-scraper.md).
+
+## Newsletter
+
+`pnpm events:newsletter` renders upcoming events / news / listings into a standalone HTML email you paste into Brevo (or push as a draft with `--brevo-draft`). See [`docs/newsletter.md`](./docs/newsletter.md).
+
+## Scripts & migrations
 
 Import, export, and migration helpers live in [`contentful/`](./contentful/) and [`scripts/`](./scripts/).
 
