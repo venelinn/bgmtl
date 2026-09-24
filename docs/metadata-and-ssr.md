@@ -188,12 +188,14 @@ Added 2026-06-05. Server-rendered schema.org markup so Google can show rich resu
 | Schema field            | Source                              |
 |-------------------------|-------------------------------------|
 | `name`                  | event heading (→ venue fallback)    |
-| `startDate`             | `event.date` (ISO local datetime)   |
-| `doorTime`              | `event.doorsOpen`                   |
-| `location` (`Place`)    | `event.venue` + `GeoCoordinates` from `event.address.lat/lon` |
+| `startDate`             | `event.date` + Eastern offset (`America/Toronto`, DST-aware) |
+| `endDate`               | `startDate` + 3h (`DEFAULT_EVENT_HOURS`) — no end field in the CMS |
+| `doorTime`              | `event.doorsOpen` + Eastern offset  |
+| `location` (`Place`)    | `event.venue` + `GeoCoordinates` from `event.address.lat/lon` + `PostalAddress` (QC/CA; `streetAddress` = venue when it contains a number) |
 | `image`                 | `cover` → `getOgImageUrl()` (1200×630) |
 | `description`           | `excerpt` → `content` → fallback (rich text flattened to plain text) |
-| `offers` (`Offer`)      | `event.ticket.url` + parsed `event.price` (currency hardcoded **CAD**) |
+| `offers` (`Offer`)      | `event.ticket.url` (http(s) only — `tel:` links dropped) + parsed `event.price` + `priceCurrency` **CAD** + `validFrom` = entry `sys.createdAt` |
+| `performer`             | not emitted — no CMS field (GSC flags it as optional) |
 | `organizer`             | `NEXT_PUBLIC_SITE_NAME` / base URL  |
 | `eventStatus` / `eventAttendanceMode` | `EventScheduled` / `OfflineEventAttendanceMode` |
 

@@ -568,6 +568,8 @@ function mapEntry(entry: any, localePassed?: string) {
       // Real content update time (used by the sitemap for <lastmod>). Prefixed
       // with "_" like _rawHeading so it never collides with a CMS field name.
       _updatedAt: entry.sys?.updatedAt,
+      // Creation time — event JSON-LD uses it as offers.validFrom (when the listing went up).
+      _createdAt: entry.sys?.createdAt,
       ...Object.fromEntries(
         Object.entries(entry.fields).map(([key, value]) => {
           // Link entries use a CMS `type` field (link | button) — keep sys content type on `type`
