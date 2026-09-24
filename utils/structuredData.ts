@@ -7,6 +7,12 @@ const BASE_URL = (process.env.NEXT_PUBLIC_BASE_URL || "https://bgmtl.com").repla
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "bgmtl.com"
 // Ottawa-Gatineau community → tickets are priced in Canadian dollars.
 const PRICE_CURRENCY = "CAD"
+// Event dates are stored as naive local times; every venue is in the Montreal area.
+const EVENT_TIME_ZONE = "America/Toronto"
+const EVENT_REGION = "QC"
+const EVENT_COUNTRY = "CA"
+// No end time in the CMS — Google recommends `endDate`, so assume a typical evening event.
+const DEFAULT_EVENT_HOURS = 3
 
 function headingText(heading: EventItem["heading"], fallback?: string): string {
 	if (typeof heading === "string") return heading
@@ -42,6 +48,42 @@ function parsePrice(price?: string): string | null {
 	return match ? match[0] : null
 }
 
+/** UTC offset ("-04:00") of EVENT_TIME_ZONE at the given instant. */
+function tzOffset(utcMs: number): string {
+	const name = new Intl.DateTimeFormat("en-US", { timeZone: EVENT_TIME_ZONE, timeZoneName: "longOffset" })
+		.formatToParts(new Date(utcMs))
+		.find((p) => p.type === "timeZoneName")?.value
+	const match = name?.match(/GMT([+-]\d{2}):?(\d{2})?/)
+	return match ? `${match[1]}:${match[2] || "00"}` : "+00:00"
+}
+
+const offsetMinutes = (offset: string) =>
+	(offset.startsWith("-") ? -1 : 1) * (Number(offset.slice(1, 3)) * 60 + Number(offset.slice(4, 6)))
+
+/**
+ * Naive local datetime ("2026-10-03T19:00") → ISO 8601 with the Eastern offset,
+ * optionally shifted by `addHours`. Values that already carry a zone are only shifted.
+ */
+function eventDateTime(value: string, addHours = 0): string | null {
+	const m = value.match(/^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2})(?::(\d{2}))?)?/)
+	if (!m) return null
+	const [, y, mo, d, h = "00", mi = "00", sec = "00"] = m
+	const hasZone = /(?:Z|[+-]\d{2}:?\d{2})$/.test(value)
+	let utcMs: number
+	if (hasZone) {
+		utcMs = Date.parse(value)
+		if (Number.isNaN(utcMs)) return null
+	} else {
+		const wallMs = Date.UTC(+y, +mo - 1, +d, +h, +mi, +sec)
+		// Resolve the offset in two passes so DST boundaries land on the right side.
+		utcMs = wallMs - offsetMinutes(tzOffset(wallMs)) * 60_000
+		utcMs = wallMs - offsetMinutes(tzOffset(utcMs)) * 60_000
+	}
+	utcMs += addHours * 3_600_000
+	const offset = tzOffset(utcMs)
+	return `${new Date(utcMs + offsetMinutes(offset) * 60_000).toISOString().slice(0, 19)}${offset}`
+}
+
 function localePrefix(locale: string): string {
 	return locale && locale !== localization.defaultLocale ? `/${locale}` : ""
 }
@@ -69,7 +111,7 @@ function eventNode(event: EventItem, locale: string): Record<string, unknown> {
 	const node: Record<string, unknown> = {
 		"@type": "Event",
 		name,
-		startDate: event.date,
+		startDate: eventDateTime(event.date) ?? event.date,
 		eventStatus: "https://schema.org/EventScheduled",
 		eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
 		description,
@@ -77,11 +119,21 @@ function eventNode(event: EventItem, locale: string): Record<string, unknown> {
 		organizer: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
 	}
 
-	if (event.doorsOpen) node.doorTime = event.doorsOpen
+	const endDate = eventDateTime(event.date, DEFAULT_EVENT_HOURS)
+	if (endDate) node.endDate = endDate
+	if (event.doorsOpen) node.doorTime = eventDateTime(event.doorsOpen) ?? event.doorsOpen
 	if (image) node.image = [image]
 
 	if (event.venue || event.address) {
 		const place: Record<string, unknown> = { "@type": "Place", name: event.venue || name }
+		// Venue text is often the street address itself ("821 Sainte Croix Ave, …").
+		const address: Record<string, unknown> = {
+			"@type": "PostalAddress",
+			addressRegion: EVENT_REGION,
+			addressCountry: EVENT_COUNTRY,
+		}
+		if (event.venue && /\d/.test(event.venue)) address.streetAddress = event.venue
+		place.address = address
 		if (event.address) {
 			place.geo = {
 				"@type": "GeoCoordinates",
@@ -92,18 +144,23 @@ function eventNode(event: EventItem, locale: string): Record<string, unknown> {
 		node.location = place
 	}
 
-	const ticket =
+	const ticketUrl =
 		event.ticket && typeof event.ticket === "object" && "url" in event.ticket
-			? (event.ticket as { url: string })
+			? (event.ticket as { url: string }).url
 			: null
+	// Offer.url must be a web page — skip "tel:" / "mailto:" ticket links.
+	const ticket = ticketUrl && /^https?:\/\//i.test(ticketUrl) ? ticketUrl : null
 	const price = parsePrice(event.price)
 	if (ticket || price) {
-		const offer: Record<string, unknown> = { "@type": "Offer", availability: "https://schema.org/InStock" }
-		if (ticket) offer.url = ticket.url
-		if (price) {
-			offer.price = price
-			offer.priceCurrency = PRICE_CURRENCY
+		const offer: Record<string, unknown> = {
+			"@type": "Offer",
+			availability: "https://schema.org/InStock",
+			priceCurrency: PRICE_CURRENCY,
 		}
+		if (ticket) offer.url = ticket
+		if (price) offer.price = price
+		const listedAt = typeof event._createdAt === "string" ? event._createdAt : null
+		if (listedAt) offer.validFrom = listedAt
 		node.offers = offer
 	}
 
