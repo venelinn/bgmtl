@@ -13,7 +13,13 @@ const DEFAULT_LOCALE = "bg-BG"
 const SPACE_LOCALES = ["bg-BG", "en-CA", "fr-CA"]
 export const DRAFT_ID_PREFIX = "directory-entry-tg-"
 
-export type Category = { slug: string; label: string; names: string[] }
+export type Category = {
+	/** Contentful entry id — NOT always `community-category-<slug>` (UI-created ones are random). */
+	id: string
+	slug: string
+	label: string
+	names: string[]
+}
 
 export type Localized = Record<string, string>
 
@@ -53,7 +59,11 @@ function cma() {
 	)
 }
 
-/** Live category list, so tags can only be ones that really exist. */
+/**
+ * Live category list (read from Contentful on every call, so a category you add
+ * in the CMS is available right away). Only PUBLISHED categories: linking an
+ * unpublished one would make publishing the listing fail.
+ */
 export async function getCategories(): Promise<Category[]> {
 	const res = await cma().entry.getMany({
 		query: {
@@ -63,9 +73,11 @@ export async function getCategories(): Promise<Category[]> {
 		},
 	})
 	return res.items
+		.filter((e: any) => e.sys.publishedVersion)
 		.map((e: any) => {
 			const labels = Object.values(e.fields.label ?? {}) as string[]
 			return {
+				id: e.sys.id as string,
 				slug: (e.fields.slug?.[DEFAULT_LOCALE] ??
 					Object.values(e.fields.slug ?? {})[0]) as string,
 				label: (e.fields.label?.["en-CA"] ?? labels[0]) as string,
@@ -282,13 +294,14 @@ export async function createDraft(
 ): Promise<string> {
 	const entryId = `${DRAFT_ID_PREFIX}${updateId}`
 	const client = cma()
+	const { idBySlug } = await categoryMaps()
 
 	// `name` is required + localized → must carry a value in every space locale.
 	const fields: Record<string, any> = {
 		name: listing.names,
 		city: { [DEFAULT_LOCALE]: listing.city },
 		categories: {
-			[DEFAULT_LOCALE]: categoryLinks(listing.categories),
+			[DEFAULT_LOCALE]: categoryLinks(listing.categories, idBySlug),
 		},
 	}
 	if (listing.notes) fields.note = listing.notes
@@ -308,10 +321,20 @@ export async function createDraft(
 	return entryId
 }
 
-const categoryLinks = (slugs: string[]) =>
-	slugs.map((slug) => ({
-		sys: { type: "Link", linkType: "Entry", id: `community-category-${slug}` },
-	}))
+/** slug ⇄ entry id, from the live taxonomy. */
+async function categoryMaps() {
+	const cats = await getCategories()
+	return {
+		idBySlug: new Map(cats.map((c) => [c.slug, c.id])),
+		slugById: new Map(cats.map((c) => [c.id, c.slug])),
+	}
+}
+
+const categoryLinks = (slugs: string[], idBySlug: Map<string, string>) =>
+	slugs
+		.map((slug) => idBySlug.get(slug))
+		.filter((id): id is string => Boolean(id))
+		.map((id) => ({ sys: { type: "Link", linkType: "Entry", id } }))
 
 export type DraftPatch = Partial<
 	Pick<ParsedListing, "categories" | "phone" | "email" | "website" | "address">
@@ -351,13 +374,14 @@ export async function updateDraft(
 ): Promise<string[]> {
 	for (let attempt = 0; ; attempt++) {
 		const { client, entry } = await getOpenDraft(entryId)
+		const { idBySlug, slugById } = await categoryMaps()
 		const f = entry.fields as Record<string, any>
 		if (patch.names) f.name = { ...f.name, ...patch.names }
 		if (patch.notes) f.note = { ...f.note, ...patch.notes }
 
-		let categories: string[] = (
-			(f.categories?.[DEFAULT_LOCALE] ?? []) as any[]
-		).map((l) => String(l.sys.id).replace(/^community-category-/, ""))
+		let categories: string[] = ((f.categories?.[DEFAULT_LOCALE] ?? []) as any[])
+			.map((l) => slugById.get(String(l.sys.id)))
+			.filter((s): s is string => Boolean(s))
 		if (patch.categories) categories = patch.categories
 		if (patch.toggleCategory) {
 			const slug = patch.toggleCategory
@@ -366,7 +390,7 @@ export async function updateDraft(
 				: [...categories, slug]
 		}
 		if (patch.categories || patch.toggleCategory)
-			f.categories = { [DEFAULT_LOCALE]: categoryLinks(categories) }
+			f.categories = { [DEFAULT_LOCALE]: categoryLinks(categories, idBySlug) }
 
 		for (const key of ["phone", "email", "website", "address"] as const) {
 			if (patch[key]) f[key] = { [DEFAULT_LOCALE]: patch[key] }
@@ -388,6 +412,7 @@ export async function updateDraft(
 /** Read a draft back as a listing (for the preview). */
 export async function getDraft(entryId: string): Promise<ParsedListing> {
 	const { entry } = await getOpenDraft(entryId)
+	const { slugById } = await categoryMaps()
 	const f = entry.fields as Record<string, any>
 	const v = (k: string) => f[k]?.[DEFAULT_LOCALE] as string | undefined
 	const names = f.name as Localized
@@ -396,9 +421,9 @@ export async function getDraft(entryId: string): Promise<ParsedListing> {
 		names,
 		notes: f.note,
 		city: v("city") ?? "montreal",
-		categories: ((f.categories?.[DEFAULT_LOCALE] ?? []) as any[]).map((l) =>
-			String(l.sys.id).replace(/^community-category-/, ""),
-		),
+		categories: ((f.categories?.[DEFAULT_LOCALE] ?? []) as any[])
+			.map((l) => slugById.get(String(l.sys.id)))
+			.filter((s): s is string => Boolean(s)),
 		unknownCategories: [],
 		phone: v("phone"),
 		email: v("email"),
