@@ -25,7 +25,8 @@
     "events:import": "node scripts/import-events.js",
     "events:covers": "node scripts/attach-event-covers.js",
     "events:add": "node scripts/add-fb-event.js",
-    "events:newsletter": "node scripts/build-newsletter.js"
+    "events:newsletter": "node scripts/build-newsletter.js",
+    "telegram:webhook": "node scripts/telegram-set-webhook.js"
   },
   "dependencies": {
     "@contentful/rich-text-types": "^17.2.7",
