@@ -15,8 +15,15 @@ export const DRAFT_ID_PREFIX = "directory-entry-tg-"
 
 export type Category = { slug: string; label: string; names: string[] }
 
+export type Localized = Record<string, string>
+
 export type ParsedListing = {
+	/** Display name (used for the preview + duplicate check). */
 	name: string
+	/** Name per space locale (always all three). */
+	names: Localized
+	/** Optional note per space locale (all three when present). */
+	notes?: Localized
 	city: string
 	categories: string[]
 	/** Category text the sender typed that matched nothing in the taxonomy. */
@@ -69,12 +76,15 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 export const TEMPLATE = `Name: Българска пекарна Роза
+Name EN: Roza Bulgarian Bakery
 Category: food
 City: montreal
 Phone: 514-555-0100
 Email: info@roza.ca
 Website: https://roza.ca
-Address: 123 Rue Saint-Denis, Montréal`
+Address: 123 Rue Saint-Denis, Montréal
+Note: Отворено всеки ден 8–18
+Note EN: Open daily 8–18`
 
 // Accepted labels (English + Bulgarian) → field.
 const KEYS: Record<string, string> = {
@@ -102,11 +112,43 @@ const KEYS: Record<string, string> = {
 	уебсайт: "website",
 	address: "address",
 	адрес: "address",
+	note: "note",
+	бележка: "note",
+	забележка: "note",
 }
 
 const CITY_ALIASES: Record<string, string> = {
 	монреал: "montreal",
 	montréal: "montreal",
+}
+
+// "name"/"note" (+ Bulgarian synonyms) with an optional language suffix.
+const NAME_KEYS = new Set(["name", "име"])
+const LOCALIZED_KEY_RE = /^(name|име|note|бележка|забележка) (bg|en|fr|бг)$/
+const LOCALE_BY_SUFFIX: Record<string, string> = {
+	bg: "bg-BG",
+	бг: "bg-BG",
+	en: "en-CA",
+	fr: "fr-CA",
+}
+
+/**
+ * All three locales from whatever was provided, so required localized fields are
+ * never empty. An explicit "<field> XX" value always wins; otherwise
+ * bg/en use the plain "<field>" value, and fr prefers the EN text (existing
+ * entries use the Latin text for fr) before the plain value.
+ */
+function fillLocales(f: Record<string, string>, field: string): Localized {
+	const plain =
+		f[field] ??
+		f[`${field}:en-CA`] ??
+		f[`${field}:bg-BG`] ??
+		f[`${field}:fr-CA`]
+	return {
+		"bg-BG": f[`${field}:bg-BG`] ?? plain,
+		"en-CA": f[`${field}:en-CA`] ?? plain,
+		"fr-CA": f[`${field}:fr-CA`] ?? f[`${field}:en-CA`] ?? plain,
+	}
 }
 
 const EMAIL_RE = /[\w.+-]+@[\w-]+\.[\w.-]+/
@@ -128,22 +170,34 @@ export function parseListing(
 		const line = raw.trim()
 		if (!line || line.startsWith("/")) continue
 		const m = line.match(/^([^:：]{1,20}?)\s*[:：]\s*(.+)$/)
-		const field = m && KEYS[m[1].trim().toLowerCase()]
-		if (field && m) {
+		const key = m?.[1].trim().toLowerCase().replace(/[-_]/g, " ")
+		const lm = key?.match(LOCALIZED_KEY_RE)
+		const field = key && KEYS[key]
+		if (lm && m) {
+			// "Name EN: …" / "Note bg: …" → per-locale value
+			const base = NAME_KEYS.has(lm[1]) ? "name" : "note"
+			const loc = LOCALE_BY_SUFFIX[lm[2].toLowerCase()]
+			f[`${base}:${loc}`] ||= m[2].trim()
+		} else if (field && m) {
 			f[field] ||= m[2].trim()
 		} else if (EMAIL_RE.test(line) && !f.email) {
 			f.email = line.match(EMAIL_RE)?.[0] as string
 		} else if (URL_RE.test(line) && !f.website) {
 			f.website = line.match(URL_RE)?.[0] as string
-		} else if (!f.name) {
+		} else if (!f.name && !SPACE_LOCALES.some((l) => f[`name:${l}`])) {
 			f.name = line
 		} else {
 			leftovers.push(line)
 		}
 	}
 
-	if (!f.name)
+	if (!f.name && !SPACE_LOCALES.some((l) => f[`name:${l}`]))
 		throw new Error("I need at least a name. Send /new for the format.")
+	const names = fillLocales(f, "name")
+	const notes =
+		f.note || SPACE_LOCALES.some((l) => f[`note:${l}`])
+			? fillLocales(f, "note")
+			: undefined
 
 	const byName = new Map<string, string>()
 	for (const c of categories) {
@@ -166,7 +220,9 @@ export function parseListing(
 	const city = CITY_ALIASES[cityKey] ?? norm(cityKey).replace(/ /g, "-")
 
 	return {
-		name: f.name,
+		name: names["en-CA"],
+		names,
+		notes,
 		city,
 		categories: [...picked],
 		unknownCategories: unknown,
@@ -190,6 +246,7 @@ const norm = (s: string) =>
 export async function findDuplicates(
 	name: string,
 	city: string,
+	excludeEntryId?: string,
 ): Promise<string[]> {
 	const res = await cma().entry.getMany({
 		query: {
@@ -201,6 +258,7 @@ export async function findDuplicates(
 	})
 	const target = norm(name)
 	return res.items
+		.filter((e: any) => e.sys.id !== excludeEntryId)
 		.map(
 			(e: any) => Object.values(e.fields.name ?? {})[0] as string | undefined,
 		)
@@ -227,18 +285,13 @@ export async function createDraft(
 
 	// `name` is required + localized → must carry a value in every space locale.
 	const fields: Record<string, any> = {
-		name: Object.fromEntries(SPACE_LOCALES.map((l) => [l, listing.name])),
+		name: listing.names,
 		city: { [DEFAULT_LOCALE]: listing.city },
 		categories: {
-			[DEFAULT_LOCALE]: listing.categories.map((slug) => ({
-				sys: {
-					type: "Link",
-					linkType: "Entry",
-					id: `community-category-${slug}`,
-				},
-			})),
+			[DEFAULT_LOCALE]: categoryLinks(listing.categories),
 		},
 	}
+	if (listing.notes) fields.note = listing.notes
 	for (const key of ["phone", "email", "website", "address"] as const) {
 		if (listing[key]) fields[key] = { [DEFAULT_LOCALE]: listing[key] }
 	}
@@ -253,6 +306,105 @@ export async function createDraft(
 		if (!/exist|conflict|409/i.test(String(err?.message))) throw err
 	}
 	return entryId
+}
+
+const categoryLinks = (slugs: string[]) =>
+	slugs.map((slug) => ({
+		sys: { type: "Link", linkType: "Entry", id: `community-category-${slug}` },
+	}))
+
+export type DraftPatch = Partial<
+	Pick<ParsedListing, "categories" | "phone" | "email" | "website" | "address">
+> & {
+	/** Merged into the existing per-locale values (only the given locales change). */
+	names?: Localized
+	notes?: Localized
+	/** Add the category if absent, remove it if present (atomic w.r.t. rapid taps). */
+	toggleCategory?: string
+}
+
+const NOT_FOUND_MSG =
+	"That listing no longer exists (discarded?). Send /add to start again."
+
+async function getOpenDraft(entryId: string) {
+	assertBotEntry(entryId)
+	const client = cma()
+	const entry = await client.entry.get({ entryId }).catch(() => {
+		throw new Error(NOT_FOUND_MSG)
+	})
+	if (entry.sys.publishedVersion)
+		throw new Error(
+			"That listing is already published. Send /add for a new one.",
+		)
+	return { client, entry }
+}
+
+/**
+ * Merge answers into an UNPUBLISHED bot draft (step-by-step /add flow).
+ * Re-reads and retries on a version conflict, so quick successive taps
+ * (e.g. several category buttons) can't clobber each other.
+ * Returns the draft's resulting category slugs.
+ */
+export async function updateDraft(
+	entryId: string,
+	patch: DraftPatch,
+): Promise<string[]> {
+	for (let attempt = 0; ; attempt++) {
+		const { client, entry } = await getOpenDraft(entryId)
+		const f = entry.fields as Record<string, any>
+		if (patch.names) f.name = { ...f.name, ...patch.names }
+		if (patch.notes) f.note = { ...f.note, ...patch.notes }
+
+		let categories: string[] = (
+			(f.categories?.[DEFAULT_LOCALE] ?? []) as any[]
+		).map((l) => String(l.sys.id).replace(/^community-category-/, ""))
+		if (patch.categories) categories = patch.categories
+		if (patch.toggleCategory) {
+			const slug = patch.toggleCategory
+			categories = categories.includes(slug)
+				? categories.filter((c) => c !== slug)
+				: [...categories, slug]
+		}
+		if (patch.categories || patch.toggleCategory)
+			f.categories = { [DEFAULT_LOCALE]: categoryLinks(categories) }
+
+		for (const key of ["phone", "email", "website", "address"] as const) {
+			if (patch[key]) f[key] = { [DEFAULT_LOCALE]: patch[key] }
+		}
+		try {
+			await client.entry.update({ entryId }, entry)
+			return categories
+		} catch (err: any) {
+			if (
+				attempt < 3 &&
+				/VersionMismatch|409|version/i.test(String(err?.message))
+			)
+				continue
+			throw err
+		}
+	}
+}
+
+/** Read a draft back as a listing (for the preview). */
+export async function getDraft(entryId: string): Promise<ParsedListing> {
+	const { entry } = await getOpenDraft(entryId)
+	const f = entry.fields as Record<string, any>
+	const v = (k: string) => f[k]?.[DEFAULT_LOCALE] as string | undefined
+	const names = f.name as Localized
+	return {
+		name: names["en-CA"] ?? Object.values(names)[0],
+		names,
+		notes: f.note,
+		city: v("city") ?? "montreal",
+		categories: ((f.categories?.[DEFAULT_LOCALE] ?? []) as any[]).map((l) =>
+			String(l.sys.id).replace(/^community-category-/, ""),
+		),
+		unknownCategories: [],
+		phone: v("phone"),
+		email: v("email"),
+		website: v("website"),
+		address: v("address"),
+	}
 }
 
 function assertBotEntry(entryId: string) {

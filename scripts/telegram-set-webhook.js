@@ -44,6 +44,17 @@ async function main() {
 	}
 	const url = `${arg.replace(/\/$/, "")}/api/telegram`
 	console.log(`→ ${url}`)
+	// Command menu shown next to the message box in Telegram.
+	console.log(
+		await call("setMyCommands", {
+			commands: [
+				{ command: "add", description: "Add a listing (I'll ask questions)" },
+				{ command: "new", description: "Add a listing from a template" },
+				{ command: "categories", description: "List the categories" },
+				{ command: "help", description: "How it works" },
+			],
+		}),
+	)
 	console.log(
 		await call("setWebhook", {
 			url,
