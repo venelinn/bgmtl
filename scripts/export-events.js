@@ -14,7 +14,7 @@ require("dotenv").config()
 
 const fs = require("fs")
 const path = require("path")
-const { createClient } = require("contentful-management")
+const { createCma } = require("./lib/cma")
 
 const SPACE_ID = process.env.CONTENTFUL_SPACE_ID || "huajfyusfsch"
 const MANAGEMENT_TOKEN = process.env.CONTENTFUL_MANAGEMENT_TOKEN
@@ -29,16 +29,14 @@ if (!MANAGEMENT_TOKEN) {
 
 async function exportEvents() {
 	try {
-		const client = createClient(
-			{ accessToken: MANAGEMENT_TOKEN },
-			{ type: "legacy" },
-		)
-		const space = await client.getSpace(SPACE_ID)
-		const environment = await space.getEnvironment(ENVIRONMENT)
+		const client = createCma({
+			accessToken: MANAGEMENT_TOKEN,
+			spaceId: SPACE_ID,
+			environmentId: ENVIRONMENT,
+		})
 
-		const entries = await environment.getEntries({
-			content_type: "event",
-			limit: 1000,
+		const entries = await client.entry.getMany({
+			query: { content_type: "event", limit: 1000 },
 		})
 
 		// Collect all heading IDs from events
@@ -57,10 +55,12 @@ async function exportEvents() {
 		// Fetch all referenced heading entries
 		const headings = []
 		if (headingIds.size > 0) {
-			const headingEntries = await environment.getEntries({
-				content_type: "heading",
-				"sys.id[in]": Array.from(headingIds).join(","),
-				limit: 1000,
+			const headingEntries = await client.entry.getMany({
+				query: {
+					content_type: "heading",
+					"sys.id[in]": Array.from(headingIds).join(","),
+					limit: 1000,
+				},
 			})
 			headings.push(
 				...headingEntries.items.map((item) => ({

@@ -32,7 +32,7 @@ export async function generateStaticParams() {
 
   for (const locale of locales) {
     bulgarianEvents.forEach((event) => {
-      const headingText = getHeadingText(event.heading, event.venue);
+      const headingText = (event as any).bgHeading || getHeadingText(event.heading, event.venue);
       const eventSlug = slugify(headingText || "event");
       allParams.push({
         lang: locale,
@@ -97,10 +97,21 @@ export default async function EventPage(props: { params: Params }) {
   const heroFallbackImage = getFallbackImageUrl(siteConfig?.fallbackEvent) ?? undefined;
   const eventJsonLd = buildEventJsonLd(event, lang);
 
+  // Other dates of the same event (same Bulgarian heading), upcoming only.
+  const headingKey = (item: EventItem) => slugify(String((item as any).bgHeading || getHeadingText(item.heading, item.venue) || "event").replace(/ \d{4}-\d{2}-\d{2}$/, ""));
+  const now = new Date();
+  const otherDates = events
+    .filter((item) => item.id !== event.id && headingKey(item) === headingKey(event) && new Date(item.date) >= now)
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map((item) => ({
+      date: item.date,
+      href: `${lang === "bg" ? "" : `/${lang}`}/events/${slugify(String((item as any).bgHeading || "event"))}`,
+    }));
+
   return (
     <>
       <JsonLd data={eventJsonLd} />
-      <EventDetail event={event} locale={lang} heroFallbackImage={heroFallbackImage} />
+      <EventDetail event={event} locale={lang} heroFallbackImage={heroFallbackImage} otherDates={otherDates} />
     </>
   );
 }

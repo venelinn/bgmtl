@@ -7,7 +7,11 @@
  * (scripts/lib/newsletter-render.js) so the email is identical either way.
  */
 
-import { createClient as createManagementClient } from "contentful-management"
+import {
+	createClient as createPlainClientAPI,
+	type EntryProps,
+	type PlainClientAPI,
+} from "contentful-management"
 import {
 	getAllEvents,
 	getAllNews,
@@ -363,30 +367,31 @@ const SPACE_ID = process.env.CONTENTFUL_SPACE_ID
 const ENVIRONMENT_ID = process.env.CONTENTFUL_ENVIRONMENT || "master"
 const MANAGEMENT_TOKEN = process.env.CONTENTFUL_MANAGEMENT_TOKEN
 
-let cachedEnv: any = null
+let cachedClient: PlainClientAPI | null = null
 let cachedDefaultLocale: string | null = null
 
-async function getManagementEnv() {
-	if (cachedEnv) return cachedEnv
+function getPlainClientAPI(): PlainClientAPI {
+	if (cachedClient) return cachedClient
 	if (!SPACE_ID || !MANAGEMENT_TOKEN) {
 		throw new Error(
 			"Missing CONTENTFUL_SPACE_ID or CONTENTFUL_MANAGEMENT_TOKEN",
 		)
 	}
-	// Use the chainable (legacy) client — getSpace/getEnvironment/getEntry — as
-	// the scripts/ do. The default v12 client is the plain API (no getSpace).
-	const client = createManagementClient(
+	// Plain client scoped to the space/environment (the nested "legacy" client
+	// is deprecated and removed in contentful-management v13).
+	cachedClient = createPlainClientAPI(
 		{ accessToken: MANAGEMENT_TOKEN },
-		{ type: "legacy" },
-	) as any
-	const space = await client.getSpace(SPACE_ID)
-	cachedEnv = await space.getEnvironment(ENVIRONMENT_ID)
-	return cachedEnv
+		{
+			type: "plain",
+			defaults: { spaceId: SPACE_ID, environmentId: ENVIRONMENT_ID },
+		},
+	)
+	return cachedClient
 }
 
-async function getDefaultLocale(env: any): Promise<string> {
+async function getDefaultLocale(client: PlainClientAPI): Promise<string> {
 	if (cachedDefaultLocale) return cachedDefaultLocale
-	const locales = await env.getLocales()
+	const locales = await client.locale.getMany({ query: {} })
 	const def = locales.items.find((l: any) => l.default) || locales.items[0]
 	cachedDefaultLocale = def.code
 	return cachedDefaultLocale as string
@@ -453,9 +458,9 @@ export async function processNewsletterEntry(
 	entryId: string,
 	opts: { dryRun?: boolean } = {},
 ): Promise<NewsletterResult> {
-	const env = await getManagementEnv()
-	const defaultLocale = await getDefaultLocale(env)
-	const entry = await env.getEntry(entryId)
+	const client = getPlainClientAPI()
+	const defaultLocale = await getDefaultLocale(client)
+	const entry = await client.entry.get({ entryId })
 	const fields = entry.fields
 
 	const config = mgmtFieldsToConfig(fields, defaultLocale)
@@ -491,7 +496,7 @@ export async function processNewsletterEntry(
 		if (id) await updateBrevoCampaign(id, { subject, html })
 		else id = await createBrevoDraft({ name, subject, html })
 		await sendBrevoCampaign(id)
-		await writeBack(entry, defaultLocale, {
+		await writeBack(client, entry, defaultLocale, {
 			brevoCampaignId: String(id),
 			sentAt: new Date().toISOString(),
 			status: "sent",
@@ -512,20 +517,23 @@ export async function processNewsletterEntry(
 		await updateBrevoCampaign(id, { subject, html })
 	} else {
 		id = await createBrevoDraft({ name, subject, html })
-		await writeBack(entry, defaultLocale, { brevoCampaignId: String(id) })
+		await writeBack(client, entry, defaultLocale, {
+			brevoCampaignId: String(id),
+		})
 	}
 	return { html, total, subject, action: "draft", campaignId: id, status }
 }
 
 /** Patch fields on a management entry and publish it. */
 async function writeBack(
-	entry: any,
+	client: PlainClientAPI,
+	entry: EntryProps,
 	locale: string,
 	values: Record<string, string>,
 ): Promise<void> {
 	for (const [key, value] of Object.entries(values)) {
 		entry.fields[key] = { ...(entry.fields[key] || {}), [locale]: value }
 	}
-	const updated = await entry.update()
-	await updated.publish()
+	const updated = await client.entry.update({ entryId: entry.sys.id }, entry)
+	await client.entry.publish({ entryId: updated.sys.id }, updated)
 }

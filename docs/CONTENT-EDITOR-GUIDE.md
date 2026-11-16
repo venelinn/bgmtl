@@ -99,6 +99,7 @@ Page (e.g. "About Us")
   - **Doors open at** – if you set a doors-open time
 - **Past events** do not show Buy Ticket or Doors open.
 - The URL of each event is based on its **Bulgarian heading** so it stays the same in all languages.
+- **Events with several dates:** create **one event entry per date** (copy the first entry, then change **Date** and **Doors open**). Use the **same Bulgarian heading text** on every date. The site groups them automatically: the earliest date keeps the normal URL (`/events/bocelli`), later dates get the date added (`/events/bocelli-2026-12-14`), and each page shows an **Other dates** row linking to the rest. Give each entry a unique ID and publish it. Venue, ticket link and cover can differ per date.
 
 ---
 

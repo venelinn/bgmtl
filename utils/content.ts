@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cache } from "react";
 import { createClient, type EntryCollection, type EntrySkeletonType } from "contentful";
-import { IS_DEV, normalizeSlug, PAGE_TYPE } from "./common";
+import { IS_DEV, normalizeSlug, PAGE_TYPE, slugify } from "./common";
 import { cachedContentful } from "./contentful-cache";
 import { getContentfulLocale, localization } from "./localization";
 
@@ -511,20 +511,30 @@ const getBulgarianEventHeadingsMap = cache(async (): Promise<Map<string, string>
   // First map the entries to resolve references
   const mappedBgEvents = bgItems.map((entry) => mapEntry(entry, "bg"));
 
-  return new Map(
-    mappedBgEvents.map((bgEvent: any) => {
-      // Extract heading text using the same logic as Event.tsx
-      let headingText = "";
+  const headingOf = (bgEvent: any): string => {
+    if (typeof bgEvent.heading === "string") return bgEvent.heading;
+    if (bgEvent.heading && typeof bgEvent.heading === "object" && "heading" in bgEvent.heading) {
+      return bgEvent.heading.heading || "";
+    }
+    return "";
+  };
 
-      if (typeof bgEvent.heading === "string") {
-        headingText = bgEvent.heading;
-      } else if (bgEvent.heading && typeof bgEvent.heading === "object" && "heading" in bgEvent.heading) {
-        headingText = bgEvent.heading.heading;
-      }
-
-      return [bgEvent.id, headingText];
-    }),
-  );
+  // Several dates of the same event share one heading, hence one slug. The earliest
+  // date keeps the plain slug (so existing URLs don't move); later dates get their
+  // YYYY-MM-DD appended to the slug source so each date has its own page.
+  const byDate = [...mappedBgEvents]
+    .filter(Boolean)
+    .sort((a: any, b: any) => String(a.date || "").localeCompare(String(b.date || "")));
+  const seen = new Set<string>();
+  const map = new Map<string, string>();
+  for (const bgEvent of byDate as any[]) {
+    const text = headingOf(bgEvent);
+    const key = slugify(text || "event");
+    const day = String(bgEvent.date || "").split("T")[0];
+    map.set(bgEvent.id, seen.has(key) && day ? `${text} ${day}` : text);
+    seen.add(key);
+  }
+  return map;
 });
 
 async function injectBulgarianHeadings(entries: any[]): Promise<any[]> {
@@ -718,7 +728,14 @@ export async function getAllEventsBulgarian(preview?: boolean) {
   const bgLocale = getContentfulLocale("bg");
   const { items } = await getEntries("event", { locale: bgLocale, limit: 100 }, { preview });
 
-  return items.map((entry) => mapEntry(entry, "bg"));
+  const bgHeadingsMap = await getBulgarianEventHeadingsMap();
+
+  return items.map((entry) => {
+    const mapped = mapEntry(entry, "bg");
+    const bgHeadingText = bgHeadingsMap.get(entry.sys.id);
+    if (mapped && bgHeadingText) mapped.bgHeading = bgHeadingText;
+    return mapped;
+  });
 }
 
 // --- News ---

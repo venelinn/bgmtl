@@ -151,7 +151,7 @@ pnpm events:covers 2026                # → covers to Cloudinary, attached to t
 pnpm events:add -- https://www.facebook.com/events/1605426171589137/
 ```
 
-Facebook cover URLs are signed and expire within days, so run the cover step soon after scraping. Always eyeball the built JSON (and the `venue`, which is required to publish) before importing. Full flag reference, gotchas, and what to do when Facebook changes its DOM: [`docs/facebook-events-scraper.md`](./docs/facebook-events-scraper.md).
+Facebook cover URLs are signed and expire within days, so run the cover step soon after scraping. Always eyeball the built JSON (and the `venue`, which is required to publish) before importing. **Events with several dates** are one Contentful entry per date, sharing the same Bulgarian heading; later dates get a `-YYYY-MM-DD` URL suffix and an "Other dates" row (see [`docs/events-listing-page.md`](./docs/events-listing-page.md#multi-date-events)). Full flag reference, gotchas, and what to do when Facebook changes its DOM: [`docs/facebook-events-scraper.md`](./docs/facebook-events-scraper.md).
 
 ## Newsletter
 

@@ -25,7 +25,7 @@ require("dotenv").config()
 
 const fs = require("fs")
 const path = require("path")
-const { createClient } = require("contentful-management")
+const { createCma, getEntryOrNull, updateAndPublish } = require("./lib/cma")
 const {
 	uploadToCloudinary,
 	toCoverAsset,
@@ -80,9 +80,11 @@ async function main() {
 		(raw.events || []).map((e) => [e.fbEventId, e.coverUrl]),
 	)
 
-	const client = createClient({ accessToken: MANAGEMENT_TOKEN }, { type: "legacy" })
-	const space = await client.getSpace(SPACE_ID)
-	const env = await space.getEnvironment(ENVIRONMENT)
+	const client = createCma({
+		accessToken: MANAGEMENT_TOKEN,
+		spaceId: SPACE_ID,
+		environmentId: ENVIRONMENT,
+	})
 
 	console.log(`📋 Cloud: ${CLOUD} | Space: ${SPACE_ID}/${ENVIRONMENT}\n`)
 
@@ -102,10 +104,8 @@ async function main() {
 			continue
 		}
 
-		let entry
-		try {
-			entry = await env.getEntry(entryId)
-		} catch {
+		const entry = await getEntryOrNull(client, entryId)
+		if (!entry) {
 			console.log(`⚠️  skip ${label} (entry not found: ${entryId})`)
 			skipped++
 			continue
@@ -121,8 +121,7 @@ async function main() {
 			const up = await uploadToCloudinary(coverUrl)
 			const asset = toCoverAsset(up)
 			entry.fields.cover = Object.fromEntries(LOCALES.map((l) => [l, [asset]]))
-			entry = await entry.update()
-			await entry.publish()
+			await updateAndPublish(client, entry)
 			console.log(`✅ ${entryId} ← ${up.public_id} (${up.width}×${up.height})`)
 			done++
 		} catch (err) {

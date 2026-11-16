@@ -19,6 +19,8 @@ type EventDetailProps = {
 	locale: string
 	/** Fallback image for hero when event has no cover (from site config fallbackEvent). */
 	heroFallbackImage?: string
+	/** Other upcoming dates of the same event, each linking to its own page. */
+	otherDates?: { date: string; href: string }[]
 }
 
 function generateGoogleMapsURL(lat: number, lng: number, placeName?: string) {
@@ -30,6 +32,7 @@ export const EventDetail = ({
 	event,
 	locale,
 	heroFallbackImage,
+	otherDates = [],
 }: EventDetailProps) => {
 	const messages = getMessages(locale) as {
 		Events?: {
@@ -37,6 +40,7 @@ export const EventDetail = ({
 			doorsOpenAt?: string
 			buyTicket?: string
 			location?: string
+			otherDates?: string
 		}
 	}
 	const t = messages.Events ?? {}
@@ -143,6 +147,21 @@ export const EventDetail = ({
 								event.venue
 							)}
 						</div>
+
+						{otherDates.length > 0 && (
+							<div className={styles.metaItem}>
+								<Icon name="Calendar" />
+								{t.otherDates}:{" "}
+								{otherDates.map((d, i) => (
+									<span key={d.href}>
+										{i > 0 && ", "}
+										<a href={d.href}>
+											<FormattedDate dateStr={d.date} locale={locale} />
+										</a>
+									</span>
+								))}
+							</div>
+						)}
 
 						{!pastEvent && ticket ? (
 							<Button
