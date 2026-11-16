@@ -5,6 +5,12 @@
   display: grid;
   gap: var(--_directory-gap);
 
+  // No own header: the page's PageHeader band sits right above (with its own
+  // bottom padding), so only a small gap before the search.
+  &--headless {
+    --_section-padding-top: var(--spacing-6);
+  }
+
   &__header {
     display: grid;
     gap: var(--spacing-2);
