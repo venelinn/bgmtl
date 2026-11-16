@@ -145,6 +145,12 @@
     .hero__body {
       animation: heroContentIn 1.2s ease-out 0.15s both;
     }
+    // Extra content (HeroSearch…) follows the body. `backwards`, not `both`:
+    // holding the final `filter` would make it a backdrop root and stop the
+    // search's glass from blurring the photo behind it.
+    > :not(.hero__title, .hero__body) {
+      animation: heroContentIn 1.2s ease-out 0.3s backwards;
+    }
   }
 }
 

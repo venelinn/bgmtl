@@ -70,7 +70,7 @@ resets the archive to page 1.
 |---|---|
 | `components/Events/EventsPageHeader.tsx` | Events copy + CTA on the shared `components/PageHeader` |
 | `components/Events/EventsBrowser.tsx` | Toolbar, upcoming list, archive band (client state) |
-| `components/Events/Event.tsx` | Event card — cover left with tag badges, long date, 3-line excerpt, venue, red ticket button + "Детайли и локация". Shadow, no border; 32px between stacked cards; stacks below 600px (container query). Used on the homepage, `/events` and CMS collections. |
+| `components/Events/Event.tsx` | Event card — cover left with tag badges, long date, 3-line excerpt, venue, ticket button (`secondary`, navy) + "Детайли и локация". Shadow, no border; 32px between stacked cards; stacks below 600px (container query). Used on the homepage, `/events` and CMS collections. |
 | `components/Events/EventArchiveCard.tsx` | Compact, image-less past-event card |
 | `components/Widgets/OrganizeEvent.tsx` | Navy "Организирате събитие в Квебек?" card → `/contacts?topic=event#contact-form` |
 | `components/Events/EventsConnector.tsx` | **Only** for CMS `events` sections now (old Upcoming/Past + year select). Not used by `/events`. |
