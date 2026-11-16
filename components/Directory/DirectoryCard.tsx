@@ -105,8 +105,8 @@ export const DirectoryCard = ({
 						<Image
 							src={logo}
 							alt={title ? String(title) : "Logo"}
-							width={64}
-							height={64}
+							width={100}
+							height={100}
 						/>
 					) : (
 						<span className={styles.card__initial}>{initial}</span>

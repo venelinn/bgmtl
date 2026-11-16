@@ -185,10 +185,17 @@
 		"language": "Език"
 	},
 	"Hero": {
-		"searchPlaceholder": "Търсете специалист, услуга или организация…",
-		"searchAriaLabel": "Търсене в указателя",
+		"searchPlaceholder": "Търсете обекти, събития, новини…",
+		"searchAriaLabel": "Търсене в сайта",
 		"searchButton": "Търси",
-		"quickLinksLabel": "Бърз избор:"
+		"clear": "Изчисти търсенето",
+		"quickLinksLabel": "Бърз избор:",
+		"suggest": {
+			"category": "Категории",
+			"listing": "Обекти",
+			"event": "Събития",
+			"news": "Новини"
+		}
 	},
 	"Footer": {
 		"newsletterTitle": "Бюлетин на общността",

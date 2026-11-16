@@ -1,9 +1,10 @@
 // const localization = require("./utils/localization")
 
-// Master View Transitions toggle, mirrored in utils/common.ts
-// (VIEW_TRANSITIONS_ENABLED). Set NEXT_PUBLIC_VIEW_TRANSITIONS=false to disable.
-const viewTransitionsEnabled =
-	process.env.NEXT_PUBLIC_VIEW_TRANSITIONS !== "false";
+// View Transitions need no config here: since Next 16.4 / React 19.3 the App
+// Router runs <ViewTransition> on navigations out of the box (the old
+// `experimental.viewTransition` key is gone and now warns as unrecognized).
+// The NEXT_PUBLIC_VIEW_TRANSITIONS=false kill switch lives in utils/common.ts
+// (VIEW_TRANSITIONS_ENABLED) → components/ViewTransition.tsx + data-vt="off".
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -14,12 +15,6 @@ const nextConfig = {
 	// },
 	reactStrictMode: true,
 	trailingSlash: false,
-	experimental: {
-		// Wrap App Router soft navigations in document.startViewTransition() so the
-		// ::view-transition-*(root) animations + shared-element morphs in globals.scss
-		// actually fire on <Link> clicks (otherwise they'd only run on MPA navigations).
-		viewTransition: viewTransitionsEnabled,
-	},
 	images: {
 		// dangerouslyAllowSVG: true,
 		// Serve images straight from the Contentful/Cloudinary CDNs instead of

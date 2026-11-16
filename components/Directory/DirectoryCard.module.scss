@@ -5,19 +5,24 @@
 
 .card {
   --_card-radius: var(--spacing-4);
+  --_card-padding: var(--spacing-6);
   --_logo-size: 56px;
+  // Room kept clear on the right of the header rows so text never runs under
+  // the absolutely-positioned logo.
+  --_logo-space: calc(var(--_logo-size) + var(--spacing-3));
   --_card-border: var(--outline-variant);
   --_card-shadow: 0 1px 3px color-mix(in srgb, var(--color-black) 6%, transparent);
 
   @media (width >= base.$breakpoint-md) {
-    --_logo-size: 64px;
+    --_logo-size: 100px;
   }
 
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-3);
   height: 100%;
-  padding: var(--spacing-6);
+  padding: var(--_card-padding);
   background-color: var(--surface-container-lowest);
   border: 1px solid var(--_card-border);
   border-radius: var(--_card-radius);
@@ -29,22 +34,22 @@
     --_card-shadow: 0 8px 24px color-mix(in srgb, var(--color-black) 8%, transparent);
   }
 
-  // Top row: category pills on the left, logo (or initial) square on the right.
+  // Top row: category pills. The logo sits in the same corner but is taken out
+  // of flow, so its size never pushes the content down.
   &__top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--spacing-3);
+    padding-inline-end: var(--_logo-space);
   }
 
-  // Fixed square on a pale tint; any logo aspect ratio is contained inside it.
+  // Fixed square on a pale tint, pinned to the top-right padding corner; any
+  // logo aspect ratio is contained inside it.
   &__logo {
+    position: absolute;
+    top: var(--_card-padding);
+    right: var(--_card-padding);
     display: grid;
     place-items: center;
-    flex-shrink: 0;
     width: var(--_logo-size);
     height: var(--_logo-size);
-    margin-left: auto;
     padding: var(--spacing-1-5);
     border-radius: var(--spacing-3);
     background-color: var(--primary-container-low);
@@ -138,6 +143,7 @@
 
   &__title {
     margin: var(--spacing-1) 0 0;
+    padding-inline-end: var(--_logo-space);
     --heading-color: var(--on-surface);
   }
 
@@ -145,6 +151,7 @@
   &__note {
     @include typo.ui-caption(true);
     margin: calc(-1 * var(--spacing-2)) 0 0;
+    padding-inline-end: var(--_logo-space);
     color: var(--color-highlight);
   }
 

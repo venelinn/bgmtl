@@ -11,9 +11,8 @@ export const IS_DEV = process.env.NODE_ENV === "development";
  * `NEXT_PUBLIC_*` is inlined at build time, so this one constant gates the
  * client `<ViewTransition>` wrappers (see components/ViewTransition.tsx) and the
  * `data-vt` attribute that neutralises the CSS (app/layout.tsx + globals.scss).
- * next.config.js reads the same env var directly to flip Next's integration.
- * Keeping the switch here means it stays valid when the feature graduates out
- * of `experimental` — only the next.config.js key would change, not this flag.
+ * The feature has graduated out of `experimental` (Next 16.4 / React 19.3), so
+ * there is no next.config.js key any more — this flag is the only switch.
  */
 export const VIEW_TRANSITIONS_ENABLED =
   process.env.NEXT_PUBLIC_VIEW_TRANSITIONS !== "false";

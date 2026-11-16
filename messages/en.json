@@ -180,10 +180,17 @@
 		"language": "Language"
 	},
 	"Hero": {
-		"searchPlaceholder": "Search for a professional, service or organization…",
-		"searchAriaLabel": "Search the directory",
+		"searchPlaceholder": "Search businesses, events, news…",
+		"searchAriaLabel": "Search the site",
 		"searchButton": "Search",
-		"quickLinksLabel": "Quick picks:"
+		"clear": "Clear search",
+		"quickLinksLabel": "Quick picks:",
+		"suggest": {
+			"category": "Categories",
+			"listing": "Listings",
+			"event": "Events",
+			"news": "News"
+		}
 	},
 	"Footer": {
 		"newsletterTitle": "Community newsletter",
