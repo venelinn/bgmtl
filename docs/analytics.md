@@ -1,6 +1,7 @@
 # Analytics (GA4) + Cookie Consent
 
 **Created**: 2026-06-05
+**Updated**: 2026-11-16 — consent also gates Google Maps; shared consent module.
 
 ## Summary
 
@@ -9,6 +10,12 @@ banner (GDPR/PIPEDA). No GTM — GA4 directly via `@next/third-parties`.
 
 ## Pieces
 
+- **`components/CookieConsent/consent.ts`** — shared `CONSENT_STORAGE_KEY`
+  (`bgmtl-analytics-consent`), `CONSENT_EVENT` (`bgmtl:consent`, dispatched on `window`
+  when the visitor chooses) and `readConsent()`. Import from here, not from the banner.
+- **`components/Events/MapEmbed.tsx`** — event-page Google Map. Loads straight away when
+  consent is `granted` (also live, on the event), otherwise shows a placeholder with
+  "Покажи картата". Nothing is requested from Google before one of the two.
 - **`components/CookieConsent/CookieConsent.tsx`** — `"use client"` component that:
   - Reads/writes the decision in `localStorage` under `bgmtl-analytics-consent`
     (`"granted"` | `"denied"`).
@@ -16,7 +23,9 @@ banner (GDPR/PIPEDA). No GTM — GA4 directly via `@next/third-parties`.
   - Renders `<GoogleAnalytics gaId={GA_ID} />` (from `@next/third-parties/google`) **only
     when consent === `"granted"`** — strict gating, so the gtag script never loads before
     acceptance.
-  - Renders **nothing** if `NEXT_PUBLIC_GA_ID` is unset (no analytics → no banner).
+  - Renders **nothing** if `NEXT_PUBLIC_GA_ID` is unset (no analytics → no banner — so
+    locally nobody is asked and maps always show the placeholder).
+  - Banner copy mentions maps and links to `/privacy`.
   - Copy comes from the `CookieConsent` namespace via `useTranslations` (next-intl).
 - **Mount point**: `app/ClientLayout.tsx`, inside `NextIntlClientProvider` (so translations
   resolve). One instance covers every localized page.

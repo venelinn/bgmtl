@@ -116,7 +116,7 @@ type LinkItem = {
 Converts a raw Contentful item to a `LinkItem`:
 
 - **`type: "link"`** → Uses `item.url` directly. Sets `icon` from `item.iconName` or `inferIconFromUrl(url)`.
-- **`type: "page"`** → Builds URL from `parent` + `slug` via `buildPageUrl()`. Gets title from `pageName.heading`.
+- **`type: "page"`** → Builds URL from `parent` + `slug` via `buildPageUrl()`. Gets title from `pageName.heading`. Sets `icon` from the page's **Menu Icon** (`iconName`, migration `2026-11-16-page-menu-icon.js`) and `highlight` from `highlightInMenu`.
 
 ### `buildPageUrl(parent, slug, locale)`
 
@@ -229,6 +229,13 @@ menuColumns.map(column => {
 })
 ```
 
+`link.icon` (Lucide name) renders as `<Icon>` before the title (header links and dropdown
+items). Highlighted pages (`data-highlight`) render as a red pill — Events: red pill +
+`CalendarDays`.
+
+Next to the menu: `ThemeToggle` (smoked-glass circle on desktop) and `LocaleSwitcher`
+(smoked-glass pill + dark rounded popover menu).
+
 Active link detection uses `usePathname()`:
 
 ```typescript
@@ -243,12 +250,13 @@ const menuColumns = extractMenuColumns(menuLinks, pageLocale, "footer");
 
 ```
 menuColumns.map(column => {
-    if isSocialColumn(column.title) → <Social items={...} />  (icon-only links)
-    else                            → <h3>{title}</h3> + <ul> text links
+    if isSocialColumn(column) → icons in the brand column (getSocialLinks)
+    else                      → <h3>{title}</h3> + <ul> text links
 })
 ```
 
-Social column detection checks `column.titleID` for "social", "follow us", or "connect with us".
+`isSocialColumn()` / `getSocialLinks()` live in `utils/menuHelpers.ts` (shared with the Contacts
+page sidebar). Detection checks `column.titleID` for "social", "follow us", or "connect with us".
 
 ---
 

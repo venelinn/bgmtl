@@ -180,10 +180,17 @@
 		"language": "Langue"
 	},
 	"Hero": {
-		"searchPlaceholder": "Rechercher un professionnel, un service ou un organisme…",
-		"searchAriaLabel": "Rechercher dans le répertoire",
+		"searchPlaceholder": "Rechercher des entreprises, événements, actualités…",
+		"searchAriaLabel": "Rechercher sur le site",
 		"searchButton": "Rechercher",
-		"quickLinksLabel": "Accès rapide :"
+		"clear": "Effacer la recherche",
+		"quickLinksLabel": "Accès rapide :",
+		"suggest": {
+			"category": "Catégories",
+			"listing": "Fiches",
+			"event": "Événements",
+			"news": "Actualités"
+		}
 	},
 	"Footer": {
 		"newsletterTitle": "Infolettre de la communauté",

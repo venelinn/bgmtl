@@ -38,6 +38,10 @@ Page (e.g. "About Us")
 - **Sections** – The blocks that make up the page (in order)
 - **Sidebar** – Whether to show a sidebar (calendar, donate, newsletter)
 - **Listings** – Optional: show Events and/or News on this page
+- **Highlight in menu** – Shows the page as a red pill in the header menu
+- **Menu Icon** – Optional icon next to the page in the header menu. Type a [Lucide](https://lucide.dev/icons) icon name, e.g. `CalendarDays` (used on Events), `Users`, `BookOpen`.
+
+Every page except the homepage gets a **breadcrumb** ("Начало / <Page Name>") automatically — nothing to set.
 
 ---
 
@@ -46,6 +50,12 @@ Page (e.g. "About Us")
 **What it is:** A large banner at the top of a page (image, title, short text).
 
 **When to use:** For the main landing area of a page, like the homepage or a key section.
+
+**Extended (homepage search):** turn on **Extended** to show the directory search under the title. Then you can set:
+- **Search Placeholder**, **Search Button Label**, **Quick Links Label** – texts (per language; empty = site default)
+- **Quick Categories** – up to 6 directory categories shown as chips. Categories without listings are hidden automatically (their page would be empty).
+- **Buttons** – up to 2 **Link** entries shown as buttons under the search. Link **Variant** `primary` = white pill, `secondary` = glass. An **Icon Name** on the Link adds an icon.
+- **Height** – `two-thirds` works well for the homepage.
 
 ---
 
@@ -99,6 +109,7 @@ Page (e.g. "About Us")
   - **Doors open at** – if you set a doors-open time
 - **Past events** do not show Buy Ticket or Doors open.
 - The URL of each event is based on its **Bulgarian heading** so it stays the same in all languages.
+- **Tags** – Up to 2 (Театър и комедия, Музика и парти, Семейно, Традиции, Култура и изкуство, Спорт, Среща на общността, Гостуване, Безплатен вход). Shown as badges on the event card and as filter chips on `/events`.
 - **Events with several dates:** create **one event entry per date** (copy the first entry, then change **Date** and **Doors open**). Use the **same Bulgarian heading text** on every date. The site groups them automatically: the earliest date keeps the normal URL (`/events/bocelli`), later dates get the date added (`/events/bocelli-2026-12-14`), and each page shows an **Other dates** row linking to the rest. Give each entry a unique ID and publish it. Venue, ticket link and cover can differ per date.
 
 ---
@@ -139,6 +150,8 @@ You add items to the **Menu Links** list. Each item can be one of three types:
 
 ### Footer
 
+- **Description** – One or two sentences under the logo (per language).
+
 The Footer uses the same structure: **Menu Links** with Link, Page, or Header Menu items. Footer items are grouped into columns (e.g. "About us" with links, "Follow us" with social links).
 
 ### Supported Menu Item Types
@@ -150,6 +163,14 @@ When adding items to Header or Footer menus, you can only select:
 - **Page** – For internal site pages
 
 **Display Title** (on Header Menu items) is localized, so you can have different labels per language.
+
+---
+
+## Special pages
+
+- **Contacts** (`/contacts`) – The page holds the **Contacts** block directly (no hero). Success / error texts can be set on that block. The form's subject can be preselected with a link: `/contacts?topic=event` (event), `?topic=directory` (directory listing), also `general`, `partnership`, `other`. Add `#contact-form` to scroll to the form. Site buttons such as "Предложи събитие" and "Добави профил" already use these links.
+- **Privacy** (`/privacy`) – One **Paragraph** with the whole policy. Paragraph text can use **H2/H3 headings** (any paragraph, not just this one).
+- **Events** (`/events`) – Built automatically from all events; not a Contentful page layout. **Events per page** in Site Configuration sets the archive page size (rounded to rows of 3).
 
 ---
 

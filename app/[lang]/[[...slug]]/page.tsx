@@ -208,7 +208,7 @@ export default async function Page(props: {
 
 	// Locale prefix mirrors buildMetadata: default locale (bg) at root, others prefixed.
 	const localePrefix = lang === localization.defaultLocale ? "" : `/${lang}`
-	const directoryProps =
+	const directoryProps: Record<string, unknown> | undefined =
 		path === DIRECTORY_SLUG
 			? {
 					initialCategory: directory?.category,
@@ -260,7 +260,8 @@ export default async function Page(props: {
 	const heroContent = heroSection ? renderSection(heroSection) : null
 
 	// Breadcrumb for every page except the homepage, and except pages whose own
-	// block renders a header with breadcrumbs (Contacts → PageHeader).
+	// block renders a header with breadcrumbs (Contacts → PageHeader). The
+	// directory also renders a PageHeader, so its crumbs are handed to it.
 	const rendersOwnHeader = page.sections?.some((s) => s.type === "contacts")
 	let breadcrumbs: React.ReactNode = null
 	if (!isHomepage && !rendersOwnHeader) {
@@ -281,11 +282,16 @@ export default async function Page(props: {
 		} else {
 			crumbs.push({ label: pageLabel })
 		}
-		breadcrumbs = (
-			<div className={styles.breadcrumbs}>
-				<Breadcrumbs crumbs={crumbs} ariaLabel={crumbText.ariaLabel} />
-			</div>
-		)
+		if (directoryProps) {
+			directoryProps.crumbs = crumbs
+			directoryProps.crumbsLabel = crumbText.ariaLabel
+		} else {
+			breadcrumbs = (
+				<div className={styles.breadcrumbs}>
+					<Breadcrumbs crumbs={crumbs} ariaLabel={crumbText.ariaLabel} />
+				</div>
+			)
+		}
 	}
 	const cmsSections = otherSections?.length
 		? otherSections.map((s) => renderSection(s, directoryProps))

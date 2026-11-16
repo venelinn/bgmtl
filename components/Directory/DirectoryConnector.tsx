@@ -1,6 +1,8 @@
 import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
+import type { Crumb } from "@/components/Breadcrumbs";
 import type { HeadingProps } from "@/components/Headings";
+import { PageHeader } from "@/components/PageHeader";
 import { getCommunityDirectory } from "@/utils/content";
 import { getMessages } from "@/utils/getMessages";
 import { FilterableDirectory } from "./FilterableDirectory";
@@ -23,6 +25,12 @@ type DirectoryConnectorProps = {
   initialCategory?: string;
   /** Locale-prefixed base path for the directory, e.g. `/en/community`. Drives URL sync. */
   basePath?: string;
+  /**
+   * Breadcrumb trail from the page. When set, the heading and intro render as a
+   * PageHeader band (like Contacts) instead of the directory's own small header.
+   */
+  crumbs?: Crumb[];
+  crumbsLabel?: string;
 };
 
 /**
@@ -52,28 +60,41 @@ export async function DirectoryConnector(props: DirectoryConnectorProps) {
   const m = ((getMessages(locale) as Record<string, unknown>)?.Directory ?? {}) as Record<string, string>;
   const itemsPerRow = ([1, 2, 3, 4].includes(props.itemsPerRow as number) ? props.itemsPerRow : 2) as 1 | 2 | 3 | 4;
 
+  const pageHeader = Boolean(props.crumbs && props.heading?.heading);
+
   return (
-    <FilterableDirectory
-      heading={props.heading}
-      intro={props.intro}
-      items={data.items}
-      categories={data.categories}
-      itemsPerRow={itemsPerRow}
-      initialCategory={props.initialCategory}
-      basePath={props.basePath}
-      autocomplete={props.autocomplete !== false}
-      labels={{
-        all: m.all,
-        searchPlaceholder: m.searchPlaceholder,
-        searchAriaLabel: m.searchAriaLabel,
-        categoryAriaLabel: m.categoryAriaLabel,
-        clear: m.clear,
-        noResults: m.noResults,
-        suggestionsCategories: m.suggestionsCategories,
-        suggestionsListings: m.suggestionsListings,
-        resultsCount: m.resultsCount,
-      }}
-    />
+    <>
+      {pageHeader && (
+        <PageHeader
+          crumbs={props.crumbs}
+          crumbsLabel={props.crumbsLabel}
+          eyebrow={m.homeEyebrow}
+          title={String(props.heading?.heading)}
+          intro={props.intro}
+        />
+      )}
+      <FilterableDirectory
+        heading={pageHeader ? undefined : props.heading}
+        intro={pageHeader ? undefined : props.intro}
+        items={data.items}
+        categories={data.categories}
+        itemsPerRow={itemsPerRow}
+        initialCategory={props.initialCategory}
+        basePath={props.basePath}
+        autocomplete={props.autocomplete !== false}
+        labels={{
+          all: m.all,
+          searchPlaceholder: m.searchPlaceholder,
+          searchAriaLabel: m.searchAriaLabel,
+          categoryAriaLabel: m.categoryAriaLabel,
+          clear: m.clear,
+          noResults: m.noResults,
+          suggestionsCategories: m.suggestionsCategories,
+          suggestionsListings: m.suggestionsListings,
+          resultsCount: m.resultsCount,
+        }}
+      />
+    </>
   );
 }
 

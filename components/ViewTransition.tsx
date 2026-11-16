@@ -4,9 +4,9 @@ import { VIEW_TRANSITIONS_ENABLED } from "@/utils/common";
 /**
  * Typed, runtime-safe wrapper around React's `<ViewTransition>`.
  *
- * React's ViewTransition component ships in the build Next.js uses when
- * `experimental.viewTransition` is enabled (see next.config.js), and route
- * navigations become Transitions that activate it automatically. The stable
+ * React's ViewTransition component ships in the React build Next.js uses
+ * (no config flag needed since Next 16.4 / React 19.3), and route
+ * navigations are Transitions that activate it automatically. The stable
  * `@types/react` don't declare it yet, hence the cast. If the runtime build
  * doesn't expose it (flag off / unsupported), we fall back to a passthrough so
  * children still render — just without the animation.

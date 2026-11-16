@@ -1,8 +1,12 @@
-# Homepage redesign (Stitch mock)
+# Site redesign (Stitch mocks)
+
+> Started as the homepage redesign; now also tracks /events, /contacts, /privacy, the footer,
+> breadcrumbs and the header controls. Updated 2026-11-16.
 
 Source: Stitch project `8109149400298636551`, screen `33afbc767bfe4e4aa78b0dc4c9f4d96c`
-("Българска Общност в Монреал - Начало & Указател"). The top nav is **out of scope** — it
-stays as-is, transparent over the hero.
+("Българска Общност в Монреал - Начало & Указател"), plus screens `79466401d62f456e89e22b9f12c94eab`
+(Събития) and `872501a644ad462aa79783a7e8fa319e` (Контакти). The top nav layout is out of scope
+(transparent over a photo hero, solid otherwise) — only its controls were restyled (see below).
 
 ## Do not carry over from the mock
 
@@ -18,12 +22,12 @@ stays as-is, transparent over the hero.
 | # | Section | Change | Status |
 |---|---|---|---|
 | 1 | Hero | Subtitle, directory search + quick category chips, 2 CTAs, ~75vh. Stats band only with real numbers. | done (live 2026-11-16) |
-| 2 | Events + sidebar | Card frame + accent rule (grey for past), red date, 2-line excerpt, footer (read more · ticket), `tags` pills (new field, migration `2026-11-16-event-tags.js`). Calendar "На фокус" card. Shared `listing-card` mixin → news cards get the same frame. No `price` field (by choice). | code done — events need tags in Contentful |
-| 3 | Directory | Pale-blue band (`--primary-container-low`), eyebrow/title/intro + "Добави профил" (→ /contacts), category tabs with real counts filtering the 6 newest in place, new DirectoryCard (logo or initial square, `note` as red subtitle, website row, one CTA: website → call → email) used on /community too, "add your business" banner (→ /contacts). Copy in `messages` (Directory.home*). Section moved above News; Join now last. | code done |
+| 2 | Events + sidebar | Image-left event card (shared everywhere; see `docs/events-listing-page.md`), `tags` badges, calendar "На фокус" card, Monday-first calendar. | done (PR #19) |
+| 3 | Directory | Pale-blue band (`--primary-container-low`), eyebrow/title/intro + "Добави профил" (→ /contacts), category tabs with real counts filtering the 6 newest in place, new DirectoryCard (logo or initial square, `note` as red subtitle, website row, one CTA: website → call → email) used on /community too, "add your business" banner (→ /contacts). Copy in `messages` (Directory.home*). Section moved above News; Join now last. | done (PR #19) |
 | 4 | Newcomer guide (new) | 3 step cards — needs real content (CMS). | phase 2 |
-| 5 | News | Featured + 2 side items; graceful with 1 item. | todo |
-| 6 | Join | Keep the embroidery image; palette tweak only. | todo |
-| 7 | Footer | Kept navy. Brand column (header logo, `footer.description` from Contentful — migration `2026-11-16-footer-description.js`, social icons moved here), the Contentful link columns, newsletter widget (useSubscribe → /api/subscribe; copy in `messages` Footer.*), fine-print row unchanged. | code done — footer description not yet published |
+| 5 | News | Featured + 2 side items; graceful with 1 item. News card still uses the `listing-card` mixin. | todo |
+| 6 | Join | Kept (embroidery image). Added "Без спам…" fine print; smooth-scroll target of the hero "Присъедини се" button. Last section on the homepage and /events. | done |
+| 7 | Footer | Kept navy. Brand column (header logo, `footer.description` from Contentful — migration `2026-11-16-footer-description.js`, social icons moved here), the Contentful link columns, newsletter widget (useSubscribe → /api/subscribe; copy in `messages` Footer.*), fine-print row unchanged. | done (PR #19) |
 
 Global: mock palette is navy `#00152a`, red `#de2e2c`, green accents, pale-blue section
 surfaces `#eef4ff`. Fold into `tokens/` rather than hardcoding.
@@ -62,14 +66,18 @@ Homepage entry setup (saved as **draft** 2026-11-16 — publish with the code de
 quick categories, add two Link entries as `buttons` (Разгледай указателя → `/community`,
 Календар със събития → `/events`).
 
-## Events page (/events) — second Stitch screen `79466401d62f456e89e22b9f12c94eab`
+## Events page (/events) — Stitch screen `79466401d62f456e89e22b9f12c94eab`
+
+Final header: **light `PageHeader` band, no photo** (`siteConfig.eventsHero` unused). Tried and
+dropped: photo hero with the header on it, photo beside the text. The "Предстоящи/Отминали"
+toggle became plain jump links (it read as a filter with nothing selected).
 
 - Event card (shared: homepage, /events, CMS collections): cover flush left with tag badges,
   long date + time, title, 3-line excerpt, venue, red ticket button + light "Детайли и локация".
   Own styles (no longer the `listing-card` mixin; news still uses it). Stacks under 600px
   (container query on the card).
-- /events: light header (`EventsPageHeader` — breadcrumb, pill, h1, intro, "Предложи събитие"
-  → /contacts), so the nav is solid; `EventsBrowser` — jump tabs with counts, accent-insensitive
+- /events: light header (`EventsPageHeader` on the shared `PageHeader` — breadcrumb, pill, h1,
+  intro, "Предложи събитие" → /contacts?topic=event), so the nav is solid; `EventsBrowser` — jump links with counts, accent-insensitive
   search (title + venue), tag chips (only used tags), upcoming list + sidebar (calendar,
   `OrganizeEventWidget`, donate), past archive band (year tabs when >1 year, compact
   `EventArchiveCard` grid, page size rounded to rows of 3, pagination), then `Join`.
@@ -78,3 +86,51 @@ quick categories, add two Link entries as `buttons` (Разгледай указ
 - Calendar weeks start on Monday.
 - Not built: "Календарен изглед" tab, mock-only badges ("Препоръчано", "30 години Романца"),
   "Виж архив / снимки" (no event has a gallery).
+
+## Contacts page (/contacts) — Stitch screen `872501a644ad462aa79783a7e8fa319e`
+
+- Contentful: page sections = the `contacts` block only (photo hero + wrapper section unlinked,
+  entries kept). `page.sections` now allows `contacts` (migration `2026-11-16-allow-contacts-in-page-sections.js`).
+- `ContactsConnector` (server) → `Contacts` (client): `PageHeader` ("Свържете се *с нас*"), form card
+  (name, email, optional phone, subject select, 1000-char counter, required privacy consent;
+  consent left / submit right), sidebar (footer social links as "Общностни канали", Donate),
+  navy banner (directory / event CTAs).
+- `?topic=general|event|directory|partnership|other` preselects the subject; all "add" CTAs on the
+  site link here with a topic + `#contact-form`.
+- Netlify Forms: `public/__forms.html` must list every field (now phone, topic, consent).
+- Not built: FAQ, fabricated "6,500+" stat, "24–48h" promise, "Монреал (EST)".
+
+## Privacy
+
+- `/privacy` Contentful page (heading, metaData, section, one paragraph with BG/EN/FR rich text).
+  Paragraph rich text allows H2/H3 (migration `2026-11-16-paragraph-headings.js`).
+- Maps gated on cookie consent — see `docs/analytics.md`, `docs/gdpr-readiness.md` (open items there).
+
+## Shared pieces added
+
+- `components/PageHeader` — pale band header (breadcrumb, pill, title + accent, intro, actions).
+- `components/Breadcrumbs` — trail + BreadcrumbList JSON-LD; automatic on CMS pages
+  (`docs/cms-page-rendering.md` §5b), plus event/news detail.
+- `Hero` grows with its content and clears the nav whenever it gets `children` (not only `extended`).
+- Token `--primary-container-low` (`#eef4ff`, dark: muted navy) for pale bands/cards.
+- CSS-only smooth anchor scrolling (`styles/globals.scss`, respects reduced motion).
+
+## Header controls
+
+- Language switcher: smoked-glass pill (like the hero search panel) + dark rounded menu card.
+- Theme toggle: matching smoked-glass circle (desktop; mobile keeps the labelled row).
+- Page `iconName` (migration `2026-11-16-page-menu-icon.js`) → icon before the menu link;
+  "Събития" uses `CalendarDays`. Menu now renders icons (it used to print the name as text).
+
+## Migrations (all applied to `master`)
+
+| File | Change |
+|---|---|
+| `2026-11-16-hero-extended-search.js` | hero: extended, search texts, quickCategories, buttons, `two-thirds` height |
+| `2026-11-16-event-tags.js` | event: tags |
+| `2026-11-16-footer-description.js` | footer: description |
+| `2026-11-16-paragraph-headings.js` | paragraph rich text: H2/H3 |
+| `2026-11-16-allow-contacts-in-page-sections.js` | page.sections: + contacts |
+| `2026-11-16-page-menu-icon.js` | page: iconName |
+
+Content-type quota: 24/25 — every change above is a field, not a new type.

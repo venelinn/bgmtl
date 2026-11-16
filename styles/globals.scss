@@ -10,11 +10,16 @@
 @layer frameworks, reset, base, theme, layouts, components, utilities;
 
 @layer frameworks {
-  @import url('swiper/css');
-  @import url('swiper/css/navigation');
-  @import url('swiper/css/pagination');
-  @import url('swiper/css/zoom');
-	@import "flag-icons/css/flag-icons.min.css";
+  // Plain `.css` paths (not `url(...)`): Sass leaves these as CSS @imports and
+  // @tailwindcss/postcss then inlines them INTO this layer. `url()` imports are
+  // never inlined, and a nested `@import` is invalid CSS ("Unknown at rule").
+  // Swiper only exports its module CSS as extension-less `swiper/css/*`, which
+  // Sass would try to load as Sass — hence the direct file paths for those.
+  @import "swiper/swiper.css";
+  @import "../node_modules/swiper/modules/navigation.css";
+  @import "../node_modules/swiper/modules/pagination.css";
+  @import "../node_modules/swiper/modules/zoom.css";
+  @import "flag-icons/css/flag-icons.min.css";
 }
 
 @layer base {
@@ -60,7 +65,7 @@ html[data-vt="off"]::view-transition-new(*) {
 }
 
 /* View Transitions — activated on App Router navigations via React's
-   <ViewTransition> (experimental.viewTransition in next.config.js). */
+   <ViewTransition> (built in since Next 16.4 — no next.config.js flag). */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition {
     navigation: auto;
