@@ -1,0 +1,79 @@
+@use "styles/mixins" as mixins;
+@use "styles/typo-mixins" as typo;
+
+// Full-width pale band behind the header; content stays in the page column.
+.band {
+  background-color: var(--primary-container-low);
+}
+
+.header {
+  padding-block: var(--spacing-6) var(--spacing-10);
+
+  &__text {
+    display: grid;
+    gap: var(--spacing-4);
+    justify-items: start;
+  }
+
+  &__crumbs {
+    @include mixins.resetList;
+    @include typo.ui-small;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: var(--on-surface);
+
+    li + li::before {
+      content: "/";
+      margin-right: var(--spacing-2);
+      color: var(--outline);
+    }
+  }
+
+  &__crumb {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    color: var(--on-surface-variant);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--on-surface);
+    }
+  }
+
+  // Red dot + label pill above the title.
+  &__pill {
+    @include typo.ui-small(true);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    width: fit-content;
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--color-highlight), transparent 90%);
+    color: var(--on-surface);
+
+    &::before {
+      content: "";
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: var(--color-highlight);
+    }
+  }
+
+  // Scales down on phones so long Bulgarian words don't break mid-word.
+  &__title {
+    margin: 0;
+    font-size: clamp(2rem, 1.25rem + 4vw, 4rem);
+    line-height: 1.1;
+    overflow-wrap: normal;
+  }
+
+  &__lead {
+    margin: 0;
+    color: var(--on-surface-variant);
+  }
+}

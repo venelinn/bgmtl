@@ -1,4 +1,3 @@
-import { GridCollection } from "@/components/Collection"
 import { Event } from "@/components/Events/Event"
 import type { EventItem } from "@/types/events"
 import { getFallbackImageUrl, getListingsData } from "@/utils/content"
@@ -34,19 +33,6 @@ export async function HomeEventsConnector({
 	const today = new Date()
 	const cards = section.cards as unknown as EventItem[]
 
-	const items = cards.map((event) => ({
-		id: event.id,
-		content: (
-			<Event
-				key={event.id}
-				event={event}
-				type={new Date(event.date) > today ? "upcoming" : "past"}
-				locale={locale}
-				fallbackImage={fallbackImage}
-			/>
-		),
-	}))
-
 	return (
 		<Section padding="none">
 			<HomeSectionHeader
@@ -55,7 +41,16 @@ export async function HomeEventsConnector({
 				href={`${getLocalePrefix(locale)}/events`}
 				showViewAll
 			/>
-			<GridCollection items={items} itemsPerRow={1} />
+			{/* A plain list: the cards space themselves (Event.module.scss). */}
+			{cards.map((event) => (
+				<Event
+					key={event.id}
+					event={event}
+					type={new Date(event.date) > today ? "upcoming" : "past"}
+					locale={locale}
+					fallbackImage={fallbackImage}
+				/>
+			))}
 		</Section>
 	)
 }

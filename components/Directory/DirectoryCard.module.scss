@@ -57,8 +57,12 @@
     }
   }
 
+  // Not the heading mixin: its justify-self/margins pull the letter off-centre.
   &__initial {
-    @include typo.h3;
+    font-family: var(--font-family-heading);
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
     color: var(--on-primary-container);
     text-transform: uppercase;
   }

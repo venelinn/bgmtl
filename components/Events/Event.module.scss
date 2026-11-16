@@ -1,57 +1,194 @@
-@use 'styles/listing-card' as card;
 @use 'styles/mixins' as mixins;
 @use 'styles/typo-mixins' as typo;
 
+// Event card: cover flush on the left, details on the right; stacks (cover on
+// top) when the card itself is narrow. Used on the homepage, /events and CMS
+// event collections.
 .event {
-  // Grid, card frame, meta line, title, excerpt and cover are shared with the
-  // news card.
-  @include card.listing-card('event');
+  --_event-accent: var(--color-highlight);
+  // No border: a soft two-layer shadow separates the card from the page.
+  --_event-shadow:
+    0 1px 2px color-mix(in srgb, var(--color-black), transparent 94%),
+    0 4px 16px color-mix(in srgb, var(--color-black), transparent 93%);
 
-  // Past events step back: grey rule and date instead of the brand red.
+  container-type: inline-size;
+  border-radius: var(--spacing-4);
+
+  // Breathing room between stacked cards (homepage, /events, CMS event lists).
+  & + & {
+    margin-top: var(--spacing-8);
+  }
+  background: var(--surface-container-lowest);
+  box-shadow: var(--_event-shadow);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    --_event-shadow:
+      0 2px 4px color-mix(in srgb, var(--color-black), transparent 92%),
+      0 12px 32px color-mix(in srgb, var(--color-black), transparent 88%);
+  }
+
+  // Past events step back: grey date/accents instead of the brand red.
   &[data-type='past'] {
-    --_listing-card-accent: var(--outline);
+    --_event-accent: var(--outline);
   }
 
-  // ── Event-specific ──────────────────────────────────────────────────────
-  &__heading {
-    margin-top: var(--spacing-4);
+  // The card is the size container; the columns live on the inner wrapper
+  // (a container query can't restyle the container itself).
+  &__inner {
+    --_event-cols: 1fr;
+
+    display: grid;
+    grid-template-columns: var(--_event-cols);
+    height: 100%;
+
+    @container (min-width: 600px) {
+      --_event-cols: minmax(220px, 40%) 1fr;
+    }
   }
 
+  // ── Cover ───────────────────────────────────────────────────────────────
+  // Stacked: a 16:10 banner. Side by side: fills the card's full height.
+  &__image {
+    --_image-ratio: 16 / 10;
+
+    position: relative;
+    margin: 0;
+    min-height: 220px;
+    aspect-ratio: var(--_image-ratio);
+    background: var(--surface-container);
+
+    @container (min-width: 600px) {
+      --_image-ratio: auto;
+    }
+  }
+
+  &__imageLink {
+    position: absolute;
+    inset: 0;
+    display: block;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      // A fallback logo is letterboxed rather than cropped.
+      &.event__imageFallback {
+        object-fit: contain;
+        scale: 0.8;
+      }
+    }
+  }
+
+  // Tag badges over the top-left of the cover.
   &__tags {
     @include mixins.resetList;
+    position: absolute;
+    top: var(--spacing-3);
+    left: var(--spacing-3);
+    right: var(--spacing-3);
     display: flex;
     flex-wrap: wrap;
-    gap: var(--spacing-2);
+    gap: var(--spacing-1-5);
+    pointer-events: none;
   }
 
   &__tag {
-    --_tag-bg: color-mix(in srgb, var(--primary-container-low), var(--primary) 10%);
-    --_tag-color: var(--on-primary-container);
+    --_tag-bg: var(--color-white);
+    --_tag-color: var(--color-main);
 
     @include typo.ui-small(true);
-    padding: var(--spacing-1) var(--spacing-3);
-    border-radius: 9999px;
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--spacing-1-5);
     background: var(--_tag-bg);
     color: var(--_tag-color);
+    box-shadow: 0 1px 4px color-mix(in srgb, var(--color-black), transparent 75%);
 
     // The first tag carries the card's accent; "free" always reads green.
     &:first-child {
-      --_tag-bg: color-mix(in srgb, var(--_listing-card-accent), transparent 88%);
-      --_tag-color: var(--_listing-card-accent);
+      --_tag-bg: var(--_event-accent);
+      --_tag-color: var(--color-white);
     }
 
     &[data-tag='free'] {
-      --_tag-bg: color-mix(in srgb, var(--color-green), transparent 85%);
-      --_tag-color: color-mix(in srgb, var(--color-green), var(--on-surface) 35%);
+      --_tag-bg: var(--color-green);
+      --_tag-color: var(--color-white);
+    }
+  }
+
+  // ── Details ─────────────────────────────────────────────────────────────
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    min-width: 0;
+    padding: var(--spacing-5) var(--spacing-5) var(--spacing-6);
+
+    @container (min-width: 600px) {
+      padding: var(--spacing-6);
+    }
+  }
+
+  &__header {
+    @include typo.ui-caption(true);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-1) var(--spacing-4);
+    color: var(--on-surface);
+  }
+
+  &__date,
+  &__time,
+  &__location {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1-5);
+
+    svg {
+      flex-shrink: 0;
+      color: var(--_event-accent);
+    }
+  }
+
+  &__time svg,
+  &__location svg {
+    color: var(--on-surface-variant);
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__titleLink {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__excerpt {
+    @include typo.ui-body;
+    @include mixins.truncate(3);
+    color: var(--on-surface-variant);
+
+    :global(p) {
+      display: inline;
+      margin: 0;
     }
   }
 
   &__location {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-1);
-    margin: 0;
-    line-height: 1.4;
+    @include typo.ui-caption;
+    align-items: flex-start;
+    color: var(--on-surface-variant);
+
+    svg {
+      margin-top: 0.15em;
+    }
   }
 
   &__mapLink {
@@ -62,47 +199,25 @@
     }
   }
 
-  &__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-4);
-  }
-
-  &__time,
-  &__doors {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-1);
-  }
-
-  // Two lines here; the full text lives on the detail page ("read more" sits in
-  // the footer instead of trailing the excerpt).
-  &__excerpt {
-    @include mixins.truncate(2);
-  }
-
-  // Footer: price · read more ··· ticket button, pinned to the card bottom.
+  // Footer: [price] · ticket · details, pinned to the bottom.
   &__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--spacing-3) var(--spacing-6);
     align-items: center;
+		justify-content: space-between;
+    gap: var(--spacing-3);
     margin-top: auto;
-    padding-top: var(--spacing-4);
+    padding-top: var(--spacing-2);
   }
 
+  // Light secondary action (pale tint, dark text).
   &__more {
-    color: var(--on-surface);
-    font-weight: var(--font-weight-medium);
-    text-decoration: underline;
-    text-underline-offset: 0.3em;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
-  &__ticket {
-    margin-left: auto;
+    --_btn-bg-color: var(--primary-container-low);
+    --_btn-border-color: var(--primary-container-low);
+    --_btn-color: var(--on-surface);
+    --_btn-hover-bg-color: color-mix(in srgb, var(--primary-container-low), var(--primary) 12%);
+    --_btn-hover-border-color: color-mix(in srgb, var(--primary-container-low), var(--primary) 12%);
+    --_btn-hover-color: var(--on-surface);
   }
 
   &__price {

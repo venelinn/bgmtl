@@ -1,0 +1,112 @@
+@use "styles/mixins" as mixins;
+@use "styles/typo-mixins" as typo;
+
+.archive {
+  --_archive-border: var(--outline-variant);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  height: 100%;
+  padding: var(--spacing-5);
+  border: 1px solid var(--_archive-border);
+  border-radius: var(--spacing-4);
+  background: var(--surface-container-lowest);
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    --_archive-border: color-mix(in srgb, var(--outline-variant), var(--primary) 25%);
+  }
+
+  &__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-2);
+  }
+
+  &__badge {
+    @include typo.ui-small(true);
+    padding: var(--spacing-0-5, 2px) var(--spacing-2);
+    border-radius: 9999px;
+    background: var(--primary-container-low);
+    color: var(--on-surface-variant);
+  }
+
+  &__date {
+    @include typo.ui-small(true);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    color: var(--on-surface-variant);
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__titleLink {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__excerpt {
+    @include typo.ui-caption;
+    @include mixins.truncate(3);
+    color: var(--on-surface-variant);
+
+    :global(p) {
+      display: inline;
+      margin: 0;
+    }
+  }
+
+  &__venue {
+    @include typo.ui-small;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-1);
+    margin: 0;
+    color: var(--on-surface-variant);
+
+    svg {
+      flex-shrink: 0;
+      margin-top: 0.15em;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-3);
+    margin-top: auto;
+    padding-top: var(--spacing-3);
+    border-top: 1px solid var(--outline-variant);
+  }
+
+  &__tag {
+    @include typo.ui-small;
+    color: var(--on-surface-variant);
+  }
+
+  &__more {
+    --_more-gap: var(--spacing-1);
+
+    @include typo.ui-caption(true);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--_more-gap);
+    color: var(--color-highlight);
+    text-decoration: none;
+    transition: gap 0.15s ease;
+
+    &:hover {
+      --_more-gap: var(--spacing-2);
+    }
+  }
+}

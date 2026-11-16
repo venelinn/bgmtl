@@ -2,20 +2,20 @@ import type { Metadata } from "next"
 import { draftMode } from "next/headers"
 import { notFound } from "next/navigation"
 import { EventsCalendarConnector } from "@/components/Calendar"
-import { EventsConnector } from "@/components/Events"
-import { Hero } from "@/components/Hero"
+import { EventsBrowser } from "@/components/Events/EventsBrowser"
+import { EventsPageHeader } from "@/components/Events/EventsPageHeader"
+import { Join } from "@/components/Join"
 import { JsonLd } from "@/components/JsonLd"
 import { buildMetadata } from "@/components/MetaData"
 import { Sidebar } from "@/components/Sidebar"
-import SubscribeForm from "@/components/Subscribe/Subscribe"
-import { DonateWidget } from "@/components/Widgets"
+import { DonateWidget, OrganizeEventWidget } from "@/components/Widgets"
 import {
 	getAllEvents,
 	getFallbackImageUrl,
 	getSiteConfig,
 } from "@/utils/content"
 import { getMessages } from "@/utils/getMessages"
-import { localization } from "@/utils/localization"
+import { getLocalePrefix, localization } from "@/utils/localization"
 import { buildEventsItemListJsonLd } from "@/utils/structuredData"
 
 // No numeric `revalidate`: Contentful data is cached indefinitely under the
@@ -51,47 +51,29 @@ export default async function EventsPage(props: { params: Params }) {
 
 	const fallbackImage =
 		getFallbackImageUrl(siteConfig?.fallbackEvents) ?? undefined
-	const heroImages = siteConfig?.eventsHero as
-		| {
-				src?: string
-				url?: string
-				alt?: string
-				width?: number
-				height?: number
-		  }[]
-		| undefined
-	const eventsPerPage = siteConfig?.eventsPerPage ?? 10
-	const messages = getMessages(lang) as { Events?: { sectionTitle?: string } }
-	const title = messages.Events?.sectionTitle ?? "Events"
+	const eventsPerPage = siteConfig?.eventsPerPage ?? 9
 	const eventsItemList = buildEventsItemListJsonLd(events, lang)
+	const localePrefix = getLocalePrefix(lang)
 
+	// Light page header (no full-width photo hero), so the navigation renders solid.
 	return (
 		<>
 			<JsonLd data={eventsItemList} />
-			{heroImages && heroImages.length > 0 && (
-				<Hero
-					images={heroImages}
-					size="full"
-					imageAlignment="top"
-					height="half"
-					heading={{ heading: title, size: "hero", as: "h1" }}
-				/>
-			)}
-			<div className="page__with-sidebar" data-has-sidebar>
-				<div className="page__main">
-					<EventsConnector
-						events={events}
-						locale={lang}
-						fallbackImage={fallbackImage}
-						eventsPerPage={eventsPerPage}
-					/>
-				</div>
-				<Sidebar>
-					<EventsCalendarConnector locale={lang} />
-					<DonateWidget />
-					<SubscribeForm />
-				</Sidebar>
-			</div>
+			<EventsPageHeader localePrefix={localePrefix} />
+			<EventsBrowser
+				events={events}
+				locale={lang}
+				fallbackImage={fallbackImage}
+				eventsPerPage={eventsPerPage}
+				sidebar={
+					<Sidebar>
+						<EventsCalendarConnector locale={lang} />
+						<OrganizeEventWidget contactsPath={`${localePrefix}/contacts`} />
+						<DonateWidget />
+					</Sidebar>
+				}
+			/>
+			<Join />
 		</>
 	)
 }

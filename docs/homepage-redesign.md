@@ -61,3 +61,20 @@ Homepage entry setup (saved as **draft** 2026-11-16 — publish with the code de
 `content` (drop the embedded "Присъединете се" link — Join has its own section), pick
 quick categories, add two Link entries as `buttons` (Разгледай указателя → `/community`,
 Календар със събития → `/events`).
+
+## Events page (/events) — second Stitch screen `79466401d62f456e89e22b9f12c94eab`
+
+- Event card (shared: homepage, /events, CMS collections): cover flush left with tag badges,
+  long date + time, title, 3-line excerpt, venue, red ticket button + light "Детайли и локация".
+  Own styles (no longer the `listing-card` mixin; news still uses it). Stacks under 600px
+  (container query on the card).
+- /events: light header (`EventsPageHeader` — breadcrumb, pill, h1, intro, "Предложи събитие"
+  → /contacts), so the nav is solid; `EventsBrowser` — jump tabs with counts, accent-insensitive
+  search (title + venue), tag chips (only used tags), upcoming list + sidebar (calendar,
+  `OrganizeEventWidget`, donate), past archive band (year tabs when >1 year, compact
+  `EventArchiveCard` grid, page size rounded to rows of 3, pagination), then `Join`.
+- `siteConfig.eventsHero` is no longer used on /events. CMS "events" sections still use
+  `EventsConnector` (unchanged).
+- Calendar weeks start on Monday.
+- Not built: "Календарен изглед" tab, mock-only badges ("Препоръчано", "30 години Романца"),
+  "Виж архив / снимки" (no event has a gallery).

@@ -1,0 +1,200 @@
+@use "styles/base-variables" as base;
+@use "styles/mixins" as mixins;
+@use "styles/typo-mixins" as typo;
+
+// ── Toolbar ─────────────────────────────────────────────────────────────
+.toolbar {
+  display: grid;
+  margin-top: var(--spacing-6);
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-8);
+  padding-bottom: var(--spacing-5);
+  border-bottom: 1px solid var(--outline-variant);
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-3);
+  }
+
+  &__jumps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2) var(--spacing-6);
+  }
+
+  &__jump {
+    @include typo.ui-caption(true);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    color: var(--on-surface);
+    text-decoration: underline;
+    text-decoration-color: var(--outline-variant);
+    text-underline-offset: 0.35em;
+    white-space: nowrap;
+
+    span {
+      color: var(--on-surface-variant);
+      font-weight: var(--font-weight-normal);
+    }
+
+    svg {
+      color: var(--color-highlight);
+    }
+
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+  }
+
+  &__search {
+    display: flex;
+    flex: 0 1 22rem;
+    align-items: center;
+    gap: var(--spacing-2);
+    min-width: 14rem;
+    height: 2.75rem;
+    padding: 0 var(--spacing-4);
+    border: 1px solid var(--outline-variant);
+    border-radius: 9999px;
+    background: var(--surface-container-lowest);
+    color: var(--on-surface-variant);
+
+    &:focus-within {
+      border-color: var(--primary);
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      border: 0;
+      background: transparent;
+      color: var(--on-surface);
+      font: inherit;
+      font-size: 0.9375rem;
+      outline: none;
+    }
+  }
+
+  // Tag chips scroll sideways on narrow screens.
+  &__chips {
+    @include mixins.resetList;
+    display: flex;
+    gap: var(--spacing-2);
+    overflow-x: auto;
+    padding-block: var(--spacing-1);
+    scrollbar-width: none;
+  }
+
+  &__chip {
+    --_chip-bg: var(--primary-container-low);
+    --_chip-color: var(--on-surface);
+
+    @include typo.ui-caption(true);
+    padding: var(--spacing-1-5) var(--spacing-4);
+    border: 0;
+    border-radius: 9999px;
+    background: var(--_chip-bg);
+    color: var(--_chip-color);
+    font-family: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      --_chip-bg: color-mix(in srgb, var(--primary-container-low), var(--primary) 12%);
+    }
+
+    &[aria-pressed="true"] {
+      --_chip-bg: var(--inverse-surface);
+      --_chip-color: var(--inverse-on-surface);
+    }
+  }
+}
+
+// Jump-tab target; clears the fixed nav.
+.anchor {
+  scroll-margin-top: var(--spacing-14);
+}
+
+// Section heading with the brand rule on the left.
+.heading {
+  margin: 0 0 var(--spacing-6);
+  padding-left: var(--spacing-3);
+  border-left: 4px solid var(--color-highlight);
+}
+
+.empty {
+  color: var(--on-surface-variant);
+}
+
+// ── Past events archive band ────────────────────────────────────────────
+.archive {
+  margin-top: var(--spacing-12);
+  background-color: var(--primary-container-low);
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+    padding-bottom: var(--spacing-4);
+    border-bottom: 1px solid var(--outline-variant);
+    scroll-margin-top: var(--spacing-14);
+  }
+
+  &__eyebrow {
+    @include typo.ui-caption;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: var(--on-surface-variant);
+  }
+
+  &__title {
+    margin: var(--spacing-1) 0 0;
+  }
+
+  &__years {
+    display: inline-flex;
+    gap: var(--spacing-1);
+    padding: var(--spacing-1);
+    border-radius: var(--spacing-3);
+    background: var(--surface-container-lowest);
+  }
+
+  &__year {
+    --_year-bg: transparent;
+
+    @include typo.ui-caption(true);
+    padding: var(--spacing-1-5) var(--spacing-3);
+    border: 0;
+    border-radius: var(--spacing-2);
+    background: var(--_year-bg);
+    color: var(--on-surface);
+    font-family: inherit;
+    cursor: pointer;
+
+    &[aria-pressed="true"] {
+      --_year-bg: var(--primary-container-low);
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-4);
+    margin-top: var(--spacing-8);
+  }
+
+  &__count {
+    @include typo.ui-caption;
+    color: var(--on-surface-variant);
+  }
+}
