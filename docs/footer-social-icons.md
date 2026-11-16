@@ -57,9 +57,17 @@ Icons are resolved in this order:
 
 In `utils/linkHelpers.ts`. Returns a lucide-compatible icon name based on URL patterns.
 
+### `isSocialColumn(column)` / `getSocialLinks(columns)`
+
+In `utils/menuHelpers.ts` (moved out of the Footer, 2026-11-16). `getSocialLinks` returns
+`{ id, name, iconName, url, external }[]` from every social column. Used by the Footer
+(icons in the brand column, under the logo + `footer.description`) and by the Contacts
+page ("Общностни канали" sidebar, via `ContactsConnector`).
+
 ### Components
 
-- **Footer** — Detects social columns and renders `Social` for them.
+- **Footer** — Brand column (logo, description, social icons), the remaining link columns,
+  newsletter widget, fine print + privacy link.
 - **Social** — Renders icon-only links with `Icon` from lucide-react.
 
 ## Files
@@ -70,4 +78,4 @@ In `utils/linkHelpers.ts`. Returns a lucide-compatible icon name based on URL pa
 | `components/Footer/Footer.module.scss` | `.footer__column__social` styles |
 | `components/Social/Social.tsx` | Icon-only link list |
 | `utils/linkHelpers.ts` | `contentfulItemToLink()`, `inferIconFromUrl()` |
-| `utils/menuHelpers.ts` | `extractMenuColumns()` — builds columns from Contentful menu |
+| `utils/menuHelpers.ts` | `extractMenuColumns()`, `isSocialColumn()`, `getSocialLinks()` |

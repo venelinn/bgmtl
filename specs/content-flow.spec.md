@@ -64,8 +64,9 @@ Header / Footer (global)
         └── Menu Items[] (Link, Page, or nested Header Menu)
 
 Page
-├── sections[] (ordered)
-│   ├── hero
+├── iconName (optional, header menu icon)
+├── sections[] (ordered; top-level types: hero, section, communityDirectory, contacts)
+│   ├── hero (optional "extended": search, quick categories, buttons)
 │   ├── section (wrapper)
 │   │   ├── components[] / items[] / content[]
 │   │   │   ├── paragraph
@@ -75,6 +76,8 @@ Page
 │   ├── collection
 │   ├── paragraph
 │   ├── events
+│   ├── communityDirectory
+│   ├── contacts
 │   └── ...
 ├── listings[] (optional: ["events"], ["news"], or both)
 └── widgets[] (sidebar: calendar, donate, subscribe)
@@ -90,6 +93,8 @@ Page
 - [ ] Page sections are an ordered array of linked entries
 - [ ] Page can optionally show sidebar with widgets and/or listings
 - [ ] Page is fetched by slug; fallback to leaf slug for nested paths
+- [ ] Every non-homepage page shows a breadcrumb (Home / page name) with BreadcrumbList JSON-LD; directory categories add the community level
+- [ ] A page `iconName` renders as an icon next to its header menu link
 
 ### Section Model
 
@@ -124,6 +129,9 @@ Page
 - [ ] Buy Ticket button shows only for upcoming events when ticket URL exists
 - [ ] Doors open shows only for upcoming events when doorsOpen field exists
 - [ ] Past events can show Gallery button if gallery URL exists
+- [ ] Event `tags` (max 2, fixed list) render as badges on the card; unknown values are ignored
+- [ ] `/events` filters upcoming and past by search (title, venue; accent-insensitive) and tag chips
+- [ ] Event detail map loads from Google only after cookie consent or an explicit click
 
 ### Header & Footer
 
@@ -133,6 +141,7 @@ Page
 - [ ] Header Menu items have Display Title (localized) and nested Menu Items
 - [ ] Link type: external URL or custom URL with name and target
 - [ ] Page type: links to internal page by slug
+- [ ] Footer has an optional localized description (brand column) and shows social links as icons
 
 ### News
 
@@ -151,6 +160,8 @@ Page
 - [ ] Event detail shows Buy Ticket and Doors open only for upcoming events
 - [ ] News and Event slugs are consistent across en/bg locales
 - [ ] Listings show separate Events and News sections with "View all" links
+- [ ] Contact form submits all fields listed in `public/__forms.html`; `?topic=` preselects the subject
+- [ ] No Google request (Analytics or Maps) before consent
 
 ---
 

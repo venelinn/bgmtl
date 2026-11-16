@@ -1,7 +1,7 @@
 # Events Listing Page
 
 **Created**: 2026-02-25
-**Updated**: 2026-02-25
+**Updated**: 2026-11-16
 
 ## Overview
 
@@ -27,12 +27,11 @@ app/[lang]/events/
 
 ## Site Configuration Fields
 
-Two fields in the **Site Configuration** content type in Contentful control this page:
-
 | Field | Type | Description |
 |-------|------|-------------|
-| `eventsHero` | Media (image array) | Hero banner image(s) displayed at the top of the events page |
-| `eventsPerPage` | Number | How many past events to show per page (default: 10) |
+| `eventsPerPage` | Number | Past events per archive page. Rounded **down to whole rows of 3** (10 → 9), default 9. |
+| `fallbackEvents` | Media | Cover used when an event has no image. |
+| `eventsHero` | Media (image array) | **No longer used** by `/events` (2026-11 redesign: light header instead of a photo hero). Harmless to keep. |
 
 These are fetched via `getSiteConfig()` and passed to the page components.
 
@@ -41,106 +40,61 @@ These are fetched via `getSiteConfig()` and passed to the page components.
 ### Data Flow
 
 ```
-EventsPage (server component)
+EventsPage (server component, app/[lang]/events/page.tsx)
     │
-    ├── getAllEvents(lang, preview)     ← fetches all events from Contentful
-    ├── getSiteConfig(lang, preview)   ← fetches hero image, perPage, fallback images
+    ├── getAllEvents(lang, preview)
+    ├── getSiteConfig(lang, preview)       ← eventsPerPage, fallbackEvents
     │
     └── renders:
-        ├── Hero                       ← banner from siteConfig.eventsHero
-        │
-        └── page__with-sidebar
-            ├── EventsConnector        ← client component, display + pagination
-            │   ├── Upcoming events    (sorted ascending by date)
-            │   ├── Past events        (sorted descending, paginated)
-            │   ├── Year filter        (dropdown for past events)
-            │   └── Pagination         (for past events)
-            │
-            └── Sidebar
-                ├── EventsCalendar
-                ├── DonateWidget
-                └── SubscribeForm
+        ├── JsonLd                          ← ItemList of events
+        ├── EventsPageHeader                ← shared PageHeader on a pale band:
+        │                                     breadcrumb, pill, h1, intro, "Предложи събитие"
+        ├── EventsBrowser (client)
+        │   ├── Toolbar                     ← jump links (#upcoming / #past, with counts),
+        │   │                                 search (title + venue, accent-insensitive),
+        │   │                                 tag chips (only tags in use)
+        │   ├── page__with-sidebar
+        │   │   ├── Upcoming list           ← <Event> cards, soonest first
+        │   │   └── Sidebar (passed in)     ← EventsCalendar, OrganizeEventWidget, DonateWidget
+        │   └── Archive band (full width)   ← year tabs (only if >1 year), <EventArchiveCard> grid,
+        │                                     "Показани X от Y", Pagination
+        └── Join                            ← newsletter block (same as homepage)
 ```
 
-### Page Layout
+Search and tag chips filter **both** the upcoming list and the archive; any filter change
+resets the archive to page 1.
 
-```
-┌──────────────────────────────────────────┐
-│  Navigation                              │
-├──────────────────────────────────────────┤
-│  Hero Banner (from eventsHero)           │
-├──────────────────────┬───────────────────┤
-│  Upcoming Events     │  Sidebar          │
-│  ┌────────────────┐  │  ┌─────────────┐ │
-│  │ Event card     │  │  │ Calendar    │ │
-│  │ Event card     │  │  │ Donate      │ │
-│  └────────────────┘  │  │ Subscribe   │ │
-│                      │  └─────────────┘ │
-│  Past Events  [year] │                   │
-│  ┌────────────────┐  │                   │
-│  │ Event card     │  │                   │
-│  │ Event card     │  │                   │
-│  └────────────────┘  │                   │
-│  « 1 2 3 4 5 ... »   │                   │
-├──────────────────────┴───────────────────┤
-│  Footer                                  │
-└──────────────────────────────────────────┘
-```
+### Components
 
-### Server Component (`page.tsx`)
+| Component | Role |
+|---|---|
+| `components/Events/EventsPageHeader.tsx` | Events copy + CTA on the shared `components/PageHeader` |
+| `components/Events/EventsBrowser.tsx` | Toolbar, upcoming list, archive band (client state) |
+| `components/Events/Event.tsx` | Event card — cover left with tag badges, long date, 3-line excerpt, venue, red ticket button + "Детайли и локация". Shadow, no border; 32px between stacked cards; stacks below 600px (container query). Used on the homepage, `/events` and CMS collections. |
+| `components/Events/EventArchiveCard.tsx` | Compact, image-less past-event card |
+| `components/Widgets/OrganizeEvent.tsx` | Navy "Организирате събитие в Квебек?" card → `/contacts?topic=event#contact-form` |
+| `components/Events/EventsConnector.tsx` | **Only** for CMS `events` sections now (old Upcoming/Past + year select). Not used by `/events`. |
 
-1. Validates locale, fetches events and site config in parallel
-2. Extracts `eventsHero` images and `eventsPerPage` from site config
-3. Renders the `Hero` component if `eventsHero` images exist (quarter height, fixed size)
-4. Passes `eventsPerPage` to `EventsConnector` for client-side pagination
+### Event tags
 
-### EventsConnector Logic
+`event.tags` (migration `contentful/migration/2026-11-16-event-tags.js`): up to 2 of
+`theatre, music, family, traditions, culture, sport, community, guest, free`
+(`EVENT_TAGS` in `types/events.ts`). Labels: `messages/*.json` → `Events.tags.*`.
+Unknown values are skipped. Shown as badges on the card cover and as the filter chips here.
 
-The `EventsConnector` (client component in `components/Events/EventsConnector.tsx`) handles:
+### Event detail
 
-1. **Splitting** events into upcoming vs past based on current date
-2. **Sorting**: upcoming ascending (soonest first), past descending (most recent first)
-3. **Year filter**: dropdown to filter past events by year — resets pagination to page 1
-4. **Pagination**: past events are paginated using `eventsPerPage` (default: 10)
-   - Uses the existing `Pagination` component (`components/Pagination`)
-   - Scrolls to top on page change
-   - Only shown when filtered results exceed `eventsPerPage`
-5. **Fallback images**: uses site config `fallbackEvents` image when an event has no cover
+- Breadcrumb "Начало / Събития / <title>" (+ BreadcrumbList JSON-LD) above the back link.
+- Map: `components/Events/MapEmbed.tsx` loads Google Maps **only after cookie consent**
+  (or a click on "Покажи картата") — see `docs/analytics.md`.
 
 ### Metadata
 
-Uses `buildMetadata()` with the page title pulled from translations (`Events.sectionTitle` → "Събития" / "Events").
+Uses `buildMetadata()` with the page title from translations (`Events.sectionTitle`).
 
 ### Preview Mode
 
-Passes `draftMode().isEnabled` to both `getAllEvents()` and `getSiteConfig()`, so draft events appear when preview mode is active.
-
-## SiteConfig Type
-
-```typescript
-export type SiteConfig = {
-  fallbackEvents?: ...;
-  fallbackEvent?: ...;
-  fallbackNews?: ...;
-  listingEvents?: number;
-  listingNews?: number;
-  eventsHero?: Record<string, unknown>[];   // Hero images for /events page
-  eventsPerPage?: number;                    // Pagination size (default: 10)
-  [key: string]: unknown;
-};
-```
-
-## Before vs After
-
-| Aspect | Before (Contentful-driven) | After (code-driven) |
-|--------|---------------------------|---------------------|
-| Adding events | Add event to Contentful, then manually add to Collection on Events page | Just add event to Contentful — appears automatically |
-| Hero banner | Configured per-page in Contentful | Configured once in Site Configuration (`eventsHero`) |
-| Ordering | Manual order in Collection | Automatic: upcoming by date asc, past by date desc |
-| Pagination | Not available | Built-in with configurable page size (`eventsPerPage`) |
-| Year filter | Not available | Built-in dropdown for past events |
-| Sidebar | Depended on page config | Always present (Calendar, Donate, Subscribe) |
-| Maintenance | Two steps per event | Zero steps — fully dynamic |
+Passes `draftMode().isEnabled` to both `getAllEvents()` and `getSiteConfig()`.
 
 ## Migration Notes
 

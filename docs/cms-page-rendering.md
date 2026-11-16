@@ -59,7 +59,7 @@ Each Contentful page entry resolves to:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `sections` | `Section[]` | Ordered list of content sections (hero, section, events, etc.) |
+| `sections` | `Section[]` | Ordered list of top-level blocks. Allowed types: `section`, `hero`, `communityDirectory`, `contacts` (migration `2026-11-16-allow-contacts-in-page-sections.js`). |
 | `sidebar` | `boolean` | Whether to show the sidebar layout |
 | `widgets` | `WidgetType[]` | Sidebar widgets: `"calendar"`, `"donate"`, `"subscribe"` |
 | `listings` | `string[]` | Content listings to show: `"events"`, `"news"` |
@@ -82,7 +82,7 @@ Each section is rendered via `componentMap`:
 | `hero` | `HeroConnector` |
 | `section` | `SectionConnector` (wrapper with children) |
 | `imageContent` | `ImageContentConnector` |
-| `contacts` | `ContactsConnector` |
+| `contacts` | `ContactsConnector` (async server: adds locale prefix + footer social links). Placed **directly** in `page.sections` so it can render a full-width `PageHeader` band. |
 | `collection` | `CollectionConnector` |
 | `paragraph` | `ParagraphConnector` |
 | `events` | `EventsConnector` |
@@ -91,6 +91,25 @@ Each section is rendered via `componentMap`:
 **Section wrappers** (`type === "section"`) contain nested children in one of three arrays: `components`, `items`, or `content`. Each child is resolved from `componentMap` and rendered inside `<SectionConnector>`.
 
 **Slider detection**: If a section's first child is a `slider`, extra section props are computed via `getSliderSectionProps()`.
+
+### 5b. Breadcrumbs
+
+Every non-homepage CMS page gets a breadcrumb (`components/Breadcrumbs`) automatically,
+rendered right after the hero (or first, when there is no hero):
+
+- Label = `pageName.heading` → `metaData.pageTitle` → `title` → path.
+- `/community/<category>` → "Начало / <community page> / <category label>".
+- Skipped when the page has a `contacts` block (its `PageHeader` already shows one).
+- Each trail also emits `BreadcrumbList` JSON-LD (`buildBreadcrumbJsonLd` in `utils/structuredData.ts`).
+- Labels: `messages/*.json` → `Breadcrumbs.home` / `Breadcrumbs.ariaLabel`.
+
+`/events`, `/contacts` (via `PageHeader`) and the event/news detail pages render their own trail.
+
+> **Client-graph gotcha:** never re-export a server-only connector (anything importing
+> `utils/content`) from an index that a `"use client"` file imports — it bundles the
+> Contentful client for the browser ("Expected parameter accessToken"). Hit twice:
+> `components/Hero/index.ts` (no longer exports `HeroConnector`) and
+> `components/Widgets/index.ts` (client code imports `Widgets/Donate` directly).
 
 ### 6. Sidebar Layout
 
