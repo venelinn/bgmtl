@@ -21,7 +21,7 @@ Source: Stitch project `8109149400298636551`, screen `33afbc767bfe4e4aa78b0dc4c9
 
 | # | Section | Change | Status |
 |---|---|---|---|
-| 1 | Hero | Subtitle, directory search + quick category chips, 2 CTAs, ~75vh. Stats band only with real numbers. | done (live 2026-11-16) |
+| 1 | Hero | Subtitle, site-wide search with autocomplete + quick category chips, 2 CTAs, ~75vh. Stats band only with real numbers. | done (live 2026-11-16; autocomplete PR #20) |
 | 2 | Events + sidebar | Image-left event card (shared everywhere; see `docs/events-listing-page.md`), `tags` badges, calendar "На фокус" card, Monday-first calendar. | done (PR #19) |
 | 3 | Directory | Pale-blue band (`--primary-container-low`), eyebrow/title/intro + "Добави профил" (→ /contacts), category tabs with real counts filtering the 6 newest in place, new DirectoryCard (logo or initial square, `note` as red subtitle, website row, one CTA: website → call → email) used on /community too, "add your business" banner (→ /contacts). Copy in `messages` (Directory.home*). Section moved above News; Join now last. | done (PR #19) |
 | 4 | Newcomer guide (new) | 3 step cards — needs real content (CMS). | phase 2 |
@@ -49,6 +49,26 @@ and `two-thirds` to `height`. No new content type (space is at 24/25).
 - `extended` on → `HeroSearch` (smoked-glass panel) under the body; hero grows with content and clears the nav. Off → hero unchanged
   (event/news detail heroes never set it).
 - Search is a GET form to `{localePrefix}/community?q=…`; the directory hydrates `?q=`.
+  Enter without picking a suggestion still lands there (no separate results page).
+- **Autocomplete (site-wide):** `HeroConnector` builds a lean index server-side
+  (`HeroSearchSuggestion`: kind, label, match text, href) from the directory, events and
+  news (`getAllEvents` / `getAllNews`; a failed fetch just drops that group) and passes it
+  to `HeroSearch`, which filters client-side (accent-insensitive `fold`, ARIA combobox).
+  Groups and caps: Categories 3 · Listings 4 · Events 3 (upcoming soonest first, then past
+  newest first) · News 3. Hrefs: category → `/community/<slug>`, listing (no own page) →
+  `/community?q=<name>`, event/news → permalink from the Bulgarian heading.
+- Focusing the empty box lists up to 10 categories, **most listings first** (ties keep the
+  CMS `order`) — "most used" = listing count, there's no click tracking. Same order while typing.
+- Dropdown: same smoked glass as the panel (darker tint, `blur(40px)`), two columns from `md`
+  (groups pair up row by row), custom white clear button (native one hidden). Copy:
+  `Hero.suggest.*`, `Hero.clear`; default placeholder "Търсете обекти, събития, новини…".
+- Glass gotchas: an element with `backdrop-filter` (or any `filter`/`opacity < 1`) is a
+  *backdrop root* — a nested blur only sees inside it. So the panel's glass lives on
+  `&__panel::before`, and the hero entrance animation on the search uses fill-mode
+  `backwards` (not `both`) so it doesn't keep `filter: blur(0)` after finishing.
+  The panel is `position: relative; z-index: 1` so the dropdown paints over the CTAs
+  (Buttons are `position: relative` and come later in the DOM).
+- Hero content entrance (`animateContent`): title 0s, body 0.15s, extra content (search) 0.3s.
 - Empty labels fall back to the `Hero` namespace in `messages/*.json`. No quick
   categories picked → first 5 non-empty categories by `order`.
 - `HeroConnector` is server-only and is NOT re-exported from `components/Hero/index.ts`
@@ -57,7 +77,8 @@ and `two-thirds` to `height`. No new content type (space is at 24/25).
 - Chips (picked or fallback) are filtered to categories with ≥1 Montreal listing —
   `/community/<slug>` 404s for empty categories.
 
-- Link entries in `buttons`: `primary` renders as a white pill, `secondary` as glass.
+- Link entries in `buttons`: `primary` and `secondary` both render as the dropdown's smoked
+  glass (red icons), going darker on hover; other variants keep the normal Button look.
 - `toButtons` drops mapEntry's `type` (content type id "link") so `parseLinkAppearance`
   reads the variant — otherwise every button falls back to `primary`.
 
@@ -73,7 +94,8 @@ dropped: photo hero with the header on it, photo beside the text. The "Пред�
 toggle became plain jump links (it read as a filter with nothing selected).
 
 - Event card (shared: homepage, /events, CMS collections): cover flush left with tag badges,
-  long date + time, title, 3-line excerpt, venue, red ticket button + light "Детайли и локация".
+  long date + time, title, 3-line excerpt, venue, ticket button (`secondary`, navy — was briefly
+  red `danger`, reverted) + "Детайли и локация".
   Own styles (no longer the `listing-card` mixin; news still uses it). Stacks under 600px
   (container query on the card).
 - /events: light header (`EventsPageHeader` on the shared `PageHeader` — breadcrumb, pill, h1,
@@ -86,6 +108,16 @@ toggle became plain jump links (it read as a filter with nothing selected).
 - Calendar weeks start on Monday.
 - Not built: "Календарен изглед" tab, mock-only badges ("Препоръчано", "30 години Романца"),
   "Виж архив / снимки" (no event has a gallery).
+
+## Community page (/community)
+
+- Same header as /contacts: `DirectoryConnector` renders a `PageHeader` (breadcrumb incl. the
+  category on `/community/<slug>`, pill `Directory.homeEyebrow`, h1 = section `heading`, intro =
+  section `intro`) when the page hands it `crumbs`; the page then skips its own breadcrumb row.
+  Without a heading it falls back to the directory's small header.
+- `FilterableDirectory` gets `directory--headless` (top padding `--spacing-6` instead of
+  `--spacing-10`) when it has no own header, so the search sits close under the band.
+- No title accent yet (the heading is one CMS string).
 
 ## Contacts page (/contacts) — Stitch screen `872501a644ad462aa79783a7e8fa319e`
 

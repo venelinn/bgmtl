@@ -51,10 +51,10 @@ Every page except the homepage gets a **breadcrumb** ("Начало / <Page Name
 
 **When to use:** For the main landing area of a page, like the homepage or a key section.
 
-**Extended (homepage search):** turn on **Extended** to show the directory search under the title. Then you can set:
-- **Search Placeholder**, **Search Button Label**, **Quick Links Label** – texts (per language; empty = site default)
+**Extended (homepage search):** turn on **Extended** to show the search under the title. As visitors type, it suggests directory categories, listings, events and news from the whole site; clicking into the empty box lists the categories with the most listings. Pressing Enter searches the directory. Then you can set:
+- **Search Placeholder**, **Search Button Label**, **Quick Links Label** – texts (per language; empty = site default, e.g. "Търсете обекти, събития, новини…"). If you set a placeholder, mention that it searches the whole site.
 - **Quick Categories** – up to 6 directory categories shown as chips. Categories without listings are hidden automatically (their page would be empty).
-- **Buttons** – up to 2 **Link** entries shown as buttons under the search. Link **Variant** `primary` = white pill, `secondary` = glass. An **Icon Name** on the Link adds an icon.
+- **Buttons** – up to 2 **Link** entries shown as buttons under the search. Link **Variant** `primary` or `secondary` = dark glass button. An **Icon Name** on the Link adds an icon.
 - **Height** – `two-thirds` works well for the homepage.
 
 ---
@@ -168,6 +168,7 @@ When adding items to Header or Footer menus, you can only select:
 
 ## Special pages
 
+- **Community** (`/community`) – The **Community Directory** block's **Heading** and **Intro** are shown as the page header (light band with breadcrumb and title, like Contacts). Listings appear automatically from **Directory Entry** entries.
 - **Contacts** (`/contacts`) – The page holds the **Contacts** block directly (no hero). Success / error texts can be set on that block. The form's subject can be preselected with a link: `/contacts?topic=event` (event), `?topic=directory` (directory listing), also `general`, `partnership`, `other`. Add `#contact-form` to scroll to the form. Site buttons such as "Предложи събитие" and "Добави профил" already use these links.
 - **Privacy** (`/privacy`) – One **Paragraph** with the whole policy. Paragraph text can use **H2/H3 headings** (any paragraph, not just this one).
 - **Events** (`/events`) – Built automatically from all events; not a Contentful page layout. **Events per page** in Site Configuration sets the archive page size (rounded to rows of 3).

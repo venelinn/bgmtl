@@ -170,7 +170,7 @@ export const Event = ({ event, type, locale, fallbackImage }: EventProps) => {
 								isExternal
 								externalHref={ticket.url}
 								icon={ticket.iconName || "Ticket"}
-								variant="danger"
+								variant="secondary"
 								size="sm"
 								label={ticket.name || t("Events.buyTicket")}
 							/>

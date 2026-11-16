@@ -53,6 +53,11 @@ page (communityDirectory section, city="montreal")
         → DirectoryCard           (name + logo + tag chips + icon rows: address/phone/email/website)
 ```
 
+- On the `/community` page the section's `heading` + `intro` render as a `PageHeader`
+  band (breadcrumb, pill, h1, intro — like /contacts); the page passes `crumbs` to the
+  connector instead of rendering its own breadcrumb row.
+- The homepage hero search also suggests directory categories (most listings first) and
+  listings; picking a listing opens `/community?q=<name>`. See `docs/homepage-redesign.md`.
 - Filter is single-tier: one category dropdown ("All" + every category that has
   listings, ordered by the CMS `order`).
 - Card tag chips mirror the active filter chip; dark mode uses the lifted `--primary`
