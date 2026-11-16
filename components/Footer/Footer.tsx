@@ -9,9 +9,8 @@ import { Section } from "@/components/Section";
 import { Social } from "@/components/Social";
 import { useSubscribe } from "@/components/Subscribe/useSubscribe";
 import { getCloudinaryAsSvg } from "@/utils/common";
-import { inferIconFromUrl } from "@/utils/linkHelpers";
 import { getLocalePrefix } from "@/utils/localization";
-import { extractMenuColumns, type MenuColumn } from "@/utils/menuHelpers";
+import { extractMenuColumns, getSocialLinks, isSocialColumn } from "@/utils/menuHelpers";
 import { Heading } from "../Headings";
 import styles from "./Footer.module.scss";
 
@@ -30,15 +29,6 @@ type FooterProps = {
   logo?: FooterLogo;
 };
 
-// "Social" / "Follow us" / "Connect with us" columns render as icons in the
-// brand column instead of as a link list (see docs/footer-social-icons.md).
-const isSocialColumn = (column: MenuColumn) => {
-  const title = column.titleID?.toLowerCase() ?? "";
-  const social =
-    title === "social" || title.includes("social") || title === "follow us" || title === "connect with us";
-  return social && column.links.length > 0;
-};
-
 export default function Footer({ data, pageLocale, logo }: FooterProps) {
   /**
    * Extract menu columns in footer mode:
@@ -51,15 +41,7 @@ export default function Footer({ data, pageLocale, logo }: FooterProps) {
   const { email, setEmail, status, errorMessage, handleSubmit } = useSubscribe();
   const menuColumns = extractMenuColumns(data?.menuLinks ?? [], pageLocale, "footer");
   const linkColumns = menuColumns.filter((column) => !isSocialColumn(column));
-  const socialItems = menuColumns.filter(isSocialColumn).flatMap((column) =>
-    column.links.map((l) => ({
-      id: l.id,
-      name: l.title,
-      iconName: l.icon ?? inferIconFromUrl(l.url) ?? "Link",
-      url: l.url,
-      external: l.target === "_blank",
-    })),
-  );
+  const socialItems = getSocialLinks(menuColumns);
   const description = typeof data?.description === "string" ? data.description.trim() : "";
 
   return (

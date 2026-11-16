@@ -6,15 +6,14 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/Button";
 import { getLocalePrefix } from "@/utils/localization";
+import { CONSENT_EVENT, CONSENT_STORAGE_KEY, type Consent, readConsent } from "./consent";
 import styles from "./CookieConsent.module.scss";
 
-const STORAGE_KEY = "bgmtl-analytics-consent";
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
-type Consent = "granted" | "denied";
-
 /**
- * Consent-gated Google Analytics (GA4).
+ * Consent-gated Google Analytics (GA4) and embedded Google Maps (MapEmbed
+ * listens for CONSENT_EVENT).
  *
  * No tracking script loads until the visitor explicitly accepts — required for
  * GDPR/PIPEDA. The choice is persisted in localStorage so the banner only shows
@@ -32,8 +31,8 @@ export function CookieConsent() {
 	const [decided, setDecided] = useState(true);
 
 	useEffect(() => {
-		const stored = localStorage.getItem(STORAGE_KEY);
-		if (stored === "granted" || stored === "denied") {
+		const stored = readConsent();
+		if (stored) {
 			setConsent(stored);
 		} else {
 			setDecided(false);
@@ -41,7 +40,8 @@ export function CookieConsent() {
 	}, []);
 
 	const choose = (value: Consent) => {
-		localStorage.setItem(STORAGE_KEY, value);
+		localStorage.setItem(CONSENT_STORAGE_KEY, value);
+		window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: value }));
 		setConsent(value);
 		setDecided(true);
 	};

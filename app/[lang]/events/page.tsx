@@ -68,7 +68,7 @@ export default async function EventsPage(props: { params: Params }) {
 				sidebar={
 					<Sidebar>
 						<EventsCalendarConnector locale={lang} />
-						<OrganizeEventWidget contactsPath={`${localePrefix}/contacts`} />
+						<OrganizeEventWidget contactsPath={`${localePrefix}/contacts?topic=event#contact-form`} />
 						<DonateWidget />
 					</Sidebar>
 				}

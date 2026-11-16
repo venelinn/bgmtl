@@ -36,7 +36,7 @@ export async function HomeDirectoryConnector({
 			items={items}
 			categories={categories}
 			directoryPath={`${localePrefix}/community`}
-			contactsPath={`${localePrefix}/contacts`}
+			contactsPath={`${localePrefix}/contacts?topic=directory#contact-form`}
 			limit={limit}
 		/>
 	)

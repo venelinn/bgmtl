@@ -3,12 +3,16 @@
 <head></head>
 
 <body>
+	<!-- Netlify Forms definition — must list every field Contacts.tsx submits. -->
 	<form name="feedback" data-netlify="true" netlify-honeypot="bot-field" hidden>
 		<input type="hidden" name="form-name" value="feedback" />
 		<input name="bot-field" />
 		<input name="name" type="text" />
 		<input name="email" type="email" />
+		<input name="phone" type="tel" />
+		<select name="topic"><option value="general">general</option></select>
 		<textarea name="message"></textarea>
+		<input name="consent" type="checkbox" />
 	</form>
 </body>
 

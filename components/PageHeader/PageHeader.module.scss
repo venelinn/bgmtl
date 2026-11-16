@@ -7,13 +7,10 @@
 }
 
 .header {
+  display: grid;
+  gap: var(--spacing-4);
+  justify-items: start;
   padding-block: var(--spacing-6) var(--spacing-10);
-
-  &__text {
-    display: grid;
-    gap: var(--spacing-4);
-    justify-items: start;
-  }
 
   &__crumbs {
     @include mixins.resetList;
@@ -72,8 +69,20 @@
     overflow-wrap: normal;
   }
 
+  &__accent {
+    color: var(--color-highlight);
+    font-weight: var(--font-weight-normal);
+  }
+
   &__lead {
+    max-width: 44rem;
     margin: 0;
     color: var(--on-surface-variant);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-3);
   }
 }

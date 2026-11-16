@@ -1,85 +1,253 @@
 @use "styles/base-variables" as base;
-.contact {
+@use "styles/mixins" as mixins;
+@use "styles/typo-mixins" as typo;
+
+// ── Form card ───────────────────────────────────────────────────────────
+.card {
+  position: relative;
+  display: grid;
+  gap: var(--spacing-2);
+  padding: var(--spacing-8) var(--spacing-6) var(--spacing-6);
+  border-radius: var(--spacing-4);
+  background: var(--surface-container-lowest);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--color-black), transparent 94%),
+    0 4px 16px color-mix(in srgb, var(--color-black), transparent 93%);
+  overflow: hidden;
+  scroll-margin-top: var(--spacing-14);
+
   @media (min-width: base.$breakpoint-md) {
-    width: 100%;
-    margin: auto;
-    max-width: 50%;
+    padding: var(--spacing-10) var(--spacing-8) var(--spacing-8);
   }
-  fieldset {
-    border: none;
-  }
-  input::-ms-clear {
-    display: none;
-  }
-}
 
-.contact__item {
-  label {
-    display: block;
-  }
-  input,
-  textarea {
-    display: block;
-    border: 0;
-    outline: none;
-    max-width: 100%;
-    border: 1px solid var(--color-grey-border);
-    border-radius: var(--spacing-3);
-    transition: all 0.3s ease-in-out;
-    width: 100%;
-    margin-bottom: 0;
-    padding: 1.5rem 1rem;
-    font-family: var(--body-font-family);
-    font-size: var(--ui-body-font-size);
-    background-color: transparent;
-    &:focus {
-      border-color: var(--base-color);
-    }
-    &.error {
-      border-bottom-color: var(--base-color);
-    }
-  }
-  span {
+  // Brand stripe along the top edge.
+  &::before {
+    content: "";
     position: absolute;
-    text-indent: -9999px;
+    inset: 0 0 auto;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-highlight), var(--color-main));
   }
-  textarea {
-    field-sizing: content;
+
+  &__eyebrow {
+    @include typo.ui-small(true);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: var(--color-highlight);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
-  &--right {
-    justify-self: end;
+
+  &__title {
+    margin: 0;
+  }
+
+  &__intro {
+    @include typo.ui-caption;
+    margin: 0 0 var(--spacing-4);
+    color: var(--on-surface-variant);
   }
 }
 
-.contact-info {
-  margin: 4.8rem auto 0;
-  font-family: sans-serif;
-  font-size: 1.5rem;
-  text-align: center;
-}
-.contact-info .collapse {
-  padding: 0;
-}
-.contact-info .icon {
-  margin-bottom: 2.1rem;
-}
-.contact-info .icon i {
-  font-size: 4.2rem;
-  color: #ffffff;
-}
-.contact-info h5 {
-  color: var(--base-color);
+// Two columns on wider screens; message, consent and footer span both.
+.form {
+  --_form-cols: 1fr;
+
+  @media (min-width: base.$breakpoint-md) {
+    --_form-cols: repeat(2, minmax(0, 1fr));
+  }
+
+  display: grid;
+  grid-template-columns: var(--_form-cols);
+  gap: var(--spacing-5) var(--spacing-4);
+
+  &__message,
+  &__footer,
+  &__status {
+    grid-column: 1 / -1;
+  }
+
+  &__message {
+    display: grid;
+    gap: var(--spacing-2);
+
+    textarea {
+      width: 100%;
+      min-height: 9rem;
+      padding: var(--spacing-3) var(--spacing-4);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--spacing-3);
+      background: var(--surface-container-lowest);
+      color: var(--on-surface);
+      font: inherit;
+      resize: vertical;
+    }
+  }
+
+  // Same style as the shared InputField / Select labels.
+  &__label {
+    @include typo.ui-small;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-2);
+  }
+
+  &__count {
+    @include typo.ui-small;
+    color: var(--on-surface-variant);
+  }
+
+  &__consent {
+    @include typo.ui-caption;
+    flex: 1 1 20rem;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-3);
+    color: var(--on-surface-variant);
+
+    input {
+      flex-shrink: 0;
+      width: 1.125rem;
+      height: 1.125rem;
+      margin-top: 0.15em;
+      accent-color: var(--color-highlight);
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-4) var(--spacing-6);
+  }
+
+  &__status {
+    @include typo.ui-caption(true);
+
+    &:empty {
+      display: none;
+    }
+
+    &[data-status="ok"] {
+      color: var(--color-green);
+    }
+
+    &[data-status="error"] {
+      color: var(--error);
+    }
+  }
 }
 
-.contact-dialog {
-  padding: 2em;
-  border-radius: 2px;
-  transition: 0.2s color;
-  text-align: center;
-  margin-top: 2rem;
-  position: static;
-  color: var(--modal-status, red);
-  &[data-status="true"] {
-    --modal-status: green;
+// ── Sidebar: community channels ─────────────────────────────────────────
+.channels {
+  display: grid;
+  gap: var(--spacing-4);
+  padding: var(--spacing-6);
+  border-radius: var(--spacing-4);
+  background: var(--surface-container-lowest);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--color-black), transparent 93%);
+
+  &__title {
+    margin: 0;
+  }
+
+  &__list {
+    @include mixins.resetList;
+    display: grid;
+    gap: var(--spacing-2);
+  }
+
+  &__item {
+    --_item-bg: var(--primary-container-low);
+
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3);
+    border-radius: var(--spacing-3);
+    background: var(--_item-bg);
+    color: var(--on-surface);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+
+    &:hover {
+      --_item-bg: color-mix(in srgb, var(--primary-container-low), var(--primary) 12%);
+    }
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--spacing-2);
+    background: var(--color-main);
+    color: var(--color-white);
+  }
+
+  &__arrow {
+    margin-left: auto;
+    color: var(--on-surface-variant);
+  }
+}
+
+// ── Navy banner ─────────────────────────────────────────────────────────
+// Fixed brand colours (same in both themes).
+.banner {
+  --heading-color: var(--color-white);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-6);
+  padding: var(--spacing-8);
+  border-radius: var(--spacing-6);
+  background:
+    radial-gradient(circle at 85% 20%, color-mix(in srgb, var(--color-highlight), transparent 80%), transparent 45%),
+    var(--color-main);
+  color: color-mix(in srgb, var(--color-white), transparent 15%);
+
+  @media (min-width: base.$breakpoint-md) {
+    padding: var(--spacing-10) var(--spacing-12);
+  }
+
+  &__text {
+    display: grid;
+    gap: var(--spacing-2);
+    max-width: 40rem;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__eyebrow {
+    @include typo.ui-small(true);
+    color: color-mix(in srgb, var(--color-white), transparent 30%);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-3);
+  }
+
+  // Glass button on navy.
+  &__secondary {
+    --_btn-bg-color: color-mix(in srgb, var(--color-white), transparent 88%);
+    --_btn-border-color: color-mix(in srgb, var(--color-white), transparent 75%);
+    --_btn-color: var(--color-white);
+    --_btn-hover-bg-color: color-mix(in srgb, var(--color-white), transparent 78%);
+    --_btn-hover-border-color: color-mix(in srgb, var(--color-white), transparent 60%);
+    --_btn-hover-color: var(--color-white);
   }
 }

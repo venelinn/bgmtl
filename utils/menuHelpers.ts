@@ -1,3 +1,4 @@
+import { inferIconFromUrl } from "./linkHelpers";
 /**
  * Menu Processing Utilities for Header and Footer Navigation
  *
@@ -177,3 +178,36 @@ export const extractMenuColumns = (
 
   return columns;
 };
+
+/** A social link as rendered by the Social component. */
+export type SocialLink = {
+  id: string;
+  name: string;
+  iconName: string;
+  url: string;
+  external: boolean;
+};
+
+/**
+ * "Social" / "Follow us" / "Connect with us" footer columns render as icons, not
+ * as a link list (see docs/footer-social-icons.md).
+ */
+export function isSocialColumn(column: MenuColumn): boolean {
+  const title = column.titleID?.toLowerCase() ?? "";
+  const social =
+    title === "social" || title.includes("social") || title === "follow us" || title === "connect with us";
+  return social && column.links.length > 0;
+}
+
+/** Social links from the footer's social column(s), with icons resolved. */
+export function getSocialLinks(columns: MenuColumn[]): SocialLink[] {
+  return columns.filter(isSocialColumn).flatMap((column) =>
+    column.links.map((l) => ({
+      id: l.id,
+      name: l.title,
+      iconName: l.icon ?? inferIconFromUrl(l.url) ?? "Link",
+      url: l.url,
+      external: l.target === "_blank",
+    })),
+  );
+}
