@@ -1,7 +1,7 @@
 "use client";
 import clsx from "clsx";
 import Image from "next/image";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, type ReactNode, useEffect, useState } from "react";
 import { type HeroContent, renderHeroBody } from "./heroContent";
 import { Section, type SectionProps } from "@/components/Section";
 import { ViewTransition } from "@/components/ViewTransition";
@@ -34,6 +34,10 @@ export interface HeroProps {
    * during a cross-page View Transition. Must be unique on the page.
    */
   viewTransitionName?: string;
+  /** Homepage variant: navy overlay, rendered with search/quick links as `children`. */
+  extended?: boolean;
+  /** Extra content under the body (e.g. HeroSearch). */
+  children?: ReactNode;
 }
 
 // Crossfade cadence (ms): how long each slide holds before advancing.
@@ -52,6 +56,8 @@ export const Hero = ({
   imageAnimate = true,
   titlePosition = "center",
   viewTransitionName,
+  extended = false,
+  children,
 }: HeroProps) => {
   const reduceMotion = useReduceMotion();
   const heroBodies = bodies?.length ? bodies : content != null ? [content] : [];
@@ -91,7 +97,7 @@ export const Hero = ({
       height={height ? (height as SectionProps["height"]) : undefined}
       data-title-position={titlePosition}
       classNames={{
-        main: styles.main,
+        main: clsx(styles.main, extended && styles["main--extended"]),
         inner: styles.inner,
         heading: styles.heading,
       }}
@@ -156,6 +162,7 @@ export const Hero = ({
             ))}
           </div>
         ) : null}
+        {children}
       </div>
     </Section>
   );

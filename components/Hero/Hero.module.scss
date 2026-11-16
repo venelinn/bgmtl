@@ -29,6 +29,17 @@
     --_content-align: end;
   }
 
+  // Homepage hero (search panel + CTAs).
+  &--extended {
+    // The search panel makes this hero taller than a fixed ratio allows (the
+    // `half` height is a 1:1 square on mobile) — let it grow with its content.
+    aspect-ratio: auto;
+    // Content is taller than the viewport fraction on small screens; keep it
+    // clear of the transparent nav that overlaps the hero.
+    --_section-padding-top: calc(var(--_header-height, 80px) + var(--spacing-4));
+    --_section-padding-bottom: var(--spacing-12);
+  }
+
   &[data-title-position="bottom-left"] .inner {
     --_content-align: end;
     --_content-justify: start;

@@ -96,5 +96,11 @@
 	"Navigation": {
 		"theme": "Dark mode",
 		"language": "Language"
+	},
+	"Hero": {
+		"searchPlaceholder": "Search for a professional, service or organization…",
+		"searchAriaLabel": "Search the directory",
+		"searchButton": "Search",
+		"quickLinksLabel": "Quick picks:"
 	}
 }

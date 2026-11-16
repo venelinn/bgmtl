@@ -101,5 +101,11 @@
 	"Navigation": {
 		"theme": "Тъмен режим",
 		"language": "Език"
+	},
+	"Hero": {
+		"searchPlaceholder": "Търсете специалист, услуга или организация…",
+		"searchAriaLabel": "Търсене в указателя",
+		"searchButton": "Търси",
+		"quickLinksLabel": "Бърз избор:"
 	}
 }

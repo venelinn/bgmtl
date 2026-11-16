@@ -96,5 +96,11 @@
 	"Navigation": {
 		"theme": "Mode sombre",
 		"language": "Langue"
+	},
+	"Hero": {
+		"searchPlaceholder": "Rechercher un professionnel, un service ou un organisme…",
+		"searchAriaLabel": "Rechercher dans le répertoire",
+		"searchButton": "Rechercher",
+		"quickLinksLabel": "Accès rapide :"
 	}
 }

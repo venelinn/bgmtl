@@ -1,0 +1,188 @@
+@use "styles/base-variables" as base;
+@use "styles/mixins" as mixins;
+@use "styles/typo-mixins" as typo;
+
+.search {
+  --_search-h: 3rem;
+  --_search-inset: var(--spacing-1);
+  --_search-panel-pad: var(--spacing-2);
+
+  @media (min-width: base.$breakpoint-md) {
+    --_search-h: 3.25rem;
+    --_search-panel-pad: var(--spacing-3);
+  }
+
+  display: grid;
+  gap: var(--spacing-8);
+  justify-items: center;
+  width: min(100%, 48rem);
+  margin-inline: auto;
+  margin-top: var(--spacing-4);
+  text-align: left;
+
+  // Smoked glass: a dark, blurred pane over the hero photo with a bright top rim,
+  // dark enough to keep white text readable on any image. It always sits on a
+  // photo, never on a themed surface, so it uses white/black tints rather than
+  // semantic tokens.
+  &__panel {
+    display: grid;
+    gap: var(--spacing-2);
+    width: 100%;
+    padding: var(--_search-panel-pad);
+    border: 1px solid color-mix(in srgb, var(--color-white), transparent 78%);
+    border-radius: var(--spacing-6);
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--color-white), transparent 88%) 0%,
+        transparent 20%
+      ),
+      color-mix(in srgb, var(--color-black), transparent 85%);
+    color: var(--color-white);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-white), transparent 60%),
+      0 24px 48px color-mix(in srgb, var(--color-black), transparent 60%);
+    // No manual -webkit- copy: the CSS pipeline adds the prefix and would
+    // otherwise keep only the prefixed one (which Chrome ignores).
+    backdrop-filter: blur(24px) saturate(1.4);
+  }
+
+  // One pill: the input fills it and the submit button sits inset on the right,
+  // so the two read as a single control (no gap, matching radii).
+  &__form {
+    --_form-border: color-mix(in srgb, var(--color-white), transparent 75%);
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: var(--_search-inset);
+    border: 1px solid var(--_form-border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-white), transparent 88%);
+
+    &:focus-within {
+      --_form-border: color-mix(in srgb, var(--color-white), transparent 30%);
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: var(--spacing-5);
+    translate: 0 -50%;
+    color: color-mix(in srgb, var(--color-white), transparent 25%);
+    pointer-events: none;
+  }
+
+  &__input {
+    appearance: none;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: calc(var(--_search-h) - 2 * var(--_search-inset));
+    padding: 0 var(--spacing-3) 0 var(--spacing-12);
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 1rem;
+
+    &::placeholder {
+      color: color-mix(in srgb, var(--color-white), transparent 20%);
+    }
+
+    // The pill's border carries the focus state (see &__form:focus-within).
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  // White pill (same as a `primary` hero button) — keeps red for the nav only.
+  &__submit {
+    --_btn-bg-color: var(--color-white);
+    --_btn-border-color: var(--color-white);
+    --_btn-color: var(--color-main);
+    --_btn-hover-bg-color: color-mix(in srgb, var(--color-white), var(--color-main) 8%);
+    --_btn-hover-border-color: color-mix(in srgb, var(--color-white), var(--color-main) 8%);
+    --_btn-hover-color: var(--color-main);
+
+    flex: 0 0 auto;
+    min-height: calc(var(--_search-h) - 2 * var(--_search-inset));
+  }
+
+  // Chips scroll sideways on narrow screens instead of wrapping into a tall block.
+  &__quick {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    min-width: 0;
+    padding-inline: var(--spacing-2);
+  }
+
+  &__quickLabel {
+    @include typo.ui-small(true);
+    flex-shrink: 0;
+    color: color-mix(in srgb, var(--color-white), transparent 20%);
+    white-space: nowrap;
+  }
+
+  &__chips {
+    @include mixins.resetList;
+    display: flex;
+    gap: var(--spacing-2);
+    min-width: 0;
+    padding-block: var(--spacing-1);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  &__chip {
+    --_chip-bg: color-mix(in srgb, var(--color-white), transparent 85%);
+
+    @include typo.ui-small(true);
+    display: inline-block;
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-white), transparent 75%);
+    background: var(--_chip-bg);
+    color: var(--color-white);
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background-color 150ms ease;
+
+    &:hover,
+    &:focus-visible {
+      --_chip-bg: color-mix(in srgb, var(--color-white), transparent 70%);
+    }
+  }
+
+  // Hero-only takes on the Link entry's variant: on the navy overlay `primary`
+  // reads as a light pill and `secondary` as frosted glass (other variants keep
+  // their Button look).
+  &__action {
+    &--primary {
+      --_btn-bg-color: var(--color-white);
+      --_btn-border-color: var(--color-white);
+      --_btn-color: var(--color-main);
+      --_btn-hover-bg-color: color-mix(in srgb, var(--color-white), var(--color-main) 8%);
+      --_btn-hover-border-color: color-mix(in srgb, var(--color-white), var(--color-main) 8%);
+      --_btn-hover-color: var(--color-main);
+    }
+
+    &--secondary {
+      --_btn-bg-color: color-mix(in srgb, var(--color-white), transparent 85%);
+      --_btn-border-color: color-mix(in srgb, var(--color-white), transparent 70%);
+      --_btn-color: var(--color-white);
+      --_btn-hover-bg-color: color-mix(in srgb, var(--color-white), transparent 75%);
+      --_btn-hover-border-color: color-mix(in srgb, var(--color-white), transparent 55%);
+      --_btn-hover-color: var(--color-white);
+      backdrop-filter: blur(12px);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-3);
+  }
+}

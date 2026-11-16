@@ -2,7 +2,7 @@ import { CollectionConnector } from "./Collection/";
 import { ContactsConnector } from "./Contacts";
 import { DirectoryConnector } from "./Directory/DirectoryConnector";
 import { EventsConnector } from "./Events";
-import { HeroConnector } from "./Hero";
+import { HeroConnector } from "./Hero/HeroConnector";
 import { ImageContentConnector } from "./ImageContent";
 import { ParagraphConnector } from "./Paragraph";
 import { SectionConnector } from "./Section";
