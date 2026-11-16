@@ -115,9 +115,10 @@
     --_btn-hover-border-color: color-mix(in srgb, var(--color-highlight), black 15%);
   }
 
+  // Fine print under the form; swaps to the success / error message after submit.
   &__status {
     display: block;
-    margin: var(--spacing-4) 0 0;
+    margin: var(--spacing-2) 0 0;
     min-height: 1.25rem;
     font-size: var(--ui-caption-font-size);
 
@@ -128,6 +129,10 @@
     &--error {
       color: var(--_error-color);
     }
+  }
+
+  &__note {
+    color: color-mix(in srgb, var(--color-white), transparent 45%);
   }
 
   &__media {

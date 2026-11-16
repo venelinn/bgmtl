@@ -30,7 +30,9 @@
 			"guest": "Artiste invité",
 			"free": "Entrée gratuite"
 		},
-		"inFocus": "À l'affiche"
+		"inFocus": "À l'affiche",
+		"showMap": "Afficher la carte",
+		"mapNotice": "La carte est chargée depuis Google Maps. En l'affichant, Google peut recevoir des données sur votre visite."
 	},
 	"Donate": {
 		"title": "Soutenez-nous!",
@@ -46,7 +48,8 @@
 		"button": "S’abonner",
 		"subscribing": "Abonnement…",
 		"successMessage": "Merci de votre abonnement",
-		"imageAlt": "Broderie bulgare traditionnelle"
+		"imageAlt": "Broderie bulgare traditionnelle",
+		"note": "Aucun pourriel. Désabonnement en tout temps."
 	},
 	"Contact": {
 		"name": "Nom",
@@ -97,13 +100,26 @@
 		"noResults": "Aucune fiche ne correspond à votre recherche.",
 		"suggestionsCategories": "Catégories",
 		"suggestionsListings": "Fiches",
-		"resultsCount": "{count} fiches trouvées"
+		"resultsCount": "{count} fiches trouvées",
+		"homeEyebrow": "Répertoire communautaire",
+		"homeTitle": "Professionnels et entreprises bulgares à Montréal",
+		"homeIntro": "Médecins, comptables, courtiers, artisans et plus encore — de et pour la communauté bulgare du Grand Montréal.",
+		"addListing": "Ajouter une fiche",
+		"viewAllDirectory": "Voir tout le répertoire",
+		"bannerTitle": "Vous offrez des services dans la région de Montréal ?",
+		"bannerText": "Inscrivez votre cabinet ou votre entreprise au répertoire communautaire — contactez-nous et nous vous ajouterons.",
+		"bannerButton": "Ajouter votre entreprise",
+		"ctaWebsite": "Visiter le site",
+		"ctaCall": "Appeler",
+		"ctaEmail": "Envoyer un courriel",
+		"filterAriaLabel": "Filtrer le répertoire par catégorie"
 	},
 	"CookieConsent": {
 		"title": "Cookies",
 		"message": "Nous utilisons des cookies pour analyser le trafic et améliorer votre expérience. Les statistiques ne sont activées que si vous acceptez.",
 		"accept": "Accepter",
-		"decline": "Refuser"
+		"decline": "Refuser",
+		"learnMore": "Politique de confidentialité"
 	},
 	"Navigation": {
 		"theme": "Mode sombre",
@@ -114,5 +130,13 @@
 		"searchAriaLabel": "Rechercher dans le répertoire",
 		"searchButton": "Rechercher",
 		"quickLinksLabel": "Accès rapide :"
+	},
+	"Footer": {
+		"newsletterTitle": "Infolettre de la communauté",
+		"newsletterText": "Un résumé mensuel des événements, rencontres et nouvelles à Montréal — directement dans votre boîte courriel.",
+		"newsletterButton": "S'inscrire",
+		"newsletterNote": "Aucun pourriel. Désabonnement en tout temps.",
+		"homeAriaLabel": "Accueil",
+		"privacy": "Confidentialité"
 	}
 }

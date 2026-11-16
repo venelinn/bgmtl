@@ -149,6 +149,7 @@ export const Event = ({ event, type, locale, fallbackImage }: EventProps) => {
               externalHref={ticket.url}
               iconAfter={ticket.iconName || undefined}
               variant='secondary'
+              size='sm'
               label={ticket.name || t('Events.buyTicket')}
               className={styles.event__ticket}
             />

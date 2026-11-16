@@ -931,7 +931,12 @@ export async function getCommunityDirectory(
   const [cardsRes, catsRes] = await Promise.all([
     safe(
       "entries",
-      getEntries("directoryEntry", { locale: contentfulLocale, "fields.city": city, limit: 500 }, { preview }),
+      // Newest first — the homepage teaser shows the latest; /community re-sorts A→Z.
+      getEntries(
+        "directoryEntry",
+        { locale: contentfulLocale, "fields.city": city, order: "-sys.createdAt", limit: 500 },
+        { preview },
+      ),
     ),
     safe(
       "categories",

@@ -260,8 +260,8 @@ export default async function Page(props: {
 		: null
 
 	// ── Homepage: bespoke layout (no page-level sidebar) ─────────────────────
-	// Events + Calendar/Donate in a two-column Section, News in its own Section,
-	// CMS body sections, then a full-width Join call-to-action.
+	// Events + Calendar/Donate in a two-column Section, CMS body sections, the
+	// directory band, News, then a full-width Join call-to-action last.
 	if (isHomepage) {
 		return (
 			<>
@@ -285,13 +285,13 @@ export default async function Page(props: {
 
 				{cmsSections}
 
-				<Join />
-
 				{listings.includes("directory") && (
-					<HomeDirectoryConnector locale={lang} limit={3} preview={isEnabled} />
+					<HomeDirectoryConnector locale={lang} limit={6} preview={isEnabled} />
 				)}
 
 				<HomeNewsConnector locale={lang} limit={3} preview={isEnabled} />
+
+				<Join />
 			</>
 		)
 	}

@@ -143,7 +143,7 @@ export default async function LangLayout({
             </div>
           </main>
           <div className="content-grid">
-            <Footer pageLocale={lang} links={footerLinks} data={footer} />
+            <Footer pageLocale={lang} links={footerLinks} data={footer} logo={(header as any)?.logo?.[0]} />
           </div>
         </ClientLayout>
       </body>

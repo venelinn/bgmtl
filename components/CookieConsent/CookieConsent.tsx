@@ -1,9 +1,11 @@
 "use client";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { useTranslations } from "next-intl";
+import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/Button";
+import { getLocalePrefix } from "@/utils/localization";
 import styles from "./CookieConsent.module.scss";
 
 const STORAGE_KEY = "bgmtl-analytics-consent";
@@ -23,6 +25,7 @@ type Consent = "granted" | "denied";
  */
 export function CookieConsent() {
 	const t = useTranslations("CookieConsent");
+	const locale = useLocale();
 	const [consent, setConsent] = useState<Consent | null>(null);
 	// Start "decided" so the banner is absent during SSR + first client render
 	// (avoids hydration mismatch and a flash for already-decided visitors).
@@ -57,7 +60,12 @@ export function CookieConsent() {
 				>
 					<div className={styles.text}>
 						<strong className={styles.title}>{t("title")}</strong>
-						<p className={styles.message}>{t("message")}</p>
+						<p className={styles.message}>
+							{t("message")}{" "}
+							<Link href={`${getLocalePrefix(locale)}/privacy`} className="link">
+								<span className="link__text">{t("learnMore")}</span>
+							</Link>
+						</p>
 					</div>
 					<div className={styles.actions}>
 						<Button

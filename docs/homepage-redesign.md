@@ -19,11 +19,11 @@ stays as-is, transparent over the hero.
 |---|---|---|---|
 | 1 | Hero | Subtitle, directory search + quick category chips, 2 CTAs, ~75vh. Stats band only with real numbers. | done (live 2026-11-16) |
 | 2 | Events + sidebar | Card frame + accent rule (grey for past), red date, 2-line excerpt, footer (read more · ticket), `tags` pills (new field, migration `2026-11-16-event-tags.js`). Calendar "На фокус" card. Shared `listing-card` mixin → news cards get the same frame. No `price` field (by choice). | code done — events need tags in Contentful |
-| 3 | Directory | Move above Join; chips with counts; 6 cards; keep real logos; "Add your business" banner → Telegram bot flow. Per-card CTA needs a field. | todo |
+| 3 | Directory | Pale-blue band (`--primary-container-low`), eyebrow/title/intro + "Добави профил" (→ /contacts), category tabs with real counts filtering the 6 newest in place, new DirectoryCard (logo or initial square, `note` as red subtitle, website row, one CTA: website → call → email) used on /community too, "add your business" banner (→ /contacts). Copy in `messages` (Directory.home*). Section moved above News; Join now last. | code done |
 | 4 | Newcomer guide (new) | 3 step cards — needs real content (CMS). | phase 2 |
 | 5 | News | Featured + 2 side items; graceful with 1 item. | todo |
 | 6 | Join | Keep the embroidery image; palette tweak only. | todo |
-| 7 | Footer | Light layout, brand blurb, nav/resources columns, legal row. No duplicate newsletter. | todo |
+| 7 | Footer | Kept navy. Brand column (header logo, `footer.description` from Contentful — migration `2026-11-16-footer-description.js`, social icons moved here), the Contentful link columns, newsletter widget (useSubscribe → /api/subscribe; copy in `messages` Footer.*), fine-print row unchanged. | code done — footer description not yet published |
 
 Global: mock palette is navy `#00152a`, red `#de2e2c`, green accents, pale-blue section
 surfaces `#eef4ff`. Fold into `tokens/` rather than hardcoding.

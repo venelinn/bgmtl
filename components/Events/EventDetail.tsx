@@ -9,6 +9,7 @@ import { getMessages } from "@/utils/getMessages"
 import { renderRichTextContent } from "@/utils/RichText"
 import { Heading } from "../Headings"
 import { Hero } from "../Hero"
+import { MapEmbed } from "./MapEmbed"
 import styles from "./EventDetail.module.scss"
 
 const DEFAULT_HERO_FALLBACK =
@@ -197,12 +198,7 @@ export const EventDetail = ({
 					</Section>
 					<Section size="full-max" padding="none">
 						<div className={styles.mapContainer}>
-							<iframe
-								width="100%"
-								height="400"
-								style={{ border: 0 }}
-								loading="lazy"
-								allowFullScreen
+							<MapEmbed
 								src={`https://maps.google.com/maps?q=${event.address.lat},${event.address.lon}&output=embed`}
 								title={`Map location for ${event.venue || "event"}`}
 							/>

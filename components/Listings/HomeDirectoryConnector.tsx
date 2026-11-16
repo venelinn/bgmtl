@@ -1,9 +1,6 @@
-import { GridCollection } from "@/components/Collection"
-import { DirectoryCard } from "@/components/Directory/DirectoryCard"
-import { Section } from "@/components/Section"
-import { getLatestDirectoryEntries } from "@/utils/content"
+import { getCommunityDirectory } from "@/utils/content"
 import { getLocalePrefix } from "@/utils/localization"
-import { HomeSectionHeader } from "./HomeSectionHeader"
+import { HomeDirectory } from "./HomeDirectory"
 
 type HomeDirectoryConnectorProps = {
 	locale: string
@@ -11,50 +8,36 @@ type HomeDirectoryConnectorProps = {
 	preview?: boolean
 }
 
+/** Directory city the homepage section shows (matches the hero search). */
+const DIRECTORY_CITY = "montreal"
+
 /**
- * Homepage community-directory teaser: the latest few directoryEntry cards
- * (Montreal, newest first) under a single header with a "View all" link to the
- * full filterable directory. Renders nothing when there are no entries.
+ * Homepage community-directory section. Fetches every listing in the city
+ * (newest first) plus the category taxonomy, and hands them to the client
+ * HomeDirectory, which filters by category in place. Renders nothing when there
+ * are no listings.
  */
 export async function HomeDirectoryConnector({
 	locale,
-	limit = 3,
+	limit = 6,
 	preview = false,
 }: HomeDirectoryConnectorProps) {
-	const entries = await getLatestDirectoryEntries(locale, limit, preview)
-	if (!entries.length) return null
+	const { items, categories } = await getCommunityDirectory(
+		DIRECTORY_CITY,
+		locale,
+		preview,
+	)
+	if (!items.length) return null
 
 	const localePrefix = getLocalePrefix(locale)
 
-	const items = entries.map((entry) => ({
-		id: entry.id,
-		content: (
-			<DirectoryCard
-				key={entry.id}
-				tags={entry.tags.map((tag) => ({
-					label: tag.label,
-					href: `${localePrefix}/community/${tag.slug}`,
-				}))}
-				title={entry.title}
-				logo={entry.logo}
-				address={entry.address}
-				phone={entry.phone}
-				email={entry.email}
-				website={entry.website}
-				note={entry.note}
-			/>
-		),
-	}))
-
 	return (
-		<Section padding="medium">
-			<HomeSectionHeader
-				icon="BookUser"
-				namespace="Directory"
-				href={`${localePrefix}/community`}
-				showViewAll
-			/>
-			<GridCollection items={items} itemsPerRow={items.length >= 3 ? 3 : 2} />
-		</Section>
+		<HomeDirectory
+			items={items}
+			categories={categories}
+			directoryPath={`${localePrefix}/community`}
+			contactsPath={`${localePrefix}/contacts`}
+			limit={limit}
+		/>
 	)
 }

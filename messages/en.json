@@ -30,7 +30,9 @@
 			"guest": "Guest performance",
 			"free": "Free entry"
 		},
-		"inFocus": "In focus"
+		"inFocus": "In focus",
+		"showMap": "Show map",
+		"mapNotice": "The map is loaded from Google Maps. Showing it lets Google receive data about your visit."
 	},
 	"Donate": {
 		"title": "Keep us going!",
@@ -46,7 +48,8 @@
 		"button": "Subscribe Now",
 		"subscribing": "Subscribing…",
 		"successMessage": "Thanks for subscribing",
-		"imageAlt": "Traditional Bulgarian embroidery"
+		"imageAlt": "Traditional Bulgarian embroidery",
+		"note": "No spam. Unsubscribe anytime."
 	},
 	"Contact": {
 		"name": "Name",
@@ -97,13 +100,26 @@
 		"noResults": "No listings match your search.",
 		"suggestionsCategories": "Categories",
 		"suggestionsListings": "Listings",
-		"resultsCount": "{count} listings found"
+		"resultsCount": "{count} listings found",
+		"homeEyebrow": "Community directory",
+		"homeTitle": "Bulgarian professionals & businesses in Montreal",
+		"homeIntro": "Doctors, accountants, brokers, tradespeople and more — from and for the Bulgarian community in Greater Montreal.",
+		"addListing": "Add a listing",
+		"viewAllDirectory": "See the full directory",
+		"bannerTitle": "Do you offer services in the Montreal area?",
+		"bannerText": "Get your practice or business into the community directory — contact us and we'll add you.",
+		"bannerButton": "Add your business",
+		"ctaWebsite": "Visit website",
+		"ctaCall": "Call",
+		"ctaEmail": "Send email",
+		"filterAriaLabel": "Filter the directory by category"
 	},
 	"CookieConsent": {
 		"title": "Cookies",
 		"message": "We use cookies to analyze site traffic and improve your experience. Analytics run only if you accept.",
 		"accept": "Accept",
-		"decline": "Decline"
+		"decline": "Decline",
+		"learnMore": "Privacy policy"
 	},
 	"Navigation": {
 		"theme": "Dark mode",
@@ -114,5 +130,13 @@
 		"searchAriaLabel": "Search the directory",
 		"searchButton": "Search",
 		"quickLinksLabel": "Quick picks:"
+	},
+	"Footer": {
+		"newsletterTitle": "Community newsletter",
+		"newsletterText": "A monthly digest of events, meetups and news in Montreal — straight to your inbox.",
+		"newsletterButton": "Sign up",
+		"newsletterNote": "No spam. Unsubscribe anytime.",
+		"homeAriaLabel": "Home",
+		"privacy": "Privacy"
 	}
 }

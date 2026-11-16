@@ -73,6 +73,9 @@ export function Join({ image }: JoinProps) {
 							{errorMessage}
 						</span>
 					)}
+					{status !== "success" && status !== "error" && (
+						<span className={styles.join__note}>{t("note")}</span>
+					)}
 				</output>
 			</div>
 
