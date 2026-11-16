@@ -1,6 +1,7 @@
 "use client";
 
 import cx from "clsx";
+import { Icon } from "@/components/Icon";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -90,7 +91,8 @@ export function NavigationInner({ pageLocale, data }: NavigationInnerProps) {
                             isActive && styles["nav__link--active"],
                           )}
                         >
-                          {link.title} {link.icon && link.icon}
+                          {link.icon && <Icon name={link.icon} size={16} strokeWidth="2" />}
+                          {link.title}
                         </Link>
                       </li>
                     );

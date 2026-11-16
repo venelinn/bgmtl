@@ -192,5 +192,9 @@
 		"newsletterNote": "Aucun pourriel. Désabonnement en tout temps.",
 		"homeAriaLabel": "Accueil",
 		"privacy": "Confidentialité"
+	},
+	"Breadcrumbs": {
+		"home": "Accueil",
+		"ariaLabel": "Fil d'Ariane"
 	}
 }

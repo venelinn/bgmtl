@@ -1,6 +1,7 @@
 "use client";
 
 import cx from "clsx";
+import { Icon } from "@/components/Icon";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { MenuColumn } from "@/utils/menuHelpers";
@@ -79,7 +80,8 @@ export function NavMenuGroup({ column, pathname, inline = false }: NavMenuGroupP
                 className={cx(styles.nav__sublink, isActive && styles["nav__sublink--active"])}
                 onClick={close}
               >
-                {link.title} {link.icon && link.icon}
+                {link.icon && <Icon name={link.icon} size={16} strokeWidth="1.8" />}
+                {link.title}
               </Link>
             </li>
           );

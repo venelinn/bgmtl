@@ -197,5 +197,9 @@
 		"newsletterNote": "Без спам. Отписване по всяко време.",
 		"homeAriaLabel": "Начало",
 		"privacy": "Поверителност"
+	},
+	"Breadcrumbs": {
+		"home": "Начало",
+		"ariaLabel": "Навигационна пътека"
 	}
 }

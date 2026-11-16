@@ -192,5 +192,9 @@
 		"newsletterNote": "No spam. Unsubscribe anytime.",
 		"homeAriaLabel": "Home",
 		"privacy": "Privacy"
+	},
+	"Breadcrumbs": {
+		"home": "Home",
+		"ariaLabel": "Breadcrumb"
 	}
 }

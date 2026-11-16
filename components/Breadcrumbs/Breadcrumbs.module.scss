@@ -1,0 +1,47 @@
+@use "styles/mixins" as mixins;
+@use "styles/typo-mixins" as typo;
+
+.breadcrumbs {
+  min-width: 0;
+
+  &__list {
+    @include mixins.resetList;
+    @include typo.ui-small;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: var(--on-surface);
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    min-width: 0;
+
+    & + &::before {
+      content: "/";
+      color: var(--outline);
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    color: var(--on-surface-variant);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--on-surface);
+      text-decoration: underline;
+    }
+  }
+
+  // Long titles (event / news names) stay on one line.
+  &__current {
+    @include mixins.ellipsis;
+    max-width: min(60ch, 70vw);
+  }
+}

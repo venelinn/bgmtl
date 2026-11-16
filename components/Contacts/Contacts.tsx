@@ -41,6 +41,7 @@ interface ContactsProps {
  */
 export const Contacts = ({ message, errorMessage, localePrefix = "", channels = [] }: ContactsProps) => {
   const t = useTranslations("Contact");
+  const tCrumbs = useTranslations("Breadcrumbs");
   const [status, setStatus] = useState<FormStatus>(null);
   const [topic, setTopic] = useState("");
   const [length, setLength] = useState(0);
@@ -77,7 +78,8 @@ export const Contacts = ({ message, errorMessage, localePrefix = "", channels = 
   return (
     <>
       <PageHeader
-        crumbs={[{ label: t("breadcrumbHome"), href: localePrefix || "/" }, { label: t("pageTitle") }]}
+        crumbs={[{ label: tCrumbs("home"), href: localePrefix || "/" }, { label: t("pageTitle") }]}
+        crumbsLabel={tCrumbs("ariaLabel")}
         eyebrow={t("eyebrow")}
         title={t("title")}
         titleAccent={t("titleAccent")}

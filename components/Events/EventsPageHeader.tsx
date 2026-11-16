@@ -12,10 +12,12 @@ type EventsPageHeaderProps = {
 /** /events page header: shared PageHeader with the events copy and CTA. */
 export function EventsPageHeader({ localePrefix }: EventsPageHeaderProps) {
 	const t = useTranslations("Events")
+	const tCrumbs = useTranslations("Breadcrumbs")
 
 	return (
 		<PageHeader
-			crumbs={[{ label: t("breadcrumbHome"), href: localePrefix || "/" }, { label: t("sectionTitle") }]}
+			crumbs={[{ label: tCrumbs("home"), href: localePrefix || "/" }, { label: t("sectionTitle") }]}
+			crumbsLabel={tCrumbs("ariaLabel")}
 			eyebrow={t("pageEyebrow")}
 			title={t("pageTitle")}
 			intro={t("pageIntro")}

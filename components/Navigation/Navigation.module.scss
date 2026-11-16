@@ -188,7 +188,9 @@
     // hover fill. Base bg is a scoped var so hover/highlight only swap the var.
     padding: var(--spacing-1-5) var(--spacing-3);
     border-radius: 999px;
-		display: block;
+		display: flex;
+    align-items: center;
+    gap: var(--spacing-1-5);
     background-color: var(--_nav-pill-bg, transparent);
     transition:
       opacity 0.3s var(--ease-in),

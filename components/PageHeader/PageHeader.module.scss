@@ -12,34 +12,6 @@
   justify-items: start;
   padding-block: var(--spacing-6) var(--spacing-10);
 
-  &__crumbs {
-    @include mixins.resetList;
-    @include typo.ui-small;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--spacing-2);
-    color: var(--on-surface);
-
-    li + li::before {
-      content: "/";
-      margin-right: var(--spacing-2);
-      color: var(--outline);
-    }
-  }
-
-  &__crumb {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-1);
-    color: var(--on-surface-variant);
-    text-decoration: none;
-
-    &:hover {
-      color: var(--on-surface);
-    }
-  }
-
   // Red dot + label pill above the title.
   &__pill {
     @include typo.ui-small(true);
