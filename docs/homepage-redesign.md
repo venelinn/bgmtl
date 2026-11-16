@@ -17,8 +17,8 @@ stays as-is, transparent over the hero.
 
 | # | Section | Change | Status |
 |---|---|---|---|
-| 1 | Hero | Subtitle, directory search + quick category chips, 2 CTAs, ~75vh. Stats band only with real numbers. | code done — needs Contentful entry setup (see below) |
-| 2 | Events + sidebar | Card restyle: left accent border, red date, price row (`EventItem.price`), bold CTA. Calendar "next up" card. Event category tags need a Contentful field. | todo |
+| 1 | Hero | Subtitle, directory search + quick category chips, 2 CTAs, ~75vh. Stats band only with real numbers. | done (live 2026-11-16) |
+| 2 | Events + sidebar | Card frame + accent rule (grey for past), red date, 2-line excerpt, footer (read more · ticket), `tags` pills (new field, migration `2026-11-16-event-tags.js`). Calendar "На фокус" card. Shared `listing-card` mixin → news cards get the same frame. No `price` field (by choice). | code done — events need tags in Contentful |
 | 3 | Directory | Move above Join; chips with counts; 6 cards; keep real logos; "Add your business" banner → Telegram bot flow. Per-card CTA needs a field. | todo |
 | 4 | Newcomer guide (new) | 3 step cards — needs real content (CMS). | phase 2 |
 | 5 | News | Featured + 2 side items; graceful with 1 item. | todo |

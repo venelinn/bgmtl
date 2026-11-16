@@ -1,13 +1,49 @@
 @use 'styles/listing-card' as card;
+@use 'styles/mixins' as mixins;
 @use 'styles/typo-mixins' as typo;
 
 .event {
-  // Grid, meta strip, title, excerpt and cover are shared with the news card.
+  // Grid, card frame, meta line, title, excerpt and cover are shared with the
+  // news card.
   @include card.listing-card('event');
+
+  // Past events step back: grey rule and date instead of the brand red.
+  &[data-type='past'] {
+    --_listing-card-accent: var(--outline);
+  }
 
   // ── Event-specific ──────────────────────────────────────────────────────
   &__heading {
     margin-top: var(--spacing-4);
+  }
+
+  &__tags {
+    @include mixins.resetList;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+  }
+
+  &__tag {
+    --_tag-bg: color-mix(in srgb, var(--primary-container-low), var(--primary) 10%);
+    --_tag-color: var(--on-primary-container);
+
+    @include typo.ui-small(true);
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: 9999px;
+    background: var(--_tag-bg);
+    color: var(--_tag-color);
+
+    // The first tag carries the card's accent; "free" always reads green.
+    &:first-child {
+      --_tag-bg: color-mix(in srgb, var(--_listing-card-accent), transparent 88%);
+      --_tag-color: var(--_listing-card-accent);
+    }
+
+    &[data-tag='free'] {
+      --_tag-bg: color-mix(in srgb, var(--color-green), transparent 85%);
+      --_tag-color: color-mix(in srgb, var(--color-green), var(--on-surface) 35%);
+    }
   }
 
   &__location {
@@ -39,24 +75,42 @@
     gap: var(--spacing-1);
   }
 
+  // Two lines here; the full text lives on the detail page ("read more" sits in
+  // the footer instead of trailing the excerpt).
+  &__excerpt {
+    @include mixins.truncate(2);
+  }
+
+  // Footer: price · read more ··· ticket button, pinned to the card bottom.
   &__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--spacing-2);
+    gap: var(--spacing-3) var(--spacing-6);
     align-items: center;
-    margin-top: var(--spacing-4);
+    margin-top: auto;
+    padding-top: var(--spacing-4);
+  }
+
+  &__more {
+    color: var(--on-surface);
+    font-weight: var(--font-weight-medium);
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &__ticket {
+    margin-left: auto;
   }
 
   &__price {
     @include typo.ui-caption(true);
     display: inline-block;
     padding: var(--spacing-1) var(--spacing-3);
-    color: var(--color-highlight, #2563eb);
-    background: color-mix(
-      in srgb,
-      var(--color-highlight, #2563eb) 12%,
-      transparent
-    );
+    color: var(--color-highlight);
+    background: color-mix(in srgb, var(--color-highlight) 12%, transparent);
     border-radius: 9999px;
   }
 }

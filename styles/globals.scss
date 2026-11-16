@@ -186,9 +186,13 @@ html {
 	scrollbar-gutter: stable;
   scroll-padding-top: var(--navigation-height);
   // color-scheme: light dark;
-  // @media (prefers-reduced-motion: no-preference) {
-  //   scroll-behavior: smooth;
-  // }
+  // In-page anchors (e.g. hero "Join" → #join-our-community) glide instead of
+  // jumping. `data-scroll-behavior="smooth"` on <html> (app/[lang]/layout.tsx)
+  // tells Next to switch this off during route changes, so page navigations
+  // still land at the top instantly.
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
 }
 
 body {

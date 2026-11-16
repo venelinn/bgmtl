@@ -25,6 +25,7 @@
   --color-green: hsl(162, 100%, 33%);
   --color-blue-dark: hsl(214, 62%, 16%);
   --color-blue-light: hsl(195, 78%, 81%);
+  --color-blue-pale: hsl(219, 100%, 97%);
   --color-lime: hsl(83, 88%, 68%);
   --color-grey: hsl(73, 5%, 39%);
   --color-grey-light: hsl(0, 0%, 95%);
@@ -107,6 +108,7 @@
   --primary: var(--color-blue);
   --primary-container: var(--color-blue-light);
   --on-primary-container: var(--color-blue-dark);
+  --primary-container-low: var(--color-blue-pale);
   --secondary: var(--color-green);
   --error: var(--system-error);
   --font-weight-base: var(--font-weight-normal);

@@ -15,6 +15,7 @@
 		"green": { "value": "#00A674" },
 		"blue-dark": { "value": "#0f2541" },
 		"blue-light": { "value": "#a7e1f4" },
+		"blue-pale": { "value": "#eef4ff" },
 		"lime": { "value": "#bef564" },
 		"grey": { "value": "#65675e" },
 		"grey-light": { "value": "#f3f3f3" },

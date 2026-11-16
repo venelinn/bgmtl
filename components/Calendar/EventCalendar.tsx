@@ -353,6 +353,9 @@ export function EventCalendar({
 			{/* Inline detail for the selected event */}
 			{inlineEventDetail && selectedEvent && (
 				<Link href={selectedEvent.permalink} className={styles.eventDetail}>
+					<span className={styles.eventDetail__eyebrow}>
+						{t("Events.inFocus")}
+					</span>
 					<span className={styles.eventDetail__title}>
 						{selectedEvent.title}
 					</span>

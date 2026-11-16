@@ -19,6 +19,21 @@ export type EventVenueLogo = {
   logo?: EventImage[];
 };
 
+/** Fixed `tags` values on the Contentful event model (labels: Events.tags.*). */
+export const EVENT_TAGS = [
+  "theatre",
+  "music",
+  "family",
+  "traditions",
+  "culture",
+  "sport",
+  "community",
+  "guest",
+  "free",
+] as const;
+
+export type EventTag = (typeof EVENT_TAGS)[number];
+
 export type EventItem = {
   id: string;
   date: string;
@@ -32,6 +47,7 @@ export type EventItem = {
   content?: RichTextContent;
   excerpt?: RichTextContent;
   price?: string; // e.g. "From $49"
+  tags?: EventTag[];
   [key: string]: unknown;
 };
 

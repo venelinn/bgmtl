@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { Icon } from '@/components/Icon';
 import { ViewTransition } from '@/components/ViewTransition';
-import type { EventProps } from '@/types/events';
+import { EVENT_TAGS, type EventProps } from '@/types/events';
 import { getEventPermalink, slugify } from '@/utils/common';
 import { FormattedDate, FormattedTime } from '@/utils/DateFormat';
 import { renderRichTextContent } from '@/utils/RichText';
@@ -72,10 +72,24 @@ export const Event = ({ event, type, locale, fallbackImage }: EventProps) => {
       ? (event.ticket as { url: string; name?: string; iconName?: string })
       : null;
 
+  // Unknown values (e.g. a tag removed from the model) are skipped, not shown raw.
+  const tags = (event.tags ?? []).filter((tag) =>
+    (EVENT_TAGS as readonly string[]).includes(tag),
+  );
+
   return (
-    <article className={styles.event} key={event.id}>
+    <article className={styles.event} key={event.id} data-type={type}>
       <div className={styles.event__details}>
-        <Heading as='h3' size='h3' highlight className={styles.event__title}>
+        {tags.length > 0 && (
+          <ul className={styles.event__tags}>
+            {tags.map((tag) => (
+              <li key={tag} className={styles.event__tag} data-tag={tag}>
+                {t(`Events.tags.${tag}`)}
+              </li>
+            ))}
+          </ul>
+        )}
+        <Heading as='h3' size='h3' className={styles.event__title}>
           <Link href={eventDetailHref} className={styles.event__titleLink}>
             {String(headingText || event.venue || '')}
           </Link>
@@ -89,11 +103,9 @@ export const Event = ({ event, type, locale, fallbackImage }: EventProps) => {
               includeYear={type === 'upcoming' ? false : true}
             />
           </strong>
-          <div className={styles.event__date}>
-            <span className={styles.event__time}>
-              <Icon name='Clock' size={14} />
-              <FormattedTime dateStr={event.date} locale={locale} />
-            </span>
+          <div className={styles.event__time}>
+            <Icon name='Clock' size={14} />
+            <FormattedTime dateStr={event.date} locale={locale} />
             {/* {event.doorsOpen && (
               <span className={styles.event__doors}>
                 {t("Events.doorsOpenAt")} <FormattedTime dateStr={event.doorsOpen} locale={locale} />
@@ -122,23 +134,23 @@ export const Event = ({ event, type, locale, fallbackImage }: EventProps) => {
         {event.excerpt && (
           <div className={styles.event__excerpt}>
             {renderRichTextContent(event.excerpt as object) as React.ReactNode}
-            <Link href={eventDetailHref} className={clsx(styles.link, 'link')}>
-              <span className='link__text'>
-                {t('Events.readMore')} <Icon name='ArrowRight' />
-              </span>
-            </Link>
           </div>
         )}
         <div className={styles.event__actions}>
           {price && <span className={styles.event__price}>{price}</span>}
+          <Link href={eventDetailHref} className={clsx(styles.event__more, 'link')}>
+            <span className='link__text'>
+              {t('Events.readMore')} <Icon name='ArrowRight' />
+            </span>
+          </Link>
           {ticket && (
             <Button
               isExternal
               externalHref={ticket.url}
               iconAfter={ticket.iconName || undefined}
               variant='secondary'
-              size='sm'
               label={ticket.name || t('Events.buyTicket')}
+              className={styles.event__ticket}
             />
           )}
         </div>

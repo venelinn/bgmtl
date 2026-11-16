@@ -18,7 +18,19 @@
 		"eventsCalendar": "Calendrier des événements",
 		"filterByYear": "Filtrer par année",
 		"allYears": "Toutes les années",
-		"location": "Lieu"
+		"location": "Lieu",
+		"tags": {
+			"theatre": "Théâtre et humour",
+			"music": "Musique et fête",
+			"family": "Famille",
+			"traditions": "Traditions",
+			"culture": "Culture et arts",
+			"sport": "Sport",
+			"community": "Rencontre communautaire",
+			"guest": "Artiste invité",
+			"free": "Entrée gratuite"
+		},
+		"inFocus": "À l'affiche"
 	},
 	"Donate": {
 		"title": "Soutenez-nous!",

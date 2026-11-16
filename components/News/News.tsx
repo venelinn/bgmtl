@@ -57,7 +57,7 @@ export const News = ({ news, locale, fallbackImage }: NewsProps) => {
 	return (
 		<article className={styles.news} key={news.id}>
 			<div className={styles.news__details}>
-				<Heading as="h3" size="h3" highlight className={styles.news__title}>
+				<Heading as="h3" size="h3" className={styles.news__title}>
 					<Link href={newsDetailHref} className={styles.news__titleLink}>
 						{String(headingText || "News")}
 					</Link>

@@ -1,5 +1,12 @@
 @use "styles/base-variables" as base;
 
+// The section is an in-page target (hero "Join" button → #join-our-community).
+// The global scroll-padding only clears ~30px; the fixed nav is taller, so add
+// room for the rest and land the card fully below it.
+.joinAnchor {
+  scroll-margin-top: var(--spacing-14);
+}
+
 .join {
   // White headings/text on the dark navy card.
   --heading-color: var(--color-white);

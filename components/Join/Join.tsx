@@ -31,7 +31,7 @@ export function Join({ image }: JoinProps) {
 	return (
 		<Section
 			aria-label={t("title")}
-			classNames={{ inner: styles.join }}
+			classNames={{ main: styles.joinAnchor, inner: styles.join }}
 			paddingControl="removeTop"
 			id="join-our-community"
 		>

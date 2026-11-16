@@ -18,7 +18,19 @@
 		"eventsCalendar": "Events Calendar",
 		"filterByYear": "Filter by year",
 		"allYears": "All years",
-		"location": "Location"
+		"location": "Location",
+		"tags": {
+			"theatre": "Theatre & Comedy",
+			"music": "Music & Party",
+			"family": "Family",
+			"traditions": "Traditions",
+			"culture": "Culture & Arts",
+			"sport": "Sport",
+			"community": "Community meetup",
+			"guest": "Guest performance",
+			"free": "Free entry"
+		},
+		"inFocus": "In focus"
 	},
 	"Donate": {
 		"title": "Keep us going!",
