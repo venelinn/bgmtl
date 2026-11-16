@@ -14,7 +14,7 @@ require("dotenv").config();
 
 const fs = require("fs");
 const path = require("path");
-const { createClient } = require("contentful-management");
+const { createCma, getEntryOrNull, isPublished } = require("./lib/cma");
 
 const SPACE_ID = process.env.CONTENTFUL_SPACE_ID || "huajfyusfsch";
 const MANAGEMENT_TOKEN = process.env.CONTENTFUL_MANAGEMENT_TOKEN;
@@ -119,18 +119,34 @@ if (!MANAGEMENT_TOKEN) {
 	process.exit(1);
 }
 
+/**
+ * Create the entry, or overwrite its fields if it exists. Publishes only when
+ * it has never been published (an update of a live entry stays a draft).
+ */
+const upsertEntry = async (client, contentTypeId, entryId, entryData) => {
+	let entry = await getEntryOrNull(client, entryId);
+	if (entry) {
+		entry.fields = { ...entry.fields, ...entryData.fields };
+		const wasPublished = isPublished(entry);
+		entry = await client.entry.update({ entryId }, entry);
+		if (wasPublished) return;
+	} else {
+		entry = await client.entry.createWithId({ contentTypeId, entryId }, entryData);
+	}
+	await client.entry.publish({ entryId }, entry);
+};
+
 async function importBgCommunity() {
 	try {
-		const client = createClient(
-			{ accessToken: MANAGEMENT_TOKEN },
-			{ type: "legacy" },
-		);
-		const space = await client.getSpace(SPACE_ID);
-		const environment = await space.getEnvironment(ENVIRONMENT);
+		const client = createCma({
+			accessToken: MANAGEMENT_TOKEN,
+			spaceId: SPACE_ID,
+			environmentId: ENVIRONMENT,
+		});
 
-		const headingContentType = await environment.getContentType("heading");
-		const cardContentType = await environment.getContentType("card");
-		const collectionContentType = await environment.getContentType("collection");
+		const headingContentType = await client.contentType.get({ contentTypeId: "heading" });
+		const cardContentType = await client.contentType.get({ contentTypeId: "card" });
+		const collectionContentType = await client.contentType.get({ contentTypeId: "collection" });
 
 		const headingFieldById = new Map(headingContentType.fields.map((f) => [f.id, f]));
 		const cardFieldById = new Map(cardContentType.fields.map((f) => [f.id, f]));
@@ -157,18 +173,7 @@ async function importBgCommunity() {
 			try {
 				const { sys, fields } = item;
 				const entryData = buildEntryFields(headingFieldById, fields);
-				let entry;
-				try {
-					entry = await environment.getEntry(sys.id);
-					for (const [fieldName, fieldValue] of Object.entries(entryData.fields)) {
-						entry.fields[fieldName] = fieldValue;
-					}
-					await entry.update();
-				} catch {
-					await environment.createEntryWithId("heading", sys.id, entryData);
-					entry = await environment.getEntry(sys.id);
-				}
-				if (!entry.isPublished()) await entry.publish();
+				await upsertEntry(client, "heading", sys.id, entryData);
 				console.log(`✅ Heading: ${sys.id}`);
 			} catch (err) {
 				console.error(`❌ Heading ${item?.sys?.id}:`, err.message);
@@ -187,18 +192,7 @@ async function importBgCommunity() {
 					heading: fields.heading,
 				};
 				const entryData = buildEntryFields(cardFieldById, cardFields);
-				let entry;
-				try {
-					entry = await environment.getEntry(sys.id);
-					for (const [fieldName, fieldValue] of Object.entries(entryData.fields)) {
-						entry.fields[fieldName] = fieldValue;
-					}
-					await entry.update();
-				} catch {
-					await environment.createEntryWithId("card", sys.id, entryData);
-					entry = await environment.getEntry(sys.id);
-				}
-				if (!entry.isPublished()) await entry.publish();
+				await upsertEntry(client, "card", sys.id, entryData);
 				console.log(`✅ Card: ${sys.id}`);
 			} catch (err) {
 				console.error(`❌ Card ${item?.sys?.id}:`, err.message);
@@ -219,18 +213,7 @@ async function importBgCommunity() {
 					cards: fields.cards,
 				};
 				const entryData = buildEntryFields(collectionFieldById, collectionFields);
-				let entry;
-				try {
-					entry = await environment.getEntry(sys.id);
-					for (const [fieldName, fieldValue] of Object.entries(entryData.fields)) {
-						entry.fields[fieldName] = fieldValue;
-					}
-					await entry.update();
-				} catch {
-					await environment.createEntryWithId("collection", sys.id, entryData);
-					entry = await environment.getEntry(sys.id);
-				}
-				if (!entry.isPublished()) await entry.publish();
+				await upsertEntry(client, "collection", sys.id, entryData);
 				console.log(`✅ Collection: ${sys.id}`);
 			} catch (err) {
 				console.error(`❌ Collection ${item?.sys?.id}:`, err.message);

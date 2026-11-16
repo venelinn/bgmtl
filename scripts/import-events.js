@@ -16,7 +16,7 @@ require("dotenv").config()
 
 const fs = require("fs")
 const path = require("path")
-const { createClient } = require("contentful-management")
+const { createCma, createAndPublish } = require("./lib/cma")
 
 const SPACE_ID = process.env.CONTENTFUL_SPACE_ID || "huajfyusfsch"
 const MANAGEMENT_TOKEN = process.env.CONTENTFUL_MANAGEMENT_TOKEN
@@ -167,24 +167,23 @@ if (!MANAGEMENT_TOKEN) {
 async function importEvents() {
 	try {
 		// Initialize Contentful Management client
-		const client = createClient(
-			{
-				accessToken: MANAGEMENT_TOKEN,
-			},
-			{ type: "legacy" },
-		)
-
-		// Get space and environment
-		const space = await client.getSpace(SPACE_ID)
-		const environment = await space.getEnvironment(ENVIRONMENT)
+		const client = createCma({
+			accessToken: MANAGEMENT_TOKEN,
+			spaceId: SPACE_ID,
+			environmentId: ENVIRONMENT,
+		})
 
 		// Load content types to filter fields
-		const eventContentType = await environment.getContentType("event")
+		const eventContentType = await client.contentType.get({
+			contentTypeId: "event",
+		})
 		const eventFieldById = new Map(
 			eventContentType.fields.map((field) => [field.id, field]),
 		)
 
-		const headingContentType = await environment.getContentType("heading")
+		const headingContentType = await client.contentType.get({
+			contentTypeId: "heading",
+		})
 		const headingFieldById = new Map(
 			headingContentType.fields.map((field) => [field.id, field]),
 		)
@@ -233,15 +232,8 @@ async function importEvents() {
 					entryData.fields[fieldName] = normalizedValue
 				})
 
-				// Create the heading entry with a specific ID
-				const entry = await environment.createEntryWithId(
-					"heading",
-					sys.id,
-					entryData,
-				)
-
-				// Publish the entry
-				await entry.publish()
+				// Create the heading entry with a specific ID, then publish it
+				await createAndPublish(client, "heading", sys.id, entryData)
 
 				console.log(`✅ [${i + 1}/${headingsTotal}] Heading created: ${sys.id}`)
 				headingSuccessCount++
@@ -288,15 +280,8 @@ async function importEvents() {
 					entryData.fields[fieldName] = normalizedValue
 				})
 
-				// Create the entry with a specific ID
-				const entry = await environment.createEntryWithId(
-					"event",
-					sys.id,
-					entryData,
-				)
-
-				// Publish the entry
-				await entry.publish()
+				// Create the entry with a specific ID, then publish it
+				await createAndPublish(client, "event", sys.id, entryData)
 
 				console.log(
 					`✅ [${i + 1}/${eventsTotal}] Imported & published: ${sys.id}`,

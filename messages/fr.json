@@ -7,6 +7,7 @@
 		"pastEvents": "Événements passés",
 		"backToEvents": "Retour aux événements",
 		"doorsOpenAt": "Ouverture des portes à",
+		"otherDates": "Autres dates",
 		"viewOnMap": "Voir sur la carte",
 		"viewGallery": "Voir la galerie",
 		"viewAll": "Voir tous les événements",
@@ -95,5 +96,11 @@
 	"Navigation": {
 		"theme": "Mode sombre",
 		"language": "Langue"
+	},
+	"Hero": {
+		"searchPlaceholder": "Rechercher un professionnel, un service ou un organisme…",
+		"searchAriaLabel": "Rechercher dans le répertoire",
+		"searchButton": "Rechercher",
+		"quickLinksLabel": "Accès rapide :"
 	}
 }

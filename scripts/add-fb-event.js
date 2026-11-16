@@ -8,14 +8,17 @@ require("dotenv").config()
  * upload + attach the cover → publish.
  *
  * IDs are date-stamped (event-<slug>-<YYYY-MM-DD>) so recurring events that
- * share a title don't collide. Refuses to overwrite an event id that already
- * exists.
+ * share a title don't collide. An event id that already exists is skipped
+ * (exit 0) unless --update is passed, which overwrites the scraped fields
+ * (title, date, venue, description) and keeps the existing cover.
  *
  * Usage:
  *   node scripts/add-fb-event.js <eventUrlOrId>
  *   node scripts/add-fb-event.js https://www.facebook.com/events/1605426171589137/
  *   node scripts/add-fb-event.js <url> --dry          # scrape+translate, print, no writes
  *   node scripts/add-fb-event.js <url> --no-cover     # skip the cover upload
+ *   node scripts/add-fb-event.js <url> --update       # refresh an existing event
+ *   node scripts/add-fb-event.js <url> --update --cover  # …and re-upload its cover
  *   node scripts/add-fb-event.js <url> --tz America/Toronto --headed --debug
  *
  * Env (.env): CONTENTFUL_MANAGEMENT_TOKEN (+ SPACE_ID/ENVIRONMENT), DEEPL_API_KEY,
@@ -24,10 +27,15 @@ require("dotenv").config()
 
 const path = require("path")
 const { chromium } = require("playwright")
-const { createClient } = require("contentful-management")
 const { extractEvent, parseEventId } = require("./lib/fb-extract")
 const { localize, hasKey } = require("./lib/deepl")
 const { slugify, makeEventAndHeading } = require("./lib/events-format")
+const {
+	createCma,
+	getEntryOrNull,
+	createAndPublish,
+	updateAndPublish,
+} = require("./lib/cma")
 const {
 	uploadToCloudinary,
 	toCoverAsset,
@@ -67,6 +75,8 @@ const HEADED = hasFlag("headed")
 const DEBUG = hasFlag("debug")
 const DRY = hasFlag("dry")
 const NO_COVER = hasFlag("no-cover")
+const UPDATE = hasFlag("update")
+const REPLACE_COVER = hasFlag("cover")
 
 const SESSION_PATH = path.join(__dirname, "../.fb-session.json")
 const DEBUG_DIR = path.join(__dirname, "../mockData/events/_scraped/debug")
@@ -164,22 +174,27 @@ async function main() {
 	}
 
 	// 4. Contentful
-	const client = createClient({ accessToken: MANAGEMENT_TOKEN }, { type: "legacy" })
-	const space = await client.getSpace(SPACE_ID)
-	const env = await space.getEnvironment(ENVIRONMENT)
+	const client = createCma({
+		accessToken: MANAGEMENT_TOKEN,
+		spaceId: SPACE_ID,
+		environmentId: ENVIRONMENT,
+	})
 	console.log(`\n📍 ${SPACE_ID}/${ENVIRONMENT}`)
 
-	// refuse to overwrite an existing event
-	try {
-		await env.getEntry(eventId)
-		console.error(`❌ Event already exists: ${eventId} (nothing changed).`)
-		process.exit(1)
-	} catch {
-		/* not found — good, continue */
+	const existing = await getEntryOrNull(client, eventId)
+	if (existing && !UPDATE) {
+		console.log(
+			`ℹ️  Event already exists: ${eventId} — skipped (pass --update to refresh it).`,
+		)
+		return
 	}
 
-	// 5. Cover → attach to the event fields before publishing
-	if (!NO_COVER && ev.coverUrl) {
+	// 5. Cover → attach to the event fields before publishing. On --update the
+	// existing cover is kept unless --cover asks for a fresh upload.
+	const keepCover = existing?.fields?.cover && !REPLACE_COVER
+	if (keepCover) {
+		event.fields.cover = existing.fields.cover
+	} else if (!NO_COVER && ev.coverUrl) {
 		try {
 			console.log("🖼️  Uploading cover to Cloudinary…")
 			const up = await uploadToCloudinary(ev.coverUrl)
@@ -187,27 +202,40 @@ async function main() {
 			event.fields.cover = Object.fromEntries(LOCALES.map((l) => [l, [asset]]))
 			console.log(`   ✅ ${up.public_id} (${up.width}×${up.height})`)
 		} catch (err) {
-			console.warn(`   ⚠️  cover upload failed (${err.message}); creating without it`)
+			console.warn(`   ⚠️  cover upload failed (${err.message}); continuing without it`)
 		}
 	}
 
-	// 6. Heading (reuse if it somehow exists), then event; publish both
-	let headingEntry
-	try {
-		headingEntry = await env.getEntry(headingId)
-		console.log(`· heading exists, reusing: ${headingId}`)
-	} catch {
-		headingEntry = await env.createEntryWithId("heading", headingId, {
+	// 6. Heading: create if missing; on --update refresh its title if it changed
+	const headingEntry = await getEntryOrNull(client, headingId)
+	if (!headingEntry) {
+		await createAndPublish(client, "heading", headingId, {
 			fields: heading.fields,
 		})
-		await headingEntry.publish()
 		console.log(`✅ heading created: ${headingId}`)
+	} else if (
+		UPDATE &&
+		JSON.stringify(headingEntry.fields.title) !==
+			JSON.stringify(heading.fields.title)
+	) {
+		headingEntry.fields.title = heading.fields.title
+		headingEntry.fields.heading = heading.fields.heading
+		await updateAndPublish(client, headingEntry)
+		console.log(`✅ heading updated: ${headingId}`)
+	} else {
+		console.log(`· heading exists, reusing: ${headingId}`)
 	}
 
-	const eventEntry = await env.createEntryWithId("event", eventId, {
-		fields: event.fields,
-	})
-	await eventEntry.publish()
+	// 7. Event: create, or overwrite the scraped fields on the existing entry
+	if (existing) {
+		existing.fields = { ...existing.fields, ...event.fields }
+		await updateAndPublish(client, existing)
+		console.log(`✅ event updated & published: ${eventId}`)
+		console.log(`\n✨ Done — "${nameByLocale["en-CA"]}" refreshed for ${date}.`)
+		return
+	}
+
+	await createAndPublish(client, "event", eventId, { fields: event.fields })
 	console.log(`✅ event created & published: ${eventId}`)
 	console.log(`\n✨ Done — "${nameByLocale["en-CA"]}" added for ${date}.`)
 }

@@ -154,8 +154,11 @@ Learned the hard way — check these when something looks off:
 - **Group scraping is scoped to `[role="main"]`** to exclude the logged-in user's
   personal "Recommended / Your upcoming events" sidebar. Event detail pages are
   parsed the same way for both group and single-event scrapers.
-- **Recurring events** (same title, different date) collide on `event-<slug>-<year>`.
-  Use `events:add` (date-stamped ids) for those, not the year batch.
+- **Recurring / multi-date events** (same title, different date) collide on `event-<slug>-<year>`.
+  Use `events:add` (date-stamped ids) for those, not the year batch. Each date is a
+  separate entry; see [Multi-date events](./events-listing-page.md#multi-date-events).
+  Make sure the translated Bulgarian heading is **identical** across the dates,
+  otherwise they are not grouped as one series.
 
 ## When Facebook changes its DOM
 

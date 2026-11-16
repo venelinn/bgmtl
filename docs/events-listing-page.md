@@ -147,3 +147,23 @@ export type SiteConfig = {
 - The old Contentful Events page can be removed once this page is verified
 - If Contentful navigation links point to the old page, update them to link to `/events`
 - Next.js gives priority to `app/[lang]/events/page.tsx` over `app/[lang]/[[...slug]]` for the `/events` path, so both can coexist without conflict
+
+## Multi-date events
+
+An event that happens on several dates (a tour, a weekly class) is modelled as **one
+Contentful event entry per date**. There is no `seriesId` field and no schema change.
+
+- **Grouping:** entries whose **Bulgarian heading** is identical form a series.
+- **URLs:** the detail slug comes from the Bulgarian heading. The earliest date keeps the
+  plain slug; every later date gets `-YYYY-MM-DD` appended (`/events/bocelli`,
+  `/events/bocelli-2026-12-14`). Adding a later date never moves an existing URL; adding a
+  date *earlier* than the current first one would move the first date's URL.
+- **Implementation:** done once in `getBulgarianEventHeadingsMap` (`utils/content.ts`),
+  which sets `bgHeading`. Cards, calendar, JSON-LD, newsletter, sitemap, `generateStaticParams`
+  and the detail page all derive the slug from `bgHeading`.
+- **Detail page:** shows an **Other dates** row (upcoming siblings only) via the `otherDates`
+  prop on `EventDetail`.
+- **Calendar:** if several events fall on one day, the earliest represents the day.
+- **Adding in Contentful:** copy the event entry, change **Date** / **Doors open**, give it a
+  unique ID (`event-<slug>-<YYYY-MM-DD>`), keep the Bulgarian heading text identical, publish.
+- **Known gap:** `scripts/build-newsletter.js` still slugs from the title only.

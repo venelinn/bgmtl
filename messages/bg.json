@@ -13,6 +13,7 @@
 		"pastEvents": "Отминали събития",
 		"backToEvents": "Назад към събитията",
 		"doorsOpenAt": "Врати отворени в",
+		"otherDates": "Други дати",
 		"viewOnMap": "Вижте на карта",
 		"viewGallery": "Вижте галерията",
 		"noEventsAvailable": "Няма налични години",
@@ -100,5 +101,11 @@
 	"Navigation": {
 		"theme": "Тъмен режим",
 		"language": "Език"
+	},
+	"Hero": {
+		"searchPlaceholder": "Търсете специалист, услуга или организация…",
+		"searchAriaLabel": "Търсене в указателя",
+		"searchButton": "Търси",
+		"quickLinksLabel": "Бърз избор:"
 	}
 }

@@ -105,7 +105,12 @@ export function EventCalendar({
 				dateTime: string
 			}
 		>()
-		calendarEvents.forEach((event) => {
+		const byTime = [...calendarEvents].sort((a, b) =>
+			(a.dateTime || a.date).localeCompare(b.dateTime || b.date),
+		)
+		byTime.forEach((event) => {
+			// Several events can share a day; the earliest one represents it.
+			if (map.has(event.date)) return
 			map.set(event.date, {
 				permalink: event.permalink,
 				isPastEvent: event.isPastEvent,

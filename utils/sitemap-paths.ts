@@ -70,7 +70,7 @@ async function buildSitemapPaths(): Promise<SitemapPath[]> {
   const bgEvents = (await getAllEventsBulgarian()) as any[];
   for (const event of bgEvents) {
     if (!event) continue;
-    const slug = slugify(headingText(event.heading) || event.venue || "event");
+    const slug = slugify(event.bgHeading || headingText(event.heading) || event.venue || "event");
     const lastModified = toDate(event._updatedAt);
     for (const locale of SITEMAP_LOCALES) {
       out.push({ locale, pathSegments: `events/${slug}`, lastModified });
