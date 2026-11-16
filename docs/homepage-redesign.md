@@ -17,13 +17,13 @@ stays as-is, transparent over the hero.
 
 | # | Section | Change | Status |
 |---|---|---|---|
-| 1 | Hero | Subtitle, directory search + quick category chips, 2 CTAs, ~75vh. Stats band only with real numbers. | code done — needs Contentful entry setup (see below) |
-| 2 | Events + sidebar | Card restyle: left accent border, red date, price row (`EventItem.price`), bold CTA. Calendar "next up" card. Event category tags need a Contentful field. | todo |
-| 3 | Directory | Move above Join; chips with counts; 6 cards; keep real logos; "Add your business" banner → Telegram bot flow. Per-card CTA needs a field. | todo |
+| 1 | Hero | Subtitle, directory search + quick category chips, 2 CTAs, ~75vh. Stats band only with real numbers. | done (live 2026-11-16) |
+| 2 | Events + sidebar | Card frame + accent rule (grey for past), red date, 2-line excerpt, footer (read more · ticket), `tags` pills (new field, migration `2026-11-16-event-tags.js`). Calendar "На фокус" card. Shared `listing-card` mixin → news cards get the same frame. No `price` field (by choice). | code done — events need tags in Contentful |
+| 3 | Directory | Pale-blue band (`--primary-container-low`), eyebrow/title/intro + "Добави профил" (→ /contacts), category tabs with real counts filtering the 6 newest in place, new DirectoryCard (logo or initial square, `note` as red subtitle, website row, one CTA: website → call → email) used on /community too, "add your business" banner (→ /contacts). Copy in `messages` (Directory.home*). Section moved above News; Join now last. | code done |
 | 4 | Newcomer guide (new) | 3 step cards — needs real content (CMS). | phase 2 |
 | 5 | News | Featured + 2 side items; graceful with 1 item. | todo |
 | 6 | Join | Keep the embroidery image; palette tweak only. | todo |
-| 7 | Footer | Light layout, brand blurb, nav/resources columns, legal row. No duplicate newsletter. | todo |
+| 7 | Footer | Kept navy. Brand column (header logo, `footer.description` from Contentful — migration `2026-11-16-footer-description.js`, social icons moved here), the Contentful link columns, newsletter widget (useSubscribe → /api/subscribe; copy in `messages` Footer.*), fine-print row unchanged. | code done — footer description not yet published |
 
 Global: mock palette is navy `#00152a`, red `#de2e2c`, green accents, pale-blue section
 surfaces `#eef4ff`. Fold into `tokens/` rather than hardcoding.
@@ -61,3 +61,20 @@ Homepage entry setup (saved as **draft** 2026-11-16 — publish with the code de
 `content` (drop the embedded "Присъединете се" link — Join has its own section), pick
 quick categories, add two Link entries as `buttons` (Разгледай указателя → `/community`,
 Календар със събития → `/events`).
+
+## Events page (/events) — second Stitch screen `79466401d62f456e89e22b9f12c94eab`
+
+- Event card (shared: homepage, /events, CMS collections): cover flush left with tag badges,
+  long date + time, title, 3-line excerpt, venue, red ticket button + light "Детайли и локация".
+  Own styles (no longer the `listing-card` mixin; news still uses it). Stacks under 600px
+  (container query on the card).
+- /events: light header (`EventsPageHeader` — breadcrumb, pill, h1, intro, "Предложи събитие"
+  → /contacts), so the nav is solid; `EventsBrowser` — jump tabs with counts, accent-insensitive
+  search (title + venue), tag chips (only used tags), upcoming list + sidebar (calendar,
+  `OrganizeEventWidget`, donate), past archive band (year tabs when >1 year, compact
+  `EventArchiveCard` grid, page size rounded to rows of 3, pagination), then `Join`.
+- `siteConfig.eventsHero` is no longer used on /events. CMS "events" sections still use
+  `EventsConnector` (unchanged).
+- Calendar weeks start on Monday.
+- Not built: "Календарен изглед" tab, mock-only badges ("Препоръчано", "30 години Романца"),
+  "Виж архив / снимки" (no event has a gallery).

@@ -34,7 +34,7 @@ export interface HeroProps {
    * during a cross-page View Transition. Must be unique on the page.
    */
   viewTransitionName?: string;
-  /** Homepage variant: navy overlay, rendered with search/quick links as `children`. */
+  /** Homepage variant (search/quick links as `children`). Implied whenever `children` is passed. */
   extended?: boolean;
   /** Extra content under the body (e.g. HeroSearch). */
   children?: ReactNode;
@@ -97,7 +97,8 @@ export const Hero = ({
       height={height ? (height as SectionProps["height"]) : undefined}
       data-title-position={titlePosition}
       classNames={{
-        main: clsx(styles.main, extended && styles["main--extended"]),
+        // Any extra content (search, CTAs…) needs room: grow with it and clear the nav.
+        main: clsx(styles.main, (extended || children) && styles["main--extended"]),
         inner: styles.inner,
         heading: styles.heading,
       }}

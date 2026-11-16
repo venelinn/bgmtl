@@ -1,4 +1,5 @@
 import { Button } from "@/components/Button"
+import { Breadcrumbs } from "@/components/Breadcrumbs"
 import { BackButton } from "@/components/Button/BackButton"
 import { Icon } from "@/components/Icon"
 import { Section } from "@/components/Section"
@@ -6,9 +7,11 @@ import type { EventItem } from "@/types/events"
 import { slugify } from "@/utils/common"
 import { FormattedDate, FormattedTime } from "@/utils/DateFormat"
 import { getMessages } from "@/utils/getMessages"
+import { getLocalePrefix } from "@/utils/localization"
 import { renderRichTextContent } from "@/utils/RichText"
 import { Heading } from "../Headings"
 import { Hero } from "../Hero"
+import { MapEmbed } from "./MapEmbed"
 import styles from "./EventDetail.module.scss"
 
 const DEFAULT_HERO_FALLBACK =
@@ -41,6 +44,7 @@ export const EventDetail = ({
 			buyTicket?: string
 			location?: string
 			otherDates?: string
+			sectionTitle?: string
 		}
 	}
 	const t = messages.Events ?? {}
@@ -67,6 +71,14 @@ export const EventDetail = ({
 		event.ticket && typeof event.ticket === "object" && "url" in event.ticket
 			? (event.ticket as { url: string; name?: string; iconName?: string })
 			: null
+
+	const crumbMessages = (getMessages(locale) as { Breadcrumbs?: { home?: string; ariaLabel?: string } }).Breadcrumbs ?? {}
+	const prefix = getLocalePrefix(locale)
+	const crumbs = [
+		{ label: crumbMessages.home ?? "Home", href: prefix || "/" },
+		{ label: t.sectionTitle ?? "Events", href: `${prefix}/events` },
+		{ label: String(headingForSlug || event.venue || "") },
+	]
 
 	return (
 		<>
@@ -100,6 +112,7 @@ export const EventDetail = ({
 			/>
 			<Section size="small">
 				<div className={styles.eventDetail}>
+					<Breadcrumbs className={styles.breadcrumbs} crumbs={crumbs} ariaLabel={crumbMessages.ariaLabel} />
 					<BackButton className={styles.backLink}>
 						← {t.backToEvents}
 					</BackButton>
@@ -197,12 +210,7 @@ export const EventDetail = ({
 					</Section>
 					<Section size="full-max" padding="none">
 						<div className={styles.mapContainer}>
-							<iframe
-								width="100%"
-								height="400"
-								style={{ border: 0 }}
-								loading="lazy"
-								allowFullScreen
+							<MapEmbed
 								src={`https://maps.google.com/maps?q=${event.address.lat},${event.address.lon}&output=embed`}
 								title={`Map location for ${event.venue || "event"}`}
 							/>

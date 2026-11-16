@@ -21,12 +21,26 @@
 /// @param {String} $block - the block class name, used to reference the
 ///   image-fallback modifier by its literal local name.
 @mixin listing-card($block) {
+  // A raised card with a coloured rule on the left. Blocks reassign
+  // --_listing-card-accent (e.g. grey for past events).
+  --_listing-card-accent: var(--color-highlight);
+  --_listing-card-pad: var(--spacing-4);
+
+  @media (min-width: base.$breakpoint-md) {
+    --_listing-card-pad: var(--spacing-6);
+  }
+
   display: grid;
-  gap: var(--spacing-8);
-  padding-top: var(--spacing-8);
-  border-top: 1px solid var(--color-grey-border, #e5e5e5);
+  gap: var(--spacing-6);
+  padding: var(--_listing-card-pad);
+  border: 1px solid var(--outline-variant);
+  border-left: 4px solid var(--_listing-card-accent);
+  border-radius: var(--spacing-4);
+  background: var(--surface-container-lowest);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--color-black), transparent 94%);
   grid-template-columns: var(--_listing-card-columns);
-  margin-bottom: var(--spacing-4);
+  // Adds to the collection's grid gap (~24px between cards in total).
+  margin-bottom: var(--spacing-2);
 
   @media (width > base.$breakpoint-md) {
     --_listing-card-columns: 1fr minmax(200px, 280px);
@@ -42,20 +56,21 @@
     min-width: 0;
   }
 
-  // Meta strip: date, and whatever else the block adds (time, venue).
+  // Meta line: the date leads in the accent colour; whatever the block adds
+  // (time, venue) follows in a quieter tone.
   &__header {
     @include typo.ui-caption;
     display: flex;
-    gap: var(--spacing-4);
-    background-color: var(--color-grey-light);
-    padding: var(--spacing-2);
     flex-wrap: wrap;
+    gap: var(--spacing-1) var(--spacing-4);
+    color: var(--on-surface-variant);
   }
 
   &__date {
     display: flex;
     gap: var(--spacing-1);
     align-items: center;
+    color: var(--_listing-card-accent);
   }
 
   &__title {
@@ -97,7 +112,7 @@
   &__image {
     margin: 0;
     order: -1;
-    border-radius: var(--spacing-2);
+    border-radius: var(--spacing-3);
     overflow: hidden;
     aspect-ratio: 16 / 10;
     background: var(--surface-container);

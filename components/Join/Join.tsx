@@ -31,7 +31,7 @@ export function Join({ image }: JoinProps) {
 	return (
 		<Section
 			aria-label={t("title")}
-			classNames={{ inner: styles.join }}
+			classNames={{ main: styles.joinAnchor, inner: styles.join }}
 			paddingControl="removeTop"
 			id="join-our-community"
 		>
@@ -72,6 +72,9 @@ export function Join({ image }: JoinProps) {
 						<span className={styles["join__status--error"]}>
 							{errorMessage}
 						</span>
+					)}
+					{status !== "success" && status !== "error" && (
+						<span className={styles.join__note}>{t("note")}</span>
 					)}
 				</output>
 			</div>

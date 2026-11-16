@@ -4,7 +4,7 @@ export const FormattedDate: (props: {
   dateStr: string;
   locale: string;
   includeYear?: boolean;
-  fullFormat?: boolean | "card";
+  fullFormat?: boolean | "card" | "long";
 }) => ReactNode;
 
 export const FormattedTime: (props: {

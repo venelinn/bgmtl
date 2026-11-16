@@ -1,0 +1,32 @@
+@use "styles/typo-mixins" as typo;
+
+.map {
+  &__frame {
+    display: block;
+    width: 100%;
+    border: 0;
+  }
+
+  // Same footprint as the map, so the page doesn't jump when it loads.
+  &__placeholder {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--spacing-3);
+    min-height: 400px;
+    padding: var(--spacing-6);
+    background: var(--primary-container-low);
+    text-align: center;
+  }
+
+  &__icon {
+    color: var(--color-highlight);
+  }
+
+  &__notice {
+    @include typo.ui-caption;
+    max-width: 32rem;
+    margin: 0;
+    color: var(--on-surface-variant);
+  }
+}

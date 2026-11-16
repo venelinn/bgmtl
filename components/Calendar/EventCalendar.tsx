@@ -78,10 +78,11 @@ export function EventCalendar({
 
 	const selectedLocale = locales[locale] || enCA
 
-	// Generate localized weekday names (short format)
+	// Generate localized weekday names (short format). Weeks start on Monday
+	// (Québec French / Bulgarian convention).
 	const WEEKDAYS = useMemo(() => {
 		return Array.from({ length: 7 }, (_, i) => {
-			const date = new Date(2024, 0, i) // Start from Sunday
+			const date = new Date(2024, 0, i + 1) // 1 Jan 2024 was a Monday
 			return format(date, "EEE", { locale: selectedLocale })
 		})
 	}, [selectedLocale])
@@ -158,7 +159,8 @@ export function EventCalendar({
 		const days: CalendarDay[] = []
 		const firstDay = new Date(currentYear, currentMonth, 1)
 		const lastDay = new Date(currentYear, currentMonth + 1, 0)
-		const startDayOfWeek = firstDay.getDay()
+		// getDay() is Sunday-based; shift so Monday = 0.
+		const startDayOfWeek = (firstDay.getDay() + 6) % 7
 
 		// Add days from previous month
 		const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate()
@@ -353,6 +355,9 @@ export function EventCalendar({
 			{/* Inline detail for the selected event */}
 			{inlineEventDetail && selectedEvent && (
 				<Link href={selectedEvent.permalink} className={styles.eventDetail}>
+					<span className={styles.eventDetail__eyebrow}>
+						{t("Events.inFocus")}
+					</span>
 					<span className={styles.eventDetail__title}>
 						{selectedEvent.title}
 					</span>

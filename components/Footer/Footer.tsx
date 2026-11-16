@@ -1,11 +1,16 @@
 "use client";
 import cx from "clsx";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Button } from "@/components/Button";
 import { Section } from "@/components/Section";
 import { Social } from "@/components/Social";
-import { inferIconFromUrl } from "@/utils/linkHelpers";
-import { extractMenuColumns } from "@/utils/menuHelpers";
+import { useSubscribe } from "@/components/Subscribe/useSubscribe";
+import { getCloudinaryAsSvg } from "@/utils/common";
+import { getLocalePrefix } from "@/utils/localization";
+import { extractMenuColumns, getSocialLinks, isSocialColumn } from "@/utils/menuHelpers";
 import { Heading } from "../Headings";
 import styles from "./Footer.module.scss";
 
@@ -14,21 +19,31 @@ type FooterLink = {
   pageName: string;
 };
 
+type FooterLogo = { src: string; alt?: string; width?: number; height?: number };
+
 type FooterProps = {
   links?: FooterLink[];
   pageLocale: string;
   data?: any;
+  /** Site logo (the header's), shown in the brand column. */
+  logo?: FooterLogo;
 };
 
-export default function Footer({ data, pageLocale }: FooterProps) {
+export default function Footer({ data, pageLocale, logo }: FooterProps) {
   /**
    * Extract menu columns in footer mode:
    * The footer data structure has containers (About, Follow Us) with nested items.
    * Footer mode flattens these into: {role: "About us", links: [Mission, History, Charter, Directors]}
-   * This creates the two-column footer layout with grouped items.
    */
   const pathname = usePathname();
+  const t = useTranslations("Footer");
+  const tJoin = useTranslations("Join");
+  const { email, setEmail, status, errorMessage, handleSubmit } = useSubscribe();
   const menuColumns = extractMenuColumns(data?.menuLinks ?? [], pageLocale, "footer");
+  const linkColumns = menuColumns.filter((column) => !isSocialColumn(column));
+  const socialItems = getSocialLinks(menuColumns);
+  const description = typeof data?.description === "string" ? data.description.trim() : "";
+
   return (
     <Section
       classNames={{
@@ -38,60 +53,79 @@ export default function Footer({ data, pageLocale }: FooterProps) {
       size="full"
     >
       <div className={styles.footer}>
-        {/* FOOTER MENU COLUMNS: Maps MenuColumn objects to HTML structure */}
         <div className={styles.footer__columns}>
-          {menuColumns.length > 0 &&
-            menuColumns.map((column) => {
-              const titleLower = column.titleID?.toLowerCase() ?? "";
-              const hasSocialTitle =
-                titleLower === "social" ||
-                titleLower.includes("social") ||
-                titleLower === "follow us" ||
-                titleLower === "connect with us";
-              const isSocialColumn = hasSocialTitle && column.links.length > 0;
-              const socialItems = column.links.map((l) => ({
-                id: l.id,
-                name: l.title,
-                iconName: l.icon ?? inferIconFromUrl(l.url) ?? "Link",
-                url: l.url,
-                external: l.target === "_blank",
-              }));
-              if (isSocialColumn) {
-                return (
-                  <div key={column.id} className={cx(styles.footer__column, styles.footer__column__social)}>
-                    <Heading as="h3" size="h4" className={styles.footer__column__title}>
-                      {column.title}
-                    </Heading>
-                    <Social items={socialItems} />
-                  </div>
-                );
-              }
+          {/* Brand: logo, blurb (Contentful footer.description) and social icons */}
+          <div className={cx(styles.footer__column, styles.footer__brand)}>
+            {logo?.src && (
+              <Link href={getLocalePrefix(pageLocale) || "/"} className={styles.footer__logo} aria-label={t("homeAriaLabel")}>
+                <Image
+                  src={getCloudinaryAsSvg(logo.src)}
+                  alt={logo.alt || "Logo"}
+                  width={logo.width || 160}
+                  height={logo.height || 40}
+                />
+              </Link>
+            )}
+            {description && <p className={styles.footer__description}>{description}</p>}
+            {socialItems.length > 0 && <Social items={socialItems} />}
+          </div>
 
-              return (
-                <div key={column.id} className={styles.footer__column}>
-                  <Heading as="h3" size="h4" className={styles.footer__column__title}>
-                    {column.title}
-                  </Heading>
-                  <ul className={styles.footer__columnLinks}>
-                    {column.links.map((link) => {
-                      const isActive = link.url === "/" ? pathname === "/" : pathname?.startsWith(link.url);
-                      return (
-                        <li key={link.id}>
-                          <Link
-                            href={link.url}
-                            target={link.target}
-                            data-text={link.title}
-                            className={cx(styles.link, "link", isActive && styles.link__active)}
-                          >
-                            {link.title}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            })}
+          {linkColumns.map((column) => (
+            <div key={column.id} className={styles.footer__column}>
+              <Heading as="h3" size="h4" className={styles.footer__column__title}>
+                {column.title}
+              </Heading>
+              <ul className={styles.footer__columnLinks}>
+                {column.links.map((link) => {
+                  const isActive = link.url === "/" ? pathname === "/" : pathname?.startsWith(link.url);
+                  return (
+                    <li key={link.id}>
+                      <Link
+                        href={link.url}
+                        target={link.target}
+                        data-text={link.title}
+                        className={cx(styles.link, "link", isActive && styles.link__active)}
+                      >
+                        {link.title}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+
+          {/* Newsletter widget — same /api/subscribe flow as the Join section */}
+          <div className={cx(styles.footer__column, styles.footer__newsletter)}>
+            <Heading as="h3" size="h4" className={styles.footer__column__title}>
+              {t("newsletterTitle")}
+            </Heading>
+            <p className={styles.footer__newsletterText}>{t("newsletterText")}</p>
+            <form className={styles.footer__form} onSubmit={handleSubmit}>
+              <input
+                className={styles.footer__input}
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={tJoin("emailPlaceholder")}
+                aria-label={tJoin("emailPlaceholder")}
+              />
+              <Button
+                type="submit"
+                variant="danger"
+                size="sm"
+                className={styles.footer__submit}
+                disabled={status === "loading"}
+                label={status === "loading" ? tJoin("subscribing") : t("newsletterButton")}
+              />
+            </form>
+            <output className={styles.footer__status} aria-live="polite">
+              {status === "success" && tJoin("successMessage")}
+              {status === "error" && errorMessage}
+              {status !== "success" && status !== "error" && t("newsletterNote")}
+            </output>
+          </div>
         </div>
 
         <div className={styles.footer__bottom}>
@@ -109,6 +143,11 @@ export default function Footer({ data, pageLocale }: FooterProps) {
               </a>
             </span>
           </div>
+          <nav className={styles.footer__nav} aria-label={t("privacy")}>
+            <Link href={`${getLocalePrefix(pageLocale)}/privacy`} className="link">
+              <span className="link__text">{t("privacy")}</span>
+            </Link>
+          </nav>
         </div>
       </div>
     </Section>

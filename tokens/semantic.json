@@ -17,6 +17,7 @@
 	"on-primary": { "value": "{color.white}" },
 	"primary-container": { "value": "{color.blue-light}" },
 	"on-primary-container": { "value": "{color.blue-dark}" },
+	"primary-container-low": { "value": "{color.blue-pale}" },
 	"secondary": { "value": "{color.green}" },
 	"on-secondary": { "value": "{color.white}" },
 	"error": { "value": "{system.error}" },

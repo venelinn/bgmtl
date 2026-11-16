@@ -1,0 +1,33 @@
+@use "styles/typo-mixins" as typo;
+
+// Navy call-to-action card (fixed brand colours — same in both themes).
+.organize {
+  --heading-color: var(--color-white);
+
+  display: grid;
+  gap: var(--spacing-3);
+  padding: var(--spacing-6);
+  border-radius: var(--spacing-4);
+  background: var(--color-main);
+  color: var(--color-white);
+
+  &__eyebrow {
+    @include typo.ui-small(true);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: color-mix(in srgb, var(--color-white), transparent 25%);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__text {
+    @include typo.ui-caption;
+    margin: 0 0 var(--spacing-2);
+    color: color-mix(in srgb, var(--color-white), transparent 20%);
+  }
+}

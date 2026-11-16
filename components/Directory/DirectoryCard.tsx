@@ -1,6 +1,9 @@
+"use client";
+
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Heading } from "@/components/Headings";
 import { Icon } from "@/components/Icon";
 import styles from "./DirectoryCard.module.scss";
@@ -24,14 +27,14 @@ export type DirectoryCardProps = {
 	/** Category chips — plain labels, or `{ label, href, onClick }` for clickable category links. */
 	tags?: DirectoryCardTag[];
 	title?: React.ReactNode;
-	/** Logo image URL, rendered at the top of the card (left-aligned, contained). */
+	/** Logo image URL, shown in the square at the top right (initial letter when absent). */
 	logo?: string;
 	address?: string;
 	phone?: string;
 	email?: string;
-	/** Full URL; rendered as an external link in the footer. */
+	/** Full URL; listed with the contacts and used for the footer call to action. */
 	website?: string;
-	/** Free-text note (e.g. placeholder/sample), rendered in a soft box. */
+	/** Short descriptor or contact person (e.g. "dr. Angel Gabev"), shown under the title. */
 	note?: React.ReactNode;
 };
 
@@ -52,58 +55,74 @@ export const DirectoryCard = ({
 	website,
 	note,
 }: DirectoryCardProps) => {
+	const t = useTranslations("Directory");
+	const initial = typeof title === "string" ? title.trim().charAt(0) : "";
+
+	// One footer action, best channel first: website → phone → email.
+	const cta = website
+		? { href: website, label: t("ctaWebsite"), external: true }
+		: phone
+			? { href: telHref(phone), label: t("ctaCall"), external: false }
+			: email
+				? { href: `mailto:${email}`, label: t("ctaEmail"), external: false }
+				: null;
+
 	return (
 		<article className={styles.card}>
-			{tags && tags.length > 0 && (
-				<div className={styles.card__tags}>
-					{tags.map((tag) => {
-						const t = typeof tag === "string" ? { label: tag } : tag;
-						const className = clsx(
-							styles.card__tag,
-							t.active && styles["card__tag--active"],
-						);
-						if (t.href) {
-							return (
-								<a
-									key={t.label}
-									href={t.href}
-									className={className}
-									aria-current={t.active ? "true" : undefined}
-									onClick={t.onClick}
-								>
-									{t.label}
-								</a>
+			<div className={styles.card__top}>
+				{tags && tags.length > 0 && (
+					<div className={styles.card__tags}>
+						{tags.map((tag) => {
+							const tg = typeof tag === "string" ? { label: tag } : tag;
+							const className = clsx(
+								styles.card__tag,
+								tg.active && styles["card__tag--active"],
 							);
-						}
-						return (
-							<span key={t.label} className={className}>
-								{t.label}
-							</span>
-						);
-					})}
-				</div>
-			)}
+							if (tg.href) {
+								return (
+									<a
+										key={tg.label}
+										href={tg.href}
+										className={className}
+										aria-current={tg.active ? "true" : undefined}
+										onClick={tg.onClick}
+									>
+										{tg.label}
+									</a>
+								);
+							}
+							return (
+								<span key={tg.label} className={className}>
+									{tg.label}
+								</span>
+							);
+						})}
+					</div>
+				)}
 
-			{logo && (
-				<div className={styles.card__logo}>
-					<Image
-						src={logo}
-						alt={title ? String(title) : "Logo"}
-						width={90}
-						height={90}
-					/>
+				<div className={styles.card__logo} aria-hidden={!logo}>
+					{logo ? (
+						<Image
+							src={logo}
+							alt={title ? String(title) : "Logo"}
+							width={64}
+							height={64}
+						/>
+					) : (
+						<span className={styles.card__initial}>{initial}</span>
+					)}
 				</div>
-			)}
+			</div>
 
 			{title && (
-				<div className={styles.card__header}>
-					<Heading as="h3" size="h4" className={styles.card__title}>
-						{title}
-					</Heading>
-				</div>
+				<Heading as="h3" size="h4" className={styles.card__title}>
+					{title}
+				</Heading>
 			)}
 
-			{(address || phone || email) && (
+			{note && <p className={styles.card__note}>{note}</p>}
+
+			{(address || phone || email || website) && (
 				<ul className={styles.card__details}>
 					{address && (
 						<li className={styles.card__detail}>
@@ -145,26 +164,37 @@ export const DirectoryCard = ({
 							</Link>
 						</li>
 					)}
+					{website && (
+						<li className={styles.card__detail}>
+							<Icon
+								name="Globe"
+								className={styles.card__detailIcon}
+								size={16}
+								strokeWidth="1.5"
+							/>
+							<Link
+								href={website}
+								target="_blank"
+								rel="noopener noreferrer"
+								className={styles.card__detailLink}
+							>
+								{prettyUrl(website)}
+							</Link>
+						</li>
+					)}
 				</ul>
 			)}
 
-			{note && <div className={styles.card__note}>{note}</div>}
-
-			{website && (
+			{cta && (
 				<div className={styles.card__footer}>
 					<Link
-						href={website}
-						target="_blank"
-						rel="noopener noreferrer"
-						className={styles.card__link}
+						href={cta.href}
+						target={cta.external ? "_blank" : undefined}
+						rel={cta.external ? "noopener noreferrer" : undefined}
+						className={styles.card__cta}
 					>
-						<Icon
-							name="Globe"
-							className={styles.card__linkIcon}
-							size={16}
-							strokeWidth="1.5"
-						/>
-						<span>{prettyUrl(website)}</span>
+						{cta.label}
+						<Icon name="ArrowRight" size={16} strokeWidth="1.8" />
 					</Link>
 				</div>
 			)}

@@ -37,7 +37,7 @@ const parseNaive = (dateStr) => {
  * @param {string} props.dateStr
  * @param {string} props.locale
  * @param {boolean} [props.includeYear=true]
- * @param {boolean|"card"} [props.fullFormat=false] - true: "30 November 2025", "card": "Sunday, April 14, 2024"
+ * @param {boolean|"card"|"long"} [props.fullFormat=false] - true: "30 November 2025", "card": "Sunday, April 14, 2024", "long": "Sunday, 14 April 2024"
  */
 export const FormattedDate = ({
 	dateStr,
@@ -58,6 +58,11 @@ export const FormattedDate = ({
 			locale: selectedLocale,
 		})
 		return <>{fullDate}</>
+	}
+
+	// Long format: "събота, 28 ноември 2026" / "Saturday, 28 November 2026" (fullFormat="long")
+	if (fullFormat === "long") {
+		return <>{format(date, "EEEE, d MMMM yyyy", { locale: selectedLocale })}</>
 	}
 
 	// Card format: "Sunday, April 14, 2024" (fullFormat="card")

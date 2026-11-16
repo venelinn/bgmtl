@@ -224,3 +224,20 @@ export function buildArticleJsonLd(news: NewsItem, locale: string): Record<strin
 
 	return data
 }
+
+/**
+ * schema.org BreadcrumbList for a breadcrumb trail. `href`s are site-relative
+ * (already locale-prefixed); the last item (current page) may have none.
+ */
+export function buildBreadcrumbJsonLd(crumbs: { label: string; href?: string }[]): Record<string, unknown> {
+	return {
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		itemListElement: crumbs.map((crumb, i) => ({
+			"@type": "ListItem",
+			position: i + 1,
+			name: crumb.label,
+			...(crumb.href ? { item: `${BASE_URL}${crumb.href === "/" ? "" : crumb.href}` || BASE_URL } : {}),
+		})),
+	}
+}

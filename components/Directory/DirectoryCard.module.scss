@@ -5,58 +5,66 @@
 
 .card {
   --_card-radius: var(--spacing-4);
-	@media (width >= base.$breakpoint-md) {
-		--_logo-size: 90px;
-	}
-	@media (width < base.$breakpoint-md) {
-		--_logo-size: 70px;
-	}
+  --_logo-size: 56px;
+  --_card-border: var(--outline-variant);
+  --_card-shadow: 0 1px 3px color-mix(in srgb, var(--color-black) 6%, transparent);
+
+  @media (width >= base.$breakpoint-md) {
+    --_logo-size: 64px;
+  }
+
   display: flex;
   flex-direction: column;
   gap: var(--spacing-3);
   height: 100%;
   padding: var(--spacing-6);
-  background-color: var(--surface-container);
-  border: 1px solid var(--color-grey-border);
+  background-color: var(--surface-container-lowest);
+  border: 1px solid var(--_card-border);
   border-radius: var(--_card-radius);
-  box-shadow:
-	0 1px 2px color-mix(in srgb, var(--color-black) 6%, transparent),
-	0 10px 24px color-mix(in srgb, var(--color-black) 4%, transparent);
-	&:has(.card__logo) {
-		--_logo-clearance: calc(var(--_logo-size) + var(--spacing-6) * 2); // logo size + padding on both sides
-	}
+  box-shadow: var(--_card-shadow);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 
-  // Title row: name on the left, logo pinned to the right. The title takes the
-  // slack so the logo stays flush-right; `align-items: flex-start` keeps a tall
-  // logo from stretching against a single-line title.
-  &__header {
+  &:hover {
+    --_card-border: color-mix(in srgb, var(--outline-variant), var(--primary) 25%);
+    --_card-shadow: 0 8px 24px color-mix(in srgb, var(--color-black) 8%, transparent);
+  }
+
+  // Top row: category pills on the left, logo (or initial) square on the right.
+  &__top {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: var(--spacing-3);
-		padding-right: var(--_logo-clearance);
   }
 
-  // Fixed-size box with a `fill` image inside (object-fit: contain, anchored
-  // right), so any logo aspect ratio sits flush-right without distortion.
+  // Fixed square on a pale tint; any logo aspect ratio is contained inside it.
   &__logo {
-		position: absolute;
-		top: var(--spacing-6);
-		right: var(--spacing-6);
-		flex-shrink: 0;
-    border: 1px solid var(--color-grey-border);
-    box-sizing: content-box;
-		display: block;
-    text-align: center;
-    height: var(--_logo-size);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
     width: var(--_logo-size);
-    line-height: var(--_logo-size);
-		img {
-			width: calc(var(--_logo-size) - var(--spacing-1-5)); // border compensation
-			height: auto;
-			vertical-align: middle;
-		}
+    height: var(--_logo-size);
+    margin-left: auto;
+    padding: var(--spacing-1-5);
+    border-radius: var(--spacing-3);
+    background-color: var(--primary-container-low);
+    overflow: hidden;
 
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  // Not the heading mixin: its justify-self/margins pull the letter off-centre.
+  &__initial {
+    font-family: var(--font-family-heading);
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    color: var(--on-primary-container);
+    text-transform: uppercase;
   }
 
   &__tags {
@@ -129,84 +137,78 @@
   }
 
   &__title {
-    margin: 0;
+    margin: var(--spacing-1) 0 0;
     --heading-color: var(--on-surface);
   }
 
-  // Structured contact rows (address / phone / email), each icon-prefixed.
+  // Descriptor / contact person under the name, in the brand accent.
+  &__note {
+    @include typo.ui-caption(true);
+    margin: calc(-1 * var(--spacing-2)) 0 0;
+    color: var(--color-highlight);
+  }
+
+  // Structured contact rows (address / phone / email / website), icon-prefixed.
   &__details {
     @include typo.ui-caption;
     list-style: none;
-    margin: 0;
+    margin: var(--spacing-2) 0 0;
     padding: 0;
     display: grid;
     gap: var(--spacing-2);
-    color: var(--color-grey-dark);
+    color: var(--on-surface-variant);
     align-content: start;
-		padding-right: var(--_logo-clearance);
   }
 
   &__detail {
     display: flex;
     align-items: flex-start;
     gap: var(--spacing-2);
+    min-width: 0;
+
+    > :last-child {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
   }
 
   &__detailIcon {
     flex-shrink: 0;
     margin-top: 0.15em;
-    color: var(--color-highlight);
+    color: var(--on-surface-variant);
   }
 
   &__detailLink {
-    color: var(--color-blue);
+    color: inherit;
     text-decoration: none;
 
     &:hover {
+      color: var(--on-surface);
       text-decoration: underline;
     }
   }
 
-  &__note {
-    @include typo.ui-caption;
-    padding: var(--spacing-2);
-    border-radius: var(--spacing-2);
-    background-color: color-mix(in srgb, var(--color-blue) 8%, var(--surface-container));
-    color: var(--color-grey-dark);
-		width: fit-content;
-  }
-
+  // One call to action, pinned to the bottom and aligned right.
   &__footer {
+    display: flex;
+    justify-content: flex-end;
     margin-top: auto;
     padding-top: var(--spacing-4);
-    border-top: 1px solid var(--color-grey-border);
   }
 
-  &__link {
-		@include typo.ui-caption;
-		color: var(--color-blue);
-    font-weight: var(--font-weight-medium);
+  &__cta {
+    --_cta-gap: var(--spacing-1);
+
+    @include typo.ui-caption(true);
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-2);
-    max-width: 100%;
+    gap: var(--_cta-gap);
+    color: var(--color-highlight);
     text-decoration: none;
-
-    // text-overflow:ellipsis can't apply to the flex container itself, so it
-    // goes on the URL span; min-width:0 lets that flex item shrink below its
-    // content width (otherwise it overflows instead of truncating).
-    & > span {
-			@include mx.ellipsis;
-			min-width: 0;
-    }
+    transition: gap 0.15s ease;
 
     &:hover {
-			text-decoration: underline;
+      --_cta-gap: var(--spacing-2);
     }
-  }
-
-  &__linkIcon {
-		color: var(--color-highlight);
-    flex-shrink: 0;
   }
 }

@@ -18,7 +18,42 @@
 		"eventsCalendar": "Calendrier des événements",
 		"filterByYear": "Filtrer par année",
 		"allYears": "Toutes les années",
-		"location": "Lieu"
+		"location": "Lieu",
+		"tags": {
+			"theatre": "Théâtre et humour",
+			"music": "Musique et fête",
+			"family": "Famille",
+			"traditions": "Traditions",
+			"culture": "Culture et arts",
+			"sport": "Sport",
+			"community": "Rencontre communautaire",
+			"guest": "Artiste invité",
+			"free": "Entrée gratuite"
+		},
+		"inFocus": "À l'affiche",
+		"showMap": "Afficher la carte",
+		"mapNotice": "La carte provient de Google Maps et s'affiche une fois les témoins acceptés ou en cliquant sur le bouton.",
+		"detailsAndLocation": "Détails et lieu",
+		"pageEyebrow": "Calendrier culturel · Montréal et Québec",
+		"pageTitle": "Événements de la communauté bulgare",
+		"pageIntro": "Concerts, théâtre, soirées, rencontres folkloriques et rassemblements communautaires à Montréal et au Québec.",
+		"suggestEvent": "Proposer un événement",
+		"breadcrumbHome": "Accueil",
+		"tabUpcoming": "À venir",
+		"tabPast": "Passés",
+		"searchPlaceholder": "Rechercher par nom ou lieu…",
+		"searchAriaLabel": "Rechercher un événement",
+		"all": "Tous",
+		"filterAriaLabel": "Filtrer par type d'événement",
+		"noResults": "Aucun événement ne correspond à votre sélection.",
+		"archiveEyebrow": "La chronique culturelle de la communauté",
+		"archiveTitle": "Événements passés",
+		"pastBadge": "Passé",
+		"showingCount": "{shown} sur {total}",
+		"organizeEyebrow": "Initiative communautaire",
+		"organizeTitle": "Vous organisez un événement au Québec ?",
+		"organizeText": "Concert, exposition, conférence, atelier pour enfants ou soirée ? Écrivez-nous et nous l'ajouterons au calendrier de BGMTL.",
+		"organizeButton": "Ajouter un événement"
 	},
 	"Donate": {
 		"title": "Soutenez-nous!",
@@ -34,13 +69,47 @@
 		"button": "S’abonner",
 		"subscribing": "Abonnement…",
 		"successMessage": "Merci de votre abonnement",
-		"imageAlt": "Broderie bulgare traditionnelle"
+		"imageAlt": "Broderie bulgare traditionnelle",
+		"note": "Aucun pourriel. Désabonnement en tout temps."
 	},
 	"Contact": {
 		"name": "Nom",
 		"email": "Courriel",
 		"message": "Message",
-		"submit": "Envoyer"
+		"submit": "Envoyer le message",
+		"breadcrumbHome": "Accueil",
+		"pageTitle": "Contact",
+		"eyebrow": "Contactez BGMTL · Communauté Montréal et Québec",
+		"title": "Contactez",
+		"titleAccent": "nous",
+		"intro": "Une question, un événement à ajouter, un professionnel à recommander pour le répertoire, ou simplement un mot pour la communauté ? Écrivez-nous.",
+		"formEyebrow": "Formulaire de contact",
+		"formTitle": "Envoyer un message",
+		"formIntro": "Nous répondons dès que possible.",
+		"namePlaceholder": "p. ex. Georgi Ivanov",
+		"phone": "Téléphone",
+		"optional": "facultatif",
+		"topic": "Sujet",
+		"topicPlaceholder": "Choisissez un sujet…",
+		"topics": {
+			"general": "Question générale",
+			"event": "Ajouter un événement",
+			"directory": "Fiche au répertoire",
+			"partnership": "Partenariat",
+			"other": "Autre"
+		},
+		"messagePlaceholder": "Décrivez brièvement votre demande…",
+		"consent": "J'accepte que mes renseignements servent uniquement à répondre à cette demande, conformément à la",
+		"consentLink": "politique de confidentialité",
+		"sending": "Envoi…",
+		"success": "Merci ! Votre message a été envoyé.",
+		"error": "Le message n'a pas pu être envoyé. Veuillez réessayer.",
+		"channelsTitle": "Canaux communautaires",
+		"bannerEyebrow": "La ville où nous grandissons ensemble",
+		"bannerTitle": "Relier les Bulgares de tout le Grand Montréal",
+		"bannerText": "De Westmount et Côte-des-Neiges à Laval et Saint-Hubert — trouvez des compatriotes, des professionnels, des écoles et des ensembles.",
+		"bannerDirectory": "Ajouter au répertoire",
+		"bannerEvent": "Proposer un événement"
 	},
 	"Subscribe": {
 		"title": "Abonnez-vous à notre liste d’envoi",
@@ -85,13 +154,26 @@
 		"noResults": "Aucune fiche ne correspond à votre recherche.",
 		"suggestionsCategories": "Catégories",
 		"suggestionsListings": "Fiches",
-		"resultsCount": "{count} fiches trouvées"
+		"resultsCount": "{count} fiches trouvées",
+		"homeEyebrow": "Répertoire communautaire",
+		"homeTitle": "Professionnels et entreprises bulgares à Montréal",
+		"homeIntro": "Médecins, comptables, courtiers, artisans et plus encore — de et pour la communauté bulgare du Grand Montréal.",
+		"addListing": "Ajouter une fiche",
+		"viewAllDirectory": "Voir tout le répertoire",
+		"bannerTitle": "Vous offrez des services dans la région de Montréal ?",
+		"bannerText": "Inscrivez votre cabinet ou votre entreprise au répertoire communautaire — contactez-nous et nous vous ajouterons.",
+		"bannerButton": "Ajouter votre entreprise",
+		"ctaWebsite": "Visiter le site",
+		"ctaCall": "Appeler",
+		"ctaEmail": "Envoyer un courriel",
+		"filterAriaLabel": "Filtrer le répertoire par catégorie"
 	},
 	"CookieConsent": {
 		"title": "Cookies",
-		"message": "Nous utilisons des cookies pour analyser le trafic et améliorer votre expérience. Les statistiques ne sont activées que si vous acceptez.",
+		"message": "Nous utilisons des témoins pour analyser les visites et pour les cartes Google des pages d'événements. Ils ne se chargent que si vous acceptez.",
 		"accept": "Accepter",
-		"decline": "Refuser"
+		"decline": "Refuser",
+		"learnMore": "Politique de confidentialité"
 	},
 	"Navigation": {
 		"theme": "Mode sombre",
@@ -102,5 +184,17 @@
 		"searchAriaLabel": "Rechercher dans le répertoire",
 		"searchButton": "Rechercher",
 		"quickLinksLabel": "Accès rapide :"
+	},
+	"Footer": {
+		"newsletterTitle": "Infolettre de la communauté",
+		"newsletterText": "Un résumé mensuel des événements, rencontres et nouvelles à Montréal — directement dans votre boîte courriel.",
+		"newsletterButton": "S'inscrire",
+		"newsletterNote": "Aucun pourriel. Désabonnement en tout temps.",
+		"homeAriaLabel": "Accueil",
+		"privacy": "Confidentialité"
+	},
+	"Breadcrumbs": {
+		"home": "Accueil",
+		"ariaLabel": "Fil d'Ariane"
 	}
 }

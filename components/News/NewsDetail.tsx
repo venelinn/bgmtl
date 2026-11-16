@@ -1,9 +1,11 @@
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BackButton } from "@/components/Button/BackButton";
 import { Section } from "@/components/Section";
 import type { NewsItem } from "@/types/news";
 import { slugify } from "@/utils/common";
 import { FormattedDate } from "@/utils/DateFormat";
 import { getMessages } from "@/utils/getMessages";
+import { getLocalePrefix } from "@/utils/localization";
 import { renderRichTextContent } from "@/utils/RichText";
 import { Hero } from "../Hero";
 import styles from "./NewsDetail.module.scss";
@@ -23,7 +25,10 @@ export const NewsDetail = ({
 	locale,
 	heroFallbackImage,
 }: NewsDetailProps) => {
-	const messages = getMessages(locale) as { News?: { backToNews?: string } };
+	const messages = getMessages(locale) as {
+		News?: { backToNews?: string; sectionTitle?: string };
+		Breadcrumbs?: { home?: string; ariaLabel?: string };
+	};
 	const heroFallback = heroFallbackImage ?? DEFAULT_HERO_FALLBACK;
 
 	// Must match the name the source news card applies on click (see News.tsx):
@@ -40,6 +45,13 @@ export const NewsDetail = ({
 	const bgHeading =
 		(news as { bgHeading?: string }).bgHeading || headingForSlug;
 	const heroTransitionName = `news-hero-${slugify(String(bgHeading || "news"))}`;
+
+	const prefix = getLocalePrefix(locale);
+	const crumbs = [
+		{ label: messages.Breadcrumbs?.home ?? "Home", href: prefix || "/" },
+		{ label: messages.News?.sectionTitle ?? "News", href: `${prefix}/news` },
+		{ label: String(headingForSlug || "") },
+	];
 
 	return (
 		<>
@@ -73,6 +85,7 @@ export const NewsDetail = ({
 			/>
 			<Section size="small">
 				<div className={styles.newsDetail}>
+					<Breadcrumbs className={styles.breadcrumbs} crumbs={crumbs} ariaLabel={messages.Breadcrumbs?.ariaLabel} />
 					<BackButton className={styles.backLink}>
 						← {messages.News?.backToNews}
 					</BackButton>

@@ -96,14 +96,14 @@
     }
   }
 
-  // White pill (same as a `primary` hero button) — keeps red for the nav only.
+  // Brand red — the one solid accent in the panel, matching the CTA icons.
   &__submit {
-    --_btn-bg-color: var(--color-white);
-    --_btn-border-color: var(--color-white);
-    --_btn-color: var(--color-main);
-    --_btn-hover-bg-color: color-mix(in srgb, var(--color-white), var(--color-main) 8%);
-    --_btn-hover-border-color: color-mix(in srgb, var(--color-white), var(--color-main) 8%);
-    --_btn-hover-color: var(--color-main);
+    --_btn-bg-color: var(--color-highlight);
+    --_btn-border-color: var(--color-highlight);
+    --_btn-color: var(--color-white);
+    --_btn-hover-bg-color: color-mix(in srgb, var(--color-highlight), var(--color-black) 12%);
+    --_btn-hover-border-color: color-mix(in srgb, var(--color-highlight), var(--color-black) 12%);
+    --_btn-hover-color: var(--color-white);
 
     flex: 0 0 auto;
     min-height: calc(var(--_search-h) - 2 * var(--_search-inset));
@@ -160,22 +160,28 @@
   // their Button look).
   &__action {
     &--primary {
-      --_btn-bg-color: var(--color-white);
-      --_btn-border-color: var(--color-white);
-      --_btn-color: var(--color-main);
+      --_btn-bg-color: color-mix(in srgb, var(--color-white), transparent 80%);
+      --_btn-border-color: color-mix(in srgb, var(--color-white), transparent 70%);
+      --_btn-color: var(--color-white);
       --_btn-hover-bg-color: color-mix(in srgb, var(--color-white), var(--color-main) 8%);
       --_btn-hover-border-color: color-mix(in srgb, var(--color-white), var(--color-main) 8%);
       --_btn-hover-color: var(--color-main);
     }
 
+    // Red icons on both CTAs for a touch of brand colour.
+
+      svg {
+        color: var(--color-highlight);
+      }
+
+
     &--secondary {
-      --_btn-bg-color: color-mix(in srgb, var(--color-white), transparent 85%);
+      --_btn-bg-color: color-mix(in srgb, var(--color-white), transparent 80%);
       --_btn-border-color: color-mix(in srgb, var(--color-white), transparent 70%);
       --_btn-color: var(--color-white);
-      --_btn-hover-bg-color: color-mix(in srgb, var(--color-white), transparent 75%);
-      --_btn-hover-border-color: color-mix(in srgb, var(--color-white), transparent 55%);
-      --_btn-hover-color: var(--color-white);
-      backdrop-filter: blur(12px);
+      --_btn-hover-bg-color: color-mix(in srgb, var(--color-white), var(--color-main) 8%);
+      --_btn-hover-border-color: color-mix(in srgb, var(--color-white), var(--color-main) 8%);
+      --_btn-hover-color: var(--color-main);
     }
   }
 

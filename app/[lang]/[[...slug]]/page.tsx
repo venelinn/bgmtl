@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { draftMode } from "next/headers"
 import { notFound } from "next/navigation"
 import { componentMap } from "@/components"
+import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs"
 import { EventsCalendarConnector } from "@/components/Calendar"
 import { Join } from "@/components/Join"
 import { ListingsConnector } from "@/components/Listings"
@@ -22,7 +23,9 @@ import {
 	getPageBySlug,
 	getPagePaths,
 } from "@/utils/content"
+import { getMessages } from "@/utils/getMessages"
 import { getContentfulLocale, localization } from "@/utils/localization"
+import styles from "./page.module.scss"
 
 // The `/community` directory is a single Contentful page, but categories are
 // exposed as shareable path segments (`/community/<slug>`). Because this route
@@ -255,13 +258,42 @@ export default async function Page(props: {
 		: page.sections
 
 	const heroContent = heroSection ? renderSection(heroSection) : null
+
+	// Breadcrumb for every page except the homepage, and except pages whose own
+	// block renders a header with breadcrumbs (Contacts → PageHeader).
+	const rendersOwnHeader = page.sections?.some((s) => s.type === "contacts")
+	let breadcrumbs: React.ReactNode = null
+	if (!isHomepage && !rendersOwnHeader) {
+		const crumbText =
+			(getMessages(lang) as { Breadcrumbs?: { home?: string; ariaLabel?: string } }).Breadcrumbs ?? {}
+		const pageAny = pageData as {
+			pageName?: { heading?: string }
+			metaData?: { pageTitle?: string }
+			title?: string
+		}
+		const pageLabel = pageAny.pageName?.heading || pageAny.metaData?.pageTitle || pageAny.title || path
+		const crumbs: Crumb[] = [{ label: crumbText.home ?? "Home", href: localePrefix || "/" }]
+		if (directory) {
+			const categories = await getCommunityCategories(lang, isEnabled)
+			const category = categories.find((c) => c.slug === directory.category)
+			crumbs.push({ label: pageLabel, href: `${localePrefix}/${DIRECTORY_SLUG}` })
+			crumbs.push({ label: category?.label ?? directory.category })
+		} else {
+			crumbs.push({ label: pageLabel })
+		}
+		breadcrumbs = (
+			<div className={styles.breadcrumbs}>
+				<Breadcrumbs crumbs={crumbs} ariaLabel={crumbText.ariaLabel} />
+			</div>
+		)
+	}
 	const cmsSections = otherSections?.length
 		? otherSections.map((s) => renderSection(s, directoryProps))
 		: null
 
 	// ── Homepage: bespoke layout (no page-level sidebar) ─────────────────────
-	// Events + Calendar/Donate in a two-column Section, News in its own Section,
-	// CMS body sections, then a full-width Join call-to-action.
+	// Events + Calendar/Donate in a two-column Section, CMS body sections, the
+	// directory band, News, then a full-width Join call-to-action last.
 	if (isHomepage) {
 		return (
 			<>
@@ -285,13 +317,13 @@ export default async function Page(props: {
 
 				{cmsSections}
 
-				<Join />
-
 				{listings.includes("directory") && (
-					<HomeDirectoryConnector locale={lang} limit={3} preview={isEnabled} />
+					<HomeDirectoryConnector locale={lang} limit={6} preview={isEnabled} />
 				)}
 
 				<HomeNewsConnector locale={lang} limit={3} preview={isEnabled} />
+
+				<Join />
 			</>
 		)
 	}
@@ -319,6 +351,7 @@ export default async function Page(props: {
 	return (
 		<>
 			{heroContent}
+			{breadcrumbs}
 
 			{/* Main content with sidebar */}
 			{shouldShowSidebar ? (

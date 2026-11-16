@@ -1,5 +1,12 @@
 @use "styles/base-variables" as base;
 
+// The section is an in-page target (hero "Join" button → #join-our-community).
+// The global scroll-padding only clears ~30px; the fixed nav is taller, so add
+// room for the rest and land the card fully below it.
+.joinAnchor {
+  scroll-margin-top: var(--spacing-14);
+}
+
 .join {
   // White headings/text on the dark navy card.
   --heading-color: var(--color-white);
@@ -108,9 +115,10 @@
     --_btn-hover-border-color: color-mix(in srgb, var(--color-highlight), black 15%);
   }
 
+  // Fine print under the form; swaps to the success / error message after submit.
   &__status {
     display: block;
-    margin: var(--spacing-4) 0 0;
+    margin: var(--spacing-2) 0 0;
     min-height: 1.25rem;
     font-size: var(--ui-caption-font-size);
 
@@ -121,6 +129,10 @@
     &--error {
       color: var(--_error-color);
     }
+  }
+
+  &__note {
+    color: color-mix(in srgb, var(--color-white), transparent 45%);
   }
 
   &__media {

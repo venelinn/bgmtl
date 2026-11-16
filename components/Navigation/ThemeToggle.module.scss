@@ -90,9 +90,37 @@
   }
 }
 
-// Desktop header: icon only.
+// Desktop header: icon only, in a smoked-glass circle matching the language
+// pill (LocaleSwitcher) — fixed white tints, the nav is always dark.
 .themeToggle__label {
   display: none;
+}
+
+@media (min-width: base.$breakpoint-lg) {
+  .themeToggle {
+    --_circle-bg: color-mix(in srgb, var(--color-black), transparent 55%);
+    --_circle-border: color-mix(in srgb, var(--color-white), transparent 78%);
+
+    justify-content: center;
+    width: var(--theme-toggle-circle, 2.125rem);
+    height: var(--theme-toggle-circle, 2.125rem);
+    border: 1px solid var(--_circle-border);
+    border-radius: 50%;
+    background: var(--_circle-bg);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-white), transparent 60%),
+      0 8px 20px color-mix(in srgb, var(--color-black), transparent 70%);
+    backdrop-filter: blur(24px) saturate(1.4);
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      --_circle-bg: color-mix(in srgb, var(--color-black), transparent 40%);
+      --_circle-border: color-mix(in srgb, var(--color-white), transparent 60%);
+    }
+  }
 }
 
 // Mobile menu sheet: full-width labelled row, matching the language rows.

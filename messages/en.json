@@ -18,7 +18,42 @@
 		"eventsCalendar": "Events Calendar",
 		"filterByYear": "Filter by year",
 		"allYears": "All years",
-		"location": "Location"
+		"location": "Location",
+		"tags": {
+			"theatre": "Theatre & Comedy",
+			"music": "Music & Party",
+			"family": "Family",
+			"traditions": "Traditions",
+			"culture": "Culture & Arts",
+			"sport": "Sport",
+			"community": "Community meetup",
+			"guest": "Guest performance",
+			"free": "Free entry"
+		},
+		"inFocus": "In focus",
+		"showMap": "Show map",
+		"mapNotice": "The map comes from Google Maps and shows once you accept cookies or press the button.",
+		"detailsAndLocation": "Details & location",
+		"pageEyebrow": "Cultural calendar · Montreal & Québec",
+		"pageTitle": "Bulgarian community events",
+		"pageIntro": "Concerts, theatre, parties, folklore gatherings and community meetups in Montreal and Québec.",
+		"suggestEvent": "Suggest an event",
+		"breadcrumbHome": "Home",
+		"tabUpcoming": "Upcoming",
+		"tabPast": "Past",
+		"searchPlaceholder": "Search by name or venue…",
+		"searchAriaLabel": "Search events",
+		"all": "All",
+		"filterAriaLabel": "Filter by event type",
+		"noResults": "No events match your selection.",
+		"archiveEyebrow": "The community's cultural chronicle",
+		"archiveTitle": "Past events",
+		"pastBadge": "Past",
+		"showingCount": "Showing {shown} of {total}",
+		"organizeEyebrow": "Community initiative",
+		"organizeTitle": "Organizing an event in Québec?",
+		"organizeText": "A concert, exhibition, talk, kids' workshop or party? Write to us and we'll add it to the BGMTL calendar.",
+		"organizeButton": "Add an event"
 	},
 	"Donate": {
 		"title": "Keep us going!",
@@ -34,13 +69,47 @@
 		"button": "Subscribe Now",
 		"subscribing": "Subscribing…",
 		"successMessage": "Thanks for subscribing",
-		"imageAlt": "Traditional Bulgarian embroidery"
+		"imageAlt": "Traditional Bulgarian embroidery",
+		"note": "No spam. Unsubscribe anytime."
 	},
 	"Contact": {
 		"name": "Name",
 		"email": "Email",
 		"message": "Message",
-		"submit": "Submit"
+		"submit": "Send message",
+		"breadcrumbHome": "Home",
+		"pageTitle": "Contact",
+		"eyebrow": "Get in touch with BGMTL · Montreal & Québec community",
+		"title": "Get in touch",
+		"titleAccent": "with us",
+		"intro": "Have a question, want to add an event, recommend a professional for the directory, or just say hello to the community? Write to us.",
+		"formEyebrow": "Contact form",
+		"formTitle": "Send a message",
+		"formIntro": "We reply as soon as we can.",
+		"namePlaceholder": "e.g. Georgi Ivanov",
+		"phone": "Phone",
+		"optional": "optional",
+		"topic": "Subject",
+		"topicPlaceholder": "Choose a subject…",
+		"topics": {
+			"general": "General question",
+			"event": "Add an event",
+			"directory": "Directory listing",
+			"partnership": "Partnership",
+			"other": "Other"
+		},
+		"messagePlaceholder": "Briefly describe your request…",
+		"consent": "I agree that my information is used only to reply to this request, in line with the",
+		"consentLink": "privacy policy",
+		"sending": "Sending…",
+		"success": "Thank you! Your message has been sent.",
+		"error": "Your message could not be sent. Please try again.",
+		"channelsTitle": "Community channels",
+		"bannerEyebrow": "The city where we grow together",
+		"bannerTitle": "Connecting Bulgarians across Greater Montreal",
+		"bannerText": "From Westmount and Côte-des-Neiges through Laval to Saint-Hubert — find fellow Bulgarians, professionals, schools and ensembles.",
+		"bannerDirectory": "Add to the directory",
+		"bannerEvent": "Suggest an event"
 	},
 	"Subscribe": {
 		"title": "Subscribe to our mailing list",
@@ -85,13 +154,26 @@
 		"noResults": "No listings match your search.",
 		"suggestionsCategories": "Categories",
 		"suggestionsListings": "Listings",
-		"resultsCount": "{count} listings found"
+		"resultsCount": "{count} listings found",
+		"homeEyebrow": "Community directory",
+		"homeTitle": "Bulgarian professionals & businesses in Montreal",
+		"homeIntro": "Doctors, accountants, brokers, tradespeople and more — from and for the Bulgarian community in Greater Montreal.",
+		"addListing": "Add a listing",
+		"viewAllDirectory": "See the full directory",
+		"bannerTitle": "Do you offer services in the Montreal area?",
+		"bannerText": "Get your practice or business into the community directory — contact us and we'll add you.",
+		"bannerButton": "Add your business",
+		"ctaWebsite": "Visit website",
+		"ctaCall": "Call",
+		"ctaEmail": "Send email",
+		"filterAriaLabel": "Filter the directory by category"
 	},
 	"CookieConsent": {
 		"title": "Cookies",
-		"message": "We use cookies to analyze site traffic and improve your experience. Analytics run only if you accept.",
+		"message": "We use cookies to analyse visits and for the Google maps on event pages. They load only if you accept.",
 		"accept": "Accept",
-		"decline": "Decline"
+		"decline": "Decline",
+		"learnMore": "Privacy policy"
 	},
 	"Navigation": {
 		"theme": "Dark mode",
@@ -102,5 +184,17 @@
 		"searchAriaLabel": "Search the directory",
 		"searchButton": "Search",
 		"quickLinksLabel": "Quick picks:"
+	},
+	"Footer": {
+		"newsletterTitle": "Community newsletter",
+		"newsletterText": "A monthly digest of events, meetups and news in Montreal — straight to your inbox.",
+		"newsletterButton": "Sign up",
+		"newsletterNote": "No spam. Unsubscribe anytime.",
+		"homeAriaLabel": "Home",
+		"privacy": "Privacy"
+	},
+	"Breadcrumbs": {
+		"home": "Home",
+		"ariaLabel": "Breadcrumb"
 	}
 }

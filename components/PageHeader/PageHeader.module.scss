@@ -1,0 +1,60 @@
+@use "styles/mixins" as mixins;
+@use "styles/typo-mixins" as typo;
+
+// Full-width pale band behind the header; content stays in the page column.
+.band {
+  background-color: var(--primary-container-low);
+}
+
+.header {
+  display: grid;
+  gap: var(--spacing-4);
+  justify-items: start;
+  padding-block: var(--spacing-6) var(--spacing-10);
+
+  // Red dot + label pill above the title.
+  &__pill {
+    @include typo.ui-small(true);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    width: fit-content;
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--color-highlight), transparent 90%);
+    color: var(--on-surface);
+
+    &::before {
+      content: "";
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: var(--color-highlight);
+    }
+  }
+
+  // Scales down on phones so long Bulgarian words don't break mid-word.
+  &__title {
+    margin: 0;
+    font-size: clamp(2rem, 1.25rem + 4vw, 4rem);
+    line-height: 1.1;
+    overflow-wrap: normal;
+  }
+
+  &__accent {
+    color: var(--color-highlight);
+    font-weight: var(--font-weight-normal);
+  }
+
+  &__lead {
+    max-width: 44rem;
+    margin: 0;
+    color: var(--on-surface-variant);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-3);
+  }
+}

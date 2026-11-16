@@ -1,0 +1,135 @@
+@use "styles/base-variables" as base;
+@use "styles/mixins" as mixins;
+@use "styles/typo-mixins" as typo;
+
+// Full-width pale band; content stays in the page column.
+.directory {
+  background-color: var(--primary-container-low);
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--spacing-4) var(--spacing-8);
+    margin-bottom: var(--spacing-6);
+  }
+
+  &__intro {
+    display: grid;
+    gap: var(--spacing-2);
+    max-width: 44rem;
+  }
+
+  &__eyebrow {
+    @include typo.ui-small(true);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: var(--color-highlight);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__lead {
+    margin: 0;
+    color: var(--on-surface-variant);
+  }
+
+  // Category tabs: scroll sideways on narrow screens instead of wrapping.
+  &__tabs {
+    @include mixins.resetList;
+    display: flex;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-6);
+    padding-block: var(--spacing-1);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  &__tab {
+    --_tab-bg: var(--surface-container-lowest);
+    --_tab-color: var(--on-surface);
+    --_tab-border: var(--outline-variant);
+
+    @include typo.ui-caption(true);
+    padding: var(--spacing-2) var(--spacing-4);
+    border: 1px solid var(--_tab-border);
+    border-radius: 9999px;
+    background: var(--_tab-bg);
+    color: var(--_tab-color);
+    font-family: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      --_tab-border: color-mix(in srgb, var(--outline-variant), var(--on-surface) 30%);
+    }
+
+    &[aria-pressed="true"] {
+      --_tab-bg: var(--inverse-surface);
+      --_tab-color: var(--inverse-on-surface);
+      --_tab-border: var(--inverse-surface);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+  }
+
+  &__count {
+    opacity: 0.7;
+    font-weight: var(--font-weight-normal);
+  }
+
+  &__more {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--spacing-6);
+  }
+
+  // "Add your business" call to action under the grid.
+  &__banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-4) var(--spacing-6);
+    margin-top: var(--spacing-8);
+    padding: var(--spacing-6);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--spacing-4);
+    background: var(--surface-container-lowest);
+  }
+
+  &__bannerIcon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--spacing-3);
+    background: color-mix(in srgb, var(--color-highlight), transparent 88%);
+    color: var(--color-highlight);
+  }
+
+  &__bannerText {
+    flex: 1 1 18rem;
+    display: grid;
+    gap: var(--spacing-1);
+
+    p {
+      margin: 0;
+      color: var(--on-surface-variant);
+    }
+  }
+
+  &__bannerTitle {
+    margin: 0;
+  }
+}
