@@ -28,6 +28,62 @@
     @include mx.sr-only;
   }
 
+  // Bulgarian-flag cards: white / green / red, icon in a round badge.
+  &[data-flag] {
+    --_info-card-bgr: var(--_flag-bg);
+    --heading-color: var(--_flag-text);
+
+    border: 1px solid var(--_flag-border, transparent);
+    color: var(--_flag-text);
+    box-shadow: 0 1px 3px color-mix(in srgb, var(--color-black) 6%, transparent);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 10px 28px color-mix(in srgb, var(--color-black) 12%, transparent);
+      transform: translateY(-2px);
+    }
+
+    .infoIcon {
+      --_icon-size: 1.5rem;
+
+      place-items: center;
+      width: 3.25rem;
+      height: 3.25rem;
+      border-radius: 50%;
+      background: var(--_flag-icon-bg);
+      color: var(--_flag-icon);
+    }
+
+    .infoDesc {
+      color: var(--_flag-muted);
+    }
+  }
+
+  &[data-flag="white"] {
+    --_flag-bg: var(--surface-container-lowest);
+    --_flag-border: var(--outline-variant);
+    --_flag-text: var(--on-surface);
+    --_flag-muted: var(--on-surface-variant);
+    --_flag-icon-bg: color-mix(in srgb, var(--flag-green) 12%, var(--surface-container-lowest));
+    --_flag-icon: var(--flag-green);
+  }
+
+  &[data-flag="green"],
+  &[data-flag="red"] {
+    --_flag-text: var(--color-white);
+    --_flag-muted: color-mix(in srgb, var(--color-white) 88%, transparent);
+    --_flag-icon-bg: color-mix(in srgb, var(--color-white) 18%, transparent);
+    --_flag-icon: var(--color-white);
+  }
+
+  &[data-flag="green"] {
+    --_flag-bg: var(--flag-green);
+  }
+
+  &[data-flag="red"] {
+    --_flag-bg: var(--flag-red);
+  }
+
   &Content {
     @include typo.ui-caption;
     align-self: var(--_info-card-content-align, start);

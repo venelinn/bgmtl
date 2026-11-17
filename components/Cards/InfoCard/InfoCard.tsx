@@ -32,6 +32,8 @@ export type InfoCardProps = {
   variant?: keyof typeof InfoCardVariants;
   content?: React.ReactNode;
   linkSrOnly?: boolean;
+  /** Bulgarian-flag colour for featured cards (white, green, red). */
+  flag?: "white" | "green" | "red";
 };
 
 export const InfoCard = ({
@@ -43,11 +45,13 @@ export const InfoCard = ({
   className,
   classNames,
   linkSrOnly = false,
+  flag,
 }: InfoCardProps) => {
   const normalizedVariant: keyof typeof InfoCardVariants = variant ?? "default";
 
   return (
     <div
+      data-flag={flag}
       className={clsx(styles.info, className, {
         [styles[normalizedVariant]]: normalizedVariant,
         [styles.defaultHeaderSize]: heading?.as === "h2",

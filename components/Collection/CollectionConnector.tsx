@@ -321,6 +321,14 @@ export const CollectionConnector = (props: CollectionConnectorProps) => {
     return index < 0 ? undefined : (index % 6) + 1;
   };
 
+  // Featured info cards take the Bulgarian flag colours in order.
+  const FLAG = ["white", "green", "red"] as const;
+  const featuredInfo = cards.filter((card) => card.variant === "featured").map((card) => card.id);
+  const flagOf = (id: string) => {
+    const index = featuredInfo.indexOf(id);
+    return index < 0 ? undefined : FLAG[index % FLAG.length];
+  };
+
   const mapItems = (items: CollectionCard[]) =>
     items
       .map((item) => {
@@ -372,6 +380,7 @@ export const CollectionConnector = (props: CollectionConnectorProps) => {
             case "info":
               return (
                 <InfoCard
+                  flag={flagOf(item.id)}
                   icon={item.icon as string}
                   heading={item.heading}
                   variant={

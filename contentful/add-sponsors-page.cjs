@@ -166,6 +166,8 @@ function plan() {
         heading: bg(link(`heading-sponsors-why-${c.key}`)),
         content: localized((loc) => doc(paragraph(c.text[loc]))),
         icon: bg(c.icon),
+        // Featured info cards render in the Bulgarian flag colours, in order.
+        variant: bg("featured"),
       },
     });
     return `card-sponsors-why-${c.key}`;
