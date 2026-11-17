@@ -162,17 +162,20 @@ export const EventDetail = ({
 						</div>
 
 						{otherDates.length > 0 && (
-							<div className={styles.metaItem}>
-								<Icon name="Calendar" />
-								{t.otherDates}:{" "}
-								{otherDates.map((d, i) => (
-									<span key={d.href}>
-										{i > 0 && ", "}
-										<a href={d.href}>
-											<FormattedDate dateStr={d.date} locale={locale} />
-										</a>
-									</span>
-								))}
+							<div className={styles.otherDates}>
+								<span className={styles.otherDates__label}>
+									<Icon name="CalendarRange" />
+									{t.otherDates}
+								</span>
+								<ul className={styles.otherDates__list}>
+									{otherDates.map((d) => (
+										<li key={d.href}>
+											<a href={d.href} className={styles.otherDates__chip}>
+												<FormattedDate dateStr={d.date} locale={locale} fullFormat />
+											</a>
+										</li>
+									))}
+								</ul>
 							</div>
 						)}
 
