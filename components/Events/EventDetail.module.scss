@@ -37,6 +37,51 @@
   text-decoration: none;
 }
 
+// Other dates of a series: label, then a wrapping row of date chips.
+.otherDates {
+  display: grid;
+  gap: var(--spacing-3);
+
+  &__label {
+    @include typo.ui-body;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__chip {
+    --_chip-bg: var(--surface-container-lowest);
+    --_chip-border: var(--outline-variant);
+    --_chip-color: var(--on-surface);
+
+    @include typo.ui-caption(true);
+    display: inline-block;
+    padding: var(--spacing-1-5) var(--spacing-3);
+    border: 1px solid var(--_chip-border);
+    border-radius: 9999px;
+    background: var(--_chip-bg);
+    color: var(--_chip-color);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      --_chip-border: var(--color-highlight);
+      --_chip-color: var(--color-highlight);
+    }
+  }
+}
+
 .mapContainer {
   border-radius: var(--spacing-2);
   overflow: hidden;

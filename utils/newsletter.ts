@@ -19,6 +19,7 @@ import {
 	getLatestDirectoryEntries,
 } from "./content"
 import { getEventPermalink, getNewsPermalink } from "./common"
+import { collapseEventSeries } from "./eventSeries"
 // Shared pure renderer (CommonJS — allowed via tsconfig allowJs + esModuleInterop).
 import {
 	renderNewsletter,
@@ -145,8 +146,9 @@ function startOfToday(now: number): number {
 }
 
 async function upcomingEvents(max: number): Promise<Item[]> {
-	const events = (await getAllEvents(LOCALE)) as any[]
 	const cutoff = startOfToday(Date.now())
+	// One item per series (its next date), not one per date.
+	const events = collapseEventSeries((await getAllEvents(LOCALE)) as any[], cutoff)
 	return events
 		.map((e) => ({
 			item: eventToItem(e),

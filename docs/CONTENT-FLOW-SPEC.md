@@ -26,7 +26,7 @@
 | Field       | Type   | Description                                      |
 | ----------- | ------ | ------------------------------------------------ |
 | title       | Symbol | Internal label                                   |
-| pageName    | Symbol | Display name (localized)                          |
+| pageName    | Link   | Heading used as menu / breadcrumb label. Use its own entry, not the first section's heading |
 | slug        | Symbol | URL path (e.g. `/`, `about`, `about/mission`)    |
 | metaData    | Link   | SEO metadata                                     |
 | sections    | Array  | Ordered list of section entries                  |
@@ -35,6 +35,8 @@
 | listings    | Array  | Optional events/news listings (`["events","news"]`) |
 
 **Flow:** `getPageBySlug()` fetches the page by slug. The page's `sections` array defines the vertical order of blocks. Each section is resolved by its Contentful content type and rendered via `componentMap`.
+
+**Page header:** with no hero, a first `section` whose heading is `as: "h1"` renders as a `PageHeader` band (breadcrumb, title + optional red **accent**, intro from the section description). See `docs/cms-page-rendering.md` §5c.
 
 ---
 
@@ -54,6 +56,8 @@
 | padding         | Symbol   | `none` \| `xsmall` \| `small` \| `medium` \| `large` |
 | theme           | Symbol   | `light` \| `dark` \| `highlight` \| `transparent` |
 | headingVariant  | Symbol   | `horizontal` \| `vertical`                      |
+
+**Heading entry** (linked from `heading`): `heading` (localized text), `accent` (localized, optional; red italic tail in page headers), `as` (h1–h4/div), `size`, `highlight`, `alignment`, `uppercase`.
 
 **Flow:** `SectionConnector` maps CMS data to the `Section` UI component. It renders its children (components/items/content) by looking up each child's type in `componentMap` and rendering the matching component.
 
@@ -96,12 +100,22 @@ Child entries inside a section. Each child has a `type` (content type ID) that m
 | description    | RichText | Optional rich text                             |
 | cards          | Array  | Links to card, member, event, or news entries   |
 | variant        | Symbol | `grid` \| `paginated` \| `slider`                |
-| cardVariant    | Symbol | Card style (primary, event, news, info, member)  |
+| cardVariant    | Symbol | Card style: primary, event, news, info, member, guide, tier |
 | itemsPerRow    | Integer| 1–4                                               |
 | itemsPerPage   | Integer| For paginated variant                            |
 | cardsWidth     | Symbol | `default` \| `breakout` \| `full-width`         |
 
 **Flow:** `CollectionConnector` receives the collection entry, transforms cards via `collectionTransformer`, and renders as Grid, Paginated, or Slider. Card types include events, news, members, info cards, and primary cards.
+
+**Card fields used by the newer variants** (`card` type):
+
+| Variant | Uses |
+| ------- | ---- |
+| info + `variant: featured` | Bulgarian flag colours (white, green, red in order), icon on the left |
+| guide | `role` = category (colour + filter chip), `icon`, `content`, `link` (official source). Rendered in `GuideList` with filter chips and an info Alert |
+| tier | `heading` = tier name, `role` = price with period, `content` = benefit list, `link` = CTA. `variant: featured` gets the badge and red border |
+
+See `docs/help-and-sponsors.md`.
 
 ---
 
@@ -154,6 +168,10 @@ Events are split by date:
 - **EventsPaginatedWithHeadings** and **EventsGridWithHeadings** render two blocks:
   1. "Upcoming Events" – upcoming events.
   2. "Past Events" – past events (or "No events available" if none).
+
+### 6.2b Events – Several dates
+
+`event.additionalDates` (Array of `YYYY-MM-DD`) lists extra days of the same event. At load time each one becomes an occurrence (`<id>--<day>`, same time as the main date). Lists collapse a series to one card (next date, plus a "+N дати" chip). See `docs/events-listing-page.md#multi-date-events`.
 
 ### 6.3 Events – Buy Button & Doors Open (Upcoming Only)
 

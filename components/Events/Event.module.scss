@@ -153,6 +153,17 @@
     }
   }
 
+  &__moreDates {
+    @include typo.ui-small(true);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    padding: var(--spacing-0-5, 0.125rem) var(--spacing-2);
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--_event-accent) 12%, transparent);
+    color: var(--_event-accent);
+  }
+
   &__time svg,
   &__location svg {
     color: var(--on-surface-variant);

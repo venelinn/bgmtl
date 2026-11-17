@@ -3,6 +3,7 @@ import { cache } from "react";
 import { createClient, type EntryCollection, type EntrySkeletonType } from "contentful";
 import { IS_DEV, normalizeSlug, PAGE_TYPE, slugify } from "./common";
 import { cachedContentful } from "./contentful-cache";
+import { collapseEventSeries, eventEntryId, expandEventDates } from "./eventSeries";
 import { getContentfulLocale, localization } from "./localization";
 
 const deliveryClient = createClient({
@@ -508,8 +509,8 @@ const getBulgarianEventHeadingsMap = cache(async (): Promise<Map<string, string>
   const bgLocale = getContentfulLocale("bg");
   const { items: bgItems } = await getEntries("event", { locale: bgLocale, limit: 100 });
 
-  // First map the entries to resolve references
-  const mappedBgEvents = bgItems.map((entry) => mapEntry(entry, "bg"));
+  // First map the entries to resolve references; extra dates become occurrences.
+  const mappedBgEvents = expandEventDates(bgItems.map((entry) => mapEntry(entry, "bg")).filter(Boolean) as any[]);
 
   const headingOf = (bgEvent: any): string => {
     if (typeof bgEvent.heading === "string") return bgEvent.heading;
@@ -671,10 +672,12 @@ export async function getNavigationLinks(pages: any[], locale: string) {
 
 export async function getEventById(id: string, locale: string, preview?: boolean) {
   const contentfulLocale = getContentfulLocale(locale);
-  const { items } = await getEntries("event", { locale: contentfulLocale, "sys.id": id }, { preview });
+  // Occurrence ids (`<entry>--<YYYY-MM-DD>`) resolve through their entry.
+  const { items } = await getEntries("event", { locale: contentfulLocale, "sys.id": eventEntryId(id) }, { preview });
 
   if (items.length > 0) {
-    return mapEntry(items[0]);
+    const occurrences = expandEventDates([mapEntry(items[0])].filter(Boolean) as any[]);
+    return occurrences.find((e) => e.id === id) ?? occurrences[0] ?? null;
   }
   return null;
 }
@@ -709,10 +712,10 @@ export async function getAllEvents(locale: string, preview?: boolean) {
   // Get Bulgarian headings map
   const bgHeadingsMap = await getBulgarianEventHeadingsMap();
 
-  // Map entries and inject Bulgarian heading for slug generation
-  return localizedItems.map((entry: any) => {
-    const mapped = mapEntry(entry, locale);
-    const bgHeadingText = bgHeadingsMap.get(entry.sys.id);
+  // Map entries (extra dates → occurrences) and inject the Bulgarian heading for slugs
+  const occurrences = expandEventDates(localizedItems.map((entry: any) => mapEntry(entry, locale)).filter(Boolean) as any[]);
+  return occurrences.map((mapped: any) => {
+    const bgHeadingText = bgHeadingsMap.get(mapped.id);
 
     // Add Bulgarian heading as a separate property for reliable slug generation
     if (mapped && bgHeadingText) {
@@ -730,10 +733,9 @@ export async function getAllEventsBulgarian(preview?: boolean) {
 
   const bgHeadingsMap = await getBulgarianEventHeadingsMap();
 
-  return items.map((entry) => {
-    const mapped = mapEntry(entry, "bg");
-    const bgHeadingText = bgHeadingsMap.get(entry.sys.id);
-    if (mapped && bgHeadingText) mapped.bgHeading = bgHeadingText;
+  return expandEventDates(items.map((entry) => mapEntry(entry, "bg")).filter(Boolean) as any[]).map((mapped: any) => {
+    const bgHeadingText = bgHeadingsMap.get(mapped.id);
+    if (bgHeadingText) mapped.bgHeading = bgHeadingText;
     return mapped;
   });
 }
@@ -820,7 +822,8 @@ export async function getListingsData(
 
   for (const listingType of listingTypes) {
     if (listingType === "events") {
-      const events = await getAllEvents(locale, preview);
+      // One card per series (next date + "+N дати"), not one per occurrence.
+      const events = collapseEventSeries((await getAllEvents(locale, preview)) as any[]);
       const eventCards = events.map((e) => ({ ...e, type: "event" }));
       // Match the /events listing order: upcoming events soonest-first, then
       // past events newest-first. A plain date-descending sort would surface

@@ -104,8 +104,20 @@ Passes `draftMode().isEnabled` to both `getAllEvents()` and `getSiteConfig()`.
 
 ## Multi-date events
 
-An event that happens on several dates (a tour, a weekly class) is modelled as **one
-Contentful event entry per date**. There is no `seriesId` field and no schema change.
+An event that happens on several dates (a tour, a weekly class, the monthly bazaar) is a
+**series**. There are two ways to enter one, and they can be mixed:
+
+1. **One entry with Additional dates** (preferred when time, place and text are the same).
+   `event.additionalDates` is a list of `YYYY-MM-DD` days (migration
+   `2026-11-17-event-additional-dates.js`). `expandEventDates` (`utils/eventSeries.ts`) turns
+   every extra day into its own occurrence when events are loaded: in `getAllEvents`,
+   `getAllEventsBulgarian`, `getBulgarianEventHeadingsMap` and `getEventById`. Each occurrence
+   uses the main Date's time of day and doors-open time, and has the id
+   `<entry id>--<YYYY-MM-DD>`. Everything downstream sees ordinary per-date events.
+   Example: the Bulgarian bazaar season 2026/27 (`contentful/add-bazaar-season.cjs`). Its text names the season's dates, never a single date, because every occurrence shares the text.
+2. **One entry per date** (when a date has a different time, place or text).
+
+Both group by the Bulgarian heading:
 
 - **Grouping:** entries whose **Bulgarian heading** is identical form a series.
 - **URLs:** the detail slug comes from the Bulgarian heading. The earliest date keeps the
@@ -117,7 +129,15 @@ Contentful event entry per date**. There is no `seriesId` field and no schema ch
   and the detail page all derive the slug from `bgHeading`.
 - **Detail page:** shows an **Other dates** row (upcoming siblings only) via the `otherDates`
   prop on `EventDetail`.
+- **Lists show one card per series** (`collapseEventSeries`): the next upcoming date, with a
+  "+N дати" chip (`Events.moreDates`), and the most recent date in the archive. This applies to
+  the /events page, the home teaser (`getListingsData`), the hero search suggestions and the
+  newsletter's upcoming list. The calendar, sitemap and JSON-LD keep every date.
 - **Calendar:** if several events fall on one day, the earliest represents the day.
-- **Adding in Contentful:** copy the event entry, change **Date** / **Doors open**, give it a
-  unique ID (`event-<slug>-<YYYY-MM-DD>`), keep the Bulgarian heading text identical, publish.
+- **Adding in Contentful:** add the days to **Additional dates** on the event. For a date that
+  differs, copy the event entry instead, change **Date** / **Doors open**, give it a unique ID
+  (`event-<slug>-<YYYY-MM-DD>`), keep the Bulgarian heading text identical, publish.
+- **Unused field:** `event.recurring` (weekly/biweekly/"montly") is an earlier idea. No code or
+  entry uses it, so it can be removed. A repeat rule can't express exceptions such as the
+  bazaar's 20 Dec and 13 Jun.
 - **Known gap:** `scripts/build-newsletter.js` still slugs from the title only.

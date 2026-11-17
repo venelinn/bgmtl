@@ -54,7 +54,8 @@
 		"organizeTitle": "Organizing an event in Québec?",
 		"organizeText": "A concert, exhibition, talk, kids' workshop or party? Write to us and we'll add it to the BGMTL calendar.",
 		"organizeButton": "Add an event",
-		"pageTitleAccent": "events"
+		"pageTitleAccent": "events",
+		"moreDates": "{count, plural, one {+# more date} other {+# more dates}}"
 	},
 	"Donate": {
 		"title": "Keep us going!",

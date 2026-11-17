@@ -43,6 +43,10 @@ Page (e.g. "About Us")
 
 Every page except the homepage gets a **breadcrumb** ("Начало / <Page Name>") automatically — nothing to set.
 
+**Page Name** is also the label in the menu, footer and breadcrumb. Give it its **own** Heading entry. Don't reuse the heading of the page's first section: if that heading gets an accent, the menu label is cut to its first half.
+
+**Page header:** if the page's **first Section** has a heading set to **h1**, that heading and the section's description are shown as the page header: a pale band with breadcrumb, large title and intro, like Contacts. Examples: Помощ, Спонсори, Мисия.
+
 ---
 
 ### Hero
@@ -72,6 +76,17 @@ Every page except the homepage gets a **breadcrumb** ("Начало / <Page Name
 
 ---
 
+### Heading
+
+**What it is:** The title used by pages, sections, paragraphs and cards.
+
+**What you set:**
+- **Heading** – The text (per language)
+- **Accent** – Optional. Text shown **after** the heading in red italics, only in page headers. Example: heading "Станете", accent "спонсор" → "Станете *спонсор*". Leave empty for a plain title.
+- **As / Size** – The HTML level (h1–h4) and the visual size
+
+---
+
 ### Paragraph
 
 **What it is:** A block of text with an optional heading.
@@ -95,6 +110,13 @@ Every page except the homepage gets a **breadcrumb** ("Начало / <Page Name
 - **Items per row** – How many cards per row (1–4)
 
 **When to use:** To show events, news, team members, or any set of similar items in a structured layout.
+
+**Card style (Card Variant):**
+- **primary** – Image cards (default)
+- **info** – Icon + heading + text. Set a card's **Variant** to **featured** to colour it in the Bulgarian flag colours. The featured cards take white, green and red in order, with the icon on the left (used on Спонсори).
+- **member** – People / team members
+- **guide** – Help-page cards. The card's **Role** is the category (e.g. "Здраве"). It sets the card's colour and its filter chip. Add an **Icon** (a Lucide name) and a **Link** to the official page. The page adds the "check the official sites" box and the filter chips automatically.
+- **tier** – Price cards (sponsorship packages). **Heading** = tier name, **Role** = price with period ("500 $ / година"), **Content** = a bullet list of benefits, **Link** = the button. Set **Variant** to **featured** on one tier to highlight it with the "Препоръчан" badge.
 
 ---
 
@@ -171,7 +193,11 @@ When adding items to Header or Footer menus, you can only select:
 - **Community** (`/community`) – The **Community Directory** block's **Heading** and **Intro** are shown as the page header (light band with breadcrumb and title, like Contacts). Listings appear automatically from **Directory Entry** entries.
 - **Contacts** (`/contacts`) – The page holds the **Contacts** block directly (no hero). Success / error texts can be set on that block. The form's subject can be preselected with a link: `/contacts?topic=event` (event), `?topic=directory` (directory listing), also `general`, `partnership`, `other`. Add `#contact-form` to scroll to the form. Site buttons such as "Предложи събитие" and "Добави профил" already use these links.
 - **Privacy** (`/privacy`) – One **Paragraph** with the whole policy. Paragraph text can use **H2/H3 headings** (any paragraph, not just this one).
+- **Events on several dates** (e.g. the monthly bazaar) – On the event, add the other days to **Additional dates** (`YYYY-MM-DD`, e.g. `2027-01-31`). They get the same time, place and text as the main Date. Lists show the event once, at its next date, with "+N дати". The calendar and the detail page show every date. If one date has a different time or place, copy the event for that date and keep the same Bulgarian title.
 - **Events** (`/events`) – Built automatically from all events; not a Contentful page layout. **Events per page** in Site Configuration sets the archive page size (rounded to rows of 3).
+- **News** (`/news`) – Built automatically from all published news, newest first. The `news` page entry only supplies the SEO texts (Meta Data). The homepage shows news from the last 60 days only.
+- **Help** (`/help`) – One section with a **guide** collection. To add a topic, create a Card with a Heading, Role (one of the existing categories: Документи, Здраве, Семейство и образование, Език и работа, Жилище и транспорт, За българите), Content, Icon and Link, then add it to the "Help: guide cards" collection. The first 3 cards also appear on the homepage, so reorder the cards to change them. Some cards quote figures (minimum wage, fees); check them about once a year.
+- **Sponsors** (`/sponsors`) – A "why" section with 3 **featured info** cards (flag colours) and a **tier** collection with the yearly packages. Change prices and benefits on the cards "Sponsors tier: …". The buttons open the contact form on the Partnership topic.
 
 ---
 
@@ -208,6 +234,7 @@ You can enable one or both. Each appears as its own block with a heading (e.g. "
 | Section    | Groups content; controls layout               |
 | Paragraph  | Heading + text block                         |
 | Collection | Grid/list of cards (events, news, members…)  |
+| Heading    | Title text; optional red **Accent** in page headers |
 | Events     | Event entries (auto split into Upcoming/Past)|
 | News       | News articles                                |
 
