@@ -35,7 +35,7 @@
 		"mapNotice": "La carte provient de Google Maps et s'affiche une fois les témoins acceptés ou en cliquant sur le bouton.",
 		"detailsAndLocation": "Détails et lieu",
 		"pageEyebrow": "Calendrier culturel · Montréal et Québec",
-		"pageTitle": "Événements de la communauté bulgare",
+		"pageTitle": "Événements de la",
 		"pageIntro": "Concerts, théâtre, soirées, rencontres folkloriques et rassemblements communautaires à Montréal et au Québec.",
 		"suggestEvent": "Proposer un événement",
 		"breadcrumbHome": "Accueil",
@@ -53,7 +53,8 @@
 		"organizeEyebrow": "Initiative communautaire",
 		"organizeTitle": "Vous organisez un événement au Québec ?",
 		"organizeText": "Concert, exposition, conférence, atelier pour enfants ou soirée ? Écrivez-nous et nous l'ajouterons au calendrier de BGMTL.",
-		"organizeButton": "Ajouter un événement"
+		"organizeButton": "Ajouter un événement",
+		"pageTitleAccent": "communauté bulgare"
 	},
 	"Donate": {
 		"title": "Soutenez-nous!",
@@ -135,7 +136,11 @@
 		"sectionTitle": "Actualités",
 		"latestNews": "Actualités",
 		"viewAll": "Voir tout",
-		"readMore": "Lire la suite"
+		"readMore": "Lire la suite",
+		"pageIntro": "Nouvelles, annonces et informations utiles pour la communauté bulgare de Montréal et du Canada.",
+		"empty": "Aucune actualité pour le moment.",
+		"pageTitle": "Actualités et",
+		"pageTitleAccent": "annonces"
 	},
 	"NotFound": {
 		"title": "Page introuvable",
@@ -203,5 +208,18 @@
 	"Breadcrumbs": {
 		"home": "Accueil",
 		"ariaLabel": "Fil d'Ariane"
+	},
+	"Guide": {
+		"homeEyebrow": "Aide pratique",
+		"homeTitle": "Aide et ressources",
+		"homeIntro": "Documents, santé, famille, emploi et logement — l'essentiel pour vivre à Montréal, avec des liens directs vers les sources officielles.",
+		"viewAll": "Voir tous les sujets",
+		"all": "Tous",
+		"filterAriaLabel": "Filtrer par thème",
+		"noticeTitle": "Consultez les sites officiels",
+		"notice": "Les règles et les délais changent. Ce guide n'est qu'un point de départ — les conditions à jour se trouvent sur les sites officiels indiqués sur chaque fiche."
+	},
+	"Cards": {
+		"featured": "Recommandé"
 	}
 }

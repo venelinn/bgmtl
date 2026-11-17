@@ -32,8 +32,9 @@ export function Join({ image }: JoinProps) {
 		<Section
 			aria-label={t("title")}
 			classNames={{ main: styles.joinAnchor, inner: styles.join }}
-			paddingControl="removeTop"
 			id="join-our-community"
+			size="full"
+			padding="large"
 		>
 			<div className={styles.join__content}>
 				<span className={styles.join__eyebrow}>{t("eyebrow")}</span>

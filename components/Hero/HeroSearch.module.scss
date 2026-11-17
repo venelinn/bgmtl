@@ -148,8 +148,8 @@
   }
 
   // Autocomplete in the panel's smoked glass, a touch darker so rows stay
-  // readable over the chips/buttons it covers. Two columns from md up so all
-  // groups fit inside the hero (which clips overflow).
+  // readable over the chips/buttons it covers. Two columns from md up so
+  // the groups stay compact; on mobile it may hang below the hero.
   &__suggest {
     @include mixins.resetList;
     position: absolute;

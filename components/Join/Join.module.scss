@@ -4,6 +4,7 @@
 // The global scroll-padding only clears ~30px; the fixed nav is taller, so add
 // room for the rest and land the card fully below it.
 .joinAnchor {
+	--_section-bgr: var(--primary-container-low);
   scroll-margin-top: var(--spacing-14);
 }
 

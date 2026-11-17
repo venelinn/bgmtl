@@ -28,6 +28,86 @@
     @include mx.sr-only;
   }
 
+  // Bulgarian-flag cards: white / green / red, icon in a round badge.
+  &[data-flag] {
+    --_card-padding: var(--spacing-6);
+    --_info-card-bgr: var(--_flag-bg);
+    --heading-color: var(--_flag-text);
+
+    border: 1px solid var(--_flag-border, transparent);
+    color: var(--_flag-text);
+    box-shadow: 0 1px 3px color-mix(in srgb, var(--color-black) 6%, transparent);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 10px 28px color-mix(in srgb, var(--color-black) 12%, transparent);
+      transform: translateY(-2px);
+    }
+
+    // The icon is the <svg> itself: padding shrinks the drawing inside the badge.
+    .infoIcon {
+      --_badge-size: 3rem;
+      --_glyph-size: 1.625rem;
+
+      box-sizing: border-box;
+      width: var(--_badge-size);
+      height: var(--_badge-size);
+      padding: calc((var(--_badge-size) - var(--_glyph-size)) / 2);
+      margin-bottom: var(--spacing-2);
+      border-radius: 50%;
+      background: var(--_flag-icon-bg);
+      color: var(--_flag-icon);
+    }
+
+    .infoDesc {
+      color: var(--_flag-muted);
+    }
+
+    // Icon on the left, heading + text on the right.
+    .infoContent {
+      grid-template-columns: auto 1fr;
+      column-gap: var(--spacing-4);
+      row-gap: var(--spacing-2);
+      align-items: start;
+    }
+
+    .infoIcon {
+      grid-row: 1 / span 2;
+      margin-bottom: 0;
+    }
+
+    .infoHeading,
+    .infoDesc {
+      grid-column: 2;
+      margin-top: 0;
+    }
+  }
+
+  &[data-flag="white"] {
+    --_flag-bg: var(--surface-container-lowest);
+    --_flag-border: var(--outline-variant);
+    --_flag-text: var(--on-surface);
+    --_flag-muted: var(--on-surface-variant);
+    --_flag-icon-bg: color-mix(in srgb, var(--flag-green) 12%, var(--surface-container-lowest));
+    --_flag-icon: var(--flag-green);
+  }
+
+  &[data-flag="green"],
+  &[data-flag="red"] {
+    --_flag-text: var(--color-white);
+    --_flag-muted: color-mix(in srgb, var(--color-white) 88%, transparent);
+    --_flag-icon-bg: color-mix(in srgb, var(--color-white) 18%, transparent);
+    --_flag-icon: var(--color-white);
+  }
+
+  &[data-flag="green"] {
+    --_flag-bg: var(--flag-green);
+  }
+
+  &[data-flag="red"] {
+    --_flag-bg: var(--flag-red);
+  }
+
   &Content {
     @include typo.ui-caption;
     align-self: var(--_info-card-content-align, start);

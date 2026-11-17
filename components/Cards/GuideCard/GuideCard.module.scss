@@ -1,0 +1,111 @@
+@use "styles/typo-mixins" as typo;
+
+.guide {
+  // Category accent: set per card via data-tone, drives the stripe, icon box and label.
+  --_guide-accent: var(--color-highlight);
+  --_guide-border: var(--outline-variant);
+  --_guide-shadow: 0 1px 3px color-mix(in srgb, var(--color-black) 6%, transparent);
+  --_link-gap: var(--spacing-1);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-6);
+  height: 100%;
+  padding: var(--spacing-6);
+  background-color: var(--surface-container-lowest);
+  border: 1px solid var(--_guide-border);
+  border-radius: var(--spacing-4);
+  box-shadow: var(--_guide-shadow);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+  @for $i from 1 through 6 {
+    &[data-tone="#{$i}"] {
+      --_guide-accent: var(--category-#{$i});
+
+      border-top: 4px solid var(--_guide-accent);
+    }
+  }
+
+  &:hover {
+    --_guide-border: color-mix(in srgb, var(--outline-variant), var(--_guide-accent) 35%);
+    --_guide-shadow: 0 8px 24px color-mix(in srgb, var(--color-black) 8%, transparent);
+  }
+
+  &__body {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: var(--spacing-4);
+    border-radius: var(--spacing-3);
+    background-color: color-mix(in srgb, var(--_guide-accent) 12%, var(--surface-container-lowest));
+    color: var(--_guide-accent);
+  }
+
+  &__eyebrow {
+    @include typo.ui-small(true);
+    color: var(--_guide-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__title {
+    --heading-color: var(--on-surface);
+    margin: var(--spacing-1) 0 0;
+  }
+
+  &__text {
+    @include typo.ui-caption;
+    margin-top: var(--spacing-2);
+    color: var(--on-surface-variant);
+
+    :where(p, ul, ol) {
+      margin: 0;
+    }
+
+    :where(p + p, p + ul, p + ol) {
+      margin-top: var(--spacing-2);
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-2) var(--spacing-4);
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--outline-variant);
+  }
+
+  &__source {
+    @include typo.ui-small;
+    color: var(--on-surface-variant);
+  }
+
+  &__link {
+    @include typo.ui-caption(true);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--_link-gap);
+    color: var(--color-highlight);
+    text-decoration: none;
+    transition: gap 0.15s ease;
+
+    &:hover {
+      --_link-gap: var(--spacing-2);
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+}

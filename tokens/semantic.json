@@ -22,6 +22,14 @@
 	"on-secondary": { "value": "{color.white}" },
 	"error": { "value": "{system.error}" },
 	"on-error": { "value": "{color.white}" },
+	"category-1": { "value": "hsl(209, 75%, 38%)", "comment": "Category accents (help-guide cards + filter chips), by category order; dark values in styles/_theme-dark.scss" },
+	"category-2": { "value": "hsl(352, 68%, 46%)" },
+	"category-3": { "value": "hsl(26, 85%, 40%)" },
+	"category-4": { "value": "hsl(270, 45%, 48%)" },
+	"category-5": { "value": "hsl(186, 80%, 28%)" },
+	"category-6": { "value": "hsl(145, 60%, 30%)" },
+	"flag-green": { "value": "#00966e", "comment": "Bulgarian flag colours (featured info cards: white, green, red)" },
+	"flag-red": { "value": "#d62612" },
 	"background": { "value": "{surface}" },
 	"on-background": { "value": "{on-surface}" }
 }

@@ -117,7 +117,6 @@ const nextConfig = {
 			{ source: "/community-support/bg-community-in-canada{/}?", destination: "/bg-community-in-ottawa", permanent: true },
 			{ source: "/category/:rest*", destination: "/news", permanent: true },
 			{ source: "/author/:rest*", destination: "/news", permanent: true },
-			{ source: "/sponsors{/}?", destination: "/sponsors", permanent: true },
 
 			// NOTE: do NOT add a `/bg → /` redirect here. On Netlify the proxy
 			// (proxy.ts) rewrites `/` → `/bg/` FIRST, so such a redirect bounces

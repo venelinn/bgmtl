@@ -10,7 +10,7 @@ export interface CardImage {
   alt?: string;
 }
 
-export type CardVariantType = "primary" | "member" | "info" | "event" | "news";
+export type CardVariantType = "primary" | "member" | "info" | "event" | "news" | "guide" | "tier";
 
 export interface CardVariant {
   variant?: CardVariantType;

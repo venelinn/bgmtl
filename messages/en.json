@@ -35,7 +35,7 @@
 		"mapNotice": "The map comes from Google Maps and shows once you accept cookies or press the button.",
 		"detailsAndLocation": "Details & location",
 		"pageEyebrow": "Cultural calendar · Montreal & Québec",
-		"pageTitle": "Bulgarian community events",
+		"pageTitle": "Bulgarian community",
 		"pageIntro": "Concerts, theatre, parties, folklore gatherings and community meetups in Montreal and Québec.",
 		"suggestEvent": "Suggest an event",
 		"breadcrumbHome": "Home",
@@ -53,7 +53,8 @@
 		"organizeEyebrow": "Community initiative",
 		"organizeTitle": "Organizing an event in Québec?",
 		"organizeText": "A concert, exhibition, talk, kids' workshop or party? Write to us and we'll add it to the BGMTL calendar.",
-		"organizeButton": "Add an event"
+		"organizeButton": "Add an event",
+		"pageTitleAccent": "events"
 	},
 	"Donate": {
 		"title": "Keep us going!",
@@ -135,7 +136,11 @@
 		"sectionTitle": "News",
 		"latestNews": "News",
 		"viewAll": "View all",
-		"readMore": "Read more"
+		"readMore": "Read more",
+		"pageIntro": "Latest news, announcements and useful information for the Bulgarian community in Montreal and Canada.",
+		"empty": "No news yet.",
+		"pageTitle": "News &",
+		"pageTitleAccent": "announcements"
 	},
 	"NotFound": {
 		"title": "Page not found",
@@ -203,5 +208,18 @@
 	"Breadcrumbs": {
 		"home": "Home",
 		"ariaLabel": "Breadcrumb"
+	},
+	"Guide": {
+		"homeEyebrow": "Practical help",
+		"homeTitle": "Help & resources",
+		"homeIntro": "Documents, health, family, work and housing — the essentials for life in Montréal, with direct links to the official sources.",
+		"viewAll": "See all topics",
+		"all": "All",
+		"filterAriaLabel": "Filter by topic",
+		"noticeTitle": "Check the official sites",
+		"notice": "Rules and deadlines change. This guide is only a starting point — the current requirements are on the official sites linked from each card."
+	},
+	"Cards": {
+		"featured": "Recommended"
 	}
 }

@@ -6,6 +6,8 @@ import { getFallbackImageUrl, getListingsData } from "@/utils/content"
 import { getLocalePrefix } from "@/utils/localization"
 import { HomeSectionHeader } from "./HomeSectionHeader"
 
+const NEWS_MAX_AGE_DAYS = 60
+
 type HomeNewsConnectorProps = {
 	locale: string
 	limit?: number
@@ -18,8 +20,9 @@ type HomeNewsConnectorProps = {
  * `GridCollection` of cards — rather than routing through `ListingsConnector`,
  * which gave news a differently-styled heading and a centred link underneath.
  *
- * Renders nothing when there is no news, so the page doesn't show an empty
- * padded section.
+ * Only news from the last 60 days: older items stay on /news but drop off
+ * the home page. Renders nothing when none are left, so the page doesn't show
+ * an empty padded section.
  */
 export async function HomeNewsConnector({
 	locale,
@@ -29,6 +32,7 @@ export async function HomeNewsConnector({
 	const { sections, siteConfig } = await getListingsData(["news"], locale, {
 		limit,
 		preview,
+		newsMaxAgeDays: NEWS_MAX_AGE_DAYS,
 	})
 	const section = sections.find((s) => s.type === "news")
 	if (!section?.cards.length) return null

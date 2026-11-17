@@ -803,7 +803,12 @@ export type ListingsDataResult = {
 export async function getListingsData(
   listingTypes: string[],
   locale: string,
-  options?: { limit?: number; preview?: boolean },
+  options?: {
+    limit?: number;
+    preview?: boolean;
+    /** Drop news published more than this many days ago (home teaser). */
+    newsMaxAgeDays?: number;
+  },
 ): Promise<ListingsDataResult> {
   const defaultLimit = options?.limit ?? 5;
   const preview = options?.preview ?? false;
@@ -839,7 +844,11 @@ export async function getListingsData(
     if (listingType === "news") {
       try {
         const news = await getAllNews(locale, preview);
-        const newsCards = news.map((item) => ({ ...item, type: "news" }));
+        const maxAge = options?.newsMaxAgeDays;
+        const cutoff = maxAge ? Date.now() - maxAge * 86_400_000 : null;
+        const newsCards = news
+          .filter((item) => !cutoff || new Date(item.date || 0).getTime() >= cutoff)
+          .map((item) => ({ ...item, type: "news" }));
         const sorted = newsCards.sort((a, b) => {
           const dateA = new Date(a.date || 0).getTime();
           const dateB = new Date(b.date || 0).getTime();

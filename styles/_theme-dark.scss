@@ -63,6 +63,13 @@
 	--on-secondary: hsl(162, 80%, 10%);
 	--error: hsl(354, 80%, 70%);
 	--on-error: hsl(354, 90%, 16%);
+	// Category accents, lifted for contrast on dark surfaces.
+	--category-1: hsl(209, 80%, 70%);
+	--category-2: hsl(352, 75%, 72%);
+	--category-3: hsl(30, 85%, 64%);
+	--category-4: hsl(270, 60%, 76%);
+	--category-5: hsl(186, 60%, 60%);
+	--category-6: hsl(145, 45%, 60%);
 	--background: var(--surface);
 	--on-background: var(--on-surface);
 

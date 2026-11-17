@@ -1,0 +1,44 @@
+@use "styles/typo-mixins" as typo;
+
+.alert {
+  --_alert-bg: var(--primary-container-low);
+  --_alert-accent: var(--primary);
+
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: flex-start;
+  padding: var(--spacing-4) var(--spacing-5);
+  border-left: 4px solid var(--_alert-accent);
+  border-radius: var(--spacing-2);
+  background: var(--_alert-bg);
+  color: var(--on-surface);
+
+  &[data-variant="warning"] {
+    --_alert-bg: color-mix(in srgb, var(--color-highlight), transparent 92%);
+    --_alert-accent: var(--color-highlight);
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+    color: var(--_alert-accent);
+  }
+
+  &__body {
+    display: grid;
+    gap: var(--spacing-1);
+  }
+
+  &__title {
+    @include typo.ui-body(true);
+  }
+
+  &__text {
+    @include typo.ui-caption;
+    color: var(--on-surface-variant);
+
+    p {
+      margin: 0;
+    }
+  }
+}

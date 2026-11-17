@@ -147,6 +147,19 @@ toggle became plain jump links (it read as a filter with nothing selected).
 - Token `--primary-container-low` (`#eef4ff`, dark: muted navy) for pale bands/cards.
 - CSS-only smooth anchor scrolling (`styles/globals.scss`, respects reduced motion).
 
+## Help page (`/help`, "Помощ и полезна информация")
+
+- Started from the Stitch "Наръчник за новодошли" section, widened to a general help page (`page-help`, full width).
+- One section + `collection-help-guide` (grid, `cardVariant: guide`, 3 per row) of 29 cards → `components/Cards/GuideCard`:
+  icon, category eyebrow (`card.role`), title, short text, source host + external link to the official page.
+- `components/Guide/GuideList`: "check the official sites" `Alert` (messages `Guide.notice*`) + category filter chips
+  built from `card.role` (6 categories: Документи, Здраве, Семейство и образование, Език и работа, Жилище и транспорт,
+  За българите — new cards should reuse one).
+- Homepage teaser `HomeGuideConnector`: first 3 cards of that collection (reorder in Contentful), no filters.
+- CMS pages whose first section has an h1 heading now render it as a `PageHeader` band (help, mission, privacy, policies, sponsors, history).
+- Content created by `contentful/add-help-guide.cjs` (fixed entry ids, re-runnable; dry run without `--publish`).
+- Not linked from the nav yet.
+
 ## Header controls
 
 - Language switcher: smoked-glass pill (like the hero search panel) + dark rounded menu card.
@@ -164,5 +177,8 @@ toggle became plain jump links (it read as a filter with nothing selected).
 | `2026-11-16-paragraph-headings.js` | paragraph rich text: H2/H3 |
 | `2026-11-16-allow-contacts-in-page-sections.js` | page.sections: + contacts |
 | `2026-11-16-page-menu-icon.js` | page: iconName |
+| `2026-11-17-collection-guide-variant.js` | collection.cardVariant: + guide |
+| `2026-11-17-heading-accent.js` | heading: accent (red italic tail in page headers) |
+| `2026-11-17-sponsor-tiers.js` | collection.cardVariant: + tier; card.variant: + featured |
 
 Content-type quota: 24/25 — every change above is a field, not a new type.
