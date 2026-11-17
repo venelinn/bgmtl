@@ -59,7 +59,8 @@
 		"organizeTitle": "Организирате събитие в Квебек?",
 		"organizeText": "Концерт, изложба, лекция, детска работилница или парти? Пишете ни и ще го добавим в календара на BGMTL.",
 		"organizeButton": "Добави събитие",
-		"pageTitleAccent": "българската общност"
+		"pageTitleAccent": "българската общност",
+		"moreDates": "{count, plural, one {+# дата} other {+# дати}}"
 	},
 	"Donate": {
 		"title": "Подкрепете ни!",

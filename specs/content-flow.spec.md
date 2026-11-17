@@ -170,6 +170,7 @@ Page
 - [ ] `/help` lists all guide cards; filters work in bg/en/fr
 - [ ] `/sponsors` shows the why cards and 3 yearly tiers; every CTA opens `/contacts?topic=partnership`
 - [ ] `/news` lists every published news item; the homepage hides news older than 60 days
+- [ ] An event with Additional dates shows once in lists (next date, "+N дати"), on every date in the calendar, and has a detail page per date
 
 ---
 

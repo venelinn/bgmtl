@@ -8,6 +8,7 @@ import { Icon } from "@/components/Icon"
 import { Pagination } from "@/components/Pagination/Pagination"
 import { Section } from "@/components/Section"
 import { EVENT_TAGS, type EventItem, type EventTag } from "@/types/events"
+import { collapseEventSeries } from "@/utils/eventSeries"
 import { Event } from "./Event"
 import { EventArchiveCard } from "./EventArchiveCard"
 import styles from "./EventsBrowser.module.scss"
@@ -59,7 +60,8 @@ export function EventsBrowser({
 		const old: EventItem[] = []
 		const yearSet = new Set<number>()
 		const tagSet = new Set<string>()
-		for (const event of events) {
+		// A series (one event, several dates) lists once: next date upcoming, latest date in the archive.
+		for (const event of collapseEventSeries(events, now.getTime())) {
 			for (const tg of event.tags ?? []) tagSet.add(tg)
 			if (new Date(event.date) > now) up.push(event)
 			else {

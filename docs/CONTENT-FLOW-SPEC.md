@@ -169,6 +169,10 @@ Events are split by date:
   1. "Upcoming Events" – upcoming events.
   2. "Past Events" – past events (or "No events available" if none).
 
+### 6.2b Events – Several dates
+
+`event.additionalDates` (Array of `YYYY-MM-DD`) lists extra days of the same event. At load time each one becomes an occurrence (`<id>--<day>`, same time as the main date). Lists collapse a series to one card (next date, plus a "+N дати" chip). See `docs/events-listing-page.md#multi-date-events`.
+
 ### 6.3 Events – Buy Button & Doors Open (Upcoming Only)
 
 On the **EventDetail** page, these show **only for upcoming events** (`!pastEvent`):

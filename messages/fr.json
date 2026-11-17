@@ -54,7 +54,8 @@
 		"organizeTitle": "Vous organisez un événement au Québec ?",
 		"organizeText": "Concert, exposition, conférence, atelier pour enfants ou soirée ? Écrivez-nous et nous l'ajouterons au calendrier de BGMTL.",
 		"organizeButton": "Ajouter un événement",
-		"pageTitleAccent": "communauté bulgare"
+		"pageTitleAccent": "communauté bulgare",
+		"moreDates": "{count, plural, one {+# autre date} other {+# autres dates}}"
 	},
 	"Donate": {
 		"title": "Soutenez-nous!",

@@ -174,5 +174,6 @@ Both are documented in `docs/help-and-sponsors.md`.
 | `2026-11-17-collection-guide-variant.js` | collection.cardVariant: + guide |
 | `2026-11-17-heading-accent.js` | heading: accent (red italic tail in page headers) |
 | `2026-11-17-sponsor-tiers.js` | collection.cardVariant: + tier; card.variant: + featured |
+| `2026-11-17-event-additional-dates.js` | event: additionalDates (YYYY-MM-DD list) |
 
 Content-type quota: 24/25 — every change above is a field, not a new type.

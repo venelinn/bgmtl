@@ -2,6 +2,7 @@ import { draftMode } from "next/headers";
 import type { ReactNode } from "react";
 import { getEventPermalink, getNewsPermalink } from "@/utils/common";
 import { getAllEvents, getAllNews, getCommunityDirectory } from "@/utils/content";
+import { collapseEventSeries } from "@/utils/eventSeries";
 import { getLinkFieldsUrl } from "@/utils/linkHelpers";
 import { getLocalePrefix } from "@/utils/localization";
 import { Hero, type HeroProps } from "./Hero";
@@ -155,7 +156,8 @@ export const HeroConnector = async (props: HeroConnectorProps) => {
         .filter((c) => listed.has(c.slug))
         .sort((a, b) => (listingCounts.get(b.slug) ?? 0) - (listingCounts.get(a.slug) ?? 0)),
       directory.items,
-      (events ?? []).filter(Boolean) as MappedEntry[],
+      // One suggestion per event series, not one per date.
+      collapseEventSeries((events ?? []).filter(Boolean) as (MappedEntry & { id: string })[]),
       (news ?? []).filter(Boolean) as MappedEntry[],
       lang,
     );

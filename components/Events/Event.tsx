@@ -127,6 +127,13 @@ export const Event = ({ event, type, locale, fallbackImage }: EventProps) => {
 							<Icon name="Clock" size={16} />
 							<FormattedTime dateStr={event.date} locale={locale} />
 						</span>
+						{/* Series: the other upcoming dates are listed on the detail page. */}
+						{typeof event.moreDates === "number" && event.moreDates > 0 && (
+							<span className={styles.event__moreDates}>
+								<Icon name="CalendarRange" size={14} />
+								{t("Events.moreDates", { count: event.moreDates })}
+							</span>
+						)}
 					</div>
 
 					<Heading as="h3" size="h3" className={styles.event__title}>
