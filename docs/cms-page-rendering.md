@@ -103,7 +103,35 @@ rendered right after the hero (or first, when there is no hero):
 - Each trail also emits `BreadcrumbList` JSON-LD (`buildBreadcrumbJsonLd` in `utils/structuredData.ts`).
 - Labels: `messages/*.json` → `Breadcrumbs.home` / `Breadcrumbs.ariaLabel`.
 
-`/events`, `/contacts` (via `PageHeader`) and the event/news detail pages render their own trail.
+`/events`, `/news`, `/contacts` (via `PageHeader`) and the event/news detail pages render their own trail.
+
+### 5c. Page header from the first h1 section
+
+When the page has no hero and its **first** `section` has a heading with `as: "h1"`, that heading
+and the section's description move into a `PageHeader` band (pale background, breadcrumb, large
+title, intro), the same header Contacts, Events and News use. The section then renders only its
+components. Pages: help, sponsors, mission, privacy, history, about-policies.
+
+- `heading.accent` (localized, optional) is rendered after the title in red italics, e.g. "Станете *спонсор*"
+  (`PageHeader` `titleAccent`). The community directory header reads it too. Events and News take
+  theirs from messages (`Events.pageTitleAccent`, `News.pageTitleAccent`).
+- `PageHeader` `intro` accepts plain text or a rich-text document.
+- The breadcrumb label still comes from `pageName`. Give each page its **own** pageName heading.
+  If pageName shares the h1 heading entry, the accent split also cuts the nav and breadcrumb label.
+  See `docs/help-and-sponsors.md`.
+
+### 5d. Collection card variants
+
+`collection.cardVariant` picks the card component in `CollectionConnector`:
+
+| cardVariant | Component | Notes |
+|---|---|---|
+| `primary` (default) | `PrimaryCard` | |
+| `info` | `InfoCard` | Cards with `variant: "featured"` take the Bulgarian flag colours (white, green, red) in order, with the icon on the left |
+| `member` | `MemberCard` | |
+| `event` / news cards | `Event` / `News` | Events split into Upcoming / Past |
+| `guide` | `GuideCard` in `GuideList` | Category colour per `role`, filter chips + info Alert (off with `filters={false}`) |
+| `tier` | `TierCard` | Price in `role`, benefit list, CTA. `variant: "featured"` gets the badge and red border |
 
 > **Client-graph gotcha:** never re-export a server-only connector (anything importing
 > `utils/content`) from an index that a `"use client"` file imports — it bundles the

@@ -95,6 +95,8 @@ Page
 - [ ] Page is fetched by slug; fallback to leaf slug for nested paths
 - [ ] Every non-homepage page shows a breadcrumb (Home / page name) with BreadcrumbList JSON-LD; directory categories add the community level
 - [ ] A page `iconName` renders as an icon next to its header menu link
+- [ ] A first `section` with an h1 heading renders as a PageHeader band (breadcrumb, title, intro); the heading's optional `accent` renders after the title in red italics
+- [ ] Menu, footer and breadcrumb labels come from `pageName`, which is its own heading entry, so they are never cut by an accent split
 
 ### Section Model
 
@@ -112,7 +114,10 @@ Page
 ### Collections
 
 - [ ] Collection displays cards in grid, paginated, or slider layout
-- [ ] Collection supports card variants: primary, event, news, info, member
+- [ ] Collection supports card variants: primary, event, news, info, member, guide, tier
+- [ ] Guide cards are coloured by category (`role`, by order of first appearance) and filterable by category chips, under a "check the official sites" Alert; the homepage teaser shows the first 3 without chips
+- [ ] Tier cards show name, price, benefit checklist and a CTA; the featured tier has a badge and an accent border
+- [ ] Featured info cards render in the Bulgarian flag colours (white, green, red) with the icon on the left
 - [ ] Collection can link to card, member, event, or news entries
 - [ ] Events in collections are split into Upcoming and Past when using grid/paginated
 
@@ -162,6 +167,9 @@ Page
 - [ ] Listings show separate Events and News sections with "View all" links
 - [ ] Contact form submits all fields listed in `public/__forms.html`; `?topic=` preselects the subject
 - [ ] No Google request (Analytics or Maps) before consent
+- [ ] `/help` lists all guide cards; filters work in bg/en/fr
+- [ ] `/sponsors` shows the why cards and 3 yearly tiers; every CTA opens `/contacts?topic=partnership`
+- [ ] `/news` lists every published news item; the homepage hides news older than 60 days
 
 ---
 
@@ -188,6 +196,7 @@ Page
 ## Related Documentation
 
 - Full technical reference: [docs/CONTENT-FLOW-SPEC.md](../docs/CONTENT-FLOW-SPEC.md)
+- Help & Sponsors pages: [docs/help-and-sponsors.md](../docs/help-and-sponsors.md)
 - Component map: `components/index.tsx`
 - Content utilities: `utils/content.ts`
 - Slug helpers: `utils/common.ts` (`getEventPermalink`, `getNewsPermalink`, `slugify`)
