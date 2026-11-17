@@ -5,6 +5,13 @@ import { isIndexableEnv } from "@/utils/seo"
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ""
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || ""
 
+// Used when a page has no Contentful metaData description.
+const DEFAULT_DESCRIPTION: Record<string, string> = {
+	bg: "Официален сайт на българската общност в Монреал: събития, новини, указател на организации и контакти.",
+	en: "Official site of the Bulgarian community in Montreal: events, news, a directory of organizations, and contacts.",
+	fr: "Site officiel de la communauté bulgare de Montréal : événements, actualités, répertoire d’organismes et contacts.",
+}
+
 interface MetaDataInput {
 	pageTitle?: string | null
 	pageDescription?: string | null
@@ -45,7 +52,7 @@ export function buildMetadata({
 	locale,
 }: MetaDataInput): Metadata {
 	const title = pageTitle || SITE_NAME
-	const description = pageDescription || `${SITE_NAME} — Boat rentals, Captain-led trips, & on-the-water experiences`
+	const description = pageDescription || DEFAULT_DESCRIPTION[locale ?? ""] || DEFAULT_DESCRIPTION.bg
 	// Default locale (bg) is served at the root with no prefix; other locales are
 	// path-prefixed. Keep this in sync with app/sitemap.ts + the /bg→/ redirects.
 	const localePrefix = locale && locale !== localization.defaultLocale ? `/${locale}` : ""

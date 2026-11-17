@@ -12,10 +12,15 @@ import { DonateWidget, OrganizeEventWidget } from "@/components/Widgets"
 import {
 	getAllEvents,
 	getFallbackImageUrl,
+	getPageBySlug,
 	getSiteConfig,
 } from "@/utils/content"
 import { getMessages } from "@/utils/getMessages"
-import { getLocalePrefix, localization } from "@/utils/localization"
+import {
+	getContentfulLocale,
+	getLocalePrefix,
+	localization,
+} from "@/utils/localization"
 import { buildEventsItemListJsonLd } from "@/utils/structuredData"
 
 // No numeric `revalidate`: Contentful data is cached indefinitely under the
@@ -28,11 +33,22 @@ export async function generateMetadata(props: {
 	params: Params
 }): Promise<Metadata> {
 	const { lang } = await props.params
+	const { isEnabled } = await draftMode()
 	const messages = getMessages(lang) as { Events?: { sectionTitle?: string } }
-	const title = messages.Events?.sectionTitle ?? "Events"
+
+	// This route is built in code, but its Contentful `events` page entry still
+	// carries the SEO texts (metaData); the section title is the fallback.
+	const page = await getPageBySlug(
+		"events",
+		getContentfulLocale(lang),
+		isEnabled,
+	).catch(() => null)
+	const meta = (page as { metaData?: Record<string, string> } | null)?.metaData
 
 	return buildMetadata({
-		pageTitle: title,
+		pageTitle: meta?.pageTitle || messages.Events?.sectionTitle || "Events",
+		pageDescription: meta?.pageDescription ?? null,
+		keywords: meta?.keywords ?? null,
 		path: "events",
 		locale: lang,
 	})

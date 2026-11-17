@@ -5,7 +5,7 @@ import { localization } from "@/utils/localization"
 
 const BASE_URL = (process.env.NEXT_PUBLIC_BASE_URL || "https://bgmtl.com").replace(/\/+$/, "")
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "bgmtl.com"
-// Ottawa-Gatineau community → tickets are priced in Canadian dollars.
+// Montreal community → tickets are priced in Canadian dollars.
 const PRICE_CURRENCY = "CAD"
 // Event dates are stored as naive local times; every venue is in the Montreal area.
 const EVENT_TIME_ZONE = "America/Toronto"
