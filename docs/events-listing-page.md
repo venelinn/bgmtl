@@ -114,7 +114,7 @@ An event that happens on several dates (a tour, a weekly class, the monthly baza
    `getAllEventsBulgarian`, `getBulgarianEventHeadingsMap` and `getEventById`. Each occurrence
    uses the main Date's time of day and doors-open time, and has the id
    `<entry id>--<YYYY-MM-DD>`. Everything downstream sees ordinary per-date events.
-   Example: the Bulgarian bazaar (`contentful/add-bazaar-dates.cjs`).
+   Example: the Bulgarian bazaar season 2026/27 (`contentful/add-bazaar-season.cjs`). Its text names the season's dates, never a single date, because every occurrence shares the text.
 2. **One entry per date** (when a date has a different time, place or text).
 
 Both group by the Bulgarian heading:
