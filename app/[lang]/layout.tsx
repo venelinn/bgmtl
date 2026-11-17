@@ -15,8 +15,9 @@ import { getContentfulLocale, localization } from "@/utils/localization";
 import { ClientLayout } from "../ClientLayout";
 
 export const metadata: Metadata = {
-  title: "National Capital Region Bulgarian Community | Bulgarian Community | bgmtl.com",
-  description: "National Capital Region Bulgarian Community | Bulgarian Community",
+  title: "Българска общност в Монреал | bgmtl.com",
+  description:
+    "Официален сайт на българската общност в Монреал: събития, новини, указател на организации и контакти.",
   icons: {
     apple: [{ url: "/static/favicons/apple-touch-icon.png", sizes: "180x180" }],
     icon: [
