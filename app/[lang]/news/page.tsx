@@ -31,7 +31,13 @@ import {
 type Params = Promise<{ lang: string }>
 
 type NewsMessages = {
-	News?: { sectionTitle?: string; pageIntro?: string; empty?: string }
+	News?: {
+		sectionTitle?: string
+		pageTitle?: string
+		pageTitleAccent?: string
+		pageIntro?: string
+		empty?: string
+	}
 	Breadcrumbs?: { home?: string; ariaLabel?: string }
 }
 
@@ -103,7 +109,8 @@ export default async function NewsPage(props: { params: Params }) {
 					{ label: t.sectionTitle ?? "News" },
 				]}
 				crumbsLabel={crumbs.ariaLabel}
-				title={t.sectionTitle ?? "News"}
+				title={t.pageTitle ?? t.sectionTitle ?? "News"}
+				titleAccent={t.pageTitleAccent}
 				intro={t.pageIntro}
 			/>
 			<Section padding="small">

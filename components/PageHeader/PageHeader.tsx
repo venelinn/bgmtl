@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs"
 import { Heading } from "@/components/Headings"
 import { Section } from "@/components/Section"
+import { renderRichTextContent } from "@/utils/RichText"
 import styles from "./PageHeader.module.scss"
 
 export type PageHeaderCrumb = Crumb
@@ -16,7 +17,8 @@ export type PageHeaderProps = {
 	title: string
 	/** Optional trailing part of the title, set in the accent colour (e.g. "с нас"). */
 	titleAccent?: string
-	intro?: string
+	/** Plain text, or a Contentful rich-text document (CMS pages). */
+	intro?: string | object
 	/** Buttons under the intro. */
 	actions?: ReactNode
 }
@@ -40,7 +42,11 @@ export function PageHeader({ crumbs, crumbsLabel, eyebrow, title, titleAccent, i
 						</>
 					)}
 				</Heading>
-				{intro && <p className={styles.header__lead}>{intro}</p>}
+				{typeof intro === "string" ? (
+					<p className={styles.header__lead}>{intro}</p>
+				) : (
+					intro && <div className={styles.header__lead}>{renderRichTextContent(intro)}</div>
+				)}
 				{actions && <div className={styles.header__actions}>{actions}</div>}
 			</header>
 		</Section>

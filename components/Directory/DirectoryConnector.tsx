@@ -70,6 +70,7 @@ export async function DirectoryConnector(props: DirectoryConnectorProps) {
           crumbsLabel={props.crumbsLabel}
           eyebrow={m.homeEyebrow}
           title={String(props.heading?.heading)}
+          titleAccent={(props.heading as { accent?: string } | undefined)?.accent}
           intro={props.intro}
         />
       )}

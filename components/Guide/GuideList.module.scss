@@ -1,0 +1,78 @@
+@use "styles/base-variables" as base;
+@use "styles/mixins" as mixins;
+@use "styles/typo-mixins" as typo;
+
+.guide {
+  display: grid;
+  gap: var(--spacing-6);
+
+  // Topic chips; scroll sideways on phones, wrap from md up.
+  &__chips {
+    @include mixins.resetList;
+    display: flex;
+    gap: var(--spacing-2);
+    padding-block: var(--spacing-1);
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    @media (min-width: base.$breakpoint-md) {
+      flex-wrap: wrap;
+      overflow-x: visible;
+    }
+  }
+
+  &__chip {
+    --_chip-accent: var(--inverse-surface);
+    --_chip-bg: var(--primary-container-low);
+    --_chip-color: var(--on-surface);
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+
+    @include typo.ui-caption(true);
+    padding: var(--spacing-1-5) var(--spacing-4);
+    border: 0;
+    border-radius: 9999px;
+    background: var(--_chip-bg);
+    color: var(--_chip-color);
+    font-family: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover:not([aria-pressed="true"]) {
+      --_chip-bg: color-mix(in srgb, var(--_chip-accent) 18%, var(--surface));
+    }
+
+    // Category dot; the pressed chip fills with the category colour.
+    @for $i from 1 through 6 {
+      &[data-tone="#{$i}"] {
+        --_chip-accent: var(--category-#{$i});
+        --_chip-bg: color-mix(in srgb, var(--_chip-accent) 10%, var(--surface));
+
+        &::before {
+          content: "";
+          width: 0.5rem;
+          height: 0.5rem;
+          border-radius: 50%;
+          background: currentColor;
+          color: var(--_chip-accent);
+        }
+      }
+    }
+
+    &[aria-pressed="true"] {
+      --_chip-bg: var(--_chip-accent);
+      --_chip-color: var(--surface);
+
+      &::before {
+        color: var(--surface);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+  }
+}

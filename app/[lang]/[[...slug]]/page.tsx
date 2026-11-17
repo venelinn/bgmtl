@@ -8,8 +8,10 @@ import { Join } from "@/components/Join"
 import { ListingsConnector } from "@/components/Listings"
 import { HomeDirectoryConnector } from "@/components/Listings/HomeDirectoryConnector"
 import { HomeEventsConnector } from "@/components/Listings/HomeEventsConnector"
+import { HomeGuideConnector } from "@/components/Listings/HomeGuideConnector"
 import { HomeNewsConnector } from "@/components/Listings/HomeNewsConnector"
 import { buildMetadata } from "@/components/MetaData"
+import { PageHeader } from "@/components/PageHeader"
 import { Section as SectionShell, SectionConnector } from "@/components/Section"
 import { Sidebar } from "@/components/Sidebar"
 import { getSliderSectionProps } from "@/components/Slider/SliderConnector"
@@ -259,6 +261,18 @@ export default async function Page(props: {
 
 	const heroContent = heroSection ? renderSection(heroSection) : null
 
+	// A first plain section titled with an h1 is the page title: its heading and
+	// description move into a PageHeader band (like Contacts, Events, News) and
+	// the section keeps only its content.
+	const titleSection =
+		!isHomepage && !heroSection && firstSection?.type === "section"
+			? (firstSection as Section & {
+					heading?: { heading?: string; as?: string; accent?: string }
+					description?: unknown
+				})
+			: null
+	const promoteTitle = titleSection?.heading?.as === "h1" && Boolean(titleSection.heading.heading)
+
 	// Breadcrumb for every page except the homepage, and except pages whose own
 	// block renders a header with breadcrumbs (Contacts → PageHeader). The
 	// directory also renders a PageHeader, so its crumbs are handed to it.
@@ -285,6 +299,16 @@ export default async function Page(props: {
 		if (directoryProps) {
 			directoryProps.crumbs = crumbs
 			directoryProps.crumbsLabel = crumbText.ariaLabel
+		} else if (promoteTitle && titleSection) {
+			breadcrumbs = (
+				<PageHeader
+					crumbs={crumbs}
+					crumbsLabel={crumbText.ariaLabel}
+					title={titleSection.heading?.heading ?? pageLabel}
+					titleAccent={titleSection.heading?.accent}
+					intro={titleSection.description as string | object | undefined}
+				/>
+			)
 		} else {
 			breadcrumbs = (
 				<div className={styles.breadcrumbs}>
@@ -294,12 +318,16 @@ export default async function Page(props: {
 		}
 	}
 	const cmsSections = otherSections?.length
-		? otherSections.map((s) => renderSection(s, directoryProps))
+		? otherSections.map((s) =>
+				promoteTitle && s === titleSection
+					? renderSection({ ...s, heading: undefined, description: undefined }, directoryProps)
+					: renderSection(s, directoryProps),
+			)
 		: null
 
 	// ── Homepage: bespoke layout (no page-level sidebar) ─────────────────────
 	// Events + Calendar/Donate in a two-column Section, CMS body sections, the
-	// directory band, News, then a full-width Join call-to-action last.
+	// directory band, the newcomer guide teaser, News, then a full-width Join call-to-action last.
 	if (isHomepage) {
 		return (
 			<>
@@ -326,6 +354,8 @@ export default async function Page(props: {
 				{listings.includes("directory") && (
 					<HomeDirectoryConnector locale={lang} limit={6} preview={isEnabled} />
 				)}
+
+				<HomeGuideConnector locale={lang} preview={isEnabled} />
 
 				<HomeNewsConnector locale={lang} limit={3} preview={isEnabled} />
 

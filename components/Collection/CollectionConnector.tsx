@@ -2,12 +2,13 @@
 
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
-import { InfoCard, MemberCard, PrimaryCard } from "@/components/Cards";
+import { GuideCard, type GuideCardProps, InfoCard, MemberCard, PrimaryCard } from "@/components/Cards";
 import { GridCollection } from "@/components/Collection";
 import { EventsConnector } from "@/components/Events";
 import { Event } from "@/components/Events/Event";
 import { Select } from "@/components/Forms/Select";
 import type { HeadingProps } from "@/components/Headings";
+import { GuideList } from "@/components/Guide";
 import { Heading } from "@/components/Headings";
 import { News } from "@/components/News";
 import type { PaginationProps } from "@/components/Pagination";
@@ -231,6 +232,8 @@ type BaseCollectionConnectorProps = {
   locale?: string;
   /** Fallback image URL for event/news cards when cover is missing (from site config). */
   fallbackImage?: string;
+  /** Guide grid only: topic filters + notice above the cards. Default true; off for teasers. */
+  filters?: boolean;
 };
 
 type GridCollectionConnectorProps = BaseCollectionConnectorProps & {
@@ -309,6 +312,14 @@ export const CollectionConnector = (props: CollectionConnectorProps) => {
   // News cards: use mapItems with news variant (grid/paginated/slider)
   const effectiveCardVariant = cardVariant === "news" || newsCards.length > 0 ? "news" : cardVariant;
 
+  // Guide cards: colour by category (`role`), numbered in order of first
+  // appearance so every locale (and a teaser of the first N cards) agrees.
+  const guideTopics = [...new Set(cards.map((card) => card.role as string | undefined).filter(Boolean))];
+  const guideTone = (role: unknown) => {
+    const index = guideTopics.indexOf(role as string);
+    return index < 0 ? undefined : (index % 6) + 1;
+  };
+
   const mapItems = (items: CollectionCard[]) =>
     items
       .map((item) => {
@@ -328,6 +339,19 @@ export const CollectionConnector = (props: CollectionConnectorProps) => {
                   content={typeof item.content === "string" ? item.content : (item.content as Record<string, unknown>)}
                   link={item.link}
                   role={item.role}
+                />
+              );
+
+            case "guide":
+              return (
+                <GuideCard
+                  icon={item.icon as string}
+                  eyebrow={item.role as string}
+                  heading={item.heading}
+                  content={item.content}
+                  // Contentful link entries map to { url, name }, not this type's { href, label }.
+                  link={item.link as GuideCardProps["link"]}
+                  tone={guideTone(item.role)}
                 />
               );
 
@@ -401,6 +425,16 @@ export const CollectionConnector = (props: CollectionConnectorProps) => {
 
     case "grid":
     default:
+      if (effectiveCardVariant === "guide" && props.filters !== false) {
+        const topics = new Map(cards.map((card) => [card.id, card.role as string | undefined]));
+        return (
+          <GuideList
+            id={props.id}
+            itemsPerRow={props.variant === "grid" ? props.itemsPerRow : undefined}
+            items={mapItems(cards).map((item) => ({ ...item, topic: topics.get(item.id), tone: guideTone(topics.get(item.id)) }))}
+          />
+        );
+      }
       return (
         <GridCollection
           id={props.id}

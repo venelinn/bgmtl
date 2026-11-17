@@ -41,6 +41,12 @@
   --animation-line-speed: 300ms;
   --animation-line: cubic-bezier(0.42, 0.63, 0.13, 0.99);
   --nav-width: 15.625rem;
+  --category-1: hsl(209, 75%, 38%); /** Category accents (help-guide cards + filter chips), by category order; dark values in styles/_theme-dark.scss */
+  --category-2: hsl(352, 68%, 46%);
+  --category-3: hsl(26, 85%, 40%);
+  --category-4: hsl(270, 45%, 48%);
+  --category-5: hsl(186, 80%, 28%);
+  --category-6: hsl(145, 60%, 30%);
   --spacing-1: 0.25rem; /** 4px */
   --spacing-2: 0.5rem; /** 8px */
   --spacing-3: 0.75rem; /** 12px */

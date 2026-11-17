@@ -1,0 +1,38 @@
+@use "styles/typo-mixins" as typo;
+
+// Centred header like the Stitch mock; the cards come from the guide collection.
+.guide {
+  &__header {
+    display: grid;
+    justify-items: center;
+    gap: var(--spacing-2);
+    max-width: 42rem;
+    margin: 0 auto var(--spacing-8);
+    text-align: center;
+  }
+
+  &__eyebrow {
+    @include typo.ui-small(true);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: var(--color-highlight);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__lead {
+    margin: 0;
+    color: var(--on-surface-variant);
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--spacing-8);
+  }
+}

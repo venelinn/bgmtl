@@ -20,6 +20,7 @@ export function EventsPageHeader({ localePrefix }: EventsPageHeaderProps) {
 			crumbsLabel={tCrumbs("ariaLabel")}
 			eyebrow={t("pageEyebrow")}
 			title={t("pageTitle")}
+			titleAccent={t("pageTitleAccent")}
 			intro={t("pageIntro")}
 			actions={
 				<Button
