@@ -30,6 +30,7 @@
 
   // Bulgarian-flag cards: white / green / red, icon in a round badge.
   &[data-flag] {
+    --_card-padding: var(--spacing-6);
     --_info-card-bgr: var(--_flag-bg);
     --heading-color: var(--_flag-text);
 
@@ -60,6 +61,25 @@
 
     .infoDesc {
       color: var(--_flag-muted);
+    }
+
+    // Icon on the left, heading + text on the right.
+    .infoContent {
+      grid-template-columns: auto 1fr;
+      column-gap: var(--spacing-4);
+      row-gap: var(--spacing-2);
+      align-items: start;
+    }
+
+    .infoIcon {
+      grid-row: 1 / span 2;
+      margin-bottom: 0;
+    }
+
+    .infoHeading,
+    .infoDesc {
+      grid-column: 2;
+      margin-top: 0;
     }
   }
 

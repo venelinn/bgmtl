@@ -43,10 +43,12 @@
     transform: translate(-50%, -50%);
   }
 
+  // Icon on the left, name + price on the right.
   &__head {
     display: grid;
-    justify-items: start;
-    gap: var(--spacing-2);
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: var(--spacing-1) var(--spacing-4);
   }
 
   &__icon {
@@ -54,19 +56,21 @@
     place-items: center;
     width: 3rem;
     height: 3rem;
-    margin-bottom: var(--spacing-2);
     border-radius: var(--spacing-3);
     background-color: color-mix(in srgb, var(--_tier-accent) 12%, var(--surface-container-lowest));
     color: var(--_tier-accent);
+    grid-row: 1 / span 2;
   }
 
   &__name {
     --heading-color: var(--on-surface);
+    grid-column: 2;
     margin: 0;
   }
 
   &__price {
     @include typo.h3;
+    grid-column: 2;
     margin: 0;
     color: var(--_tier-accent);
   }
@@ -75,7 +79,7 @@
   &__benefits {
     @include typo.ui-caption;
     flex-grow: 1;
-    padding-top: var(--spacing-6);
+    padding-top: var(--spacing-5);
     border-top: 1px solid var(--outline-variant);
     color: var(--on-surface-variant);
 
