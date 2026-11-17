@@ -69,7 +69,22 @@ export const DirectoryCard = ({
 
 	return (
 		<article className={styles.card}>
-			<div className={styles.card__top}>
+			{/* Block flow, not flex: the floated logo only wraps text in a block
+			    formatting context. */}
+			<div className={styles.card__body}>
+				<div className={styles.card__logo} aria-hidden={!logo}>
+					{logo ? (
+						<Image
+							src={logo}
+							alt={title ? String(title) : "Logo"}
+							width={100}
+							height={100}
+						/>
+					) : (
+						<span className={styles.card__initial}>{initial}</span>
+					)}
+				</div>
+
 				{tags && tags.length > 0 && (
 					<div className={styles.card__tags}>
 						{tags.map((tag) => {
@@ -100,90 +115,77 @@ export const DirectoryCard = ({
 					</div>
 				)}
 
-				<div className={styles.card__logo} aria-hidden={!logo}>
-					{logo ? (
-						<Image
-							src={logo}
-							alt={title ? String(title) : "Logo"}
-							width={100}
-							height={100}
-						/>
-					) : (
-						<span className={styles.card__initial}>{initial}</span>
-					)}
-				</div>
+				{title && (
+					<Heading as="h3" size="h4" className={styles.card__title}>
+						{title}
+					</Heading>
+				)}
+
+				{note && <p className={styles.card__note}>{note}</p>}
+
+				{(address || phone || email || website) && (
+					<ul className={styles.card__details}>
+						{address && (
+							<li className={styles.card__detail}>
+								<Icon
+									name="MapPin"
+									className={styles.card__detailIcon}
+									size={16}
+									strokeWidth="1.5"
+								/>
+								<span>{address}</span>
+							</li>
+						)}
+						{phone && (
+							<li className={styles.card__detail}>
+								<Icon
+									name="Phone"
+									className={styles.card__detailIcon}
+									size={16}
+									strokeWidth="1.5"
+								/>
+								<Link href={telHref(phone)} className={styles.card__detailLink}>
+									{phone}
+								</Link>
+							</li>
+						)}
+						{email && (
+							<li className={styles.card__detail}>
+								<Icon
+									name="Mail"
+									className={styles.card__detailIcon}
+									size={16}
+									strokeWidth="1.5"
+								/>
+								<Link
+									href={`mailto:${email}`}
+									className={styles.card__detailLink}
+								>
+									{email}
+								</Link>
+							</li>
+						)}
+						{website && (
+							<li className={styles.card__detail}>
+								<Icon
+									name="Globe"
+									className={styles.card__detailIcon}
+									size={16}
+									strokeWidth="1.5"
+								/>
+								<Link
+									href={website}
+									target="_blank"
+									rel="noopener noreferrer"
+									className={styles.card__detailLink}
+								>
+									{prettyUrl(website)}
+								</Link>
+							</li>
+						)}
+					</ul>
+				)}
 			</div>
-
-			{title && (
-				<Heading as="h3" size="h4" className={styles.card__title}>
-					{title}
-				</Heading>
-			)}
-
-			{note && <p className={styles.card__note}>{note}</p>}
-
-			{(address || phone || email || website) && (
-				<ul className={styles.card__details}>
-					{address && (
-						<li className={styles.card__detail}>
-							<Icon
-								name="MapPin"
-								className={styles.card__detailIcon}
-								size={16}
-								strokeWidth="1.5"
-							/>
-							<span>{address}</span>
-						</li>
-					)}
-					{phone && (
-						<li className={styles.card__detail}>
-							<Icon
-								name="Phone"
-								className={styles.card__detailIcon}
-								size={16}
-								strokeWidth="1.5"
-							/>
-							<Link href={telHref(phone)} className={styles.card__detailLink}>
-								{phone}
-							</Link>
-						</li>
-					)}
-					{email && (
-						<li className={styles.card__detail}>
-							<Icon
-								name="Mail"
-								className={styles.card__detailIcon}
-								size={16}
-								strokeWidth="1.5"
-							/>
-							<Link
-								href={`mailto:${email}`}
-								className={styles.card__detailLink}
-							>
-								{email}
-							</Link>
-						</li>
-					)}
-					{website && (
-						<li className={styles.card__detail}>
-							<Icon
-								name="Globe"
-								className={styles.card__detailIcon}
-								size={16}
-								strokeWidth="1.5"
-							/>
-							<Link
-								href={website}
-								target="_blank"
-								rel="noopener noreferrer"
-								className={styles.card__detailLink}
-							>
-								{prettyUrl(website)}
-							</Link>
-						</li>
-					)}
-				</ul>
-			)}
 
 			{cta && (
 				<div className={styles.card__footer}>

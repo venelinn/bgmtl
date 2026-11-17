@@ -2,8 +2,10 @@
 @use "styles/typo-mixins" as typo;
 
 // Full-width pale band behind the header; content stays in the page column.
+// Set Section's variable, not `background-color`: in prod CSS chunking
+// Section's rule can load after this one and win at equal specificity.
 .band {
-  background-color: var(--primary-container-low);
+  --_section-bgr: var(--primary-container-low);
 }
 
 .header {
