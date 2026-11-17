@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
-import { GuideCard, type GuideCardProps, InfoCard, MemberCard, PrimaryCard } from "@/components/Cards";
+import { GuideCard, type GuideCardProps, InfoCard, MemberCard, PrimaryCard, TierCard } from "@/components/Cards";
 import { GridCollection } from "@/components/Collection";
 import { EventsConnector } from "@/components/Events";
 import { Event } from "@/components/Events/Event";
@@ -270,6 +270,7 @@ export type CollectionConnectorProps =
   | SliderCollectionConnectorProps;
 
 export const CollectionConnector = (props: CollectionConnectorProps) => {
+  const tCards = useTranslations("Cards");
   const cards = props.cards ?? [];
   if (!cards.length) return null;
 
@@ -352,6 +353,19 @@ export const CollectionConnector = (props: CollectionConnectorProps) => {
                   // Contentful link entries map to { url, name }, not this type's { href, label }.
                   link={item.link as GuideCardProps["link"]}
                   tone={guideTone(item.role)}
+                />
+              );
+
+            case "tier":
+              return (
+                <TierCard
+                  icon={item.icon as string}
+                  heading={item.heading}
+                  price={item.role as string}
+                  content={item.content}
+                  link={item.link as GuideCardProps["link"]}
+                  featured={item.variant === "featured"}
+                  featuredLabel={tCards("featured")}
                 />
               );
 

@@ -218,5 +218,8 @@
 		"filterAriaLabel": "Filter by topic",
 		"noticeTitle": "Check the official sites",
 		"notice": "Rules and deadlines change. This guide is only a starting point — the current requirements are on the official sites linked from each card."
+	},
+	"Cards": {
+		"featured": "Recommended"
 	}
 }

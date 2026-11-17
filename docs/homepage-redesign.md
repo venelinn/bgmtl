@@ -179,5 +179,6 @@ toggle became plain jump links (it read as a filter with nothing selected).
 | `2026-11-16-page-menu-icon.js` | page: iconName |
 | `2026-11-17-collection-guide-variant.js` | collection.cardVariant: + guide |
 | `2026-11-17-heading-accent.js` | heading: accent (red italic tail in page headers) |
+| `2026-11-17-sponsor-tiers.js` | collection.cardVariant: + tier; card.variant: + featured |
 
 Content-type quota: 24/25 — every change above is a field, not a new type.

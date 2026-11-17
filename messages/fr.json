@@ -218,5 +218,8 @@
 		"filterAriaLabel": "Filtrer par thème",
 		"noticeTitle": "Consultez les sites officiels",
 		"notice": "Les règles et les délais changent. Ce guide n'est qu'un point de départ — les conditions à jour se trouvent sur les sites officiels indiqués sur chaque fiche."
+	},
+	"Cards": {
+		"featured": "Recommandé"
 	}
 }
