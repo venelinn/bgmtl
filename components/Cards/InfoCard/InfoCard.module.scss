@@ -43,12 +43,16 @@
       transform: translateY(-2px);
     }
 
+    // The icon is the <svg> itself: padding shrinks the drawing inside the badge.
     .infoIcon {
-      --_icon-size: 1.5rem;
+      --_badge-size: 3rem;
+      --_glyph-size: 1.625rem;
 
-      place-items: center;
-      width: 3.25rem;
-      height: 3.25rem;
+      box-sizing: border-box;
+      width: var(--_badge-size);
+      height: var(--_badge-size);
+      padding: calc((var(--_badge-size) - var(--_glyph-size)) / 2);
+      margin-bottom: var(--spacing-2);
       border-radius: 50%;
       background: var(--_flag-icon-bg);
       color: var(--_flag-icon);
