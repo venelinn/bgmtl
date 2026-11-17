@@ -135,7 +135,9 @@
 		"sectionTitle": "News",
 		"latestNews": "News",
 		"viewAll": "View all",
-		"readMore": "Read more"
+		"readMore": "Read more",
+		"pageIntro": "Latest news, announcements and useful information for the Bulgarian community in Montreal and Canada.",
+		"empty": "No news yet."
 	},
 	"NotFound": {
 		"title": "Page not found",

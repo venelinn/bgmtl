@@ -135,7 +135,9 @@
 		"sectionTitle": "Actualités",
 		"latestNews": "Actualités",
 		"viewAll": "Voir tout",
-		"readMore": "Lire la suite"
+		"readMore": "Lire la suite",
+		"pageIntro": "Nouvelles, annonces et informations utiles pour la communauté bulgare de Montréal et du Canada.",
+		"empty": "Aucune actualité pour le moment."
 	},
 	"NotFound": {
 		"title": "Page introuvable",

@@ -3,9 +3,12 @@
 .main {
   --section-max-width: 100%;
   isolation: isolate;
-  overflow: hidden;
+  // No overflow clipping here: the search autocomplete hangs below the hero.
+  // The background clips itself; z-index lifts the hero (and the dropdown)
+  // over the next section.
   &:has(.hero__background) {
     position: relative;
+    z-index: 1;
   }
   &[data-size="fixed"] {
     margin-top: var(--spacing-6);
@@ -94,10 +97,12 @@
   inset: 0;
   z-index: -1;
   overflow: hidden;
+  border-radius: inherit;
 
-  // Looping Ken Burns — a slow zoom + pan that ping-pongs forever (parent .main
-  // has overflow:hidden, so the scaled-up frame is clipped cleanly).
-  &--motion {
+  // Looping Ken Burns — a slow zoom + pan that ping-pongs forever. It runs on
+  // the slides, not on this box, so this box's overflow clips the scaled-up
+  // frame.
+  &--motion > * {
     @media (prefers-reduced-motion: no-preference) {
       animation: heroKenBurns 24s ease-in-out infinite alternate;
       transform-origin: center;
